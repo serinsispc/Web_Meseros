@@ -1,5 +1,7 @@
 ﻿using DAL;
+using DAL.Controler;
 using DAL.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using WebApplication.Class;
 
 namespace WebApplication
 {
@@ -37,10 +40,22 @@ namespace WebApplication
 
                     // 3) Guarda para el resto de la app
                     Session["db"] = dbRaw;
-                    ClassConexionDinamica.Conectar("www.serinsispc.com",dbRaw);
+                    ClassConexionDinamica.Conectar("www.serinsispc.com", dbRaw);
                     /*en esta parte consultamos la informacion de la empresa*/
                     Sede sede = new Sede();
-
+                    sede = SedeControler.Consultar();
+                    if (sede != null)
+                    {
+                        Session["Sede"]=JsonConvert.SerializeObject(sede);
+                        Imagenes imagenes = new Imagenes();
+                        imagenes = ImagenesControler.Consultar(sede.guidSede);
+                        if (imagenes != null)
+                        {
+                            Session["Imagenes"] = JsonConvert.SerializeObject(imagenes);
+                            Session["logo"] = imagenes.imagenBytes;
+                            ClassImagenes.GuardarImagen(Session["logo"].ToString());
+                        }
+                    }
                 }
             }
         }

@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassConexionDinamica.cs" />
+    <Compile Include="Controler\ImagenesControler.cs" />
+    <Compile Include="Controler\SedeControler.cs" />
     <Compile Include="Controler\VendedorControler.cs" />
     <Compile Include="Model\Actualizar_EstadoPreCuenta_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
