@@ -10,9 +10,6 @@
     <!-- Logo (no tapa el contenido) -->
     <div class="logo-badge">
       <img src="Recursos/Imagenes/Logo/Logo.png" alt="Logo" />
-      <%-- Si usas base64 en Session:
-      <%-- <img alt="Logo"
-           src='<%# WebApplication.Class.ClassImagenes.ImagenDesdeSession(Page, "logo", "image/png", "~/Recursos/Imagenes/Logo/Logo.png") %>' /> --%>
     </div>
 
     <h2 class="login-title">Iniciar Sesión</h2>

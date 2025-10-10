@@ -1,0 +1,282 @@
+﻿/* ===== Layout general ===== */
+.menu-wrap {
+    background: #f8fafc;
+}
+
+/* ===== Chips de servicios ===== */
+.service-chip {
+    border: 1px solid #e6ebf1;
+    background: #fff;
+    border-radius: 14px;
+    padding: 8px 12px 8px 12px;
+    min-width: 140px;
+    text-align: left;
+    position: relative;
+    transition: all .12s ease;
+}
+
+    .service-chip .chip-title {
+        font-weight: 700;
+        margin-right: .25rem;
+    }
+
+    .service-chip .chip-edit {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #fd7e14;
+        font-size: .9rem;
+    }
+
+    .service-chip:hover {
+        box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    }
+
+    .service-chip.active {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 .15rem rgba(13,110,253,.15);
+    }
+
+/* ===== Alert suave ===== */
+.alert-primary-soft {
+    background: #e7f1ff;
+    border: 1px solid #d5e6ff;
+    color: #0b5ed7;
+    border-radius: 10px;
+}
+
+/* ===== Zonas / Mesas ===== */
+.zone-tabs .nav-link {
+    border-radius: 10px;
+    padding: .35rem .8rem;
+}
+
+    .zone-tabs .nav-link.active {
+        background: #0d6efd;
+    }
+
+.mesa-card {
+    border: 1px solid #e6ebf1;
+    border-radius: 12px;
+    padding: .7rem .9rem;
+    background: #fff;
+    box-shadow: 0 3px 10px rgba(0,0,0,.03);
+}
+
+    .mesa-card .mesa-titulo {
+        font-weight: 800;
+    }
+
+    .mesa-card .mesa-sub {
+        color: #6c757d;
+        font-size: .9rem;
+    }
+
+    .mesa-card.libre {
+        border-color: #d8f0e0;
+        background: #f7fffa;
+    }
+
+    .mesa-card.ocupada {
+        border-color: #f5d6d6;
+        background: #fff7f7;
+    }
+
+/* ===== Productos ===== */
+.pill {
+    display: inline-flex;
+    gap: .45rem;
+    align-items: center;
+    padding: .35rem .7rem;
+    border-radius: 999px;
+    border: 1px solid #e6ebf1;
+    background: #fff;
+    color: #0d6efd;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+    .pill .count {
+        background: #e9eef9;
+        border-radius: 10px;
+        padding: .05rem .4rem;
+        color: #495057;
+    }
+
+    .pill.active {
+        background: #0d6efd;
+        color: #fff;
+        border-color: #0d6efd;
+    }
+
+        .pill.active .count {
+            background: rgba(255,255,255,.25);
+            color: #fff;
+        }
+
+.producto-item {
+    border: 1px solid #e6ebf1;
+    border-radius: 12px;
+    background: #fff;
+    padding: .7rem .8rem;
+}
+
+.prod-main {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.prod-name {
+    font-weight: 800;
+}
+
+.prod-meta {
+    color: #6c757d;
+}
+
+.qty {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+}
+
+    .qty .qty-input {
+        width: 54px;
+        text-align: center;
+        height: 32px;
+        padding: .25rem .4rem;
+    }
+
+/* ===== Pedido ===== */
+.order-card {
+    position: relative;
+}
+
+.pedido-item {
+    border: 1px solid #e6ebf1;
+    border-radius: 10px;
+    background: #fff;
+    padding: .6rem .7rem;
+}
+
+.btn-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: #f1f5f9;
+    color: #506176;
+    border: 1px solid #e6ebf1;
+}
+
+/* ===== CTAs ===== */
+.cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+    text-align: center;
+    border: none;
+    border-radius: 16px;
+    padding: 16px 10px;
+    color: #fff;
+    font-weight: 800;
+    width: 100%;
+    box-shadow: 0 10px 26px rgba(0,0,0,.12);
+}
+
+.cta-orange {
+    background: #f59f00;
+}
+
+.cta-purple {
+    background: #7048e8;
+}
+
+.cta-green {
+    background: #20c997;
+}
+
+.cta:hover {
+    filter: brightness(.95);
+}
+
+/* ===== Utilidades ===== */
+.btn-success-subtle {
+    background: #e9f7ef;
+}
+
+.bg-success-subtle {
+    background: #e9f7ef !important;
+}
+
+.bg-danger-subtle {
+    background: #fde7e7 !important;
+}
+
+.bg-secondary-subtle {
+    background: #f1f3f5 !important;
+}
+
+
+
+
+/* Botón chip “no link” */
+.service-chip {
+    display: inline-block;
+    position: relative;
+    min-width: 140px;
+    padding: 8px 12px;
+    border: 1px solid #e6ebf1;
+    border-radius: 14px;
+    background: #fff;
+    text-align: left;
+    cursor: pointer;
+    /* quita apariencia de link */
+    color: #212529;
+    text-decoration: none;
+}
+
+    .service-chip:link,
+    .service-chip:visited,
+    .service-chip:hover,
+    .service-chip:active,
+    .service-chip * {
+        text-decoration: none !important;
+        color: inherit;
+    }
+
+    .service-chip:hover {
+        box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    }
+
+    .service-chip.active {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 .15rem rgba(13,110,253,.15);
+    }
+
+    /* textos internos */
+    .service-chip .chip-title {
+        display: block;
+        font-weight: 700;
+        color: #0d6efd; /* como el chip original */
+        margin-bottom: 2px;
+    }
+
+    .service-chip .chip-sub {
+        color: #6c757d;
+    }
+
+    /* ícono de lápiz */
+    .service-chip .chip-edit {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #fd7e14;
+        font-size: .9rem;
+    }

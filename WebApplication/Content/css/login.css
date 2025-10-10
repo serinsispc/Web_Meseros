@@ -1,41 +1,60 @@
 ﻿/* ==========================================================
-   Login (WebForms + Bootstrap 5) — Profesional y responsivo
+   Login (WebForms + Bootstrap 5) — Fondo 100% + logo grande
    ========================================================== */
 
-/* Fondo a pantalla completa con degradado suave */
+/* 1) Forzar que el área de contenido del master ocupe 100% de ancho */
+.container.body-content {
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* 2) Fondo azul a pantalla completa */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    /* fondo global por si hay contenedores padres */
+    background: radial-gradient(1200px 600px at 20% 20%, #0f3866, #0e5ca6 55%, #1174cc 100%) fixed;
+}
+
 .login-page {
     min-height: 100vh;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: clamp(16px,3vw,40px);
-    background: radial-gradient(1200px 600px at 20% 20%, #0f3866, #0e5ca6 55%, #1174cc 100%);
+    padding: clamp(16px, 3vw, 48px);
+    /* mantener mismo degradado aquí para garantizar continuidad */
+    background: radial-gradient(1200px 600px at 20% 20%, #0f3866, #0e5ca6 55%, #1174cc 100%) fixed;
 }
 
-/* Tarjeta */
+/* 3) Tarjeta */
 .login-card {
     position: relative;
     width: 100%;
-    max-width: clamp(340px, 80vw, 520px);
+    max-width: clamp(360px, 82vw, 540px);
     background: #fff;
     border-radius: 18px;
     border: 1px solid rgba(13,110,253,.06);
     box-shadow: 0 24px 72px rgba(0,0,0,.22);
-    padding: 92px 28px 26px; /* espacio superior para el logo (badge) */
+    padding: 118px 28px 26px; /* espacio superior mayor por logo grande */
 }
 
-/* Logo: visible, no tapa contenido */
+/* 4) Logo grande, visible y sin tapar contenido */
 .logo-badge {
     position: absolute;
-    top: -52px; /* sobresale un poco */
+    top: -68px; /* sobresale un poco por encima de la card */
     left: 50%;
     transform: translateX(-50%);
-    width: clamp(88px, 12vw, 110px);
-    height: clamp(88px, 12vw, 110px);
+    width: clamp(120px, 18vw, 160px);
+    height: clamp(120px, 18vw, 160px);
     border-radius: 50%;
     background: #fff;
-    border: 10px solid #fff; /* halo que lo integra a la card */
-    box-shadow: 0 16px 44px rgba(0,0,0,.2);
+    border: 12px solid #fff; /* halo blanco que integra con la card */
+    box-shadow: 0 18px 46px rgba(0,0,0,.22);
     display: grid;
     place-items: center;
 }
@@ -47,22 +66,22 @@
         object-fit: contain;
     }
 
-/* Títulos */
+/* 5) Títulos */
 .login-title {
     color: #0d6efd;
     font-weight: 800;
     letter-spacing: .2px;
-    font-size: clamp(1.2rem,2.4vw,1.6rem);
-    margin: 6px 0 4px 0;
+    font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+    margin: 8px 0 6px 0;
 }
 
 .login-subtitle {
     color: #6c757d;
-    font-size: .95rem;
+    font-size: .96rem;
     margin-bottom: 18px;
 }
 
-/* Campos con icono */
+/* 6) Campos con icono */
 .input-icon {
     position: relative;
 }
@@ -71,7 +90,7 @@
         position: absolute;
         left: 12px;
         top: 50%;
-        transform: translateY(-6px); /* ajusta alineación óptica del svg */
+        transform: translateY(-6px);
         color: #6b7a8a;
         pointer-events: none;
     }
@@ -82,30 +101,26 @@
 }
 
 .form-control {
-    min-height: 46px;
+    min-height: 48px;
     border-radius: 10px;
     border-color: #dbe2ea;
     box-shadow: inset 0 1px 0 rgba(0,0,0,.03);
     padding-left: 44px; /* espacio para el icono */
 }
 
-    .form-control.with-icon {
-        padding-left: 44px;
-    }
-
     .form-control:focus {
         border-color: #86b7fe;
         box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
     }
 
-/* Botón */
+/* 7) Botón */
 .btn-login {
-    min-height: 48px;
+    min-height: 50px;
     font-weight: 700;
     border-radius: 10px;
     background: #0d6efd;
     border: none;
-    transition: transform .06s ease, box-shadow .06s ease, background .15s ease;
+    transition: transform .06s ease, background .15s ease;
 }
 
     .btn-login:hover {
@@ -114,27 +129,24 @@
 
     .btn-login:active {
         transform: translateY(1px);
-        box-shadow: none;
     }
 
-/* Pie */
+/* 8) Pie */
 .login-foot {
     color: #8a99a8;
-    font-size: .85rem;
+    font-size: .86rem;
     margin-top: 10px;
     text-align: center;
 }
 
-/* Desktop: pequeñas correcciones */
+/* 9) Desktop finos */
 @media (min-width: 992px) {
     .login-card {
-        padding-top: 90px;
+        padding-top: 116px;
     }
 
     .logo-badge {
-        top: -50px;
-        width: 104px;
-        height: 104px;
+        top: -66px;
     }
 }
 

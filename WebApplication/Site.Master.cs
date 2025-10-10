@@ -46,6 +46,7 @@ namespace WebApplication
                     sede = SedeControler.Consultar();
                     if (sede != null)
                     {
+                        Session["NombreEmpresa"] = sede.nombreSede;
                         Session["Sede"]=JsonConvert.SerializeObject(sede);
                         Imagenes imagenes = new Imagenes();
                         imagenes = ImagenesControler.Consultar(sede.guidSede);

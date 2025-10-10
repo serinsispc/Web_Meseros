@@ -20,7 +20,7 @@ namespace WebApplication
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         protected void btnIngresar_Click(object sender, EventArgs e)
@@ -36,7 +36,7 @@ namespace WebApplication
                 if (vendedor != null)
                 {
                     Session["vendedor"]=JsonConvert.SerializeObject(vendedor);
-                    AlertModerno.Success(this,"Ok",$"Bienvenido {vendedor.nombreVendedor}",true);
+                    AlertModerno.SuccessGoTo(this, "Ok", $"Bienvenido {vendedor.nombreVendedor}", "~/menu.aspx", esToast: false, ms: 1200);
                 }
                 else
                 {
