@@ -1,0 +1,134 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="WebApplication.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="es">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title><%: Page.Title %> - Mi aplicación ASP.NET</title>
+
+    <!-- Bootstrap 5.2.3 CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons opcional (para íconos de usuario/candado) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+        rel="stylesheet" />
+
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <!-- Librería SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+
+    <!-- Tu archivo de alertas -->
+    <script src="Scripts/js/AlertModerno.js"></script>
+
+
+    <style>
+        /* Contenedor a pantalla completa, móvil primero */
+        .page-wrapper {
+            min-height: 100svh; /* mejor en móviles */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(16px, 2.5vw, 32px);
+            /* Gradiente suave, no pesado en móviles */
+            background: radial-gradient(1200px 600px at 20% 20%, #f8f9fa, #e9ecef 60%, #dee2e6 100%);
+            /* Respeta áreas seguras (notch) */
+            padding-left: max(16px, env(safe-area-inset-left));
+            padding-right: max(16px, env(safe-area-inset-right));
+            padding-top: max(16px, env(safe-area-inset-top));
+            padding-bottom: max(16px, env(safe-area-inset-bottom));
+        }
+
+        /* Ancho máximo responsivo para formularios (login) */
+        .container-responsive {
+            width: 100%;
+            max-width: clamp(320px, 92vw, 480px); /* crece de 320→480 según pantalla */
+            margin-inline: auto;
+        }
+
+        /* “Glass card” adaptable */
+        .card-glass {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .brand-badge {
+            width: clamp(56px, 10vw, 72px);
+            height: clamp(56px, 10vw, 72px);
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #0d6efd 0%, #6ea8fe 100%);
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(13,110,253,.25);
+        }
+
+        /* Campos flotantes: asegura lectura en pantallas chicas */
+        .form-floating > label {
+            opacity: .85;
+        }
+
+        /* Aumenta zona táctil en móviles */
+        .btn, .form-control, .form-select {
+            min-height: 44px; /* recomendado para dedo */
+        }
+
+        /* Modo oscuro automático (opcional) */
+        @media (prefers-color-scheme: dark) {
+            .page-wrapper {
+                background: radial-gradient(1200px 600px at 20% 20%, #0b0f14, #11181f 60%, #0f141a 100%);
+            }
+
+            .card-glass {
+                background: rgba(22, 26, 30, 0.72);
+                border-color: rgba(255,255,255,0.06);
+            }
+
+            .form-control, .form-select {
+                color: #e9ecef;
+                background-color: #1a1f24;
+                border-color: #364150;
+            }
+
+                .form-control::placeholder {
+                    color: #94a3b8;
+                }
+
+            .text-muted {
+                color: #a8b3c1 !important;
+            }
+        }
+
+        /* Reduce animaciones si el usuario así lo prefiere */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server" />
+        <div class="page-wrapper">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+    </form>
+
+    <!-- Bootstrap 5.2.3 JS (Popper + Bootstrap) - requerido por componentes Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+        integrity="sha384-5A6rjC7Hf0bG6h1h1mJk3n0k7QKQ2mQkN8rJ0S0tq2c9r6Rr3a9E8mK2uwtXKQK9" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHh+vZlAU9GJ8+8nT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"></script>
+</body>
+</html>
