@@ -340,7 +340,7 @@
                                      <div class="action-icons d-flex align-items-center gap-2">
                                          <button type="button" class="icon-btn" title="Guardar" data-id='<%# Eval("id") %>'><i class="bi bi-floppy"></i></button>
                                          <button type="button" class="icon-btn" title="Comentario" data-id='<%# Eval("id") %>'><i class="bi bi-chat"></i></button>
-                                         <button type="button" class="icon-btn" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-anchor"></i></button>
+                                         <button type="button" class="icon-btn" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-link-45deg"></i></button>
                                          <button type="button" class="icon-btn danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
                                          <button type="button" class="icon-btn" title="Cortar / Promo" data-id='<%# Eval("id") %>'><i class="bi bi-scissors"></i></button>
                                      </div>
