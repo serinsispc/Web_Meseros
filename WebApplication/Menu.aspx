@@ -1,4 +1,5 @@
-﻿<%@ Page Title="Servicios" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Menu.aspx.cs" Inherits="WebApplication.Menu" %>
+﻿<%@ Page Title="Servicios" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Menu.aspx.cs" Inherits="WebApplication.Menu" 
+    MaintainScrollPositionOnPostBack="false"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -106,7 +107,7 @@
 
         <!-- ====== banner servicio activo ====== -->
         <div class="alert alert-primary-soft d-flex align-items-center justify-content-between px-3 py-2 mb-3">
-            <div class="fw-semibold">Servicio Activo: 4 - s1</div>
+            <div class="fw-semibold">Servicio Activo: <%# Models.IdCuentaActiva %> </div>
             <div class="small text-muted"></div>
         </div>
 
@@ -142,12 +143,12 @@
 
                         </ul>
 
-                        <div class="d-flex align-items-center gap-2 mb-2 small">
+<%--                        <div class="d-flex align-items-center gap-2 mb-2 small">
                             <span class="text-muted">Mesas en ZONA 1 :</span>
                             <span class="badge bg-secondary">10</span>
                             <span class="badge bg-success-subtle text-success">Libres: 7</span>
                             <span class="badge bg-danger-subtle text-danger">Ocupadas: 3</span>
-                        </div>
+                        </div>--%>
 
                         <!-- grilla de mesas -->
                         <div class="row g-2">
@@ -196,47 +197,62 @@
 
                         <!-- categorías -->
                         <div class="d-flex flex-wrap gap-2 mb-3">
-                            <a href="#" class="pill active">CAMARAS <span class="count">2</span></a>
-                            <a href="#" class="pill">DISCOS <span class="count">1</span></a>
-                            <a href="#" class="pill">EQUIPOS <span class="count">6</span></a>
-                            <a href="#" class="pill">OTRO <span class="count">2</span></a>
-                            <a href="#" class="pill">PADRE <span class="count">1</span></a>
-                            <a href="#" class="pill">SERVICIOS <span class="count">3</span></a>
-                            <a href="#" class="pill">SOFTWARE <span class="count">7</span></a>
+
+                            <asp:Repeater runat="server" ID="rpCategorias"
+                                DataSource="<%# Models.categorias %>"
+                                OnItemCommand="rpCategorias_ItemCommand">
+                                <ItemTemplate>
+                                    <asp:LinkButton
+                                        runat="server"
+                                        ID="btnCategoria"
+                                        CommandName="SeleccionarCategoria"
+                                        CommandArgument='<%# Eval("id") %>'
+                                        CssClass='<%# (Convert.ToInt32(Eval("id")) == Models.IdCategoriaActiva) ? "pill active" : "pill" %>'>
+                                        <%# Eval("nombreCategoria") %>
+                                    </asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:Repeater>
+
+
                         </div>
 
                         <!-- lista de productos -->
                         <div class="vstack gap-2">
 
-                            <div class="producto-item">
-                                <div class="prod-main">
-                                    <div>
-                                        <div class="prod-name">CAMARA IP V380</div>
-                                        <div class="prod-meta">$101.150 <a href="#" class="link-primary small ms-2">Ver detalle</a></div>
-                                    </div>
-                                    <div class="qty">
-                                        <button class="btn btn-light btn-sm minus"><i class="bi bi-dash"></i></button>
-                                        <input class="form-control qty-input" value="0" />
-                                        <button class="btn btn-light btn-sm plus"><i class="bi bi-plus"></i></button>
-                                        <button class="btn btn-primary btn-sm ms-2"><i class="bi bi-cart2"></i></button>
-                                    </div>
-                                </div>
-                            </div>
+                           <asp:Repeater runat="server" ID="rpProductos" OnItemCommand="rpProductos_ItemCommand" DataSource="<%# Models.productos %>">
+  <ItemTemplate>
+    <div class="producto-item">
+      <div class="prod-main">
+        <div>
+          <div class="prod-name"><%# Eval("nombreProducto") %></div>
+          <div class="prod-meta">
+            <%# "$" + string.Format("{0:N0}", Eval("precioVenta")) %>
+            <a href="#" class="link-primary small ms-2">Ver detalle</a>
+          </div>
+        </div>
 
-                            <div class="producto-item">
-                                <div class="prod-main">
-                                    <div>
-                                        <div class="prod-name">MEMORIA DE 64 GB</div>
-                                        <div class="prod-meta">$41.055 <a href="#" class="link-primary small ms-2">Ver detalle</a></div>
-                                    </div>
-                                    <div class="qty">
-                                        <button class="btn btn-light btn-sm minus"><i class="bi bi-dash"></i></button>
-                                        <input class="form-control qty-input" value="0" />
-                                        <button class="btn btn-light btn-sm plus"><i class="bi bi-plus"></i></button>
-                                        <button class="btn btn-primary btn-sm ms-2"><i class="bi bi-cart2"></i></button>
-                                    </div>
-                                </div>
-                            </div>
+        <div class="qty">
+          <!-- Si quieres que minus/plus trabajen en cliente sin JS, cámbialos a LinkButton y maneja en ItemCommand -->
+          <button type="button" class="btn btn-light btn-sm minus"><i class="bi bi-dash"></i></button>
+
+          <!-- TextBox server-side para poder leer su valor en el server -->
+          <asp:TextBox runat="server" ID="txtCantidad" CssClass="form-control qty-input text-center" Text="0" />
+
+          <button type="button" class="btn btn-light btn-sm plus"><i class="bi bi-plus"></i></button>
+
+          <!-- LinkButton server-side: dispara ItemCommand -->
+          <asp:LinkButton runat="server" ID="btnAgregarCarrito"
+              CommandName="AgregarAlCarrito"
+              CommandArgument='<%# Eval("idPresentacion") %>'
+              CssClass="btn btn-primary btn-sm ms-2">
+              <i class="bi bi-cart2"></i>
+          </asp:LinkButton>
+        </div>
+      </div>
+    </div>
+  </ItemTemplate>
+</asp:Repeater>
+
 
                         </div>
 
@@ -433,6 +449,30 @@
       });
       }
   </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Maneja todos los botones + y - del listado
+        document.querySelectorAll('.producto-item').forEach(item => {
+            const minus = item.querySelector('.minus');
+            const plus = item.querySelector('.plus');
+            const input = item.querySelector('.qty-input');
+
+            minus.addEventListener('click', () => {
+                let val = parseInt(input.value) || 0;
+                if (val > 0) input.value = val - 1;
+            });
+
+            plus.addEventListener('click', () => {
+                let val = parseInt(input.value) || 0;
+                input.value = val + 1;
+            });
+        });
+    });
+</script>
+
+
 </asp:Content>
 
 

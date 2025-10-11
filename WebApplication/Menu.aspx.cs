@@ -23,23 +23,23 @@ namespace WebApplication
             {
                 int IdVenta = 0;
                 var vendedor = JsonConvert.DeserializeObject<Vendedor>(Session["Vendedor"].ToString());
-                List<V_Cuentas> cuentas= new List<V_Cuentas>();
+                List<V_Cuentas> cuentas = new List<V_Cuentas>();
                 cuentas = V_CuentasControler.Lista_IdVendedor(vendedor.id);
-                if (cuentas.Count==0)
+                if (cuentas.Count == 0)
                 {
                     //en esta parte creamos una nueva cuenta para el vendedor
                     IdVenta = TablaVentas_f.NuevaVenta();
-                    if(IdVenta > 0)
+                    if (IdVenta > 0)
                     {
                         //ahora relacionamos el id del vendedor con el id de la venta
-                        if(!R_VentaVendedor_f.Relacionar_Vendedor_Venta(IdVenta, vendedor.id))
+                        if (!R_VentaVendedor_f.Relacionar_Vendedor_Venta(IdVenta, vendedor.id))
                         {
                             AlertModerno.Error(this, "¡Error!", "No fue posible crear la relación del vendedor con la venta.", true);
                         }
                     }
                     else
                     {
-                        AlertModerno.Error(this,"¡Error!","No fue posible crear una nueva cuenta.",true);
+                        AlertModerno.Error(this, "¡Error!", "No fue posible crear una nueva cuenta.", true);
                     }
                     //ahora si cargamos las cuentas
                     cuentas = new List<V_Cuentas>();
@@ -50,9 +50,9 @@ namespace WebApplication
                     IdVenta = cuentas.FirstOrDefault().id;
                 }
                 var zonas = ZonasControler.Lista();
-                int idzonaactiva= zonas.FirstOrDefault().id;
+                int idzonaactiva = zonas.FirstOrDefault().id;
                 var categorias = V_CategoriaControler.lista();
-                int idcate= categorias.FirstOrDefault().id;
+                int idcate = categorias.FirstOrDefault().id;
                 Session["zonaactiva"] = idzonaactiva;
                 Models = new MenuViewModels
                 {
@@ -66,10 +66,10 @@ namespace WebApplication
                     categorias = categorias,
                     productos = v_productoVentaControler.Lista_IdCategoria(idcate),
                     venta = V_TablaVentasControler.Consultar_Id(IdVenta),
-                    detalleCaja=V_DetalleCajaControler.Lista_IdVenta(IdVenta),
+                    detalleCaja = V_DetalleCajaControler.Lista_IdVenta(IdVenta),
                 };
-                
-                Session["Models"]= Models;
+
+                Session["Models"] = Models;
                 DataBind();
             }
         }
@@ -86,7 +86,7 @@ namespace WebApplication
                 Models.IdCuentaActiva = idStr;
                 Session["Models"] = Models;
 
-                AlertModerno.Success(this,"ok",$"servicio seleccionado {idStr}",true);
+                //AlertModerno.Success(this,"ok",$"servicio seleccionado {idStr}",true);
 
                 DataBind();
             }
@@ -108,12 +108,12 @@ namespace WebApplication
             if (e.CommandName == "CambiarZona")
             {
                 int idZona = Convert.ToInt32(e.CommandArgument);
-                Session["zonaactiva"]=idZona;
+                Session["zonaactiva"] = idZona;
                 Models = new MenuViewModels();
                 Models = Session["Models"] as MenuViewModels;
                 Models.IdZonaActiva = idZona;
                 Models.Mesas = MesasControler.Lista(idZona);
-                Session["Models"]= Models;
+                Session["Models"] = Models;
                 DataBind();
             }
         }
@@ -131,7 +131,7 @@ namespace WebApplication
                 {
                     //ahora consultamos si esta mesa esta en una de las cuentas activa
                     var cuentas = V_CuentasControler.Lista_Mesa(mesa.nombreMesa);
-                    if (cuentas.Count!=0)
+                    if (cuentas.Count != 0)
                     {
                         //cargamos los datos de la mesa
                         Models = new MenuViewModels();
@@ -185,7 +185,7 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
             {
                 //creamos la nueva venta
                 int idVenta = TablaVentas_f.NuevaVenta();
-               
+
                 if (idVenta > 0)
                 {
                     Models.IdCuentaActiva = idVenta;
@@ -195,7 +195,7 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
                     {
                         //cambiamos el estado de la mesa
                         mesa.estadoMesa = 1;
-                        bool resp = MesasControler.CRUD(mesa,1);
+                        bool resp = MesasControler.CRUD(mesa, 1);
                         //amarramos al venta con el vendedor
                         var rvv = R_VentaVendedor_f.Relacionar_Vendedor_Venta(idVenta, Convert.ToInt32(Session["idvendedor"]));
                         if (rvv)
@@ -225,6 +225,7 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
             Models.cuentas = V_CuentasControler.Lista_IdVendedor(Convert.ToInt32(Session["idvendedor"]));
             Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
             Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+            Session["Models"] = Models;
             DataBind();
         }
 
@@ -238,7 +239,7 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
 
             var mesa = MesasControler.Consultar_id(idMesa);
             mesa.estadoMesa = 1;
-            bool respCrud = MesasControler.CRUD(mesa,1);
+            bool respCrud = MesasControler.CRUD(mesa, 1);
 
             bool resp = R_VentaMesa_f.Relacionar_Venta_Mesa(idServicio, idMesa);
             if (resp)
@@ -258,9 +259,86 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
             Models.Mesas = MesasControler.Lista(Models.IdZonaActiva);
             Models.venta = V_TablaVentasControler.Consultar_Id(idServicio);
             Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idServicio);
+            Session["Models"] = Models;
             DataBind();
         }
 
+        protected void rpCategorias_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "SeleccionarCategoria")
+            {
+                int idCategoria = Convert.ToInt32(e.CommandArgument);
 
+                Models = new MenuViewModels();
+                Models = Session["Models"] as MenuViewModels;
+
+                // Guardamos la categoría activa
+                Models.IdCategoriaActiva = idCategoria;
+
+                // Aquí puedes llamar la acción o recargar los productos de esa categoría
+                Models.productos = v_productoVentaControler.Lista_IdCategoria(idCategoria);
+
+                DataBind();
+            }
+        }
+
+
+        protected void rpProductos_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            // DEBUG rápido
+            System.Diagnostics.Debug.WriteLine("rpProductos_ItemCommand fired: " + e.CommandName);
+
+            if (e.CommandName == "AgregarAlCarrito")
+            {
+                int idPresentacion;
+                if (!int.TryParse(Convert.ToString(e.CommandArgument), out idPresentacion))
+                {
+                    // CommandArgument inválido
+                    return;
+                }
+
+                // Obtener TextBox de la misma fila
+                var txt = e.Item.FindControl("txtCantidad") as TextBox;
+                int cantidad = 0;
+                if (txt != null) int.TryParse(txt.Text, out cantidad);
+
+                // Si quieres, validar cantidad
+                if (cantidad <= 0)
+                {
+                    // puedes mostrar mensaje en UI (Label) o hacer return
+                    // lblMsg.Text = "Indica una cantidad mayor a 0";
+                    return;
+                }
+
+                // Lógica para agregar al carrito (ejemplo en Session)
+                AgregarAlCarrito(idPresentacion, cantidad);
+
+                // Opcional: reiniciar cantidad en la fila
+                if (txt != null) txt.Text = "0";
+            }
+        }
+
+        private void AgregarAlCarrito(int idPresentacion, int cantidad)
+        {
+            const string CART_SESSION_KEY = "mi_carrito";
+
+            var session = System.Web.HttpContext.Current.Session;
+            List<Tuple<int, int>> carrito = session[CART_SESSION_KEY] as List<Tuple<int, int>>;
+            if (carrito == null) carrito = new List<Tuple<int, int>>();
+
+            var item = carrito.FirstOrDefault(t => t.Item1 == idPresentacion);
+            if (item != null)
+            {
+                // actualizar: quitar y volver a agregar con suma (Tuple es inmutable)
+                carrito.Remove(item);
+                carrito.Add(Tuple.Create(idPresentacion, item.Item2 + cantidad));
+            }
+            else
+            {
+                carrito.Add(Tuple.Create(idPresentacion, cantidad));
+            }
+
+            session[CART_SESSION_KEY] = carrito;
+        }
     }
 }

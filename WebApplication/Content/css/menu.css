@@ -349,3 +349,26 @@
         color: white;
         border-color: #0069d9;
     }
+
+
+
+.pill {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: #f1f1f1;
+    color: #333;
+    margin: 4px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+    .pill:hover {
+        background: #ddd;
+    }
+
+    .pill.active {
+        background: #007bff; /* azul activo */
+        color: white;
+        font-weight: bold;
+    }
