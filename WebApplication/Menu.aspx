@@ -1,10 +1,7 @@
-﻿<%@ Page Title="Servicios" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Menu.aspx.cs" Inherits="WebApplication.Menu"
+﻿<%@ Page Title="Servicios" Language="C#" MasterPageFile="~/Menu.Master" AutoEventWireup="true" CodeBehind="Menu.aspx.cs" Inherits="WebApplication.Menu"
     MaintainScrollPositionOnPostback="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-
-    <!-- Estilos específicos de esta vista -->
-    <link href="Content/css/menu.css" rel="stylesheet" />
 
     <asp:HiddenField ID="hfMesaId" runat="server" />
     <asp:HiddenField ID="hfServicioId" runat="server" />
@@ -278,151 +275,135 @@
                 </div>
             </div>
 
-            <!-- === Columna 3: Pedido === -->
-            <div class="col-12 col-xl-4">
-                <div class="card h-100 order-card">
-                    <div class="card-body">
+<!-- === Columna 3: Pedido === -->
+<div class="col-12 col-xl-4">
+    <div class="card h-100 order-card">
+        <div class="card-body">
 
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <button class="btn btn-success-subtle btn-sm border-success text-success">
-                                <i class="bi bi-plus-lg me-1"></i>Nueva cuenta
-                            </button>
-                            <div class="flex-grow-1">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text bg-white"><i class="bi bi-person-badge"></i></span>
-                                    <input class="form-control" value="Cuenta General" />
-                                    <span class="input-group-text bg-white fw-semibold">
-                                        <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Models.venta.totalVenta) %></span>
-                                </div>
-                            </div>
-                        </div>
-
-     <asp:Repeater runat="server" ID="rpDetalleCaja" DataSource="<%# Models.detalleCaja %>">
-         <ItemTemplate>
-             <!-- item pedido -->
-             <div class="pedido-item mb-2">
-                 <!-- encabezado: nombre y precio pequeño arriba a la derecha -->
-                 <div class="d-flex align-items-start">
-
-                     <div class="flex-grow-1">
-                         <div class="nombre-producto fw-semibold lh-sm text-uppercase"><%# Eval("nombreProducto") %></div>
-                         <div class="small text-muted precio-pequenho">
-                             <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Eval("precioVenta")) %>
-                         </div>
-
-                         <div class="d-flex align-items-center gap-2 mt-2 product-actions">
-
-                             <div class="row">
-                                 <div class="col-12 col-md-4">
-                                     <!-- fila 1: cantidad + carrito -->
-                                     <div class="controls-inline d-flex align-items-center gap-2">
-                                         <div class="quantity-group btn-group btn-group-sm" role="group" aria-label="Cantidad">
-                                             <button type="button" class="btn btn-light btn-qty btn-square btn-decrease" data-id='<%# Eval("id") %>'>
-                                                 <i class="bi bi-dash"></i>
-                                             </button>
-                                             <button type="button" class="btn btn-light btn-qty disabled">
-                                                 <%# Convert.ToInt32(Eval("unidad")) %>
-                                             </button>
-                                             <button type="button" class="btn btn-light btn-qty btn-square btn-increase" data-id='<%# Eval("id") %>'>
-                                                 <i class="bi bi-plus"></i>
-                                             </button>
-                                         </div>
-
-                                         <!-- carrito: añade la clase cart-btn para identificarlo en CSS -->
-                                         <button type="button" class="icon-btn cart-btn" title="Agregar al carrito" data-id='<%# Eval("id") %>'>
-                                             <i class="bi bi-cart"></i>
-                                         </button>
-                                     </div>
-                                 </div>
-                                 <div class="col-12 col-md-4">
-
-                                     <!-- fila 2: iconos de acción (quedarán en una linea separada en móvil) -->
-                                     <div class="action-icons d-flex align-items-center gap-2">
-                                         <button type="button" class="icon-btn" title="Guardar" data-id='<%# Eval("id") %>'><i class="bi bi-floppy"></i></button>
-                                         <button type="button" class="icon-btn" title="Comentario" data-id='<%# Eval("id") %>'><i class="bi bi-chat"></i></button>
-                                         <button type="button" class="icon-btn" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-link-45deg"></i></button>
-                                         <button type="button" class="icon-btn danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
-                                         <button type="button" class="icon-btn" title="Cortar / Promo" data-id='<%# Eval("id") %>'><i class="bi bi-scissors"></i></button>
-                                     </div>
-                                 </div>
-                                 <div class="col-12 col-md-4">
-                                     <!-- badge precio (sigue a la derecha) -->
-                                     <div class="ms-auto">
-                                         <div class="price-badge">
-                                             <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Eval("totalDetalle")) %>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-
-
-
-                             <%-- aca quedamos 11-10-2025  14.00 --%>
-
-
-
-                         </div>
-
-                     </div>
-
-                 </div>
-             </div>
-         </ItemTemplate>
-     </asp:Repeater>
-
-
-
-
-                        <hr />
-
-                        <!-- totales -->
-                        <div class="d-flex justify-content-between small mb-1">
-                            <span class="text-muted">SubTotal:</span>
-                            <span>$ 100.000</span>
-                        </div>
-                        <div class="d-flex justify-content-between small mb-2">
-                            <span class="text-muted">Impuestos (8%)</span>
-                            <span>$ 0</span>
-                        </div>
-                        <div class="d-flex justify-content-between fw-semibold mb-2">
-                            <span>Total 1:</span>
-                            <span>$ 100.000</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span>Servicio (10%)</span>
-                            <div>
-                                <span class="badge bg-primary-subtle text-primary fw-semibold me-2">Editar</span>
-                                <span>$ 10.000</span>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-between fs-6 fw-bold mb-3">
-                            <span>Total 2:</span>
-                            <span>$ 110.000</span>
-                        </div>
-
-                        <!-- acciones grandes -->
-                        <div class="row g-3">
-                            <div class="col-12 col-md-4">
-                                <button class="cta cta-orange w-100">
-                                    <i class="bi bi-send me-2"></i>Comandar
-                                </button>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <button class="cta cta-purple w-100">
-                                    <i class="bi bi-chat-left-text me-2"></i>Solicitar<br />
-                                    Cuenta
-                                </button>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <button class="cta cta-green w-100">
-                                    <i class="bi bi-cash-coin me-2"></i>Cobrar
-                                </button>
-                            </div>
-                        </div>
-
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <button class="btn btn-success-subtle btn-sm border-success text-success">
+                    <i class="bi bi-plus-lg me-1"></i>Nueva cuenta
+                </button>
+                <div class="flex-grow-1">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white"><i class="bi bi-person-badge"></i></span>
+                        <input class="form-control" value="Cuenta General" />
+                        <span class="input-group-text bg-white fw-semibold">
+                            <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Models.venta.totalVenta) %>
+                        </span>
                     </div>
                 </div>
             </div>
+
+            <asp:Repeater runat="server" ID="rpDetalleCaja" DataSource="<%# Models.detalleCaja %>">
+    <ItemTemplate>
+        <!-- item pedido -->
+        <div class="pedido-item mb-2 p-2 border rounded" style="width:100%; box-sizing:border-box;">
+
+            <div class="d-flex flex-column">
+
+                <!-- Nombre y precio pequeño -->
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div class="nombre-producto fw-semibold lh-sm text-uppercase">
+                        <%# Eval("nombreProducto") %>
+                    </div>
+                    <div class="small text-muted precio-pequenho">
+                        <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Eval("precioVenta")) %>
+                    </div>
+                </div>
+
+                <!-- Fila 1: Cantidad + carrito -->
+                <div class="d-flex justify-content-start align-items-center gap-2 flex-wrap mb-2">
+                    <div class="quantity-group btn-group btn-group-sm" role="group" aria-label="Cantidad">
+                        <button type="button" class="btn btn-light btn-qty btn-square btn-decrease" data-id='<%# Eval("id") %>'>
+                            <i class="bi bi-dash"></i>
+                        </button>
+                        <button type="button" class="btn btn-light btn-qty disabled">
+                            <%# Convert.ToInt32(Eval("unidad")) %>
+                        </button>
+                        <button type="button" class="btn btn-light btn-qty btn-square btn-increase" data-id='<%# Eval("id") %>'>
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+
+                    <button type="button" class="icon-btn cart-btn ms-auto" title="Agregar al carrito" data-id='<%# Eval("id") %>'>
+                        <i class="bi bi-cart"></i>
+                    </button>
+                </div>
+
+                <!-- Fila 2: Iconos de acción -->
+                <div class="d-flex flex-wrap gap-2 mb-2">
+                    <button type="button" class="icon-btn" title="Guardar" data-id='<%# Eval("id") %>'><i class="bi bi-floppy"></i></button>
+                    <button type="button" class="icon-btn" title="Comentario" data-id='<%# Eval("id") %>'><i class="bi bi-chat"></i></button>
+                    <button type="button" class="icon-btn" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-link-45deg"></i></button>
+                    <button type="button" class="icon-btn danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
+                    <button type="button" class="icon-btn" title="Cortar / Promo" data-id='<%# Eval("id") %>'><i class="bi bi-scissors"></i></button>
+                </div>
+
+                <!-- Badge precio alineado a la derecha -->
+                <div class="d-flex justify-content-end">
+                    <div class="price-badge">
+                        <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Eval("totalDetalle")) %>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </ItemTemplate>
+</asp:Repeater>
+
+
+            <hr />
+
+            <!-- totales -->
+            <div class="d-flex justify-content-between small mb-1">
+                <span class="text-muted">SubTotal:</span>
+                <span>$ 100.000</span>
+            </div>
+            <div class="d-flex justify-content-between small mb-2">
+                <span class="text-muted">Impuestos (8%)</span>
+                <span>$ 0</span>
+            </div>
+            <div class="d-flex justify-content-between fw-semibold mb-2">
+                <span>Total 1:</span>
+                <span>$ 100.000</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span>Servicio (10%)</span>
+                <div>
+                    <span class="badge bg-primary-subtle text-primary fw-semibold me-2">Editar</span>
+                    <span>$ 10.000</span>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between fs-6 fw-bold mb-3">
+                <span>Total 2:</span>
+                <span>$ 110.000</span>
+            </div>
+
+            <!-- acciones grandes -->
+            <div class="row g-3">
+                <div class="col-12 col-md-4">
+                    <button class="cta cta-orange w-100">
+                        <i class="bi bi-send me-2"></i>Comandar
+                    </button>
+                </div>
+                <div class="col-12 col-md-4">
+                    <button class="cta cta-purple w-100">
+                        <i class="bi bi-chat-left-text me-2"></i>Solicitar<br />Cuenta
+                    </button>
+                </div>
+                <div class="col-12 col-md-4">
+                    <button class="cta cta-green w-100">
+                        <i class="bi bi-cash-coin me-2"></i>Cobrar
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
         </div>
         <!-- /row 3 cols -->
@@ -533,6 +514,31 @@
                 });
             });
         });
+    </script>
+
+
+    <script>
+        function ajustarBloquesProducto() {
+            document.querySelectorAll('.col-xl-4 .product-actions .row').forEach(row => {
+                const col3 = row.closest('.col-xl-4');
+                if (!col3) return;
+
+                const anchoCol = col3.clientWidth;
+
+                row.classList.remove('vertical', 'horizontal-two', 'horizontal-three');
+
+                if (anchoCol < 400) {
+                    row.classList.add('vertical');
+                } else if (anchoCol >= 400 && anchoCol <= 550) {
+                    row.classList.add('horizontal-two');
+                } else {
+                    row.classList.add('horizontal-three');
+                }
+            });
+        }
+
+        window.addEventListener('load', ajustarBloquesProducto);
+        window.addEventListener('resize', ajustarBloquesProducto);
     </script>
 
 
