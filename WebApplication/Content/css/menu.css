@@ -1,9 +1,9 @@
 ﻿/* =========================================================
-   Menu.css — Versión revisada y ajustada
-   - Unificado, sin duplicados
-   - Corrección: carrito junto al botón + en móviles
-   - Mantiene todos tus colores y variantes
-   ========================================================= */
+   Menu.css — Versión final limpia y optimizada
+   - Responsive: móvil, tablet, desktop grande
+   - Controles de cantidad, carrito, action-icons y price-badge
+   - Mantiene colores y estilo original
+========================================================= */
 
 /* ===== Layout general ===== */
 .menu-wrap {
@@ -25,15 +25,6 @@
     text-decoration: none;
     transition: all 0.2s ease;
 }
-
-    .service-chip:link,
-    .service-chip:visited,
-    .service-chip:hover,
-    .service-chip:active,
-    .service-chip * {
-        text-decoration: none !important;
-        color: inherit;
-    }
 
     .service-chip:hover {
         box-shadow: 0 6px 18px rgba(0,0,0,.06);
@@ -155,7 +146,8 @@
 }
 
 .prod-info {
-    min-width: 0; /* evita overflow */
+    flex: 1 1 60%;
+    min-width: 0;
 }
 
 .prod-name {
@@ -166,7 +158,6 @@
     color: #6c757d;
 }
 
-/* qty (lista de productos) - por si se usa fuera de product-actions */
 .qty {
     margin-left: auto;
     display: flex;
@@ -195,7 +186,6 @@
     display: block;
 }
 
-/* Thumb de producto */
 .prod-thumb {
     width: 44px;
     height: 44px;
@@ -204,7 +194,6 @@
     border: 1px solid rgba(0,0,0,0.05);
 }
 
-/* Nombre y precio pequeño */
 .nombre-producto {
     font-size: 0.95rem;
     letter-spacing: 0.2px;
@@ -216,7 +205,6 @@
     font-size: 0.85rem;
 }
 
-/* botones de cantidad (pedido) */
 .quantity-group .btn-qty {
     width: 36px;
     height: 36px;
@@ -237,7 +225,6 @@ a, a:visited, a:focus, a:hover, a:active {
     color: inherit !important;
 }
 
-/* evitar estilos natales que rompan apariencia de botón en enlaces/asp */
 button, .icon-btn, .aspNetDisabled, asp\:linkbutton,
 input[type="button"], input[type="submit"], input[type="reset"] {
     appearance: none;
@@ -263,7 +250,6 @@ input[type="button"], input[type="submit"], input[type="reset"] {
     text-decoration: none !important;
 }
 
-/* variantes */
 .btn-primary {
     background-color: #0d6efd;
     color: #fff;
@@ -300,7 +286,7 @@ input[type="button"], input[type="submit"], input[type="reset"] {
         background-color: #157347;
     }
 
-/* ===== Icon Buttons (unificados) ===== */
+/* ===== Icon Buttons ===== */
 .icon-btn {
     width: 40px;
     height: 40px;
@@ -413,8 +399,10 @@ input[type="button"], input[type="submit"], input[type="reset"] {
 }
 
 /* =========================================================
-   Responsive general (pequeñas pantallas)
-   ========================================================= */
+   Responsive general
+========================================================= */
+
+/* ---------- Móviles (≤576px) ---------- */
 @media (max-width: 576px) {
     .prod-thumb {
         width: 40px;
@@ -436,348 +424,7 @@ input[type="button"], input[type="submit"], input[type="reset"] {
         padding: 5px 10px;
         font-size: 0.9rem;
     }
-}
 
-/* =========================================================
-   Estructura product-actions (lista de productos) — responsive
-   - controls-inline: - [qty] [input] [+] [cart]
-   - action-icons: segunda fila de iconos, scroll si es necesario
-   ========================================================= */
-
-/* contenedor base */
-.product-actions {
-    align-items: center;
-    gap: 10px;
-    flex-wrap: nowrap;
-}
-
-/* ensure base product layout */
-.producto-item .prod-main {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-    justify-content: space-between;
-}
-
-/* info izquierda toma ancho disponible */
-.producto-item .prod-info {
-    flex: 1 1 60%;
-    min-width: 0;
-}
-
-/* acciones a la derecha (por defecto) */
-.producto-item .product-actions {
-    flex: 0 0 auto;
-    min-width: 180px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    align-items: flex-end;
-}
-
-/* controls-inline: cantidad + carrito en linea */
-.controls-inline {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-}
-
-    /* default sizes */
-    .controls-inline .btn,
-    .controls-inline .btn-qty,
-    .controls-inline .icon-btn,
-    .controls-inline .qty-input {
-        height: 40px;
-    }
-
-/* textbox qty compacto */
-.qty-input {
-    width: 56px;
-    min-width: 56px;
-    max-width: 72px;
-    padding: 0.35rem;
-}
-
-/* carrito inline (asegura que no sea absolute) */
-.icon-btn.cart-btn,
-.cart-btn {
-    position: relative;
-    margin-left: 6px;
-}
-
-/* action-icons por defecto oculta si vacía */
-.action-icons {
-    width: 100%;
-    display: none;
-}
-
-/* ------------------ Ajustes para pantallas <= 768px ------------------ */
-@media (max-width: 768px) {
-    /* apilar info + acciones para dar espacio horizontal */
-    .producto-item .prod-main {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-    }
-
-    .producto-item .prod-info {
-        flex: 1 1 100%;
-    }
-
-    /* product-actions ocupa ancho completo y alinea a la izquierda */
-    .producto-item .product-actions {
-        flex: 1 1 100%;
-        align-items: stretch;
-        min-width: 0;
-    }
-
-    /* controls-inline: cantidad + carrito en una sola fila */
-    .producto-item .controls-inline {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
-        justify-content: flex-start;
-        width: 100%;
-        flex-wrap: nowrap;
-    }
-
-        /* cantidad botones compactos pero legibles */
-        .producto-item .controls-inline .btn,
-        .producto-item .controls-inline .btn-qty {
-            width: 44px;
-            min-width: 44px;
-            height: 40px;
-            padding: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* caja de cantidad central (textbox) */
-        .producto-item .controls-inline .qty-input {
-            width: 56px;
-            min-width: 56px;
-            height: 40px;
-            text-align: center;
-        }
-
-        /* carrito al final de la misma fila, sin salirse */
-        .producto-item .controls-inline .icon-btn.cart-btn,
-        .producto-item .controls-inline .cart-btn {
-            margin-left: 8px;
-            flex: 0 0 auto;
-            position: relative !important;
-            align-self: center;
-        }
-
-    /* Mostrar la fila de acciones (si tiene botones) en segunda linea */
-    .producto-item .action-icons {
-        display: flex;
-        flex-direction: row;
-        gap: 8px;
-        align-items: center;
-        justify-content: flex-start;
-        overflow-x: auto; /* permite scroll horizontal si no caban */
-        padding-bottom: 4px;
-        margin-top: 4px;
-    }
-
-        /* ajustar tamaño iconos en móvil */
-        .producto-item .action-icons .icon-btn,
-        .producto-item .controls-inline .icon-btn {
-            width: 38px;
-            height: 38px;
-        }
-
-    /* evitar que el price-badge empuje layout en móvil */
-    .producto-item .price-badge {
-        align-self: flex-end;
-        margin-top: 6px;
-    }
-}
-
-/* Muy pequeñas pantallas */
-@media (max-width: 420px) {
-    .producto-item .controls-inline .btn,
-    .producto-item .controls-inline .btn-qty,
-    .producto-item .controls-inline .icon-btn.cart-btn {
-        width: 36px;
-        height: 36px;
-    }
-
-    .producto-item .controls-inline .qty-input {
-        width: 48px;
-        height: 36px;
-    }
-
-    .producto-item .action-icons .icon-btn {
-        width: 36px;
-        height: 36px;
-    }
-}
-
-/* Mantener comportamiento desktop */
-@media (min-width: 769px) {
-    .producto-item .prod-main {
-        flex-direction: row;
-    }
-
-    .producto-item .product-actions {
-        align-items: flex-end;
-        min-width: 180px;
-    }
-
-    .producto-item .action-icons {
-        display: flex;
-        overflow: visible;
-    }
-}
-
-/* ===== Ajuste final: asegurar carrito junto al + (anulación de reglas conflictivas) ===== */
-/* Contenedor no empuja; controls-inline no wrap; carrito relativo */
-.producto-item .product-actions {
-    flex: 0 0 auto;
-    align-items: stretch;
-    min-width: 0;
-}
-
-.producto-item .controls-inline {
-    display: flex !important;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    justify-content: flex-start !important;
-    flex-wrap: nowrap !important;
-    width: 100%;
-    min-width: 0;
-}
-
-    .producto-item .controls-inline .icon-btn.cart-btn,
-    .producto-item .controls-inline .cart-btn,
-    .producto-item .controls-inline .btn-cart {
-        position: relative !important;
-        margin-left: 8px !important;
-        right: auto !important;
-        left: auto !important;
-        float: none !important;
-        align-self: center !important;
-        flex: 0 0 auto;
-    }
-
-    .producto-item .controls-inline .quantity-group {
-        flex: 0 0 auto;
-        display: inline-flex;
-        gap: 6px;
-        min-width: 0;
-    }
-
-/* Anular .ms-auto empujones solo dentro de producto */
-.producto-item .ms-auto {
-    margin-left: 0 !important;
-}
-
-/* =========================================================
-   Cambios específicos añadidos para que en móviles:
-   - fila1 (controls-inline) quede en un bloque
-   - fila2 (action-icons) quede debajo en una sola línea
-   - price-badge quede debajo y centrado
-   ========================================================= */
-
-@media (max-width: 576px) {
-    /* Forzar que product-actions apile sus hijos en columna
-       y controlar el orden: controls-inline -> action-icons -> price-badge */
-    .producto-item .product-actions {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 6px;
-        width: 100%;
-    }
-
-    /* Asegurar que la fila 1 ocupe todo el ancho y los elementos se mantengan en una sola línea */
-    .producto-item .controls-inline {
-        order: 1;
-        display: flex !important;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 8px;
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden; /* evita que elementos salgan del contenedor */
-    }
-
-        /* Hacer que el grupo de cantidad no se encoja pero permita que el cart quede al final */
-        .producto-item .controls-inline .quantity-group {
-            flex: 0 0 auto;
-        }
-
-        .producto-item .controls-inline .icon-btn.cart-btn,
-        .producto-item .controls-inline .cart-btn {
-            flex: 0 0 auto;
-            margin-left: auto; /* empuja el carrito al extremo derecho de la fila 1 */
-            align-self: center;
-        }
-
-    /* Fila 2: iconos de acción — forzar debajo y mantener en línea horizontal */
-    .producto-item .action-icons {
-        order: 2;
-        display: flex !important;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 8px;
-        width: 100%;
-        overflow-x: auto; /* si no caben, permitir scroll horizontal */
-        -webkit-overflow-scrolling: touch;
-        white-space: nowrap; /* mantener en una sola línea */
-        padding-bottom: 4px;
-    }
-
-    /* Badge de precio: debajo (tercera fila) y centrado */
-    .producto-item .price-badge {
-        order: 3;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        margin-top: 4px;
-        padding: 8px 12px;
-        box-sizing: border-box;
-        border-radius: 10px;
-    }
-
-    /* Si quieres que el price-badge no ocupe 100% sino quede alineado a la derecha,
-       cambia width: auto; margin-left: auto; justify-content: flex-end; */
-}
-
-/* Ajuste extra para pantallas muy pequeñas: reducir gap y tamaños */
-@media (max-width: 360px) {
-    .producto-item .controls-inline {
-        gap: 6px;
-    }
-
-    .producto-item .action-icons {
-        gap: 6px;
-    }
-
-    .producto-item .price-badge {
-        padding: 6px 10px;
-        font-size: 0.88rem;
-    }
-}
-
-
-
-
-/*  --- FIX MÓVIL: asegurar fila1 -> fila2 -> badge --- */
-@media (max-width: 576px) {
-
-    /* product-actions: apilar verticalmente en móvil */
     .producto-item .product-actions {
         display: flex !important;
         flex-direction: column !important;
@@ -786,7 +433,6 @@ input[type="button"], input[type="submit"], input[type="reset"] {
         width: 100% !important;
     }
 
-    /* fila 1: cantidad + carrito: una sola línea y ocupa todo el ancho */
     .producto-item .controls-inline {
         order: 1 !important;
         display: flex !important;
@@ -799,21 +445,18 @@ input[type="button"], input[type="submit"], input[type="reset"] {
         overflow: hidden !important;
     }
 
-    /* permitir que .ms-auto funcione dentro de product-actions en móvil */
-    .producto-item .product-actions .ms-auto {
-        margin-left: auto !important;
-    }
+        .producto-item .controls-inline .quantity-group {
+            flex: 0 0 auto !important;
+        }
 
-    /* forzar que el carrito quede al extremo derecho dentro de la fila1 */
-    .producto-item .controls-inline .icon-btn.cart-btn,
-    .producto-item .controls-inline .cart-btn {
-        margin-left: auto !important;
-        flex: 0 0 auto !important;
-        align-self: center !important;
-        position: relative !important;
-    }
+        .producto-item .controls-inline .icon-btn.cart-btn,
+        .producto-item .controls-inline .cart-btn {
+            margin-left: auto !important;
+            flex: 0 0 auto !important;
+            align-self: center !important;
+            position: relative !important;
+        }
 
-    /* fila 2: iconos — siempre en una línea horizontal (scroll si no caben) */
     .producto-item .action-icons {
         order: 2 !important;
         display: flex !important;
@@ -822,14 +465,12 @@ input[type="button"], input[type="submit"], input[type="reset"] {
         justify-content: flex-start !important;
         gap: 8px !important;
         width: 100% !important;
-        white-space: nowrap !important;
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch !important;
+        white-space: nowrap !important;
         padding-bottom: 4px !important;
-        box-sizing: border-box !important;
     }
 
-    /* price-badge: tercera fila, centrado y no empuja layout */
     .producto-item .price-badge {
         order: 3 !important;
         display: inline-flex !important;
@@ -841,7 +482,6 @@ input[type="button"], input[type="submit"], input[type="reset"] {
         box-sizing: border-box !important;
     }
 
-    /* Reducir tamaños si es necesario */
     .producto-item .controls-inline .btn,
     .producto-item .controls-inline .btn-qty,
     .producto-item .controls-inline .icon-btn {
@@ -855,242 +495,36 @@ input[type="button"], input[type="submit"], input[type="reset"] {
     }
 }
 
-
-
-
-
-/* === FIX FINAL: Forzar apilamiento correcto en móviles (pegar al final del Menu.css) === */
-@media (max-width: 576px) {
-
-    /* Forzar que dentro de .pedido-item la zona product-actions sea columna */
-    .pedido-item .product-actions,
-    .producto-item .product-actions {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 6px !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
+/* ---------- Tablet (≤768px) ---------- */
+@media (max-width: 768px) {
+    .producto-item .prod-main {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
     }
 
-        /* Fila 1: controls-inline — ocupar todo el ancho y mantener sus elementos en una sola línea */
-        .pedido-item .product-actions > .controls-inline,
-        .producto-item .product-actions > .controls-inline {
-            order: 1 !important;
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            justify-content: flex-start !important;
-            gap: 8px !important;
-            width: 100% !important;
-            white-space: nowrap !important;
-            overflow: hidden !important;
-            box-sizing: border-box !important;
-        }
-
-        /* Asegurar que el grupo de cantidad no se encoja */
-        .pedido-item .product-actions .quantity-group,
-        .producto-item .product-actions .quantity-group {
-            flex: 0 0 auto !important;
-        }
-
-        /* Forzar que el carrito vaya al extremo derecho dentro de la fila1 */
-        .pedido-item .product-actions > .controls-inline .icon-btn.cart-btn,
-        .producto-item .product-actions > .controls-inline .icon-btn.cart-btn,
-        .pedido-item .product-actions > .controls-inline .cart-btn,
-        .producto-item .product-actions > .controls-inline .cart-btn {
-            margin-left: auto !important;
-            flex: 0 0 auto !important;
-            align-self: center !important;
-            position: relative !important;
-        }
-
-        /* Fila 2: action-icons — debajo y en una sola línea horizontal (scroll si es necesario) */
-        .pedido-item .product-actions > .action-icons,
-        .producto-item .product-actions > .action-icons {
-            order: 2 !important;
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            justify-content: flex-start !important;
-            gap: 8px !important;
-            width: 100% !important;
-            white-space: nowrap !important;
-            overflow-x: auto !important;
-            -webkit-overflow-scrolling: touch !important;
-            padding-bottom: 4px !important;
-            box-sizing: border-box !important;
-            /* si quieres ocultar el scrollbar visualmente, lo podemos ajustar luego */
-        }
-
-        /* Asegurar icon-btns no se rompan de línea */
-        .pedido-item .product-actions .action-icons .icon-btn,
-        .producto-item .product-actions .action-icons .icon-btn {
-            flex: 0 0 auto !important;
-        }
-
-        /* Price badge: tercera fila, quitar cualquier ms-auto que lo empuje y centrar */
-        .pedido-item .product-actions > .ms-auto,
-        .producto-item .product-actions > .ms-auto {
-            order: 3 !important;
-            margin-left: 0 !important; /* anula el comportamiento de ms-auto */
-            width: 100% !important;
-            display: flex !important;
-            justify-content: center !important; /* o flex-end si quieres a la derecha */
-            box-sizing: border-box !important;
-            padding-top: 4px !important;
-        }
-
-            /* Dentro del contenedor ms-auto, forzar el estilo del badge */
-            .pedido-item .product-actions > .ms-auto .price-badge,
-            .producto-item .product-actions > .ms-auto .price-badge {
-                width: auto !important;
-                min-width: 60px !important;
-                padding: 6px 12px !important;
-                margin: 0 auto !important;
-            }
-
-    /* Reducir tamaños si es necesario en móviles pequeños */
-    .pedido-item .controls-inline .btn,
-    .pedido-item .controls-inline .btn-qty,
-    .pedido-item .controls-inline .icon-btn,
-    .producto-item .controls-inline .btn,
-    .producto-item .controls-inline .btn-qty,
-    .producto-item .controls-inline .icon-btn {
-        min-width: 36px !important;
-        height: 36px !important;
-    }
-
-    .pedido-item .controls-inline .qty-input,
-    .producto-item .controls-inline .qty-input {
-        width: 48px !important;
-        height: 36px !important;
+    .producto-item .prod-info {
+        flex: 1 1 100%;
     }
 }
 
-
-
-
-/* === BLOQUE AJUSTADO: Comportamiento grande (1200px - 1750px) === */
+/* ---------- Desktop grande (1200–1750px) ---------- */
 @media (min-width: 1200px) and (max-width: 1750px) {
-
-    .pedido-item .product-actions,
-    .producto-item .product-actions {
-        display: flex !important;
+    .producto-item .controls-inline {
         flex-direction: row !important;
         align-items: center !important;
-        gap: 12px !important;
-        flex-wrap: wrap !important; /* Permite apilar si no cabe */
-        width: 100% !important;
-        min-width: 0 !important;
-        box-sizing: border-box !important;
-    }
-
-        /* controls-inline: fila1 */
-        .pedido-item .product-actions > .controls-inline,
-        .producto-item .product-actions > .controls-inline {
-            display: flex !important;
-            flex: 0 1 auto !important; /* cede algo de espacio si hace falta */
-            gap: 8px !important;
-            align-items: center !important;
-            white-space: nowrap !important;
-            min-width: 0 !important;
-        }
-
-    /* quantity-group mantiene su tamaño */
-    .pedido-item .controls-inline .quantity-group,
-    .producto-item .controls-inline .quantity-group {
-        flex: 0 0 auto !important;
-        display: inline-flex !important;
-        gap: 6px !important;
-        min-width: 0 !important;
-    }
-
-    /* icon-btn/cart al final de fila1 */
-    .pedido-item .controls-inline .icon-btn.cart-btn,
-    .producto-item .controls-inline .icon-btn.cart-btn,
-    .pedido-item .controls-inline .cart-btn,
-    .producto-item .controls-inline .cart-btn {
-        margin-left: auto !important;
-        flex: 0 0 auto !important;
-        align-self: center !important;
-    }
-
-    /* action-icons: fila2 — permite scroll si no cabe */
-    .pedido-item .product-actions > .action-icons,
-    .producto-item .product-actions > .action-icons {
-        display: flex !important;
-        flex: 1 1 auto !important; /* cede espacio si hace falta */
-        gap: 8px !important;
-        align-items: center !important;
         justify-content: flex-start !important;
-        white-space: nowrap !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch;
+        gap: 10px;
     }
 
-        .pedido-item .product-actions > .action-icons .icon-btn,
-        .producto-item .product-actions > .action-icons .icon-btn {
-            flex: 0 0 auto !important;
-        }
-
-    /* prod-info: cede espacio a la derecha si es necesario */
-    .pedido-item .prod-info,
-    .producto-item .prod-info {
-        flex: 1 1 0 !important;
-        min-width: 0 !important;
-        overflow: hidden !important;
+    .producto-item .action-icons {
+        flex-wrap: wrap !important;
+        justify-content: flex-start !important;
+        overflow: visible !important;
     }
 
-    .producto-item .prod-name,
-    .pedido-item .prod-name {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    /* price-badge: siempre al final a la derecha */
-    .pedido-item .product-actions > .ms-auto,
-    .producto-item .product-actions > .ms-auto {
-        margin-left: auto !important;
-        order: 3 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-end !important;
+    .producto-item .price-badge {
         width: auto !important;
-        min-width: 70px !important;
-    }
-
-        .pedido-item .product-actions > .ms-auto .price-badge,
-        .producto-item .product-actions > .ms-auto .price-badge {
-            margin: 0 !important;
-            padding: 6px 12px !important;
-        }
-
-    /* botones: mantener tamaño consistente */
-    .pedido-item .controls-inline .btn,
-    .pedido-item .controls-inline .btn-qty,
-    .pedido-item .controls-inline .icon-btn,
-    .producto-item .controls-inline .btn,
-    .producto-item .controls-inline .btn-qty,
-    .producto-item .controls-inline .icon-btn {
-        flex: 0 0 36px !important;
-        min-width: 36px !important;
-        height: 36px !important;
-    }
-
-    /* Limitar ancho de inputs qty */
-    .producto-item input.qty-input,
-    .pedido-item input.qty-input {
-        max-width: 90px !important;
-        width: auto !important;
-    }
-
-    /* Contenedor padre opcional para scroll horizontal si overflow */
-    .productos-list-container,
-    .lista-productos {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        margin-top: 0 !important;
     }
 }
-
