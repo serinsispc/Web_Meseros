@@ -40,6 +40,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -54,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassConexionDinamica.cs" />
+    <Compile Include="Controler\DetalleVentaControler.cs" />
     <Compile Include="Controler\ImagenesControler.cs" />
     <Compile Include="Controler\MesasControler.cs" />
     <Compile Include="Controler\R_VentaMesaControler.cs" />
@@ -67,6 +71,7 @@
     <Compile Include="Controler\V_ServicioMesaControler.cs" />
     <Compile Include="Controler\V_TablaVentasControler.cs" />
     <Compile Include="Controler\ZonasControler.cs" />
+    <Compile Include="Funciones\DetalleVenta_f.cs" />
     <Compile Include="Funciones\Mesas_f.cs" />
     <Compile Include="Funciones\R_VentaMesa_f.cs" />
     <Compile Include="Funciones\R_VentaVendedor_f.cs" />
@@ -2094,6 +2099,7 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Respuesta_DAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Model\Model.edmx">

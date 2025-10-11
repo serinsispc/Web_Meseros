@@ -1,4 +1,5 @@
-﻿using DAL.Controler;
+﻿using DAL;
+using DAL.Controler;
 using DAL.Funciones;
 using DAL.Model;
 using Newtonsoft.Json;
@@ -285,6 +286,10 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
 
         protected void rpProductos_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
+            Models = new MenuViewModels();
+            Models = Session["Models"] as MenuViewModels;
+
+
             // DEBUG rápido
             System.Diagnostics.Debug.WriteLine("rpProductos_ItemCommand fired: " + e.CommandName);
 
@@ -302,43 +307,36 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
                 int cantidad = 0;
                 if (txt != null) int.TryParse(txt.Text, out cantidad);
 
-                // Si quieres, validar cantidad
+                /* validamos la cantidad */
                 if (cantidad <= 0)
                 {
-                    // puedes mostrar mensaje en UI (Label) o hacer return
-                    // lblMsg.Text = "Indica una cantidad mayor a 0";
+                    /* como la cantidad es 0 o menor a cero solamente hacemos en return sin enviar alert */
                     return;
                 }
 
-                // Lógica para agregar al carrito (ejemplo en Session)
-                AgregarAlCarrito(idPresentacion, cantidad);
+                // en esta parte llamamos la función que se encarga de recibir la cantidad y el id de la presentación.
+                //retorna una respuesta true o false
+                var resp = DetalleVenta_f.AgregarProducto(idPresentacion, cantidad,Models.IdCuentaActiva);
+                if (resp.estado)
+                {
+                    //enviamos alert ok
+                    AlertModerno.Success(this,"¡OK!",$"{resp.mensaje}",true);
+                }
+                else
+                {
+                    //enviamos alert error
+                    AlertModerno.Error(this, "¡Error!", $"{resp.mensaje}", true);
+                }
 
-                // Opcional: reiniciar cantidad en la fila
+                // reiniciamos el cuadro de texto de cantidad
                 if (txt != null) txt.Text = "0";
+
+                Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+                Session["Models"] = Models;
+                DataBind();
             }
         }
 
-        private void AgregarAlCarrito(int idPresentacion, int cantidad)
-        {
-            const string CART_SESSION_KEY = "mi_carrito";
-
-            var session = System.Web.HttpContext.Current.Session;
-            List<Tuple<int, int>> carrito = session[CART_SESSION_KEY] as List<Tuple<int, int>>;
-            if (carrito == null) carrito = new List<Tuple<int, int>>();
-
-            var item = carrito.FirstOrDefault(t => t.Item1 == idPresentacion);
-            if (item != null)
-            {
-                // actualizar: quitar y volver a agregar con suma (Tuple es inmutable)
-                carrito.Remove(item);
-                carrito.Add(Tuple.Create(idPresentacion, item.Item2 + cantidad));
-            }
-            else
-            {
-                carrito.Add(Tuple.Create(idPresentacion, cantidad));
-            }
-
-            session[CART_SESSION_KEY] = carrito;
-        }
     }
 }

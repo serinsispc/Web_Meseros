@@ -26,5 +26,22 @@ namespace DAL.Controler
                 return null;
             }
         }
+
+        public static v_productoVenta Consultar_idpresentacion(int idpresentacion)
+        {
+            try
+            {
+                using (DBEntities cn = new DBEntities())
+                {
+                    return cn.v_productoVenta.AsNoTracking().Where(x =>
+                    x.idPresentacion==idpresentacion).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                return null;
+            }
+        }
     }
 }

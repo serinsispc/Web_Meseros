@@ -1,59 +1,58 @@
-﻿<%@ Page Title="Servicios" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Menu.aspx.cs" Inherits="WebApplication.Menu" 
-    MaintainScrollPositionOnPostBack="false"%>
+﻿<%@ Page Title="Servicios" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Menu.aspx.cs" Inherits="WebApplication.Menu"
+    MaintainScrollPositionOnPostback="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-  <!-- Estilos específicos de esta vista -->
-  <link href="Content/css/menu.css" rel="stylesheet" />
+    <!-- Estilos específicos de esta vista -->
+    <link href="Content/css/menu.css" rel="stylesheet" />
 
-  <asp:HiddenField ID="hfMesaId" runat="server" />
-  <asp:HiddenField ID="hfServicioId" runat="server" />
+    <asp:HiddenField ID="hfMesaId" runat="server" />
+    <asp:HiddenField ID="hfServicioId" runat="server" />
 
-  <asp:Button ID="btnMesaNuevaCuenta" runat="server"
-              OnClick="MesaNuevaCuenta" Style="display: none" UseSubmitBehavior="false" />
+    <asp:Button ID="btnMesaNuevaCuenta" runat="server"
+        OnClick="MesaNuevaCuenta" Style="display: none" UseSubmitBehavior="false" />
 
-  <!-- Postback final cuando ya eligió servicio -->
-  <asp:Button ID="btnMesaAmarrar" runat="server"
-              OnClick="MesaAmarar" Style="display: none" UseSubmitBehavior="false" />
+    <!-- Postback final cuando ya eligió servicio -->
+    <asp:Button ID="btnMesaAmarrar" runat="server"
+        OnClick="MesaAmarar" Style="display: none" UseSubmitBehavior="false" />
 
-  <!-- Modal: seleccionar servicio existente -->
-  <div class="modal fade" id="mdlServicios" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">
-            Seleccionar servicio para <span id="lblMesaSeleccionada" class="fw-semibold"></span>
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    <!-- Modal: seleccionar servicio existente -->
+    <div class="modal fade" id="mdlServicios" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Seleccionar servicio para <span id="lblMesaSeleccionada" class="fw-semibold"></span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted mb-2">Servicios activos:</p>
+
+                    <div id="listaServicios" class="list-group">
+                        <asp:Repeater ID="rpServiciosActivos" runat="server" DataSource="<%# Models.cuentas %>">
+                            <ItemTemplate>
+                                <!-- Cada item es clickeable; lleva data-id del servicio -->
+                                <button type="button"
+                                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center servicio-item"
+                                    data-id='<%# Eval("id") %>'>
+                                    <span class="fw-semibold"><%# Eval("id") %></span>
+                                    <small class="text-muted">#<%# Eval("id") %> · <%# Eval("mesa") %></small>
+                                </button>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </div>
+
+                    <div class="text-center text-secondary mt-3" runat="server" id="divSinServicios"
+                        visible='<%# (Models.cuentas?.Count ?? 0) == 0 %>'>
+                        No hay servicios activos para amarrar.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-          <p class="text-muted mb-2">Servicios activos:</p>
-
-          <div id="listaServicios" class="list-group">
-            <asp:Repeater ID="rpServiciosActivos" runat="server" DataSource="<%# Models.cuentas %>">
-              <ItemTemplate>
-                <!-- Cada item es clickeable; lleva data-id del servicio -->
-                <button type="button"
-                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center servicio-item"
-                        data-id='<%# Eval("id") %>'>
-                  <span class="fw-semibold"><%# Eval("id") %></span>
-                  <small class="text-muted">#<%# Eval("id") %> · <%# Eval("mesa") %></small>
-                </button>
-              </ItemTemplate>
-            </asp:Repeater>
-          </div>
-
-          <div class="text-center text-secondary mt-3" runat="server" id="divSinServicios"
-               visible='<%# (Models.cuentas?.Count ?? 0) == 0 %>'>
-            No hay servicios activos para amarrar.
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
     </div>
-  </div>
 
     <div class="container-fluid menu-wrap py-3 py-lg-4">
 
@@ -62,22 +61,22 @@
             <div class="col-12 col-xl">
                 <div class="d-flex flex-wrap gap-2">
 
-<asp:Repeater runat="server" ID="rpCuentas"
-    DataSource="<%# Models.cuentas %>"
-    OnItemCommand="rpServicios_ItemCommand">
-    <ItemTemplate>
-        <asp:LinkButton ID="btnServicio" runat="server"
-            CommandName="AbrirServicio"
-            CommandArgument='<%# Eval("id") %>'
-            CssClass='<%# "service-chip" + ((Eval("id").ToString() == Models.IdCuentaActiva.ToString()) ? " active" : "") %>'>
+                    <asp:Repeater runat="server" ID="rpCuentas"
+                        DataSource="<%# Models.cuentas %>"
+                        OnItemCommand="rpServicios_ItemCommand">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="btnServicio" runat="server"
+                                CommandName="AbrirServicio"
+                                CommandArgument='<%# Eval("id") %>'
+                                CssClass='<%# "service-chip" + ((Eval("id").ToString() == Models.IdCuentaActiva.ToString()) ? " active" : "") %>'>
             <span class="chip-title"><%# Eval("id") %></span>
             <small class="text-muted d-block">
                 <%# Eval("mesa") %>
             </small>
             <i class="bi bi-pencil-fill chip-edit"></i>
-        </asp:LinkButton>
-    </ItemTemplate>
-</asp:Repeater>
+                            </asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:Repeater>
 
 
 
@@ -143,7 +142,7 @@
 
                         </ul>
 
-<%--                        <div class="d-flex align-items-center gap-2 mb-2 small">
+                        <%--                        <div class="d-flex align-items-center gap-2 mb-2 small">
                             <span class="text-muted">Mesas en ZONA 1 :</span>
                             <span class="badge bg-secondary">10</span>
                             <span class="badge bg-success-subtle text-success">Libres: 7</span>
@@ -219,39 +218,58 @@
                         <!-- lista de productos -->
                         <div class="vstack gap-2">
 
-                           <asp:Repeater runat="server" ID="rpProductos" OnItemCommand="rpProductos_ItemCommand" DataSource="<%# Models.productos %>">
-  <ItemTemplate>
-    <div class="producto-item">
-      <div class="prod-main">
-        <div>
-          <div class="prod-name"><%# Eval("nombreProducto") %></div>
-          <div class="prod-meta">
-            <%# "$" + string.Format("{0:N0}", Eval("precioVenta")) %>
-            <a href="#" class="link-primary small ms-2">Ver detalle</a>
-          </div>
-        </div>
+                            <asp:Repeater runat="server" ID="rpProductos" OnItemCommand="rpProductos_ItemCommand" DataSource="<%# Models.productos %>">
+                                <ItemTemplate>
+                                    <div class="producto-item">
+                                        <div class="prod-main">
+                                            <div class="prod-info">
+                                                <div class="prod-name"><%# Eval("nombreProducto") %></div>
+                                                <div class="prod-meta">
+                                                    <%# "$" + string.Format("{0:N0}", Eval("precioVenta")) %>
+                                                    <a href="#" class="link-primary small ms-2">Ver detalle</a>
+                                                </div>
+                                            </div>
 
-        <div class="qty">
-          <!-- Si quieres que minus/plus trabajen en cliente sin JS, cámbialos a LinkButton y maneja en ItemCommand -->
-          <button type="button" class="btn btn-light btn-sm minus"><i class="bi bi-dash"></i></button>
+                                            <!-- actions container: en móvil se apila en 2 filas (cantidad+carrito) y (acciones) -->
+                                            <div class="product-actions d-flex flex-column align-items-stretch">
+                                                <!-- fila 1: cantidad + carrito -->
+                                                <div class="controls-inline d-flex align-items-center gap-2">
+                                                    <button type="button" class="btn btn-light btn-sm minus" title="Disminuir">
+                                                        <i class="bi bi-dash"></i>
+                                                    </button>
 
-          <!-- TextBox server-side para poder leer su valor en el server -->
-          <asp:TextBox runat="server" ID="txtCantidad" CssClass="form-control qty-input text-center" Text="0" />
+                                                    <!-- TextBox server-side para leer valor desde server -->
+                                                    <asp:TextBox runat="server" ID="txtCantidad" CssClass="form-control qty-input text-center" Text="0" />
 
-          <button type="button" class="btn btn-light btn-sm plus"><i class="bi bi-plus"></i></button>
+                                                    <button type="button" class="btn btn-light btn-sm plus" title="Aumentar">
+                                                        <i class="bi bi-plus"></i>
+                                                    </button>
 
-          <!-- LinkButton server-side: dispara ItemCommand -->
-          <asp:LinkButton runat="server" ID="btnAgregarCarrito"
-              CommandName="AgregarAlCarrito"
-              CommandArgument='<%# Eval("idPresentacion") %>'
-              CssClass="btn btn-primary btn-sm ms-2">
-              <i class="bi bi-cart2"></i>
-          </asp:LinkButton>
-        </div>
-      </div>
-    </div>
-  </ItemTemplate>
-</asp:Repeater>
+                                                    <!-- carrito: LinkButton server-side que dispara ItemCommand -->
+                                                    <asp:LinkButton runat="server" ID="btnAgregarCarrito"
+                                                        CommandName="AgregarAlCarrito"
+                                                        CommandArgument='<%# Eval("idPresentacion") %>'
+                                                        CssClass="icon-btn cart-btn ms-2"
+                                                        title="Agregar al carrito">
+                        <i class="bi bi-cart2"></i>
+                                                    </asp:LinkButton>
+                                                </div>
+
+                                                <!-- fila 2: iconos de acción (opcional). Si no los usas, queda oculta/irrelevante -->
+                                                <div class="action-icons d-flex align-items-center gap-2 mt-2">
+                                                    <!-- Ejemplo: si quieres agregar iconos (no cambian la lógica): -->
+                                                    <!--
+                    <button type="button" class="icon-btn" title="Guardar"><i class="bi bi-floppy"></i></button>
+                    <button type="button" class="icon-btn" title="Comentario"><i class="bi bi-chat"></i></button>
+                    <button type="button" class="icon-btn" title="Anclar"><i class="bi bi-anchor"></i></button>
+                    -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ItemTemplate>
+
+                            </asp:Repeater>
 
 
                         </div>
@@ -273,42 +291,87 @@
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text bg-white"><i class="bi bi-person-badge"></i></span>
                                     <input class="form-control" value="Cuenta General" />
-                                    <span class="input-group-text bg-white fw-semibold">$ 110.000</span>
+                                    <span class="input-group-text bg-white fw-semibold">
+                                        <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Models.venta.totalVenta) %></span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- item pedido -->
-                        <div class="pedido-item mb-2">
-                            <div class="fw-semibold lh-sm">SERVICIO DE SOFTWARE PARA EL CONTROL DE INGRESOS Y EGRESOS</div>
-                            <div class="small text-muted">$ 50.000</div>
+     <asp:Repeater runat="server" ID="rpDetalleCaja" DataSource="<%# Models.detalleCaja %>">
+         <ItemTemplate>
+             <!-- item pedido -->
+             <div class="pedido-item mb-2">
+                 <!-- encabezado: nombre y precio pequeño arriba a la derecha -->
+                 <div class="d-flex align-items-start">
 
-                            <div class="d-flex align-items-center gap-2 mt-2">
-                                <div class="btn-group btn-group-sm" role="group">
-                                    <button class="btn btn-light"><i class="bi bi-dash"></i></button>
-                                    <button class="btn btn-light disabled">2</button>
-                                    <button class="btn btn-light"><i class="bi bi-plus"></i></button>
-                                </div>
+                     <div class="flex-grow-1">
+                         <div class="nombre-producto fw-semibold lh-sm text-uppercase"><%# Eval("nombreProducto") %></div>
+                         <div class="small text-muted precio-pequenho">
+                             <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Eval("precioVenta")) %>
+                         </div>
 
-                                <div class="btn-icon">
-                                    <i class="bi bi-floppy2"></i>
-                                </div>
-                                <div class="btn-icon">
-                                    <i class="bi bi-emoji-smile"></i>
-                                </div>
-                                <div class="btn-icon">
-                                    <i class="bi bi-printer"></i>
-                                </div>
-                                <div class="btn-icon">
-                                    <i class="bi bi-patch-check"></i>
-                                </div>
-                                <div class="btn-icon">
-                                    <i class="bi bi-x-lg"></i>
-                                </div>
+                         <div class="d-flex align-items-center gap-2 mt-2 product-actions">
 
-                                <div class="ms-auto badge bg-secondary-subtle text-dark fw-semibold px-3">$ 100.000</div>
-                            </div>
-                        </div>
+                             <div class="row">
+                                 <div class="col-12 col-md-4">
+                                     <!-- fila 1: cantidad + carrito -->
+                                     <div class="controls-inline d-flex align-items-center gap-2">
+                                         <div class="quantity-group btn-group btn-group-sm" role="group" aria-label="Cantidad">
+                                             <button type="button" class="btn btn-light btn-qty btn-square btn-decrease" data-id='<%# Eval("id") %>'>
+                                                 <i class="bi bi-dash"></i>
+                                             </button>
+                                             <button type="button" class="btn btn-light btn-qty disabled">
+                                                 <%# Convert.ToInt32(Eval("unidad")) %>
+                                             </button>
+                                             <button type="button" class="btn btn-light btn-qty btn-square btn-increase" data-id='<%# Eval("id") %>'>
+                                                 <i class="bi bi-plus"></i>
+                                             </button>
+                                         </div>
+
+                                         <!-- carrito: añade la clase cart-btn para identificarlo en CSS -->
+                                         <button type="button" class="icon-btn cart-btn" title="Agregar al carrito" data-id='<%# Eval("id") %>'>
+                                             <i class="bi bi-cart"></i>
+                                         </button>
+                                     </div>
+                                 </div>
+                                 <div class="col-12 col-md-4">
+
+                                     <!-- fila 2: iconos de acción (quedarán en una linea separada en móvil) -->
+                                     <div class="action-icons d-flex align-items-center gap-2">
+                                         <button type="button" class="icon-btn" title="Guardar" data-id='<%# Eval("id") %>'><i class="bi bi-floppy"></i></button>
+                                         <button type="button" class="icon-btn" title="Comentario" data-id='<%# Eval("id") %>'><i class="bi bi-chat"></i></button>
+                                         <button type="button" class="icon-btn" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-anchor"></i></button>
+                                         <button type="button" class="icon-btn danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
+                                         <button type="button" class="icon-btn" title="Cortar / Promo" data-id='<%# Eval("id") %>'><i class="bi bi-scissors"></i></button>
+                                     </div>
+                                 </div>
+                                 <div class="col-12 col-md-4">
+                                     <!-- badge precio (sigue a la derecha) -->
+                                     <div class="ms-auto">
+                                         <div class="price-badge">
+                                             <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Eval("totalDetalle")) %>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+
+
+
+
+
+
+
+                         </div>
+
+                     </div>
+
+                 </div>
+             </div>
+         </ItemTemplate>
+     </asp:Repeater>
+
+
+
 
                         <hr />
 
@@ -369,108 +432,108 @@
 
 
 
- <script>
-     // ====== MANTIENE TU LÓGICA, SOLO HAGO MÁS ROBUSTO EL USO DE bootstrap.Modal ======
-     document.addEventListener('DOMContentLoaded', function () {
-         var contenedor = document.getElementById('listaServicios');
-         if (contenedor && !contenedor._wired) {
-             contenedor._wired = true;
-             contenedor.addEventListener('click', function (ev) {
-                 var btn = ev.target.closest('.servicio-item');
-                 if (!btn) return;
+    <script>
+        // ====== MANTIENE TU LÓGICA, SOLO HAGO MÁS ROBUSTO EL USO DE bootstrap.Modal ======
+        document.addEventListener('DOMContentLoaded', function () {
+            var contenedor = document.getElementById('listaServicios');
+            if (contenedor && !contenedor._wired) {
+                contenedor._wired = true;
+                contenedor.addEventListener('click', function (ev) {
+                    var btn = ev.target.closest('.servicio-item');
+                    if (!btn) return;
 
-                 var idServicio = btn.getAttribute('data-id');
-                 // setea el hidden
-                 document.getElementById('<%= hfServicioId.ClientID %>').value = idServicio;
+                    var idServicio = btn.getAttribute('data-id');
+                    // setea el hidden
+                    document.getElementById('<%= hfServicioId.ClientID %>').value = idServicio;
 
-            // cierra el modal y postea (con chequeo seguro de Bootstrap)
-            var modalEl = document.getElementById('mdlServicios');
-            if (modalEl) {
-                if (window.bootstrap && bootstrap.Modal) {
-                    var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-                    modal.hide();
-                } else if (window.jQuery && $.fn.modal) {
-                    // Fallback si por alguna razón hay Bootstrap 4
-                    $(modalEl).modal('hide');
-                }
+                    // cierra el modal y postea (con chequeo seguro de Bootstrap)
+                    var modalEl = document.getElementById('mdlServicios');
+                    if (modalEl) {
+                        if (window.bootstrap && bootstrap.Modal) {
+                            var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                            modal.hide();
+                        } else if (window.jQuery && $.fn.modal) {
+                            // Fallback si por alguna razón hay Bootstrap 4
+                            $(modalEl).modal('hide');
+                        }
+                    }
+                    document.getElementById('<%= btnMesaAmarrar.ClientID %>').click();
+                });
             }
-            document.getElementById('<%= btnMesaAmarrar.ClientID %>').click();
         });
-        }
-    });
- </script>
+    </script>
 
-  <script>
-      // === Helper global para abrir el modal de servicios ===
-      // Lo llama el code-behind (ConfirmDual -> jsDeny)
-      window.abrirModalServicios = function (nombreMesa, idMesa) {
-          // Setea título e ID de mesa
-          document.getElementById('lblMesaSeleccionada').textContent = nombreMesa || '';
-          document.getElementById('<%= hfMesaId.ClientID %>').value = idMesa || '';
+    <script>
+        // === Helper global para abrir el modal de servicios ===
+        // Lo llama el code-behind (ConfirmDual -> jsDeny)
+        window.abrirModalServicios = function (nombreMesa, idMesa) {
+            // Setea título e ID de mesa
+            document.getElementById('lblMesaSeleccionada').textContent = nombreMesa || '';
+            document.getElementById('<%= hfMesaId.ClientID %>').value = idMesa || '';
 
-      // Apertura robusta (Bootstrap 5 + fallback Bootstrap 4)
-      var el = document.getElementById('mdlServicios');
-      if (!el) { console.warn('#mdlServicios no existe'); return; }
+            // Apertura robusta (Bootstrap 5 + fallback Bootstrap 4)
+            var el = document.getElementById('mdlServicios');
+            if (!el) { console.warn('#mdlServicios no existe'); return; }
 
-      if (window.bootstrap && bootstrap.Modal) {
-        var m = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
-        m.show();
-      } else if (window.jQuery && $.fn.modal) {
-        $(el).modal('show');
-      } else {
-        console.error('Bootstrap 5/4 no está cargado. Revisa Site.Master.');
-      }
-    };
-
-    // (Opcional) si usas UpdatePanel: vuelve a enlazar la lista tras partial postback
-    if (window.Sys && Sys.Application) {
-      Sys.Application.add_load(function () {
-        var contenedor = document.getElementById('listaServicios');
-        if (!contenedor || contenedor._wired) return;
-        contenedor._wired = true;
-        contenedor.addEventListener('click', function (ev) {
-          var btn = ev.target.closest('.servicio-item');
-          if (!btn) return;
-
-          var idServicio = btn.getAttribute('data-id');
-          document.getElementById('<%= hfServicioId.ClientID %>').value = idServicio;
-
-          var modalEl = document.getElementById('mdlServicios');
-          if (modalEl) {
             if (window.bootstrap && bootstrap.Modal) {
-              var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-              modal.hide();
+                var m = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
+                m.show();
             } else if (window.jQuery && $.fn.modal) {
-              $(modalEl).modal('hide');
+                $(el).modal('show');
+            } else {
+                console.error('Bootstrap 5/4 no está cargado. Revisa Site.Master.');
             }
-          }
-          document.getElementById('<%= btnMesaAmarrar.ClientID %>').click();
-        });
-      });
-      }
-  </script>
+        };
 
+        // (Opcional) si usas UpdatePanel: vuelve a enlazar la lista tras partial postback
+        if (window.Sys && Sys.Application) {
+            Sys.Application.add_load(function () {
+                var contenedor = document.getElementById('listaServicios');
+                if (!contenedor || contenedor._wired) return;
+                contenedor._wired = true;
+                contenedor.addEventListener('click', function (ev) {
+                    var btn = ev.target.closest('.servicio-item');
+                    if (!btn) return;
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Maneja todos los botones + y - del listado
-        document.querySelectorAll('.producto-item').forEach(item => {
-            const minus = item.querySelector('.minus');
-            const plus = item.querySelector('.plus');
-            const input = item.querySelector('.qty-input');
+                    var idServicio = btn.getAttribute('data-id');
+                    document.getElementById('<%= hfServicioId.ClientID %>').value = idServicio;
 
-            minus.addEventListener('click', () => {
-                let val = parseInt(input.value) || 0;
-                if (val > 0) input.value = val - 1;
+                    var modalEl = document.getElementById('mdlServicios');
+                    if (modalEl) {
+                        if (window.bootstrap && bootstrap.Modal) {
+                            var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                            modal.hide();
+                        } else if (window.jQuery && $.fn.modal) {
+                            $(modalEl).modal('hide');
+                        }
+                    }
+                    document.getElementById('<%= btnMesaAmarrar.ClientID %>').click();
+                });
             });
+        }
+    </script>
 
-            plus.addEventListener('click', () => {
-                let val = parseInt(input.value) || 0;
-                input.value = val + 1;
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Maneja todos los botones + y - del listado
+            document.querySelectorAll('.producto-item').forEach(item => {
+                const minus = item.querySelector('.minus');
+                const plus = item.querySelector('.plus');
+                const input = item.querySelector('.qty-input');
+
+                minus.addEventListener('click', () => {
+                    let val = parseInt(input.value) || 0;
+                    if (val > 0) input.value = val - 1;
+                });
+
+                plus.addEventListener('click', () => {
+                    let val = parseInt(input.value) || 0;
+                    input.value = val + 1;
+                });
             });
         });
-    });
-</script>
+    </script>
 
 
 </asp:Content>
