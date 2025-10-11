@@ -1,9 +1,11 @@
 ﻿using DAL.Controler;
+using DAL.Funciones;
 using DAL.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -19,9 +21,56 @@ namespace WebApplication
         {
             if (!IsPostBack)
             {
+                int IdVenta = 0;
                 var vendedor = JsonConvert.DeserializeObject<Vendedor>(Session["Vendedor"].ToString());
-                V_Cuentas cuentas= new V_Cuentas();
+                List<V_Cuentas> cuentas= new List<V_Cuentas>();
+                cuentas = V_CuentasControler.Lista_IdVendedor(vendedor.id);
+                if (cuentas.Count==0)
+                {
+                    //en esta parte creamos una nueva cuenta para el vendedor
+                    IdVenta = TablaVentas_f.NuevaVenta();
+                    if(IdVenta > 0)
+                    {
+                        //ahora relacionamos el id del vendedor con el id de la venta
+                        if(!R_VentaVendedor_f.Relacionar_Vendedor_Venta(IdVenta, vendedor.id))
+                        {
+                            AlertModerno.Error(this, "¡Error!", "No fue posible crear la relación del vendedor con la venta.", true);
+                        }
+                    }
+                    else
+                    {
+                        AlertModerno.Error(this,"¡Error!","No fue posible crear una nueva cuenta.",true);
+                    }
+                    //ahora si cargamos las cuentas
+                    cuentas = new List<V_Cuentas>();
+                    cuentas = V_CuentasControler.Lista_IdVendedor(vendedor.id);
+                }
+                else
+                {
+                    IdVenta = cuentas.FirstOrDefault().id;
+                }
+                var zonas = ZonasControler.Lista();
+                int idzonaactiva= zonas.FirstOrDefault().id;
+                var categorias = V_CategoriaControler.lista();
+                int idcate= categorias.FirstOrDefault().id;
+                Session["zonaactiva"] = idzonaactiva;
+                Models = new MenuViewModels
+                {
+                    IdCuentaActiva = IdVenta,
+                    IdZonaActiva = idzonaactiva,
+                    IdMesaActiva = 0,
+                    IdCategoriaActiva = idcate,
+                    cuentas = cuentas,
+                    zonas = zonas,
+                    Mesas = MesasControler.Lista(idzonaactiva),
+                    categorias = categorias,
+                    productos = v_productoVentaControler.Lista_IdCategoria(idcate),
+                    venta = V_TablaVentasControler.Consultar_Id(IdVenta),
+                    detalleCaja=V_DetalleCajaControler.Lista_IdVenta(IdVenta),
+                };
                 
+                Session["Models"]= Models;
+                DataBind();
             }
         }
 
@@ -29,18 +78,17 @@ namespace WebApplication
         {
             if (e.CommandName == "AbrirServicio")
             {
-                var idStr = Convert.ToString(e.CommandArgument);
-                // TODO: valida/convierte a int si aplica
-                // int id = int.Parse(idStr);
+                int idStr = Convert.ToInt32(e.CommandArgument);
 
-                // Aquí haces tu lógica (cargar servicio, marcar activo, etc.)
-                // Ejemplo: CargarServicio(id);
+                Models = new MenuViewModels();
+                Models = Session["Models"] as MenuViewModels;
 
-                // Si prefieres ir a otra página:
-                // Response.Redirect($"~/OtraPagina.aspx?servicioId={Server.UrlEncode(idStr)}", false);
-                // Context.ApplicationInstance.CompleteRequest();
+                Models.IdCuentaActiva = idStr;
+                Session["Models"] = Models;
 
                 AlertModerno.Success(this,"ok",$"servicio seleccionado {idStr}",true);
+
+                DataBind();
             }
         }
 
@@ -54,5 +102,165 @@ namespace WebApplication
             var btn = (System.Web.UI.HtmlControls.HtmlButton)sender;
             AlertModerno.Success(this, "ok", $"boton seleccionado {btn.ID}", true);
         }
+
+        protected void rpZonas_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "CambiarZona")
+            {
+                int idZona = Convert.ToInt32(e.CommandArgument);
+                Session["zonaactiva"]=idZona;
+                Models = new MenuViewModels();
+                Models = Session["Models"] as MenuViewModels;
+                Models.IdZonaActiva = idZona;
+                Models.Mesas = MesasControler.Lista(idZona);
+                Session["Models"]= Models;
+                DataBind();
+            }
+        }
+
+        protected void rpMesas_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            Models = new MenuViewModels();
+            Models = Session["Models"] as MenuViewModels;
+
+            if (e.CommandName == "AbrirMesa")
+            {
+                int idMesa = Convert.ToInt32(e.CommandArgument);
+                var mesa = MesasControler.Consultar_id(idMesa);
+                if (mesa != null)
+                {
+                    //ahora consultamos si esta mesa esta en una de las cuentas activa
+                    var cuentas = V_CuentasControler.Lista_Mesa(mesa.nombreMesa);
+                    if (cuentas.Count!=0)
+                    {
+                        //cargamos los datos de la mesa
+                        Models = new MenuViewModels();
+                        Models = Session["Models"] as MenuViewModels;
+                        Models.IdCuentaActiva = cuentas.FirstOrDefault().id;
+                        Models.IdMesaActiva = idMesa;
+                        Models.Mesas = MesasControler.Lista(Models.IdZonaActiva);
+                        Session["Models"] = Models;
+                        DataBind();
+                    }
+                    else
+                    {
+                        // Construimos los callbacks: hacer “click” en los botones ocultos
+                        string jsConfirm = $"document.getElementById('{btnMesaNuevaCuenta.ClientID}').click();";
+
+                        // AHORA: abrir modal (sin postback), seteando mesa y título
+                        string jsDeny = $@"
+abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreMesa ?? $"MESA {idMesa}")}', '{idMesa}');
+";
+                        // ==================== / FIN CAMBIO ÚNICO ============================
+
+                        AlertModerno.ConfirmDual(
+                            this,
+                            $"Mesa - {mesa.nombreMesa}",
+                            "¿Qué deseas hacer con esta mesa?",
+                            jsConfirm,
+                            jsDeny,
+                            textoConfirm: "Nuevo servicio",
+                            textoDeny: "Amarrar a existente",
+                            textoCancel: "Cancelar"
+                        );
+                        //enviamos la pregunta
+
+                        Models.IdMesaActiva = idMesa;
+                        Models.Mesas = MesasControler.Lista(Models.IdZonaActiva);
+                        Session["Models"] = Models;
+                        DataBind();
+                    }
+                }
+
+
+            }
+        }
+        protected void MesaNuevaCuenta(object sender, EventArgs e)
+        {
+            Models = new MenuViewModels();
+            Models = Session["Models"] as MenuViewModels;
+
+            var mesa = MesasControler.Consultar_id(Models.IdMesaActiva);
+            if (mesa != null)
+            {
+                //creamos la nueva venta
+                int idVenta = TablaVentas_f.NuevaVenta();
+               
+                if (idVenta > 0)
+                {
+                    Models.IdCuentaActiva = idVenta;
+                    //amaramos la venta con la mesa
+                    var rvm = R_VentaMesa_f.Relacionar_Venta_Mesa(idVenta, Models.IdMesaActiva);
+                    if (rvm)
+                    {
+                        //cambiamos el estado de la mesa
+                        mesa.estadoMesa = 1;
+                        bool resp = MesasControler.CRUD(mesa,1);
+                        //amarramos al venta con el vendedor
+                        var rvv = R_VentaVendedor_f.Relacionar_Vendedor_Venta(idVenta, Convert.ToInt32(Session["idvendedor"]));
+                        if (rvv)
+                        {
+                            AlertModerno.Success(this, "Listo", $"Servicio #{idVenta} creado para la mesa {mesa.nombreMesa}", true, 2000);
+                        }
+                        else
+                        {
+                            AlertModerno.Error(this, "Error", $"Servicio #{idVenta} creado con exíto. pero no se amarro la mesa {mesa.nombreMesa}", true, 2000);
+                        }
+                    }
+                    else
+                    {
+                        AlertModerno.Error(this, "Error", $"Servicio #{idVenta} creado con exíto. pero no se amarro la mesa {mesa.nombreMesa}", true, 2000);
+                    }
+                }
+                else
+                {
+                    AlertModerno.Error(this, "Error", $"No se creo el servicio", true, 2000);
+                }
+            }
+            else
+            {
+                AlertModerno.Error(this, "Error", $"No se encontro la mesa.", true, 2000);
+            }
+            Models.Mesas = MesasControler.Lista(Models.IdZonaActiva);
+            Models.cuentas = V_CuentasControler.Lista_IdVendedor(Convert.ToInt32(Session["idvendedor"]));
+            Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+            DataBind();
+        }
+
+        protected void MesaAmarar(object sender, EventArgs e)
+        {
+            int idMesa = int.Parse(hfMesaId.Value);
+            int idServicio = int.Parse(hfServicioId.Value);
+
+            Models = new MenuViewModels();
+            Models = Session["Models"] as MenuViewModels;
+
+            var mesa = MesasControler.Consultar_id(idMesa);
+            mesa.estadoMesa = 1;
+            bool respCrud = MesasControler.CRUD(mesa,1);
+
+            bool resp = R_VentaMesa_f.Relacionar_Venta_Mesa(idServicio, idMesa);
+            if (resp)
+            {
+                AlertModerno.Success(this, "Amarrada",
+    $"Mesa {mesa.nombreMesa} amarrada al servicio #{idServicio}.", true, 1200);
+            }
+            else
+            {
+                AlertModerno.Error(this, "Error",
+    $"Mesa {mesa.nombreMesa} no fue amarrada al servicio #{idServicio}.", true, 1200);
+            }
+
+            Models.IdCuentaActiva = idServicio;
+            Models.IdMesaActiva = idMesa;
+            Models.cuentas = V_CuentasControler.Lista_IdVendedor(Convert.ToInt32(Session["idvendedor"]));
+            Models.Mesas = MesasControler.Lista(Models.IdZonaActiva);
+            Models.venta = V_TablaVentasControler.Consultar_Id(idServicio);
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idServicio);
+            DataBind();
+        }
+
+
     }
 }

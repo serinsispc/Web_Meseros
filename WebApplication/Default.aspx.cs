@@ -35,6 +35,7 @@ namespace WebApplication
                 vendedor = VendedorControler.Consultar_usuario_clave(usuario,clave);
                 if (vendedor != null)
                 {
+                    Session["idvendedor"] = vendedor.id;
                     Session["vendedor"]=JsonConvert.SerializeObject(vendedor);
                     AlertModerno.SuccessGoTo(this, "Ok", $"Bienvenido {vendedor.nombreVendedor}", "~/menu.aspx", esToast: false, ms: 1200);
                 }

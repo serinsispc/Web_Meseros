@@ -280,3 +280,72 @@
         color: #fd7e14;
         font-size: .9rem;
     }
+
+
+
+
+.mesa-card {
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid #e6ebf1;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+}
+
+    .mesa-card.libre {
+        border-color: #d3f9d8;
+        background: #f4fff5;
+    }
+
+    .mesa-card.ocupada {
+        border-color: #ffc5c5;
+        background: #ffe5e5;
+    }
+/* rojo suave */
+.mesa-titulo {
+    font-weight: 700;
+}
+
+.mesa-sub {
+    color: #6c757d;
+    font-size: .9rem;
+}
+
+
+
+.mesa-card {
+    text-decoration: none !important;
+    color: inherit;
+    display: block;
+}
+
+    .mesa-card * {
+        text-decoration: none !important;
+        color: inherit;
+    }
+
+
+
+
+.service-chip {
+    display: block;
+    background-color: #f3f3f3;
+    border: 1px solid #ccc;
+    color: #333;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: left;
+    margin-bottom: 5px;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+    .service-chip:hover {
+        background-color: #eaeaea;
+    }
+
+    .service-chip.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #0069d9;
+    }

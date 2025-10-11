@@ -58,6 +58,42 @@ Swal.fire({{
             Register(page, script);
         }
 
+
+
+        public static void ConfirmDual(
+    Page page,
+    string titulo,
+    string mensaje,
+    string jsOnConfirm,           // JS a ejecutar si elige confirmar
+    string jsOnDeny,              // JS a ejecutar si elige “negar”
+    string textoConfirm = "Nuevo servicio",
+    string textoDeny = "Amarrar a existente",
+    string textoCancel = "Cancelar",
+    string icono = "question",
+    string posicion = "center")
+        {
+            string script = $@"
+Swal.fire({{
+  title: '{Escape(titulo)}',
+  text: '{Escape(mensaje)}',
+  icon: '{Escape(icono)}',
+  position: '{Escape(posicion)}',
+  showCancelButton: true,
+  showDenyButton: true,
+  confirmButtonText: '{Escape(textoConfirm)}',
+  denyButtonText: '{Escape(textoDeny)}',
+  cancelButtonText: '{Escape(textoCancel)}'
+}}).then(function(r) {{
+  if (r.isConfirmed) {{
+    {jsOnConfirm}
+  }} else if (r.isDenied) {{
+    {jsOnDeny}
+  }}
+}});";
+            ScriptManager.RegisterStartupScript(page, page.GetType(), Guid.NewGuid().ToString("N"), script, true);
+        }
+
+
         // =====================================================
         // ALERTA + REDIRECCIÓN
         // =====================================================

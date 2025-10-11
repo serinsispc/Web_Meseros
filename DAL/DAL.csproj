@@ -55,9 +55,22 @@
   <ItemGroup>
     <Compile Include="ClassConexionDinamica.cs" />
     <Compile Include="Controler\ImagenesControler.cs" />
+    <Compile Include="Controler\MesasControler.cs" />
+    <Compile Include="Controler\R_VentaMesaControler.cs" />
+    <Compile Include="Controler\R_VentaVendedorControler.cs" />
     <Compile Include="Controler\SedeControler.cs" />
     <Compile Include="Controler\VendedorControler.cs" />
+    <Compile Include="Controler\V_CategoriaControler.cs" />
+    <Compile Include="Controler\V_CuentasControler.cs" />
+    <Compile Include="Controler\V_DetalleCajaControler.cs" />
+    <Compile Include="Controler\v_productoVentaControler.cs" />
     <Compile Include="Controler\V_ServicioMesaControler.cs" />
+    <Compile Include="Controler\V_TablaVentasControler.cs" />
+    <Compile Include="Controler\ZonasControler.cs" />
+    <Compile Include="Funciones\Mesas_f.cs" />
+    <Compile Include="Funciones\R_VentaMesa_f.cs" />
+    <Compile Include="Funciones\R_VentaVendedor_f.cs" />
+    <Compile Include="Funciones\TablaVentas_f.cs" />
     <Compile Include="Model\Actualizar_EstadoPreCuenta_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
