@@ -3,6 +3,57 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
+        <style>
+        /* Contenedor flotante */
+        .scroll-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 9999;
+        }
+
+        /* Estilo de cada botón */
+        .scroll-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .scroll-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+    </style>
+
+    <script>
+        // Función para subir al inicio
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Función para bajar al final
+        function scrollToBottom() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
+
     <%-- primero validamos el porcentaje de la propina --%>
     <%
         int porpropina = 0;
@@ -30,6 +81,17 @@
         DataBind();
     %>
 
+
+            <asp:LinkButton runat="server" CssClass="btn btn-danger btn-top-right m-2" ID="btnSalir" OnClick="btnSalir_Click">
+          <i class="bi bi-box-arrow-right"></i> Salir
+      </asp:LinkButton>
+
+            <%-- Botones flotantes --%>
+            <div class="scroll-buttons">
+                <button type="button" class="scroll-btn" onclick="scrollToTop()">▲</button>
+                <button type="button" class="scroll-btn" onclick="scrollToBottom()">▼</button>
+            </div>
+      
 
     <asp:HiddenField ID="hfMesaId" runat="server" />
     <asp:HiddenField ID="hfServicioId" runat="server" />
@@ -138,7 +200,7 @@
         <!-- ====== 3 columnas ====== -->
         <div class="row g-3">
             <!-- === Columna 1: Zonas / Mesas === -->
-            <div class="col-12 col-lg-4 col-xl-3">
+            <div class="col-12 col-lg-6 col-xl-4">
                 <div class="card h-100">
                     <div class="card-body">
                         <!-- tabs de zona -->
@@ -182,7 +244,7 @@
                                 DataSource="<%# Models.Mesas %>"
                                 OnItemCommand="rpMesas_ItemCommand">
                                 <ItemTemplate>
-                                    <div class="col-6">
+                                    <div class="col-2 col-lg-6 col-xl-4" style="min-width:100px; max-width:110px">
                                         <asp:LinkButton ID="lnkMesa" runat="server"
                                             data-name='<%# Eval("nombreMesa") %>'
                                             CommandName="AbrirMesa"
@@ -208,7 +270,7 @@
             </div>
 
             <!-- === Columna 2: Productos === -->
-            <div class="col-12 col-lg-8 col-xl-5">
+            <div class="col-12 col-lg-6 col-xl-4">
                 <div class="card h-100">
                     <div class="card-body">
                         <!-- Buscador -->
@@ -231,7 +293,8 @@
                                     data-id="<%= cat.id %>">
                                     <%= cat.nombreCategoria %>
                                 </a>
-                                <% }%>
+                                <% }
+                                %>
                             </div>
 
 
@@ -304,7 +367,7 @@
                                 <i class="bi bi-plus-lg me-1"></i>Nueva cuenta
                             </button>
                             <div class="flex-grow-1">
-<asp:LinkButton ID="btnCuentaGeneral" runat="server" CssClass="text-decoration-none w-100" OnClick="btnCuentaGeneral_Click">
+                                <asp:LinkButton ID="btnCuentaGeneral" runat="server" CssClass="text-decoration-none w-100" OnClick="btnCuentaGeneral_Click">
     <div class="input-group input-group-sm bg-white border rounded">
         <span class="input-group-text bg-white"><i class="bi bi-person-badge"></i></span>
         <span class="form-control border-0 bg-white">Cuenta General</span>
@@ -312,7 +375,7 @@
             <%# "$" + string.Format("{0:N0}", Models.venta.total_A_Pagar ) %>
         </span>
     </div>
-</asp:LinkButton>
+                                </asp:LinkButton>
                             </div>
                         </div>
 
@@ -336,25 +399,23 @@
                                         <!-- Fila 1: Cantidad + carrito -->
                                         <div class="d-flex justify-content-start align-items-center gap-2 flex-wrap mb-2">
                                             <div class="quantity-group btn-group btn-group-sm" role="group" aria-label="Cantidad">
-                                                <button type="button" class="btn btn-light btn-qty btn-square btn-decrease" data-id='<%# Eval("id") %>'>
+                                                <button type="button" class="btn btn-light btn-qty btn-square btn-decrease">
                                                     <i class="bi bi-dash"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-light btn-qty disabled">
                                                     <%# Convert.ToInt32(Eval("unidad")) %>
                                                 </button>
-                                                <button type="button" class="btn btn-light btn-qty btn-square btn-increase" data-id='<%# Eval("id") %>'>
+                                                <button type="button" class="btn btn-light btn-qty btn-square btn-increase">
                                                     <i class="bi bi-plus"></i>
                                                 </button>
                                             </div>
 
-                                            <button type="button" class="icon-btn cart-btn ms-auto" title="Agregar al carrito" data-id='<%# Eval("id") %>'>
-                                                <i class="bi bi-cart"></i>
-                                            </button>
+                                            <button type="button" class="icon-btn cart-btn ms-auto" title="Guardar" data-id='<%# Eval("id") %>'><i class="bi bi-floppy"></i></button>
                                         </div>
 
                                         <!-- Fila 2: Iconos de acción -->
                                         <div class="d-flex flex-wrap gap-2 mb-2">
-                                            <button type="button" class="icon-btn" title="Guardar" data-id='<%# Eval("id") %>'><i class="bi bi-floppy"></i></button>
+
                                             <button type="button" class="icon-btn" title="Comentario" data-id='<%# Eval("id") %>'><i class="bi bi-chat"></i></button>
                                             <button type="button" class="icon-btn" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-link-45deg"></i></button>
                                             <button type="button" class="icon-btn danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
@@ -405,19 +466,19 @@
 
                         <!-- acciones grandes -->
                         <div class="row g-3">
-                            <div class="col-12 col-md-4">
-                                <button class="cta cta-orange w-100">
+                            <div class="col-12 col-md-4" >
+                                <button class="cta cta-orange w-100" style="min-height:80px; max-height:80px; height:80px;">
                                     <i class="bi bi-send me-2"></i>Comandar
                                 </button>
                             </div>
                             <div class="col-12 col-md-4">
-                                <button class="cta cta-purple w-100">
+                                <button class="cta cta-purple w-100" style="min-height:80px; max-height:80px; height:80px;">
                                     <i class="bi bi-chat-left-text me-2"></i>Solicitar<br />
                                     Cuenta
                                 </button>
                             </div>
                             <div class="col-12 col-md-4">
-                                <button class="cta cta-green w-100">
+                                <button class="cta cta-green w-100" style="min-height:80px; max-height:80px; height:80px;">
                                     <i class="bi bi-cash-coin me-2"></i>Cobrar
                                 </button>
                             </div>

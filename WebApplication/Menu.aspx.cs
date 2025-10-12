@@ -19,6 +19,26 @@ namespace WebApplication
 {
     public partial class Menu : Page
     {
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            if (Session["salir"] != null)
+            {
+                // Revisar la sesión lo antes posible
+                if (Session == null || Session["Usuario"] == null) // reemplaza "Usuario" por la clave que uses
+                {
+                    // Si necesitas pasar el db por query string y existe en Session antes de limpiar:
+                    string db = Convert.ToString(Session?["db"]);
+
+                    Session.Clear();
+
+                    // Redirigir directamente al Default.aspx con el parámetro db
+                    Response.Redirect(ResolveUrl($"~/Default.aspx?db={Server.UrlEncode(db)}"), false);
+                    Context.ApplicationInstance.CompleteRequest();
+                    return;
+                }
+            }
+        }
+
         public MenuViewModels Models { get; private set; }
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -392,6 +412,23 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
             }
             Session["Models"] = Models;
             DataBind();
+        }
+
+        protected void btnSalir_Click(object sender, EventArgs e)
+        {
+            Models = new MenuViewModels();
+            Models = Session["Models"] as MenuViewModels;
+            // Usar ListaProductos según lo indicaste
+            if (Models != null && Models.productos != null)
+            {
+                rpProductos.DataSource = Models.productos;
+                rpProductos.DataBind();
+            }
+            Session["Models"] = Models;
+
+            Session["salir"] = "salir";
+            DataBind();
+            RepeatDirection("Default.aspx");
         }
     }
 }

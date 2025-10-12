@@ -147,6 +147,7 @@
 </head>
 <body>
   <form runat="server">
+      
     <asp:ScriptManager runat="server" />
     <div class="page-wrapper">
       <asp:ContentPlaceHolder ID="MainContent" runat="server" />

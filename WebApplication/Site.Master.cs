@@ -15,6 +15,26 @@ namespace WebApplication
 {
     public partial class SiteMaster : MasterPage
     {
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            if (Session["salir"] != null)
+            {
+                // Revisar la sesión lo antes posible
+                if (Session == null || Session["Usuario"] == null) // reemplaza "Usuario" por la clave que uses
+                {
+                    // Si necesitas pasar el db por query string y existe en Session antes de limpiar:
+                    string db = Convert.ToString(Session?["db"]);
+
+                    Session.Clear();
+
+                    // Redirigir directamente al Default.aspx con el parámetro db
+                    Response.Redirect(ResolveUrl($"~/Default.aspx?db={Server.UrlEncode(db)}"), false);
+                    Context.ApplicationInstance.CompleteRequest();
+                    return;
+                }
+            }
+        }
+
         // Regex simple: letras, números y guiones bajos (ajústalo si lo necesitas)
         private static readonly Regex DbNameRegex = new Regex(@"^[A-Za-z0-9_]+$",
             RegexOptions.Compiled | RegexOptions.CultureInvariant);
