@@ -158,6 +158,8 @@
     <div class="page-wrapper">
       <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     </div>
+
+
   </form>
 
   <!-- ================== CAMBIO IMPORTANTE AQUÍ ==================

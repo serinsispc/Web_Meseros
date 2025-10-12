@@ -4,6 +4,7 @@ namespace DAL
 {
     public static class ClassConexionDinamica
     {
+        public static string db {  get; set; }
         public static string DBDinamica { get; private set; }
 
         public static void Conectar(string servidor, string dbBase)

@@ -715,6 +715,52 @@
     </script>
 
 
+<!-- Modal de alerta de sesión -->
+<div class="modal fade" id="sessionModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-warning">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title">Sesión a punto de expirar</h5>
+      </div>
+      <div class="modal-body">
+        Tu sesión ha expirado o está por expirar. Serás redirigido automáticamente.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnGoDefault">Ir Ahora</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    // Tiempo de sesión en milisegundos
+    var sessionTimeoutMinutes = <%= Session.Timeout %>;
+    var sessionTimeoutMs = sessionTimeoutMinutes * 60 * 1000;
+
+    // Obtenemos el valor de Session["db"] desde el servidor
+    var nombreDB = '<%= Session["db"] != null ? Session["db"].ToString() : "" %>';
+
+    // Mostrar modal al expirar la sesión
+    setTimeout(function () {
+        var sessionModal = new bootstrap.Modal(document.getElementById('sessionModal'), {
+            backdrop: 'static',
+            keyboard: false
+        });
+        sessionModal.show();
+
+        // Redirigir automáticamente después de 5 segundos
+        setTimeout(function () {
+            window.location.href = 'Default.aspx?db=' + encodeURIComponent(nombreDB);
+        }, 5000);
+    }, sessionTimeoutMs);
+
+    // Botón para ir inmediatamente a Default.aspx
+    document.getElementById('btnGoDefault').addEventListener('click', function () {
+        window.location.href = 'Default.aspx?db=' + encodeURIComponent(nombreDB);
+    });
+</script>
+
+
 </asp:Content>
 
 
