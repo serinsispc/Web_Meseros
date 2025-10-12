@@ -82,9 +82,6 @@
     %>
 
 
-            <asp:LinkButton runat="server" CssClass="btn btn-danger btn-top-right m-2" ID="btnSalir" OnClick="btnSalir_Click">
-          <i class="bi bi-box-arrow-right"></i> Salir
-      </asp:LinkButton>
 
             <%-- Botones flotantes --%>
             <div class="scroll-buttons">
