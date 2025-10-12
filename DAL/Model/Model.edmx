@@ -1571,6 +1571,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.DocumentoSoporte' no
           <Property Name="idFormaDePago" Type="int" />
           <Property Name="razonDescuento" Type="varchar(max)" />
           <Property Name="idBaseCaja" Type="int" />
+          <Property Name="por_propina" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="TablaYear">
           <Key>
@@ -2303,7 +2304,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_Cuentas' no tiene 
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="idVenta" Type="int" Nullable="false" />
           <Property Name="idUsuario" Type="int" Nullable="false" />
-          <Property Name="mesa" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="mesa" Type="varchar" MaxLength="8000" Nullable="false" />
           <Property Name="idVendedor" Type="int" Nullable="false" />
           <Property Name="estado" Type="int" Nullable="false" />
         </EntityType>
@@ -2370,7 +2371,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_CuentasVenta' no t
             <PropertyRef Name="idZona" />
             <PropertyRef Name="nombremesa" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" />
           <Property Name="efectivoVenta" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="numeroVenta" Type="int" Nullable="false" />
           <Property Name="total" Type="decimal" Precision="38" Scale="2" Nullable="false" />
@@ -2385,9 +2386,9 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_CuentasVenta' no t
           <Property Name="placa" Type="varchar" MaxLength="6" Nullable="false" />
           <Property Name="responsable" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="telefonoResponsable" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="idmesa" Type="int" Nullable="false" />
-          <Property Name="idZona" Type="int" Nullable="false" />
-          <Property Name="nombremesa" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="idmesa" Type="varchar" MaxLength="8000" Nullable="false" />
+          <Property Name="idZona" Type="varchar" MaxLength="8000" Nullable="false" />
+          <Property Name="nombremesa" Type="varchar" MaxLength="8000" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_descuantoDetalleCompra' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -3502,6 +3503,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_TablaVentas' no ti
           <Property Name="imagenQR" Type="nvarchar(max)" Nullable="false" />
           <Property Name="idBaseCaja" Type="int" />
           <Property Name="razonDescuento" Type="varchar(max)" />
+          <Property Name="por_propina" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_TipoGasto' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -7929,7 +7931,8 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
     [V_TablaVentas].[estadoFE] AS [estadoFE], 
     [V_TablaVentas].[imagenQR] AS [imagenQR], 
     [V_TablaVentas].[idBaseCaja] AS [idBaseCaja], 
-    [V_TablaVentas].[razonDescuento] AS [razonDescuento]
+    [V_TablaVentas].[razonDescuento] AS [razonDescuento], 
+    [V_TablaVentas].[por_propina] AS [por_propina]
     FROM [dbo].[V_TablaVentas] AS [V_TablaVentas]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_TipoGasto" EntityType="Self.V_TipoGasto" store:Type="Views" store:Schema="dbo">
@@ -10306,6 +10309,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Name="idFormaDePago" Type="Int32" />
           <Property Name="razonDescuento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="idBaseCaja" Type="Int32" />
+          <Property Name="por_propina" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="CargoDescuentoVentas" Relationship="Self.FK__CargoDesc__idVen__307231BB" FromRole="TablaVentas" ToRole="CargoDescuentoVentas" />
           <NavigationProperty Name="DetalleVenta" Relationship="Self.FK__DetalleVe__idVen__73501C2F" FromRole="TablaVentas" ToRole="DetalleVenta" />
           <NavigationProperty Name="DetalleVenta1" Relationship="Self.FK__DetalleVe__idVen__74444068" FromRole="TablaVentas" ToRole="DetalleVenta" />
@@ -11076,7 +11080,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="idVenta" Type="Int32" Nullable="false" />
           <Property Name="idUsuario" Type="Int32" Nullable="false" />
-          <Property Name="mesa" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="mesa" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="idVendedor" Type="Int32" Nullable="false" />
           <Property Name="estado" Type="Int32" Nullable="false" />
         </EntityType>
@@ -11137,7 +11141,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <PropertyRef Name="idZona" />
             <PropertyRef Name="nombremesa" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="efectivoVenta" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="numeroVenta" Type="Int32" Nullable="false" />
           <Property Name="total" Type="Decimal" Precision="38" Scale="2" Nullable="false" />
@@ -11152,9 +11156,9 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Name="placa" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="responsable" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="telefonoResponsable" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="idmesa" Type="Int32" Nullable="false" />
-          <Property Name="idZona" Type="Int32" Nullable="false" />
-          <Property Name="nombremesa" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idmesa" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idZona" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombremesa" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="V_descuantoDetalleCompra">
           <Key>
@@ -12181,6 +12185,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Name="imagenQR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="idBaseCaja" Type="Int32" />
           <Property Name="razonDescuento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="por_propina" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="V_TipoGasto">
           <Key>
@@ -20173,6 +20178,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
                 <ScalarProperty Name="idFormaDePago" ColumnName="idFormaDePago" />
                 <ScalarProperty Name="razonDescuento" ColumnName="razonDescuento" />
                 <ScalarProperty Name="idBaseCaja" ColumnName="idBaseCaja" />
+                <ScalarProperty Name="por_propina" ColumnName="por_propina" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -21661,6 +21667,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
                 <ScalarProperty Name="imagenQR" ColumnName="imagenQR" />
                 <ScalarProperty Name="idBaseCaja" ColumnName="idBaseCaja" />
                 <ScalarProperty Name="razonDescuento" ColumnName="razonDescuento" />
+                <ScalarProperty Name="por_propina" ColumnName="por_propina" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

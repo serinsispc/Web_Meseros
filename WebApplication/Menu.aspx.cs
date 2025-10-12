@@ -93,6 +93,9 @@ namespace WebApplication
                 Models = new MenuViewModels();
                 Models = Session["Models"] as MenuViewModels;
 
+                Models.venta = V_TablaVentasControler.Consultar_Id(idStr);
+                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idStr);
+
                 Models.IdCuentaActiva = idStr;
                 Session["Models"] = Models;
 
@@ -377,5 +380,18 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
             }
         }
 
+        protected void btnCuentaGeneral_Click(object sender, EventArgs e)
+        {
+            Models = new MenuViewModels();
+            Models = Session["Models"] as MenuViewModels;
+            // Usar ListaProductos según lo indicaste
+            if (Models != null && Models.productos != null)
+            {
+                rpProductos.DataSource = Models.productos;
+                rpProductos.DataBind();
+            }
+            Session["Models"] = Models;
+            DataBind();
+        }
     }
 }

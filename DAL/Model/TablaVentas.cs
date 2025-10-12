@@ -60,6 +60,7 @@ namespace DAL.Model
         public Nullable<int> idFormaDePago { get; set; }
         public string razonDescuento { get; set; }
         public Nullable<int> idBaseCaja { get; set; }
+        public Nullable<decimal> por_propina { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CargoDescuentoVentas> CargoDescuentoVentas { get; set; }

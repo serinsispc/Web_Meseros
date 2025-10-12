@@ -3,6 +3,34 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
+    <%-- primero validamos el porcentaje de la propina --%>
+    <%
+        int porpropina = 0;
+        int valorpropina = 0;
+        int totalapagar = Convert.ToInt32(Models.venta.totalVenta);
+        if (Models.venta.por_propina > 0)
+        {
+            var pp = Models.venta.por_propina;
+            var pp2 = pp * 100;
+            porpropina = Convert.ToInt32(pp2);
+        }
+        if (porpropina > 0)
+        {
+            if (Models.venta.propina == 0)
+            {
+                valorpropina = WebApplication.Class.ClassPropina.CalcularValoPropina(Models.venta.por_propina.ToString(), Models.venta.subtotalVenta.ToString());
+            }
+            else
+            {
+                valorpropina = Convert.ToInt32(Models.venta.subtotalVenta);
+            }
+        }
+        totalapagar = totalapagar + valorpropina;
+        Models.venta.total_A_Pagar = totalapagar;
+        DataBind();
+    %>
+
+
     <asp:HiddenField ID="hfMesaId" runat="server" />
     <asp:HiddenField ID="hfServicioId" runat="server" />
 
@@ -203,7 +231,7 @@
                                     data-id="<%= cat.id %>">
                                     <%= cat.nombreCategoria %>
                                 </a>
-                                <% } %>
+                                <% }%>
                             </div>
 
 
@@ -276,13 +304,15 @@
                                 <i class="bi bi-plus-lg me-1"></i>Nueva cuenta
                             </button>
                             <div class="flex-grow-1">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text bg-white"><i class="bi bi-person-badge"></i></span>
-                                    <input class="form-control" value="Cuenta General" />
-                                    <span class="input-group-text bg-white fw-semibold">
-                                        <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Models.venta.totalVenta) %>
-                                    </span>
-                                </div>
+<asp:LinkButton ID="btnCuentaGeneral" runat="server" CssClass="text-decoration-none w-100" OnClick="btnCuentaGeneral_Click">
+    <div class="input-group input-group-sm bg-white border rounded">
+        <span class="input-group-text bg-white"><i class="bi bi-person-badge"></i></span>
+        <span class="form-control border-0 bg-white">Cuenta General</span>
+        <span class="input-group-text bg-white fw-semibold">
+            <%# "$" + string.Format("{0:N0}", Models.venta.total_A_Pagar ) %>
+        </span>
+    </div>
+</asp:LinkButton>
                             </div>
                         </div>
 
@@ -350,26 +380,27 @@
                         <!-- totales -->
                         <div class="d-flex justify-content-between small mb-1">
                             <span class="text-muted">SubTotal:</span>
-                            <span>$ 100.000</span>
+                            <span><%# "$" + string.Format("{0:N0}", Models.venta.subtotalVenta) %></span>
                         </div>
                         <div class="d-flex justify-content-between small mb-2">
                             <span class="text-muted">Impuestos (8%)</span>
-                            <span>$ 0</span>
+                            <span><%# "$" + string.Format("{0:N0}", Models.venta.ivaVenta) %></span>
                         </div>
                         <div class="d-flex justify-content-between fw-semibold mb-2">
                             <span>Total 1:</span>
-                            <span>$ 100.000</span>
+                            <span><%# "$" + string.Format("{0:N0}", Models.venta.totalVenta) %></span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span>Servicio (10%)</span>
+                            <span>Servicio (<%= porpropina %>%)</span>
+
                             <div>
                                 <span class="badge bg-primary-subtle text-primary fw-semibold me-2">Editar</span>
-                                <span>$ 10.000</span>
+                                <span><%= "$" + string.Format("{0:N0}", valorpropina) %></span>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between fs-6 fw-bold mb-3">
                             <span>Total 2:</span>
-                            <span>$ 110.000</span>
+                            <span><%= "$" + string.Format("{0:N0}", totalapagar) %></span>
                         </div>
 
                         <!-- acciones grandes -->
@@ -454,10 +485,10 @@
                         setTimeout(function () {
                             // Ejecutar postback al botón oculto
                             __doPostBack('<%= btnMesaAmarrar.UniqueID %>', '');
-                }, 200);
-            } else {
-                // Fallback por si no hay Bootstrap 5
-                __doPostBack('<%= btnMesaAmarrar.UniqueID %>', '');
+                        }, 200);
+                    } else {
+                        // Fallback por si no hay Bootstrap 5
+                        __doPostBack('<%= btnMesaAmarrar.UniqueID %>', '');
                     }
                 });
             }
