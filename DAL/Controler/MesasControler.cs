@@ -28,13 +28,13 @@ namespace DAL.Controler
                 return false;
             }
         }
-        public static List<Mesas> Lista(int idzona)
+        public static List<Mesas> Lista()
         {
             try
             {
                 using (DBEntities cn = new DBEntities())
                 {
-                    return cn.Mesas.AsNoTracking().Where(x=>x.idZona==idzona).ToList();
+                    return cn.Mesas.AsNoTracking().ToList();
                 }
             }
             catch(Exception ex)

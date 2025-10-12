@@ -23,6 +23,7 @@ namespace WebApplication
         public MenuViewModels Models { get; private set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (!IsPostBack)
             {
                 int IdVenta = 0;
@@ -66,7 +67,7 @@ namespace WebApplication
                     IdCategoriaActiva = idcate,
                     cuentas = cuentas,
                     zonas = zonas,
-                    Mesas = MesasControler.Lista(idzonaactiva),
+                    Mesas = MesasControler.Lista(),
                     categorias = categorias,
                     productos = v_productoVentaControler.Lista(),
                     venta = V_TablaVentasControler.Consultar_Id(IdVenta),
@@ -83,6 +84,34 @@ namespace WebApplication
                 Session["Models"] = Models;
                 DataBind();
             }
+            else
+            {
+                string eventTarget = Request["__EVENTTARGET"];
+                string eventArgument = Request["__EVENTARGUMENT"];
+                System.Diagnostics.Debug.WriteLine("EventTarget: " + eventTarget);
+                System.Diagnostics.Debug.WriteLine("EventArgument: " + eventArgument);
+
+                if (!string.IsNullOrEmpty(eventTarget) && eventTarget == "ActualizarCantidad")
+                {
+                    string[] datos = eventArgument.Split('|');
+                    int id = int.Parse(datos[0]);
+                    int cantidad = int.Parse(datos[1]);
+
+                    System.Diagnostics.Debug.WriteLine($"Actualizar ID {id} con cantidad {cantidad}");
+
+                    ActualizarCantidadEnBaseDeDatos(id, cantidad);
+                }
+
+                if (!string.IsNullOrEmpty(eventTarget) && eventTarget == "EliminarDetalle")
+                {
+                    string[] datos = eventArgument.Split('|');
+                    int id = int.Parse(datos[0]);
+                    string nota = datos[1];
+
+                    EliminarDetalle(id, nota);
+                }
+            }
+
         }
 
         protected void rpServicios_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -130,7 +159,6 @@ namespace WebApplication
                 Models = new MenuViewModels();
                 Models = Session["Models"] as MenuViewModels;
                 Models.IdZonaActiva = idZona;
-                Models.Mesas = MesasControler.Lista(idZona);
                 if (Models != null && Models.productos != null)
                 {
                     rpProductos.DataSource = Models.productos;
@@ -161,7 +189,7 @@ namespace WebApplication
                         Models = Session["Models"] as MenuViewModels;
                         Models.IdCuentaActiva = cuentas.FirstOrDefault().id;
                         Models.IdMesaActiva = idMesa;
-                        Models.Mesas = MesasControler.Lista(Models.IdZonaActiva);
+                        Models.Mesas = MesasControler.Lista();
                         Session["Models"] = Models;
                         DataBind();
                     }
@@ -189,19 +217,21 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
                         //enviamos la pregunta
 
                         Models.IdMesaActiva = idMesa;
-                        Models.Mesas = MesasControler.Lista(Models.IdZonaActiva);
-                        if (Models != null && Models.productos != null)
-                        {
-                            rpProductos.DataSource = Models.productos;
-                            rpProductos.DataBind();
-                        }
-                        Session["Models"] = Models;
-                        DataBind();
+                        Models.Mesas = MesasControler.Lista();
+
                     }
                 }
 
 
             }
+
+            if (Models != null && Models.productos != null)
+            {
+                rpProductos.DataSource = Models.productos;
+                rpProductos.DataBind();
+            }
+            Session["Models"] = Models;
+            DataBind();
         }
         protected void MesaNuevaCuenta(object sender, EventArgs e)
         {
@@ -249,7 +279,7 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
             {
                 AlertModerno.Error(this, "Error", $"No se encontro la mesa.", true, 2000);
             }
-            Models.Mesas = MesasControler.Lista(Models.IdZonaActiva);
+            Models.Mesas = MesasControler.Lista();
             Models.cuentas = V_CuentasControler.Lista_IdVendedor(Convert.ToInt32(Session["idvendedor"]));
             Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
             Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
@@ -289,7 +319,7 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
             Models.IdCuentaActiva = idServicio;
             Models.IdMesaActiva = idMesa;
             Models.cuentas = V_CuentasControler.Lista_IdVendedor(Convert.ToInt32(Session["idvendedor"]));
-            Models.Mesas = MesasControler.Lista(Models.IdZonaActiva);
+            Models.Mesas = MesasControler.Lista();
             Models.venta = V_TablaVentasControler.Consultar_Id(idServicio);
             Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idServicio);
             if (Models != null && Models.productos != null)
@@ -300,26 +330,6 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
             Session["Models"] = Models;
             DataBind();
         }
-
-        //protected void rpCategorias_ItemCommand(object source, RepeaterCommandEventArgs e)
-        //{
-        //    if (e.CommandName == "SeleccionarCategoria")
-        //    {
-        //        int idCategoria = Convert.ToInt32(e.CommandArgument);
-
-        //        Models = new MenuViewModels();
-        //        Models = Session["Models"] as MenuViewModels;
-
-        //        // Guardamos la categoría activa
-        //        Models.IdCategoriaActiva = idCategoria;
-
-        //        // Aquí puedes llamar la acción o recargar los productos de esa categoría
-        //        Models.productos = v_productoVentaControler.Lista_IdCategoria(idCategoria);
-
-        //        DataBind();
-        //    }
-        //}
-
 
         protected void rpProductos_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
@@ -357,7 +367,7 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
                 if (resp.estado)
                 {
                     //enviamos alert ok
-                    AlertModerno.Success(this, "¡OK!", $"{resp.mensaje}", true);
+                    AlertModerno.Success(this, "¡OK!", $"{resp.mensaje}", true,800);
                 }
                 else
                 {
@@ -395,5 +405,62 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
             DataBind();
         }
 
+        private void ActualizarCantidadEnBaseDeDatos(int id, int cantidad)
+        {
+            Models = new MenuViewModels();
+            if (Session["Models"] != null)
+            {
+                Models = Session["Models"] as MenuViewModels;
+                // Usar ListaProductos según lo indicaste
+                if (Models != null && Models.productos != null)
+                {
+                    rpProductos.DataSource = Models.productos;
+                    rpProductos.DataBind();
+                }
+
+                var respdal=DetalleVenta_f.ActualizarCantidadDetalle(id, cantidad);
+                if (respdal.estado)
+                {
+                    AlertModerno.Success(this, "Ok",respdal.mensaje, true, 500);
+                }
+                else
+                {
+                    AlertModerno.Error(this, "Error", respdal.mensaje, true, 500);
+                }
+
+                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+                Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+
+                Session["Models"] = Models;
+                DataBind();
+            }
+        }
+
+        private void EliminarDetalle(int id,string nota)
+        {
+            Models = new MenuViewModels();
+            Models = Session["Models"] as MenuViewModels;
+            // Usar ListaProductos según lo indicaste
+            if (Models != null && Models.productos != null)
+            {
+                rpProductos.DataSource = Models.productos;
+                rpProductos.DataBind();
+            }
+
+            var respdal = DetalleVenta_f.Eliminar(id, nota);
+            if (respdal.estado)
+            {
+                AlertModerno.Success(this, "Ok", respdal.mensaje, true, 500);
+            }
+            else
+            {
+                AlertModerno.Error(this, "Error", respdal.mensaje, true, 500);
+            }
+
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+            Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+            Session["Models"] = Models;
+            DataBind();
+        }
     }
 }

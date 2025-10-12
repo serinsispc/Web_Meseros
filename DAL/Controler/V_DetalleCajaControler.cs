@@ -14,7 +14,7 @@ namespace DAL.Controler
             try
             {
                 using (DBEntities cn = new DBEntities()) {
-                    return cn.V_DetalleCaja.AsNoTracking().Where(x => x.idVenta == idVenta).ToList();
+                    return cn.V_DetalleCaja.AsNoTracking().Where(x => x.idVenta == idVenta && x.estadoDetalle==1).ToList();
                 }
             }
             catch(Exception ex)

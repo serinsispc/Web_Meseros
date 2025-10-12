@@ -238,7 +238,7 @@
 
 
                             <asp:Repeater runat="server" ID="rpMesas"
-                                DataSource="<%# Models.Mesas %>"
+                                DataSource="<%# Models.Mesas.Where(x=>x.idZona==Models.IdZonaActiva).ToList() %>"
                                 OnItemCommand="rpMesas_ItemCommand">
                                 <ItemTemplate>
                                     <div class="col-2 col-lg-6 col-xl-4" style="min-width:100px; max-width:110px">
@@ -394,21 +394,28 @@
                                         </div>
 
                                         <!-- Fila 1: Cantidad + carrito -->
-                                        <div class="d-flex justify-content-start align-items-center gap-2 flex-wrap mb-2">
-                                            <div class="quantity-group btn-group btn-group-sm" role="group" aria-label="Cantidad">
-                                                <button type="button" class="btn btn-light btn-qty btn-square btn-decrease">
-                                                    <i class="bi bi-dash"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-light btn-qty disabled">
-                                                    <%# Convert.ToInt32(Eval("unidad")) %>
-                                                </button>
-                                                <button type="button" class="btn btn-light btn-qty btn-square btn-increase">
-                                                    <i class="bi bi-plus"></i>
-                                                </button>
-                                            </div>
+<div class="d-flex justify-content-start align-items-center gap-2 flex-wrap mb-2">
+    <div class="quantity-group btn-group btn-group-sm" role="group" aria-label="Cantidad">
+        <button type="button" class="btn btn-light btn-qty btn-square btn-decrease">
+            <i class="bi bi-dash"></i>
+        </button>
 
-                                            <button type="button" class="icon-btn cart-btn ms-auto" title="Guardar" data-id='<%# Eval("id") %>'><i class="bi bi-floppy"></i></button>
-                                        </div>
+        <input type="number" class="form-control quantity-input text-center" 
+               value='<%# Convert.ToInt32(Eval("unidad")) %>' min="1" style="width:100px;" />
+
+        <button type="button" class="btn btn-light btn-qty btn-square btn-increase">
+            <i class="bi bi-plus"></i>
+        </button>
+    </div>
+
+    <!-- Botón que usará __doPostBack -->
+    <button type="button" class="icon-btn cart-btn ms-auto" 
+            title="Guardar" 
+            data-id='<%# Eval("id") %>'>
+        <i class="bi bi-floppy"></i>
+    </button>
+</div>
+
 
                                         <!-- Fila 2: Iconos de acción -->
                                         <div class="d-flex flex-wrap gap-2 mb-2">
@@ -492,6 +499,50 @@
     </div>
     <!-- /container-fluid -->
 
+    <%-- ************************************************ --%>
+    <%-- ************************************************ --%>
+    <%-- ************************************************ --%>
+    <%-- modales --%>
+    <!-- Modal eliminar detalle -->
+<div class="modal fade" id="modalEliminarDetalle" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title">Eliminar detalle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <label for="notaEliminar" class="form-label">Ingrese el motivo de eliminación:</label>
+                <textarea id="notaEliminar" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal de alerta de sesión -->
+<div class="modal fade" id="sessionModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-warning">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title">Sesión a punto de expirar</h5>
+      </div>
+      <div class="modal-body">
+        Tu sesión ha expirado o está por expirar. Serás redirigido automáticamente.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnGoDefault">Ir Ahora</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
     <script>
         // Debe estar fuera de DOMContentLoaded para que sea global
         function abrirModalServicios(nombreMesa, idMesa) {
@@ -554,8 +605,81 @@
     </script>
 
 
+    <%-- al precionar enter dentro de la cantidad de la lista de productos --%>
+    <script>
+        (function () {
+            function inicializarEventosProductos() {
+                document.querySelectorAll('.qty-input').forEach(function (input) {
+                    // cuando el usuario presione Enter
+                    input.addEventListener('keydown', function (e) {
+                        if (e.key === 'Enter' || e.keyCode === 13) {
+                            e.preventDefault();
 
-    <!-- ======= BLOQUE DE SCRIPTS OPTIMIZADO ======= -->
+                            // buscamos el contenedor más cercano del producto
+                            const contenedor = input.closest('.producto-item');
+                            if (!contenedor) return;
+
+                            // buscamos el botón de carrito dentro del mismo producto
+                            const boton = contenedor.querySelector('.cart-btn');
+                            if (boton) {
+                                boton.click(); // simulamos clic
+                            }
+                        }
+                    });
+                });
+            }
+
+            // compatibilidad con UpdatePanel o cargas parciales
+            if (window.Sys && Sys.Application) {
+                Sys.Application.add_load(inicializarEventosProductos);
+            } else {
+                document.addEventListener('DOMContentLoaded', inicializarEventosProductos);
+            }
+        })();
+    </script>
+
+
+
+
+<script type="text/javascript">
+    // Tiempo de sesión en milisegundos
+    var sessionTimeoutMinutes = <%= Session.Timeout %>;
+    var sessionTimeoutMs = sessionTimeoutMinutes * 60 * 1000;
+
+    // Obtenemos el valor de Session["db"] desde el servidor
+    var nombreDB = '<%= Session["db"] != null ? Session["db"].ToString() : "" %>';
+
+    // Mostrar modal al expirar la sesión
+    setTimeout(function () {
+        var sessionModal = new bootstrap.Modal(document.getElementById('sessionModal'), {
+            backdrop: 'static',
+            keyboard: false
+        });
+        sessionModal.show();
+
+        // Redirigir automáticamente después de 5 segundos
+        setTimeout(function () {
+            window.location.href = 'Default.aspx?db=' + encodeURIComponent(nombreDB);
+        }, 5000);
+    }, sessionTimeoutMs);
+
+    // Botón para ir inmediatamente a Default.aspx
+    document.getElementById('btnGoDefault').addEventListener('click', function () {
+        window.location.href = 'Default.aspx?db=' + encodeURIComponent(nombreDB);
+    });
+</script>
+
+
+
+
+
+    <%-- *************************************************** --%>
+    <%-- *************************************************** --%>
+    <%-- *************************************************** --%>
+    <%-- *************************************************** --%>
+    <%-- *************************************************** --%>
+
+        <!-- ======= BLOQUE DE SCRIPTS OPTIMIZADO ======= -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const categorias = document.querySelectorAll("#categorias-container .pill");
@@ -630,7 +754,7 @@
             const catActiva = document.querySelector("#categorias-container .pill.active");
             if (catActiva) catActiva.click();
 
-            // ===== Botones + / - de cantidad =====
+            // ===== Botones + / - de cantidad lista de productos =====
             productos.forEach(item => {
                 const minus = item.querySelector(".minus");
                 const plus = item.querySelector(".plus");
@@ -678,88 +802,104 @@
                 });
             });
 
-        });
-    </script>
 
-    <%-- al precionar enter dentro de la cantidad de la lista de productos --%>
-    <script>
-        (function () {
-            function inicializarEventosProductos() {
-                document.querySelectorAll('.qty-input').forEach(function (input) {
-                    // cuando el usuario presione Enter
-                    input.addEventListener('keydown', function (e) {
-                        if (e.key === 'Enter' || e.keyCode === 13) {
-                            e.preventDefault();
+            // Función para validar cantidad en detalle
+            function validarCantidad(input) {
+                const value = input.value.trim();
+                if (value === "" || isNaN(value) || parseInt(value) < 1) {
+                    input.value = "1"; // Si está vacío o inválido, lo ponemos en 1
+                    return false;
+                }
+                return true;
+            }
 
-                            // buscamos el contenedor más cercano del producto
-                            const contenedor = input.closest('.producto-item');
-                            if (!contenedor) return;
-
-                            // buscamos el botón de carrito dentro del mismo producto
-                            const boton = contenedor.querySelector('.cart-btn');
-                            if (boton) {
-                                boton.click(); // simulamos clic
-                            }
+            // Interceptar Enter en todos los inputs de cantidad detalle
+            document.querySelectorAll(".quantity-input").forEach(function (input) {
+                input.addEventListener("keydown", function (e) {
+                    if (e.key === "Enter") {
+                        e.preventDefault(); // Evita submit por defecto
+                        if (validarCantidad(input)) {
+                            const btn = input.closest(".d-flex").querySelector(".cart-btn");
+                            btn.click(); // Dispara el click del botón de guardar
                         }
-                    });
+                    }
                 });
-            }
 
-            // compatibilidad con UpdatePanel o cargas parciales
-            if (window.Sys && Sys.Application) {
-                Sys.Application.add_load(inicializarEventosProductos);
-            } else {
-                document.addEventListener('DOMContentLoaded', inicializarEventosProductos);
-            }
-        })();
-    </script>
+                // Validar al perder el foco detalle
+                input.addEventListener("blur", function () {
+                    validarCantidad(input);
+                });
+            });
+
+            // Botones de aumentar detalle
+            document.querySelectorAll(".btn-increase").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    const input = btn.closest(".quantity-group").querySelector(".quantity-input");
+                    validarCantidad(input);
+                    input.value = parseInt(input.value) + 1;
+                });
+            });
+
+            // Botones de disminuir  detalle
+            document.querySelectorAll(".btn-decrease").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    const input = btn.closest(".quantity-group").querySelector(".quantity-input");
+                    validarCantidad(input);
+                    let value = parseInt(input.value);
+                    if (value > 1) input.value = value - 1;
+                });
+            });
+
+            // Botones de guardar detalle
+            document.querySelectorAll(".cart-btn").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    const input = btn.closest(".d-flex").querySelector(".quantity-input");
+                    if (validarCantidad(input)) {
+                        const id = btn.getAttribute("data-id");
+                        const quantity = input.value;
+                        __doPostBack('ActualizarCantidad', id + '|' + quantity);
+                    }
+                });
+            });
 
 
-<!-- Modal de alerta de sesión -->
-<div class="modal fade" id="sessionModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-warning">
-      <div class="modal-header bg-warning text-dark">
-        <h5 class="modal-title">Sesión a punto de expirar</h5>
-      </div>
-      <div class="modal-body">
-        Tu sesión ha expirado o está por expirar. Serás redirigido automáticamente.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="btnGoDefault">Ir Ahora</button>
-      </div>
-    </div>
-  </div>
-</div>
+            /********** en pesamos el bloque del boton eliminar ***********/
+            let detalleIdAEliminar = null;
 
-<script type="text/javascript">
-    // Tiempo de sesión en milisegundos
-    var sessionTimeoutMinutes = <%= Session.Timeout %>;
-    var sessionTimeoutMs = sessionTimeoutMinutes * 60 * 1000;
+            // Abrir modal
+            document.querySelectorAll(".icon-btn.danger").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    detalleIdAEliminar = btn.getAttribute("data-id");
+                    document.getElementById("notaEliminar").value = "";
 
-    // Obtenemos el valor de Session["db"] desde el servidor
-    var nombreDB = '<%= Session["db"] != null ? Session["db"].ToString() : "" %>';
+                    const modalEl = document.getElementById("modalEliminarDetalle");
+                    const modal = new bootstrap.Modal(modalEl);
+                    modal.show();
 
-    // Mostrar modal al expirar la sesión
-    setTimeout(function () {
-        var sessionModal = new bootstrap.Modal(document.getElementById('sessionModal'), {
-            backdrop: 'static',
-            keyboard: false
+                    // Cuando el modal se muestra, enfocamos el textarea
+                    modalEl.addEventListener('shown.bs.modal', function () {
+                        document.getElementById("notaEliminar").focus();
+                    }, { once: true }); // { once: true } asegura que solo se dispare una vez
+                });
+            });
+
+            // Confirmar eliminación
+            document.getElementById("btnConfirmarEliminar").addEventListener("click", function () {
+                const nota = document.getElementById("notaEliminar").value.trim();
+                if (nota === "") {
+                    alert("Debe ingresar una nota para eliminar el detalle.");
+                    return;
+                }
+
+                if (detalleIdAEliminar) {
+                    __doPostBack("EliminarDetalle", detalleIdAEliminar + "|" + nota);
+                    const modal = bootstrap.Modal.getInstance(document.getElementById("modalEliminarDetalle"));
+                    modal.hide();
+                }
+            });
+            //fin de script
         });
-        sessionModal.show();
-
-        // Redirigir automáticamente después de 5 segundos
-        setTimeout(function () {
-            window.location.href = 'Default.aspx?db=' + encodeURIComponent(nombreDB);
-        }, 5000);
-    }, sessionTimeoutMs);
-
-    // Botón para ir inmediatamente a Default.aspx
-    document.getElementById('btnGoDefault').addEventListener('click', function () {
-        window.location.href = 'Default.aspx?db=' + encodeURIComponent(nombreDB);
-    });
-</script>
-
+    </script>
 
 </asp:Content>
 

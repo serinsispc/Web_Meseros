@@ -28,5 +28,20 @@ namespace DAL.Controler
                 return false;
             }
         }
+        public static DetalleVenta ConsultarId(int id)
+        {
+            try
+            {
+                using (DBEntities cn = new DBEntities())
+                {
+                    return cn.DetalleVenta.AsNoTracking().Where(x=>x.id== id).FirstOrDefault();
+                }
+            }
+            catch(Exception ex)
+            {
+                string error = ex.Message;
+                return null;
+            }
+        }
     }
 }

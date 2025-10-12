@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DB_STRAGOS_CLUB_SASModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DB_STRAGOS_CLUB_SASModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AdicionDetalleText">
           <Key>
             <PropertyRef Name="id" />
@@ -2424,6 +2424,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_DetalleCaja' no ti
             <PropertyRef Name="baseImpuesto" />
             <PropertyRef Name="valorImpuesto" />
             <PropertyRef Name="observacion" />
+            <PropertyRef Name="estadoDetalle" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="guidDetalle" Type="uniqueidentifier" />
@@ -2449,6 +2450,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_DetalleCaja' no ti
           <Property Name="observacion" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="opciones" Type="varchar(max)" />
           <Property Name="adiciones" Type="varchar(max)" />
+          <Property Name="estadoDetalle" Type="int" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_DetalleCajaCotizacion' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -7279,7 +7281,8 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
     [V_DetalleCaja].[costoTotal] AS [costoTotal], 
     [V_DetalleCaja].[observacion] AS [observacion], 
     [V_DetalleCaja].[opciones] AS [opciones], 
-    [V_DetalleCaja].[adiciones] AS [adiciones]
+    [V_DetalleCaja].[adiciones] AS [adiciones], 
+    [V_DetalleCaja].[estadoDetalle] AS [estadoDetalle]
     FROM [dbo].[V_DetalleCaja] AS [V_DetalleCaja]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_DetalleCajaCotizacion" EntityType="Self.V_DetalleCajaCotizacion" store:Type="Views" store:Schema="dbo">
@@ -8610,8 +8613,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <End Role="DetallePedido" EntitySet="DetallePedido" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_STRAGOS_CLUB_SASModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -11190,6 +11192,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <PropertyRef Name="baseImpuesto" />
             <PropertyRef Name="valorImpuesto" />
             <PropertyRef Name="observacion" />
+            <PropertyRef Name="estadoDetalle" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="guidDetalle" Type="Guid" />
@@ -11215,6 +11218,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Name="observacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="opciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="adiciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="estadoDetalle" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="V_DetalleCajaCotizacion">
           <Key>
@@ -14523,13 +14527,13 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           </FunctionImport>
           <FunctionImport Name="CONSULTAR_ConfiguracionSMTP" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.CONSULTAR_ConfiguracionSMTP_Result)" />
           <FunctionImport Name="Consultar_DetalleVenta_Consecutivo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.Consultar_DetalleVenta_Consecutivo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Consultar_DetalleVenta_ID" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.Consultar_DetalleVenta_ID_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Consultar_DetalleVenta_PorID" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.Consultar_DetalleVenta_PorID_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CrearClienteDomicilio">
             <Parameter Name="guid" Mode="In" Type="Guid" />
@@ -14538,7 +14542,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="direccion" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CrearMesaDolicilio">
-            <Parameter Name="nombre" Mode="In" Type="String" />
+          <Parameter Name="nombre" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CrearPresentacionesManual" />
           <FunctionImport Name="CRUD_BaseCaja" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.CRUD_BaseCaja_Result)">
@@ -14622,374 +14626,374 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="valorImpuesto" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="DELETE_AdicionDetalleText" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_AdicionDetalleText_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_AdicionDetalleVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_AdicionDetalleVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Adiciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Adiciones_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_AdminControl" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_AdminControl_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_AppWhatsApp">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DELETE_ArchivoCompras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_ArchivoCompras_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_AutorizacionPC" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_AutorizacionPC_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_BaseCaja" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_BaseCaja_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Bodega" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Bodega_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_CargosDescuentosDetalleVenta" ReturnType="Collection(Int32)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Categoria" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Categoria_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_CertificadoDigital" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_CertificadoDigital_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Clientes" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Clientes_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_ComandaAdiciones">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_ComandImpresaa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_ComandImpresaa_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Delete_Compra">
             <Parameter Name="idCompra" Mode="In" Type="Int32" />
             <Parameter Name="guidCompra" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Compras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Compras_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_ConfiguracionDian" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_ConfiguracionDian_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DELETE_ConfiguracionSMTP" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_ConfiguracionSMTP_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_CORREOSCLIENTE" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_CORREOSCLIENTE_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_CorreosNotificaciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_CorreosNotificaciones_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Cotizaciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Cotizaciones_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_CuentasVendedor" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_CuentasVendedor_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_DescuentoDetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_DescuentoDetalleCompra_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_DescuentoDetalleCompra_guidCompra">
-            <Parameter Name="guidDetalleCompra" Mode="In" Type="Guid" />
+          <Parameter Name="guidDetalleCompra" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="DELETE_DetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_DetalleCompra_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_DetalleCompra_Guid">
-            <Parameter Name="guid" Mode="In" Type="Guid" />
+          <Parameter Name="guid" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="DELETE_DetalleCotizacion" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_DetalleCotizacion_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_DetalleInsumo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_DetalleInsumo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_DetalleOrdenFabrica" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_DetalleOrdenFabrica_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_DetalleVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_DetalleVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_DetalleVenta_eliminado" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_DetalleVenta_eliminado_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_DocumentoSoporte" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_DocumentoSoporte_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Domicilios" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Domicilios_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_FacturaElectronica" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_FacturaElectronica_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_FacturaElectronica_JSON" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_FacturaElectronica_JSON_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_FacturaSoftware" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_FacturaSoftware_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_FROM_DetalleServicio" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_FROM_DetalleServicio_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Gastos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Gastos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Imagenes" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Imagenes_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_ImprecionComandaAdd" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_ImprecionComandaAdd_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_ImprimirCuenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_ImprimirCuenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_ImpuestoCompra_guidCompra">
-            <Parameter Name="guidCompra" Mode="In" Type="Guid" />
+          <Parameter Name="guidCompra" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="DELETE_ImpuestoCompras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_ImpuestoCompras_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_InsumosDetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_InsumosDetalleCompra_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DELETE_ListaPrecios" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_ListaPrecios_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_ListaWhatsApp" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_ListaWhatsApp_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_MediosDePagoInternos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_MediosDePagoInternos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_MensajesEnEspera" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_MensajesEnEspera_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Merma" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Merma_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Mesas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Mesas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Modulos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Modulos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_MovimientosInventario" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_MovimientosInventario_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_NotasCredito" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_NotasCredito_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Opciones">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_OrdenFabrica" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_OrdenFabrica_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_PagosCompras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_PagosCompras_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_PagosCompras_IdCompra">
-            <Parameter Name="idCompra" Mode="In" Type="Int32" />
+          <Parameter Name="idCompra" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DELETE_PagosCreditoTienda" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_PagosCreditoTienda_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_PagosVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_PagosVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Pedidos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Pedidos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_PermisoSubModulo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_PermisoSubModulo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Precios" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Precios_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Presentacion" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Presentacion_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Producto" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Producto_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_AdicionCategoria" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_AdicionCategoria_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_CategoriaComanda" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_CategoriaComanda_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_ClienteVendedor" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_ClienteVendedor_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_CompraCliente" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_CompraCliente_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_MediosDePago_MediosDePagoInternos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_MediosDePago_MediosDePagoInternos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_PedidoVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_PedidoVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_ProductoInsumo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_ProductoInsumo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_ServicioMesa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_ServicioMesa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_VehiculoVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_VehiculoVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_VentaBase" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_VentaBase_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_VentaCliente" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_VentaCliente_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_VentaMesa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_VentaMesa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_VentaUsuario" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_VentaUsuario_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_R_VentaVendedor" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_R_VentaVendedor_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_ReporteActualizacionEquipo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_ReporteActualizacionEquipo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Resoluciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Resoluciones_Result)">
-            <Parameter Name="idResolucion" Mode="In" Type="Int32" />
+          <Parameter Name="idResolucion" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Sede" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Sede_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DELETE_SedesAsignadas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_SedesAsignadas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_SeguimientoDomicilio" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_SeguimientoDomicilio_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_ServicioMesa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_ServicioMesa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_TablaDias" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_TablaDias_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_TablaMeses" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_TablaMeses_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_TablaVentas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_TablaVentas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_TablaYear" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_TablaYear_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_tipoComanda" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_tipoComanda_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_TipoGasto" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_TipoGasto_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_TipoMedida" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_TipoMedida_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_TipoMerma" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_TipoMerma_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_TipoPresentacion" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_TipoPresentacion_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_TipoRegimen" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_TipoRegimen_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_TipoServicio" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_TipoServicio_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_TipoUsuario" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_TipoUsuario_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_TipoWhatsApp" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_TipoWhatsApp_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_tokenEmpresa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_tokenEmpresa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Tutoriales" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Tutoriales_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Usuario" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Usuario_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Vehiculo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Vehiculo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Vendedor" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Vendedor_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_VentaActiva" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_VentaActiva_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_VersionSoftware" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_VersionSoftware_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DELETE_Zonas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.DELETE_Zonas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DeleteCategoria" ReturnType="Collection(Int32)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteClienteDomicilio">
-            <Parameter Name="id" Mode="In" Type="Guid" />
+          <Parameter Name="id" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="DeleteMesasDomicilio">
-            <Parameter Name="idZona" Mode="In" Type="Int32" />
+          <Parameter Name="idZona" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarAdiciones">
-            <Parameter Name="iddetalle" Mode="In" Type="Int32" />
+          <Parameter Name="iddetalle" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarAdicionText">
-            <Parameter Name="idDetalle" Mode="In" Type="Int32" />
+          <Parameter Name="idDetalle" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarArchivoComra">
-            <Parameter Name="idCompra" Mode="In" Type="Int32" />
+          <Parameter Name="idCompra" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarComandaImpresa">
-            <Parameter Name="idDetalle" Mode="In" Type="Int32" />
+          <Parameter Name="idDetalle" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarConsecutivoActivo">
-            <Parameter Name="idConsecutivo" Mode="In" Type="Int32" />
+          <Parameter Name="idConsecutivo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarCuenta">
-            <Parameter Name="idVenta" Mode="In" Type="Int32" />
+          <Parameter Name="idVenta" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarDetalleInsumo">
-            <Parameter Name="idDetalle" Mode="In" Type="Int32" />
+          <Parameter Name="idDetalle" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarDetalleVEnta">
-            <Parameter Name="idDetalleVenta" Mode="In" Type="Int32" />
+          <Parameter Name="idDetalleVenta" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarEmpresa">
-            <Parameter Name="idEmpresa" Mode="In" Type="Guid" />
+          <Parameter Name="idEmpresa" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="EliminarItenDetalleCompra">
-            <Parameter Name="guidDetalleCompra" Mode="In" Type="Guid" />
+          <Parameter Name="guidDetalleCompra" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="EliminarPagoCompras">
-            <Parameter Name="idCompra" Mode="In" Type="Int32" />
+          <Parameter Name="idCompra" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarPedido">
-            <Parameter Name="guidPedido" Mode="In" Type="Guid" />
+          <Parameter Name="guidPedido" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="EliminarR_CompraCliente">
-            <Parameter Name="idCompra" Mode="In" Type="Int32" />
+          <Parameter Name="idCompra" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EliminarVenta_app">
-            <Parameter Name="idVenta" Mode="In" Type="Int32" />
+          <Parameter Name="idVenta" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EstadoVentaAnulado" />
           <FunctionImport Name="EstadoVentaCancelado" />
@@ -15003,17 +15007,17 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="idNuevaVenta" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="FILTRAR_V_Empresa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.FILTRAR_V_Empresa_Result)">
-            <Parameter Name="name" Mode="In" Type="String" />
+          <Parameter Name="name" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GET_ID_PermisoSubModulo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.GET_ID_PermisoSubModulo_Result)">
             <Parameter Name="idUsuario" Mode="In" Type="Int32" />
             <Parameter Name="idSubModulo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetConsecutivoFacturaElectronica" ReturnType="Collection(Int32)">
-            <Parameter Name="idresolucion" Mode="In" Type="Int32" />
+          <Parameter Name="idresolucion" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetDataFactura_JSON" ReturnType="Collection(String)">
-            <Parameter Name="idVenta" Mode="In" Type="Int32" />
+          <Parameter Name="idVenta" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Info_VentasProductos_Categoria_DAY" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.Info_VentasProductos_Categoria_DAY_Result)">
             <Parameter Name="year" Mode="In" Type="Int32" />
@@ -15038,14 +15042,14 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="day2" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Informe_Fechas_Dinamico">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Informe_month" ReturnType="Collection(String)">
             <Parameter Name="year" Mode="In" Type="Int32" />
             <Parameter Name="month" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Informe_year" ReturnType="Collection(String)">
-            <Parameter Name="year" Mode="In" Type="Int32" />
+          <Parameter Name="year" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="InformeFiscal_General" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.InformeFiscal_General_Result)">
             <Parameter Name="month" Mode="In" Type="Int32" />
@@ -15071,13 +15075,13 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="month" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="InformePagoInterno_Turno" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.InformePagoInterno_Turno_Result)">
-            <Parameter Name="idBase" Mode="In" Type="Int32" />
+          <Parameter Name="idBase" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="InformeProductoVEndidos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.InformeProductoVEndidos_Result)">
-            <Parameter Name="idBase" Mode="In" Type="Int32" />
+          <Parameter Name="idBase" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="InformeProductoVEndidosDian" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.InformeProductoVEndidosDian_Result)">
-            <Parameter Name="idBase" Mode="In" Type="Int32" />
+          <Parameter Name="idBase" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="InformeTotalCompras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.InformeTotalCompras_Result)">
             <Parameter Name="month" Mode="In" Type="Int32" />
@@ -15092,7 +15096,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="mes" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="InformeUtilidad_YEAR" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.InformeUtilidad_YEAR_Result)">
-            <Parameter Name="year" Mode="In" Type="Int32" />
+          <Parameter Name="year" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="InformeVentasPorVendedor_Dias" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.InformeVentasPorVendedor_Dias_Result)">
             <Parameter Name="year" Mode="In" Type="Int32" />
@@ -15105,19 +15109,19 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="month" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="INSERT_CORREOSCLIENTE" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_CORREOSCLIENTE_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_Cotizaciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_Cotizaciones_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_DetalleInsumo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_DetalleInsumo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_AdicionDetalleText" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_AdicionDetalleText_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_AmbienteEmpresa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_AmbienteEmpresa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_AutorizacionPC" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_AutorizacionPC_Result)">
             <Parameter Name="serialnumber_pc" Mode="In" Type="String" />
@@ -15128,151 +15132,151 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="estado_equipo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Categoria" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Categoria_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_CertificadoDigital" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_CertificadoDigital_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Clientes" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Clientes_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_ComandImpresaa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_ComandImpresaa_Result)">
-            <Parameter Name="idDetalleVenta" Mode="In" Type="Int32" />
+          <Parameter Name="idDetalleVenta" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Compras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Compras_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_ConfiguracionDian" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_ConfiguracionDian_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_ConfiguracionSMTP" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_ConfiguracionSMTP_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_DescuentoDetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_DescuentoDetalleCompra_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_DetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_DetalleCompra_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_DetalleServicio" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_DetalleServicio_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Domicilios" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Domicilios_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Empresas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Empresas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_FacturaElectronica" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_FacturaElectronica_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Gastos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Gastos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Imagenes" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Imagenes_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_ImprecionComandaAdd" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_ImprecionComandaAdd_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_ImprimirCuenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_ImprimirCuenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_ImpuestoCompras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_ImpuestoCompras_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_ListaPrecios" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_ListaPrecios_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_ListaWhatsApp" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_ListaWhatsApp_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_MediosDePagoInternos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_MediosDePagoInternos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_MensajesEnEspera" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_MensajesEnEspera_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Merma" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Merma_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Mesas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Mesas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Modulos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Modulos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_MovimientosInventario" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_MovimientosInventario_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Opciones">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_OrdenFabrica" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_OrdenFabrica_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_PagosCompras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_PagosCompras_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_PagosCreditoTienda" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_PagosCreditoTienda_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_PagosVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_PagosVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Pedidos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Pedidos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_PermisoSubModulo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_PermisoSubModulo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Precios" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Precios_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Presentacion" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Presentacion_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Producto" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Producto_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_R_CategoriaComanda" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_R_CategoriaComanda_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_R_ClienteVendedor" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_R_ClienteVendedor_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_R_CompraCliente" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_R_CompraCliente_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_R_CotizacionCliente" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_R_CotizacionCliente_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_R_MediosDePago_MediosDePagoInternos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_R_MediosDePago_MediosDePagoInternos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_R_ProductoInsumo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_R_ProductoInsumo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_R_VehiculoVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_R_VehiculoVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_R_VentaBase" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_R_VentaBase_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_R_VentaCliente" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_R_VentaCliente_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_R_VentaMesa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_R_VentaMesa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_R_VentaUsuario" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_R_VentaUsuario_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_R_VentaVendedor" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_R_VentaVendedor_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_ReporteActualizacionEquipo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_ReporteActualizacionEquipo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Sede" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Sede_Result)">
             <Parameter Name="nombreSede" Mode="In" Type="String" />
@@ -15307,79 +15311,79 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="guidSede" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_SeguimientoDomicilio" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_SeguimientoDomicilio_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_TablaDias" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_TablaDias_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_TablaMeses" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_TablaMeses_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_TablaVentas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_TablaVentas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_TablaYear" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_TablaYear_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_tipoComanda" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_tipoComanda_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_TipoGasto" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_TipoGasto_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_TipoMedida" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_TipoMedida_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_TipoMerma" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_TipoMerma_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_TipoPresentacion" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_TipoPresentacion_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_TipoRegimen" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_TipoRegimen_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_TipoServicio" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_TipoServicio_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_TipoUsuario" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_TipoUsuario_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_TipoWhatsApp" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_TipoWhatsApp_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_tokenEmpresa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_tokenEmpresa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Tutoriales" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Tutoriales_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Usuario" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Usuario_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Vehiculo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Vehiculo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Vendedor" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Vendedor_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_VentaActiva" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_VentaActiva_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_VersionSoftware" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_VersionSoftware_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_INTO_Zonas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_INTO_Zonas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_PagosCreditoTienda" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_PagosCreditoTienda_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_R_PedidoVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_R_PedidoVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERT_SoftwareDIAN" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERT_SoftwareDIAN_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="insertAutorizacionFacturaElectronica">
             <Parameter Name="idEmpresa" Mode="In" Type="Int32" />
@@ -15389,28 +15393,28 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="rango" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_AdicionDetalleVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_AdicionDetalleVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_Adiciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_Adiciones_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_AdminControl" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_AdminControl_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_AppWhatsApp">
-            <Parameter Name="urlApp" Mode="In" Type="String" />
+          <Parameter Name="urlApp" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_ArchivoCompras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_ArchivoCompras_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_AutorizacionPC" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_AutorizacionPC_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_BaseCaja" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_BaseCaja_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_Bodega" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_Bodega_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_CargosDescuentosDetalleVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_CargosDescuentosDetalleVenta_Result)">
             <Parameter Name="idDetalleVenta" Mode="In" Type="Int32" />
@@ -15433,7 +15437,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="idTipoTercero" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_ComandaAdiciones">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_ConfiguracionSMTP" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_ConfiguracionSMTP_Result)">
             <Parameter Name="id" Mode="In" Type="Int32" />
@@ -15446,22 +15450,22 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="from_name" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_CorreosNotificaciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_CorreosNotificaciones_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_CuentasVendedor">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_DetalleCotizacion" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_DetalleCotizacion_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_DetalleOrdenFabrica" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_DetalleOrdenFabrica_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_DetalleVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_DetalleVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_DetalleVenta_eliminado" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_DetalleVenta_eliminado_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="InsertInto_DocuentoSoporte">
             <Parameter Name="idCompra" Mode="In" Type="Int32" />
@@ -15473,7 +15477,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="archivoJSON" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_DocumentoSoporte" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_DocumentoSoporte_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_FacturaElectronica" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_FacturaElectronica_Result)">
             <Parameter Name="idVenta" Mode="In" Type="Int32" />
@@ -15485,13 +15489,13 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="imagenQR" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_FacturaElectronica_JSON" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_FacturaElectronica_JSON_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_FacturaSoftware" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_FacturaSoftware_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_Gastos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_Gastos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_InsumosDetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_InsumosDetalleCompra_Result)">
             <Parameter Name="idDetalleCompra" Mode="In" Type="Int32" />
@@ -15502,7 +15506,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="contenidoPresentacion" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_NotasCredito" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_NotasCredito_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_Notificaciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_Notificaciones_Result)">
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
@@ -15510,26 +15514,26 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="estado" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_R_AdicionCategoria" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_R_AdicionCategoria_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_R_ServicioMesa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_R_ServicioMesa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_R_VentaBase" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_R_VentaBase_Result)">
             <Parameter Name="idVenta" Mode="In" Type="Int32" />
             <Parameter Name="idBaseCaja" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_R_VentaCliente" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_R_VentaCliente_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_ReporteActualizacionEquipo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_ReporteActualizacionEquipo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_Resoluciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_Resoluciones_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_ServicioMesa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_ServicioMesa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="INSERTINTO_TablaVentas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.INSERTINTO_TablaVentas_Result)">
             <Parameter Name="fechaVenta" Mode="In" Type="DateTime" />
@@ -15551,16 +15555,16 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="idFormaDePago" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ListaColumnas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.ListaColumnas_Result)">
-            <Parameter Name="table" Mode="In" Type="String" />
+          <Parameter Name="table" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ListaDescuantoDetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.ListaDescuantoDetalleCompra_Result)">
-            <Parameter Name="guidDetalleCompra" Mode="In" Type="Guid" />
+          <Parameter Name="guidDetalleCompra" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="ListaImpuestosDetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.ListaImpuestosDetalleCompra_Result)">
-            <Parameter Name="guidDetalle" Mode="In" Type="Guid" />
+          <Parameter Name="guidDetalle" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="ListaPresentacion_idProducto" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.ListaPresentacion_idProducto_Result)">
-            <Parameter Name="idProducto" Mode="In" Type="Int32" />
+          <Parameter Name="idProducto" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ModificarMesaDomicilio">
             <Parameter Name="nombre" Mode="In" Type="String" />
@@ -15576,10 +15580,10 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <FunctionImport Name="P_Categoria" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.P_Categoria_Result)" />
           <FunctionImport Name="P_ConfiguracionDian" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.P_ConfiguracionDian_Result)" />
           <FunctionImport Name="P_ContarImsumos" ReturnType="Collection(Int32)">
-            <Parameter Name="idproducto" Mode="In" Type="Int32" />
+          <Parameter Name="idproducto" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="P_Cuenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.P_Cuenta_Result)">
-            <Parameter Name="idVenta" Mode="In" Type="Int32" />
+          <Parameter Name="idVenta" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="P_DetalleCaja" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.P_DetalleCaja_Result)" />
           <FunctionImport Name="p_DetalleCierreCaja" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.p_DetalleCierreCaja_Result)">
@@ -15587,7 +15591,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="tVenta" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="p_DetalleCierreCaja_ADMIN" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.p_DetalleCierreCaja_ADMIN_Result)">
-            <Parameter Name="idBaseCaja" Mode="In" Type="Int32" />
+          <Parameter Name="idBaseCaja" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="P_DetalleInsumo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.P_DetalleInsumo_Result)" />
           <FunctionImport Name="P_EliminarClientes" />
@@ -15650,44 +15654,44 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="month_" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="reporteImprecionComanda">
-            <Parameter Name="idVenta" Mode="In" Type="Int32" />
+          <Parameter Name="idVenta" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="RestaurarBase" />
           <FunctionImport Name="RestaurarProductos" />
           <FunctionImport Name="ResumenCuentas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.ResumenCuentas_Result)">
-            <Parameter Name="idBase" Mode="In" Type="Int32" />
+          <Parameter Name="idBase" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Select_Compras_id" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.Select_Compras_id_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Select_DescuentoDetalleCompra_id" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.Select_DescuentoDetalleCompra_id_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Select_DetalleCompra_id" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.Select_DetalleCompra_id_Result)">
-            <Parameter Name="idDetalleCompra" Mode="In" Type="Int32" />
+          <Parameter Name="idDetalleCompra" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SELECT_FacturasCredito" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.SELECT_FacturasCredito_Result)">
-            <Parameter Name="idCliente" Mode="In" Type="Int32" />
+          <Parameter Name="idCliente" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Select_ImpuestoCompras_id" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.Select_ImpuestoCompras_id_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SELECT_InsumosDetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.SELECT_InsumosDetalleCompra_Result)" />
           <FunctionImport Name="Select_V_descuantoDetalleCompra_guidDetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.Select_V_descuantoDetalleCompra_guidDetalleCompra_Result)">
-            <Parameter Name="guidDetalleCompra" Mode="In" Type="Guid" />
+          <Parameter Name="guidDetalleCompra" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="Select_V_ImpuestosDetalleCompra_guidDetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.Select_V_ImpuestosDetalleCompra_guidDetalleCompra_Result)">
-            <Parameter Name="guidDetalleCompra" Mode="In" Type="Guid" />
+          <Parameter Name="guidDetalleCompra" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="SelectAlistamiento">
             <Parameter Name="idVendedor" Mode="In" Type="Int32" />
             <Parameter Name="idEstado" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Actualizar_CargoDescuentoVentas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.SP_Actualizar_CargoDescuentoVentas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Eliminar_CargoDescuentoVentas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.SP_Eliminar_CargoDescuentoVentas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_InformeGeneralCategoria_Dias" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.SP_InformeGeneralCategoria_Dias_Result)">
             <Parameter Name="year" Mode="In" Type="Int32" />
@@ -15696,10 +15700,10 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="day2" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Insertar_CargoDescuentoVentas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.SP_Insertar_CargoDescuentoVentas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_ServicioMesa_CRUD" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.SP_ServicioMesa_CRUD_Result)">
-            <Parameter Name="Json" Mode="In" Type="String" />
+          <Parameter Name="Json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_V_ServicioMesa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.SP_V_ServicioMesa_Result)">
             <Parameter Name="idcuenta" Mode="In" Type="Int32" />
@@ -15723,310 +15727,310 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           </FunctionImport>
           <FunctionImport Name="UltimoConssecutivo_FE" ReturnType="Collection(Int32)" />
           <FunctionImport Name="UPDATE_AdicionDetalleText" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_AdicionDetalleText_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_AdicionDetalleVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_AdicionDetalleVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Adiciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Adiciones_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_AdminControl" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_AdminControl_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_AmbienteEmpresa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_AmbienteEmpresa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ArchivoCompras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_ArchivoCompras_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_AutorizacionPC" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_AutorizacionPC_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_BaseCaja" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_BaseCaja_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Bodega" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Bodega_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_CargosDescuentosDetalleVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_CargosDescuentosDetalleVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Categoria" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Categoria_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_CertificadoDigital" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_CertificadoDigital_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Clientes" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Clientes_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ComandaAdiciones">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ComandImpresaa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_ComandImpresaa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Compras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Compras_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ConfiguracionDian" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_ConfiguracionDian_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ConfiguracionSMTP" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_ConfiguracionSMTP_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_CORREOSCLIENTE" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_CORREOSCLIENTE_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_CorreosNotificaciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_CorreosNotificaciones_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Cotizaciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Cotizaciones_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_CuentasVendedor">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_DescuentoDetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_DescuentoDetalleCompra_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_DetalleCompra" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_DetalleCompra_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_DetalleCotizacion" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_DetalleCotizacion_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_DetalleInsumo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_DetalleInsumo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_DetalleOrdenFabrica" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_DetalleOrdenFabrica_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_DetalleVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_DetalleVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_DocumentoSoporte" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_DocumentoSoporte_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Domicilios" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Domicilios_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Empresas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Empresas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_FacturaElectronica" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_FacturaElectronica_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_FacturaElectronica_JSON" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_FacturaElectronica_JSON_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_FacturaSoftware" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_FacturaSoftware_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Gastos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Gastos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Imagenes" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Imagenes_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ImprecionComandaAdd" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_ImprecionComandaAdd_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ImprimirCuenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_ImprimirCuenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ImpuestoCompras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_ImpuestoCompras_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ListaPrecios" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_ListaPrecios_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ListaWhatsApp" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_ListaWhatsApp_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_MediosDePagoInternos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_MediosDePagoInternos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_MensajesEnEspera" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_MensajesEnEspera_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Merma" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Merma_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Mesas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Mesas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Modulos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Modulos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_MovimientosInventario" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_MovimientosInventario_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_NotasCredito" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_NotasCredito_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Notificaciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Notificaciones_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Opciones">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_OrdenFabrica" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_OrdenFabrica_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_PagosCompras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_PagosCompras_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_PagosCreditoTienda" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_PagosCreditoTienda_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_PagosVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_PagosVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Pedidos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Pedidos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_PermisoSubModulo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_PermisoSubModulo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Precios" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Precios_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Presentacion" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Presentacion_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Producto" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Producto_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_AdicionCategoria" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_AdicionCategoria_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_CategoriaComanda" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_CategoriaComanda_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_ClienteVendedor" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_ClienteVendedor_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_CompraCliente" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_CompraCliente_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_CotizacionCliente" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_CotizacionCliente_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_MediosDePago_MediosDePagoInternos" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_MediosDePago_MediosDePagoInternos_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_PedidoVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_PedidoVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_ProductoInsumo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_ProductoInsumo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_ServicioMesa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_ServicioMesa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_VehiculoVenta" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_VehiculoVenta_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_VentaBase" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_VentaBase_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_VentaCliente" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_VentaCliente_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_VentaMesa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_VentaMesa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_VentaUsuario" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_VentaUsuario_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_R_VentaVendedor" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_R_VentaVendedor_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ReporteActualizacionEquipo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_ReporteActualizacionEquipo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Resoluciones" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Resoluciones_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Sede" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Sede_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_SedesAsignadas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_SedesAsignadas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_SeguimientoDomicilio" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_SeguimientoDomicilio_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_ServicioMesa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_ServicioMesa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_SET_DetalleServicio" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_SET_DetalleServicio_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_TablaDias" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_TablaDias_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_TablaMeses" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_TablaMeses_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_TablaVentas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_TablaVentas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_TablaYear" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_TablaYear_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_tipoComanda" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_tipoComanda_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_TipoGasto" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_TipoGasto_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_TipoMedida" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_TipoMedida_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_TipoMerma" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_TipoMerma_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_TipoPresentacion" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_TipoPresentacion_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_TipoRegimen" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_TipoRegimen_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_TipoServicio" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_TipoServicio_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_TipoUsuario" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_TipoUsuario_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_TipoWhatsApp" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_TipoWhatsApp_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_tokenEmpresa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_tokenEmpresa_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Tutoriales" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Tutoriales_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Usuario" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Usuario_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Vehiculo" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Vehiculo_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Vendedor" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Vendedor_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_VentaActiva" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_VentaActiva_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_VersionSoftware" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_VersionSoftware_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UPDATE_Zonas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.UPDATE_Zonas_Result)">
-            <Parameter Name="json" Mode="In" Type="String" />
+          <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UpdateClienteDomicilio">
             <Parameter Name="id" Mode="In" Type="Guid" />
@@ -20907,6 +20911,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <EntitySetMapping Name="V_DetalleCaja">
             <EntityTypeMapping TypeName="DB_STRAGOS_CLUB_SASModel.V_DetalleCaja">
               <MappingFragment StoreEntitySet="V_DetalleCaja">
+                <ScalarProperty Name="estadoDetalle" ColumnName="estadoDetalle" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="guidDetalle" ColumnName="guidDetalle" />
                 <ScalarProperty Name="idVenta" ColumnName="idVenta" />

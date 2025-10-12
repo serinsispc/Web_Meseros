@@ -61,5 +61,59 @@ namespace DAL.Funciones
                 return new Respuesta_DAL { data=null, estado=false, mensaje=msg };
             }
         }
+
+        public static Respuesta_DAL ActualizarCantidadDetalle(int iddetalle,int cantidad)
+        {
+            try
+            {
+                var detalle = new DetalleVenta();
+                detalle = DetalleVentaControler.ConsultarId(iddetalle);
+                if (detalle == null) 
+                {
+                    return new Respuesta_DAL { data = null, estado = false, mensaje="No se actualizo." }; 
+                }
+
+                detalle.cantidadDetalle = cantidad;
+                bool crud = DetalleVentaControler.CRUD(detalle,1);
+                if(crud == false)
+                {
+                    return new Respuesta_DAL { data = null, estado = false, mensaje = "No se actualizo." };
+                }
+
+                return new Respuesta_DAL { data = null, estado = true, mensaje = "Cantidad Actualizada." };
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+                return new Respuesta_DAL { data = null, estado = false, mensaje = "NO se actualizo." };
+            }
+        }
+
+        public static Respuesta_DAL Eliminar(int iddetalle, string nota)
+        {
+            try
+            {
+                var detalle = new DetalleVenta();
+                detalle = DetalleVentaControler.ConsultarId(iddetalle);
+                if (detalle == null)
+                {
+                    return new Respuesta_DAL { data = null, estado = false, mensaje = "No se elimino." };
+                }
+                detalle.nombreProducto = nota;
+                detalle.estadoDetalle = 0;
+                bool crud = DetalleVentaControler.CRUD(detalle, 1);
+                if (crud == false)
+                {
+                    return new Respuesta_DAL { data = null, estado = false, mensaje = "No se elimino." };
+                }
+
+                return new Respuesta_DAL { data = null, estado = true, mensaje = "Cantidad eliminada." };
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+                return new Respuesta_DAL { data = null, estado = false, mensaje = "NO se elimino." };
+            }
+        }
     }
 }

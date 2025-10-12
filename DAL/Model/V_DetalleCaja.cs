@@ -38,5 +38,6 @@ namespace DAL.Model
         public string observacion { get; set; }
         public string opciones { get; set; }
         public string adiciones { get; set; }
+        public int estadoDetalle { get; set; }
     }
 }

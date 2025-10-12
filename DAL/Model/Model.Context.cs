@@ -18,7 +18,7 @@ namespace DAL.Model
     public partial class DBEntities : DbContext
     {
         public DBEntities()
-            : base(ClassConexionDinamica.DBDinamica)
+            : base("name=DBEntities")
         {
         }
     
