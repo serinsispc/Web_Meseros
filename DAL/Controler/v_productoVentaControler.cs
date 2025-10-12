@@ -9,15 +9,14 @@ namespace DAL.Controler
 {
     public class v_productoVentaControler
     {
-        public static List<v_productoVenta> Lista_IdCategoria(int idcetagoria)
+        public static List<v_productoVenta> Lista()
         {
             try
             {
                 using (DBEntities cn = new DBEntities()) 
                 {
                     return cn.v_productoVenta.AsNoTracking().Where(x =>
-                    x.estadoProducto == 1 &&
-                    x.idCategoria == idcetagoria).ToList();
+                    x.estadoProducto == 1).ToList();
                 }
             }
             catch(Exception ex)

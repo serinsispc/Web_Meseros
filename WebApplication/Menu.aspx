@@ -183,31 +183,30 @@
             <div class="col-12 col-lg-8 col-xl-5">
                 <div class="card h-100">
                     <div class="card-body">
-
-                        <!-- buscador -->
+                        <!-- Buscador -->
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                            <input type="text" class="form-control" placeholder="Buscar producto por nombre..." />
-                            <button class="btn btn-outline-secondary"><i class="bi bi-x-lg"></i></button>
+                            <input type="text" id="buscador-productos" class="form-control" placeholder="Buscar producto por nombre..." />
+                            <button type="button" id="limpiar-buscador" class="btn btn-outline-secondary"><i class="bi bi-x-lg"></i></button>
                         </div>
+
 
                         <!-- categorías -->
                         <div class="d-flex flex-wrap gap-2 mb-3">
 
-                            <asp:Repeater runat="server" ID="rpCategorias"
-                                DataSource="<%# Models.categorias %>"
-                                OnItemCommand="rpCategorias_ItemCommand">
-                                <ItemTemplate>
-                                    <asp:LinkButton
-                                        runat="server"
-                                        ID="btnCategoria"
-                                        CommandName="SeleccionarCategoria"
-                                        CommandArgument='<%# Eval("id") %>'
-                                        CssClass='<%# (Convert.ToInt32(Eval("id")) == Models.IdCategoriaActiva) ? "pill active" : "pill" %>'>
-                                        <%# Eval("nombreCategoria") %>
-                                    </asp:LinkButton>
-                                </ItemTemplate>
-                            </asp:Repeater>
+                            <!-- Categorías -->
+                            <div id="categorias-container">
+                                <% foreach (var cat in Models.categorias)
+                                    { %>
+                                <a href="#"
+                                    class="pill <%=(cat.id == Models.IdCategoriaActiva ? "active" : "") %>"
+                                    data-id="<%= cat.id %>">
+                                    <%= cat.nombreCategoria %>
+                                </a>
+                                <% } %>
+                            </div>
+
+
 
 
                         </div>
@@ -215,58 +214,50 @@
                         <!-- lista de productos -->
                         <div class="vstack gap-2">
 
-                            <asp:Repeater runat="server" ID="rpProductos" OnItemCommand="rpProductos_ItemCommand" DataSource="<%# Models.productos %>">
-                                <ItemTemplate>
-                                    <div class="producto-item">
-                                        <div class="prod-main">
-                                            <div class="prod-info">
-                                                <div class="prod-name"><%# Eval("nombreProducto") %></div>
-                                                <div class="prod-meta">
-                                                    <%# "$" + string.Format("{0:N0}", Eval("precioVenta")) %>
-                                                    <a href="#" class="link-primary small ms-2">Ver detalle</a>
-                                                </div>
-                                            </div>
-
-                                            <!-- actions container: en móvil se apila en 2 filas (cantidad+carrito) y (acciones) -->
-                                            <div class="product-actions d-flex flex-column align-items-stretch">
-                                                <!-- fila 1: cantidad + carrito -->
-                                                <div class="controls-inline d-flex align-items-center gap-2">
-                                                    <button type="button" class="btn btn-light btn-sm minus" title="Disminuir">
-                                                        <i class="bi bi-dash"></i>
-                                                    </button>
-
-                                                    <!-- TextBox server-side para leer valor desde server -->
-                                                    <asp:TextBox runat="server" ID="txtCantidad" CssClass="form-control qty-input text-center" Text="0" />
-
-                                                    <button type="button" class="btn btn-light btn-sm plus" title="Aumentar">
-                                                        <i class="bi bi-plus"></i>
-                                                    </button>
-
-                                                    <!-- carrito: LinkButton server-side que dispara ItemCommand -->
-                                                    <asp:LinkButton runat="server" ID="btnAgregarCarrito"
-                                                        CommandName="AgregarAlCarrito"
-                                                        CommandArgument='<%# Eval("idPresentacion") %>'
-                                                        CssClass="icon-btn cart-btn ms-2"
-                                                        title="Agregar al carrito">
-                        <i class="bi bi-cart2"></i>
-                                                    </asp:LinkButton>
+                            <!-- Productos -->
+                            <div id="productos-container">
+                                <asp:Repeater ID="rpProductos" runat="server" OnItemCommand="rpProductos_ItemCommand">
+                                    <ItemTemplate>
+                                        <div class="producto-item" data-categoria='<%# Eval("idCategoria") %>'>
+                                            <div class="prod-main">
+                                                <div class="prod-info">
+                                                    <div class="prod-name"><%# Eval("nombreProducto") %></div>
+                                                    <div class="prod-meta">
+                                                        $<%# string.Format("{0:N0}", Eval("precioVenta")) %>
+                                                        <a href="#" class="link-primary small ms-2">Ver detalle</a>
+                                                    </div>
                                                 </div>
 
-                                                <!-- fila 2: iconos de acción (opcional). Si no los usas, queda oculta/irrelevante -->
-                                                <div class="action-icons d-flex align-items-center gap-2 mt-2">
-                                                    <!-- Ejemplo: si quieres agregar iconos (no cambian la lógica): -->
-                                                    <!--
-                    <button type="button" class="icon-btn" title="Guardar"><i class="bi bi-floppy"></i></button>
-                    <button type="button" class="icon-btn" title="Comentario"><i class="bi bi-chat"></i></button>
-                    <button type="button" class="icon-btn" title="Anclar"><i class="bi bi-anchor"></i></button>
-                    -->
+                                                <div class="product-actions d-flex flex-column align-items-stretch">
+                                                    <div class="controls-inline d-flex align-items-center gap-2">
+                                                        <button type="button" class="btn btn-light btn-sm minus" title="Disminuir">
+                                                            <i class="bi bi-dash"></i>
+                                                        </button>
+
+                                                        <asp:TextBox ID="txtCantidad" runat="server"
+                                                            CssClass="form-control qty-input text-center"
+                                                            Text="0" />
+
+                                                        <button type="button" class="btn btn-light btn-sm plus" title="Aumentar">
+                                                            <i class="bi bi-plus"></i>
+                                                        </button>
+
+                                                        <asp:LinkButton ID="btnAgregarCarrito" runat="server"
+                                                            CommandName="AgregarAlCarrito"
+                                                            CommandArgument='<%# Eval("idPresentacion") %>'
+                                                            CssClass="icon-btn cart-btn ms-2"
+                                                            title="Agregar al carrito">
+                                <i class="bi bi-cart2"></i>
+                                                        </asp:LinkButton>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </ItemTemplate>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </div>
 
-                            </asp:Repeater>
+
 
 
                         </div>
@@ -412,48 +403,12 @@
     </div>
     <!-- /container-fluid -->
 
-
-
     <script>
-        // ====== MANTIENE TU LÓGICA, SOLO HAGO MÁS ROBUSTO EL USO DE bootstrap.Modal ======
-        document.addEventListener('DOMContentLoaded', function () {
-            var contenedor = document.getElementById('listaServicios');
-            if (contenedor && !contenedor._wired) {
-                contenedor._wired = true;
-                contenedor.addEventListener('click', function (ev) {
-                    var btn = ev.target.closest('.servicio-item');
-                    if (!btn) return;
-
-                    var idServicio = btn.getAttribute('data-id');
-                    // setea el hidden
-                    document.getElementById('<%= hfServicioId.ClientID %>').value = idServicio;
-
-                    // cierra el modal y postea (con chequeo seguro de Bootstrap)
-                    var modalEl = document.getElementById('mdlServicios');
-                    if (modalEl) {
-                        if (window.bootstrap && bootstrap.Modal) {
-                            var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-                            modal.hide();
-                        } else if (window.jQuery && $.fn.modal) {
-                            // Fallback si por alguna razón hay Bootstrap 4
-                            $(modalEl).modal('hide');
-                        }
-                    }
-                    document.getElementById('<%= btnMesaAmarrar.ClientID %>').click();
-                });
-            }
-        });
-    </script>
-
-    <script>
-        // === Helper global para abrir el modal de servicios ===
-        // Lo llama el code-behind (ConfirmDual -> jsDeny)
-        window.abrirModalServicios = function (nombreMesa, idMesa) {
-            // Setea título e ID de mesa
+        // Debe estar fuera de DOMContentLoaded para que sea global
+        function abrirModalServicios(nombreMesa, idMesa) {
             document.getElementById('lblMesaSeleccionada').textContent = nombreMesa || '';
             document.getElementById('<%= hfMesaId.ClientID %>').value = idMesa || '';
 
-            // Apertura robusta (Bootstrap 5 + fallback Bootstrap 4)
             var el = document.getElementById('mdlServicios');
             if (!el) { console.warn('#mdlServicios no existe'); return; }
 
@@ -465,81 +420,209 @@
             } else {
                 console.error('Bootstrap 5/4 no está cargado. Revisa Site.Master.');
             }
-        };
-
-        // (Opcional) si usas UpdatePanel: vuelve a enlazar la lista tras partial postback
-        if (window.Sys && Sys.Application) {
-            Sys.Application.add_load(function () {
-                var contenedor = document.getElementById('listaServicios');
-                if (!contenedor || contenedor._wired) return;
-                contenedor._wired = true;
-                contenedor.addEventListener('click', function (ev) {
-                    var btn = ev.target.closest('.servicio-item');
-                    if (!btn) return;
-
-                    var idServicio = btn.getAttribute('data-id');
-                    document.getElementById('<%= hfServicioId.ClientID %>').value = idServicio;
-
-                    var modalEl = document.getElementById('mdlServicios');
-                    if (modalEl) {
-                        if (window.bootstrap && bootstrap.Modal) {
-                            var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-                            modal.hide();
-                        } else if (window.jQuery && $.fn.modal) {
-                            $(modalEl).modal('hide');
-                        }
-                    }
-                    document.getElementById('<%= btnMesaAmarrar.ClientID %>').click();
-                });
-            });
         }
     </script>
 
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Maneja todos los botones + y - del listado
-            document.querySelectorAll('.producto-item').forEach(item => {
-                const minus = item.querySelector('.minus');
-                const plus = item.querySelector('.plus');
-                const input = item.querySelector('.qty-input');
+            var contenedor = document.getElementById('listaServicios');
+            if (!contenedor) return;
 
-                minus.addEventListener('click', () => {
-                    let val = parseInt(input.value) || 0;
-                    if (val > 0) input.value = val - 1;
-                });
+            // Evitar doble enlace si hay UpdatePanel
+            if (!contenedor._wired) {
+                contenedor._wired = true;
 
-                plus.addEventListener('click', () => {
-                    let val = parseInt(input.value) || 0;
-                    input.value = val + 1;
+                contenedor.addEventListener('click', function (ev) {
+                    var btn = ev.target.closest('.servicio-item');
+                    if (!btn) return;
+
+                    // Obtener ID del servicio seleccionado
+                    var idServicio = btn.getAttribute('data-id');
+
+                    // Setear hidden field para enviar al servidor
+                    var hfServicio = document.getElementById('<%= hfServicioId.ClientID %>');
+                    if (hfServicio) hfServicio.value = idServicio;
+
+                    // Cerrar modal de manera segura con Bootstrap 5
+                    var modalEl = document.getElementById('mdlServicios');
+                    if (modalEl && window.bootstrap && bootstrap.Modal) {
+                        var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                        modal.hide();
+
+                        // Esperar 200ms para que termine animación antes de postback
+                        setTimeout(function () {
+                            // Ejecutar postback al botón oculto
+                            __doPostBack('<%= btnMesaAmarrar.UniqueID %>', '');
+                }, 200);
+            } else {
+                // Fallback por si no hay Bootstrap 5
+                __doPostBack('<%= btnMesaAmarrar.UniqueID %>', '');
+                    }
                 });
-            });
+            }
         });
     </script>
 
 
+
+    <!-- ======= BLOQUE DE SCRIPTS OPTIMIZADO ======= -->
     <script>
-        function ajustarBloquesProducto() {
-            document.querySelectorAll('.col-xl-4 .product-actions .row').forEach(row => {
-                const col3 = row.closest('.col-xl-4');
-                if (!col3) return;
+        document.addEventListener("DOMContentLoaded", function () {
+            const categorias = document.querySelectorAll("#categorias-container .pill");
+            const productos = document.querySelectorAll("#productos-container .producto-item");
+            const buscador = document.getElementById("buscador-productos");
+            const btnLimpiar = document.getElementById("limpiar-buscador");
 
-                const anchoCol = col3.clientWidth;
+            // ===== Función de filtrado de productos =====
+            function filtrarProductos(texto = "") {
+                const categoriaCount = {};
 
-                row.classList.remove('vertical', 'horizontal-two', 'horizontal-three');
+                productos.forEach(prod => {
+                    const nombre = prod.querySelector(".prod-name").textContent.toLowerCase();
+                    const catId = prod.dataset.categoria;
+                    let visible = nombre.includes(texto.toLowerCase());
+                    prod.style.display = visible ? "block" : "none";
 
-                if (anchoCol < 400) {
-                    row.classList.add('vertical');
-                } else if (anchoCol >= 400 && anchoCol <= 550) {
-                    row.classList.add('horizontal-two');
-                } else {
-                    row.classList.add('horizontal-three');
+                    if (visible) {
+                        categoriaCount[catId] = (categoriaCount[catId] || 0) + 1;
+                    }
+                });
+
+                // Activar la categoría con más coincidencias
+                let maxCat = null;
+                let maxCount = 0;
+                for (const catId in categoriaCount) {
+                    if (categoriaCount[catId] > maxCount) {
+                        maxCount = categoriaCount[catId];
+                        maxCat = catId;
+                    }
                 }
-            });
-        }
 
-        window.addEventListener('load', ajustarBloquesProducto);
-        window.addEventListener('resize', ajustarBloquesProducto);
+                categorias.forEach(cat => {
+                    if (cat.dataset.id === maxCat) {
+                        cat.classList.add("active");
+                    } else {
+                        cat.classList.remove("active");
+                    }
+                });
+            }
+
+            // ===== Eventos =====
+
+            // Buscador en tiempo real
+            buscador.addEventListener("input", () => filtrarProductos(buscador.value));
+
+            // Botón limpiar buscador
+            btnLimpiar.addEventListener("click", function () {
+                buscador.value = "";
+                productos.forEach(prod => prod.style.display = "block");
+                categorias.forEach(cat => cat.classList.remove("active"));
+            });
+
+            // Click en categorías
+            categorias.forEach(cat => {
+                cat.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    const idCategoria = this.dataset.id;
+
+                    categorias.forEach(c => c.classList.remove("active"));
+                    this.classList.add("active");
+
+                    productos.forEach(prod => {
+                        prod.style.display = (prod.dataset.categoria === idCategoria) ? "block" : "none";
+                    });
+
+                    buscador.value = ""; // limpiar búsqueda al cambiar categoría
+                });
+            });
+
+            // Inicializar mostrando la categoría activa
+            const catActiva = document.querySelector("#categorias-container .pill.active");
+            if (catActiva) catActiva.click();
+
+            // ===== Botones + / - de cantidad =====
+            productos.forEach(item => {
+                const minus = item.querySelector(".minus");
+                const plus = item.querySelector(".plus");
+                const input = item.querySelector(".qty-input");
+
+                minus.addEventListener("click", () => {
+                    let val = parseInt(input.value) || 0;
+                    if (val > 0) input.value = val - 1;
+                });
+
+                plus.addEventListener("click", () => {
+                    let val = parseInt(input.value) || 0;
+                    input.value = val + 1;
+                });
+            });
+
+            // ===== Agregar al carrito =====
+            const botonesCarrito = document.querySelectorAll(".add-to-cart");
+            botonesCarrito.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    const idPresentacion = this.dataset.id;
+                    const inputCantidad = this.closest(".controls-inline").querySelector(".qty-input");
+                    const cantidadDetalle = parseInt(inputCantidad.value) || 0;
+
+                    if (cantidadDetalle <= 0) {
+                        alert("Debe ingresar una cantidad mayor a cero.");
+                        return;
+                    }
+
+                    fetch('Menu.aspx.cs/AgregarPro', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                        body: JSON.stringify({ idPresentacion, cantidadDetalle })
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.d.success) {
+                                alert("Producto agregado correctamente.");
+                                inputCantidad.value = 0;
+                            } else {
+                                alert("Error: " + data.d.message);
+                            }
+                        })
+                        .catch(err => console.error(err));
+                });
+            });
+
+        });
+    </script>
+
+    <%-- al precionar enter dentro de la cantidad de la lista de productos --%>
+    <script>
+        (function () {
+            function inicializarEventosProductos() {
+                document.querySelectorAll('.qty-input').forEach(function (input) {
+                    // cuando el usuario presione Enter
+                    input.addEventListener('keydown', function (e) {
+                        if (e.key === 'Enter' || e.keyCode === 13) {
+                            e.preventDefault();
+
+                            // buscamos el contenedor más cercano del producto
+                            const contenedor = input.closest('.producto-item');
+                            if (!contenedor) return;
+
+                            // buscamos el botón de carrito dentro del mismo producto
+                            const boton = contenedor.querySelector('.cart-btn');
+                            if (boton) {
+                                boton.click(); // simulamos clic
+                            }
+                        }
+                    });
+                });
+            }
+
+            // compatibilidad con UpdatePanel o cargas parciales
+            if (window.Sys && Sys.Application) {
+                Sys.Application.add_load(inicializarEventosProductos);
+            } else {
+                document.addEventListener('DOMContentLoaded', inicializarEventosProductos);
+            }
+        })();
     </script>
 
 
