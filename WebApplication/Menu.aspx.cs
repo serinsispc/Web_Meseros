@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Policy;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WebApplication.Class;
@@ -27,6 +28,10 @@ namespace WebApplication
 
         public MenuViewModels Models { get; private set; }
 
+        // variable pública para usar en el .aspx
+        public string CuentasJson { get; set; }
+       
+
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -42,6 +47,21 @@ namespace WebApplication
                 {
                     ProcesarPostBack();
                 }
+
+                // Filtrar cuentas de la venta activa
+                var cuentasActivas = Models.v_CuentaClientes
+                .Where(x => x.idVenta == Models.IdCuentaActiva)
+                .Select(x => new
+                {
+                    id = x.id,
+                    nombre = x.nombreCuenta ?? x.nombreCuenta,
+                    total = x.totalVenta ?? 0
+                })
+                .ToList();
+
+                var serializer = new JavaScriptSerializer();
+
+                CuentasJson = serializer.Serialize(cuentasActivas);
             }
             catch (Exception ex)
             {
@@ -192,7 +212,11 @@ namespace WebApplication
                 {
                     // Aquí llamas tu método que ancla el detalle a la cuenta
                     System.Diagnostics.Debug.WriteLine($"detalle ID {detalleId} con cuenta id {cuentaId}");
-                    //AnclarDetalleEnCuenta(detalleId, cuentaId);
+
+                    AlertModerno.Success(this,"Ok",$"detalle ID {detalleId} con cuenta id {cuentaId}",true,1000);
+
+                    //var respuestadal=
+
                     GuardarModelsEnSesion();
                     BindProductos();
                     DataBind();

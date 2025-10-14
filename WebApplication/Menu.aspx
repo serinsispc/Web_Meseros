@@ -169,6 +169,7 @@
     <asp:HiddenField ID="hfMesaId" runat="server" />
     <asp:HiddenField ID="hfServicioId" runat="server" />
 
+
     <asp:Button ID="btnMesaNuevaCuenta" runat="server"
         OnClick="MesaNuevaCuenta" Style="display: none" UseSubmitBehavior="false" />
 
@@ -373,6 +374,8 @@
                                     if (Models?.v_CuentaClientes != null && Models.v_CuentaClientes.Any(x => x.idVenta == Models.IdCuentaActiva))
                                     {
                                         var cuentasFiltradas = Models.v_CuentaClientes.Where(x => x.idVenta == Models.IdCuentaActiva);
+
+
                                         foreach (var cuenta in cuentasFiltradas)
                                         { %>
                                 <div class="card cuenta-card border-success-subtle shadow-sm" style="min-width: 160px; flex: 1;">
@@ -439,6 +442,7 @@
                                         <div class="d-flex flex-wrap gap-2 mb-2">
                                             <button type="button" class="icon-btn" title="Comentario" data-id='<%# Eval("id") %>'><i class="bi bi-chat"></i></button>
                                             <button type="button" class="icon-btn btn-anclar" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-link-45deg"></i></button>
+
                                             <button type="button" class="icon-btn danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
                                             <button type="button" class="icon-btn" title="Cortar / Promo" data-id='<%# Eval("id") %>'><i class="bi bi-scissors"></i></button>
                                         </div>
@@ -618,27 +622,30 @@
         </div>
     </div>
 
-    <!-- Modal: Anclar detalle a cuenta -->
-    <div class="modal fade" id="modalAnclar" tabindex="-1" aria-labelledby="modalAnclarLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalAnclarLabel">Anclar detalle a cuenta</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+<!-- Modal: Anclar detalle a cuenta -->
+<div class="modal fade" id="modalAnclar" tabindex="-1" aria-labelledby="modalAnclarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAnclarLabel">Anclar detalle a cuenta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="anclar-cuentas-list" class="d-grid gap-2">
+                    <!-- botones de cuentas se agregan vía JS -->
                 </div>
-                <div class="modal-body">
-                    <div id="anclar-cuentas-list" class="d-grid gap-2">
-                        <!-- botones de cuentas se agregan aquí -->
-
-                    </div>
-                    <div id="anclar-empty" class="text-muted small d-none">No hay cuentas disponibles.</div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
+                <div id="anclar-empty" class="text-muted small d-none">No hay cuentas disponibles.</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Hidden field para detalle seleccionado (opcional) -->
+<asp:HiddenField ID="hfDetalleId" runat="server" />
+
 
 
     <script>
@@ -1000,87 +1007,115 @@
                         });
                     });
 
-
-
-
-                    // Inicializar Bootstrap modal  modalAnclar
-                    var modalEl = document.getElementById('modalAnclar');
-                    var bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: true });
-
-                    // Delegación: abrir modal cuando se haga click en un botón .btn-anclar
-                    document.addEventListener('click', function (e) {
-                        var btn = e.target.closest('.btn-anclar');
-                        if (!btn) return;
-
-                        var detalleId = btn.getAttribute('data-id');
-                        openAnclarModal(detalleId);
-                    });
-
-                    // Función que abre modal y rellena las cuentas
-                    function openAnclarModal(detalleId) {
-                        var container = document.getElementById('anclar-cuentas-list');
-                        var empty = document.getElementById('anclar-empty');
-                        container.innerHTML = '';
-
-                        if (!window.cuentas || cuentas.length === 0) {
-                            empty.classList.remove('d-none');
-                            bsModal.show();
-                            return;
-                        }
-                        empty.classList.add('d-none');
-
-                        // por cada cuenta, crear un botón
-                        cuentas.forEach(function (c) {
-                            // crear botón
-                            var b = document.createElement('button');
-                            b.type = 'button';
-                            b.className = 'btn btn-outline-primary btn-sm';
-                            b.style.justifyContent = 'space-between';
-                            b.style.display = 'flex';
-                            b.style.alignItems = 'center';
-                            b.style.gap = '8px';
-                            b.setAttribute('data-cuenta-id', c.id);
-                            b.setAttribute('data-detalle-id', detalleId);
-
-                            // contenido: nombre y total a la derecha
-                            var left = document.createElement('span');
-                            left.textContent = c.nombre;
-
-                            var right = document.createElement('span');
-                            right.className = 'badge bg-light text-dark';
-                            // formatea total si viene numérico
-                            if (c.total !== undefined && !isNaN(c.total)) {
-                                right.textContent = Number(c.total).toLocaleString('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
-                            } else {
-                                right.textContent = c.total ?? '';
-                            }
-
-                            b.appendChild(left);
-                            b.appendChild(right);
-
-                            // click en la cuenta -> __doPostBack con target 'AnclarDetalle' y argumento 'detalleId|cuentaId'
-                            b.addEventListener('click', function () {
-                                var cuentaId = this.getAttribute('data-cuenta-id');
-                                var detId = this.getAttribute('data-detalle-id');
-
-                                // Llamada a __doPostBack
-                                var arg = detId + '|' + cuentaId;
-                                __doPostBack('AnclarDetalle', arg);
-                            });
-
-                            container.appendChild(b);
-                        });
-
-                        bsModal.show();
-                    }
-
-
-
                 })();
 
             }); // DOMContentLoaded
         })();
     </script>
+
+
+
+  <script type="text/javascript">
+      (function () {
+          // --- Evita doble inicialización ---
+          if (window.__initAnclar) return;
+          window.__initAnclar = true;
+
+          // --- Helpers ---
+          function $id(id) { return document.getElementById(id); }
+          function toArray(nodeList) { return nodeList ? Array.prototype.slice.call(nodeList) : []; }
+
+          // --- Variable global con cuentas (desde code-behind) ---
+          window.cuentas = <%= CuentasJson ?? "[]" %>;
+          console.log("Cuentas cargadas:", window.cuentas);
+
+          // --- Inicializar modal ---
+          var modalEl = $id('modalAnclar');
+          if (!modalEl) { console.error('modalAnclar no encontrado'); return; }
+
+          var bsModal;
+          function initModal() {
+              if (!bsModal && window.bootstrap && bootstrap.Modal) {
+                  bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: true });
+              }
+          }
+          initModal();
+
+          // --- Función para abrir modal y crear botones ---
+          function openAnclarModal(detalleId) {
+              initModal(); // asegúrate que bootstrap.Modal esté inicializado
+
+              var container = $id('anclar-cuentas-list');
+              var empty = $id('anclar-empty');
+              if (!container || !empty) return console.error('Elementos del modal no encontrados');
+
+              container.innerHTML = '';
+
+              if (!window.cuentas || !Array.isArray(window.cuentas) || window.cuentas.length === 0) {
+                  empty.classList.remove('d-none');
+                  empty.textContent = 'No hay cuentas disponibles';
+                  bsModal.show();
+                  return;
+              }
+
+              empty.classList.add('d-none');
+
+              window.cuentas.forEach(function (c) {
+                  if (!c) return;
+
+                  var btn = document.createElement('button');
+                  btn.type = 'button';
+                  btn.className = 'btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center';
+                  btn.style.gap = '8px';
+                  btn.setAttribute('data-cuenta-id', c.id ?? '');
+                  btn.setAttribute('data-detalle-id', detalleId ?? '');
+
+                  var left = document.createElement('span');
+                  left.textContent = c.nombre ?? '(sin nombre)';
+
+                  var right = document.createElement('span');
+                  right.className = 'badge bg-light text-dark';
+                  right.textContent = (!isNaN(Number(c.total)))
+                      ? Number(c.total).toLocaleString('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 })
+                      : c.total ?? '';
+
+                  btn.appendChild(left);
+                  btn.appendChild(right);
+
+                  btn.addEventListener('click', function () {
+                      var cuentaId = this.getAttribute('data-cuenta-id');
+                      var detId = this.getAttribute('data-detalle-id');
+                      var arg = (detId ?? '') + '|' + (cuentaId ?? '');
+                      if (typeof __doPostBack === 'function') {
+                          __doPostBack('AnclarDetalle', arg);
+                      } else {
+                          alert('No se puede hacer postback, __doPostBack no definido.');
+                      }
+                  });
+
+                  container.appendChild(btn);
+              });
+
+              bsModal.show();
+          }
+
+          // --- Delegación global para abrir modal ---
+          document.addEventListener('click', function (e) {
+              var btn = e.target.closest('.btn-anclar');
+              if (!btn) return;
+
+              // Alert para verificar que el click está llegando
+              console.log("Click detectado en .btn-anclar");
+              //alert("Click detectado en .btn-anclar");
+
+              var detalleId = btn.getAttribute('data-id');
+              if (!detalleId) return console.warn('data-id no definido en el botón .btn-anclar');
+
+              openAnclarModal(detalleId);
+          });
+
+      })();
+  </script>
 
 
 
