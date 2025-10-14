@@ -61,6 +61,7 @@
     <Compile Include="Controler\DetalleVentaControler.cs" />
     <Compile Include="Controler\ImagenesControler.cs" />
     <Compile Include="Controler\MesasControler.cs" />
+    <Compile Include="Controler\R_CuentaCliente_DetalleVentaControler.cs" />
     <Compile Include="Controler\R_VentaMesaControler.cs" />
     <Compile Include="Controler\R_VentaVendedorControler.cs" />
     <Compile Include="Controler\SedeControler.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Funciones\CuentaCliente_f.cs" />
     <Compile Include="Funciones\DetalleVenta_f.cs" />
     <Compile Include="Funciones\Mesas_f.cs" />
+    <Compile Include="Funciones\R_CuentaCliente_DetalleVenta_f.cs" />
     <Compile Include="Funciones\R_VentaMesa_f.cs" />
     <Compile Include="Funciones\R_VentaVendedor_f.cs" />
     <Compile Include="Funciones\TablaVentas_f.cs" />

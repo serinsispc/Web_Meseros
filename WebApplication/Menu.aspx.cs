@@ -195,10 +195,48 @@ namespace WebApplication
                     ProcesarAnclarDetalle(eventArgument);
                     break;
 
+                case "DividirDetalle":
+                    ProcesarDividirDetalle(eventArgument);
+                    break;
+
                 default:
                     // otros eventos por nombre...
                     break;
             }
+        }
+        private void ProcesarDividirDetalle(string eventArgument)
+        {
+            if (string.IsNullOrWhiteSpace(eventArgument)) return;
+
+            var parts = eventArgument.Split('|');
+            if (parts.Length == 2)
+            {
+                if (int.TryParse(parts[0], out int detalleId) &&
+                    int.TryParse(parts[1], out int cantidadActual) &&
+                    int.TryParse(parts[2], out int cantidadDividir))
+                {
+                    var respuestadal = DetalleVenta_f.Dividir(detalleId, cantidadActual, cantidadDividir,Models.IdCuentaActiva);
+                    string titulo;
+                    if (respuestadal.estado)
+                    {
+                        titulo = "ok";
+                        AlertModerno.Success(this, titulo, respuestadal.mensaje, true, 1000);
+                    }
+                    else
+                    {
+                        titulo = "Error";
+                        AlertModerno.Error(this, titulo, respuestadal.mensaje, true, 1000);
+                    }
+
+                    Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
+                    Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+
+                    GuardarModelsEnSesion();
+                    BindProductos();
+                    DataBind();
+                }
+            }
+
         }
         private void ProcesarAnclarDetalle(string eventArgument)
         {
@@ -213,9 +251,22 @@ namespace WebApplication
                     // Aquí llamas tu método que ancla el detalle a la cuenta
                     System.Diagnostics.Debug.WriteLine($"detalle ID {detalleId} con cuenta id {cuentaId}");
 
-                    AlertModerno.Success(this,"Ok",$"detalle ID {detalleId} con cuenta id {cuentaId}",true,1000);
+                    
 
-                    //var respuestadal=
+                    var respuestadal = R_CuentaCliente_DetalleVenta_f.Insert(cuentaId,detalleId);
+                    string titulo;
+                    if (respuestadal.estado) 
+                    { 
+                        titulo = "ok";
+                        AlertModerno.Success(this, titulo, respuestadal.mensaje, true, 1000);
+                    } else 
+                    { 
+                        titulo = "Error";
+                        AlertModerno.Error(this, titulo, respuestadal.mensaje, true, 1000);
+                    }
+
+                    Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
+                    Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
 
                     GuardarModelsEnSesion();
                     BindProductos();

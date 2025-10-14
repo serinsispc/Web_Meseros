@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -113,6 +114,55 @@ namespace DAL.Funciones
             {
                 string error = ex.Message;
                 return new Respuesta_DAL { data = null, estado = false, mensaje = "NO se elimino." };
+            }
+        }
+        public static Respuesta_DAL Dividir(int iddetalle, int cantidadActual, int cantidadDividir,int idventa)
+        {
+            try
+            {
+                var detalle = DetalleVentaControler.ConsultarId(iddetalle);
+                if (detalle == null)
+                {
+                    return new Respuesta_DAL { data=null, estado=false, mensaje=$"no se encontro el id detalle {iddetalle}" };
+                }
+
+                var nuevoDetalle = new DetalleVenta
+                {
+                    id = 0,
+                    idVenta = idventa,
+                    idPresentacion = detalle.idPresentacion,
+                    nombreProducto = detalle.nombreProducto,
+                    costoUnidad = detalle.costoUnidad,
+                    precioVenta = detalle.precioVenta,
+                    estadoDetalle = detalle.estadoDetalle,
+                    ivaDetalle = detalle.ivaDetalle,
+                    cantidadDetalle = cantidadDividir,
+                    codigoProducto = detalle.codigoProducto,
+                    observacion = detalle.observacion,
+                    guidDetalle = Guid.NewGuid(),
+                    opciones = detalle.opciones,
+                    adiciones = detalle.adiciones,
+                    impuesto_id = detalle.impuesto_id
+                };
+                var dal1 = DetalleVentaControler.CRUD(nuevoDetalle,0);
+                if (!dal1)
+                {
+                    return new Respuesta_DAL { data = "Error", estado = false, mensaje = $"no se crear agregar el nuevo detalle." };
+                }
+
+                detalle.cantidadDetalle = cantidadActual - cantidadDividir;
+                var dal2= DetalleVentaControler.CRUD(detalle, 1);
+                if (!dal2)
+                {
+                    return new Respuesta_DAL { data = "Error", estado = false, mensaje = $"se agrego el nuevo detalle, <br>pero no se logro modificar la cantidad del detalle actual... <br>NOTA: modifica manualmente la cantidad del detalle actual." };
+                }
+
+                return new Respuesta_DAL { data = "Success", estado = false, mensaje = $"proceso exitoso." };
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                return new Respuesta_DAL { data = null, estado = false, mensaje = "no fue posible dividir el item." };
             }
         }
     }
