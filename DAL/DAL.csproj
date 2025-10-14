@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassConexionDinamica.cs" />
+    <Compile Include="Controler\CuentaClienteControler.cs" />
     <Compile Include="Controler\DetalleVentaControler.cs" />
     <Compile Include="Controler\ImagenesControler.cs" />
     <Compile Include="Controler\MesasControler.cs" />
@@ -65,12 +66,14 @@
     <Compile Include="Controler\SedeControler.cs" />
     <Compile Include="Controler\VendedorControler.cs" />
     <Compile Include="Controler\V_CategoriaControler.cs" />
+    <Compile Include="Controler\V_CuentaClienteCotroler.cs" />
     <Compile Include="Controler\V_CuentasControler.cs" />
     <Compile Include="Controler\V_DetalleCajaControler.cs" />
     <Compile Include="Controler\v_productoVentaControler.cs" />
     <Compile Include="Controler\V_ServicioMesaControler.cs" />
     <Compile Include="Controler\V_TablaVentasControler.cs" />
     <Compile Include="Controler\ZonasControler.cs" />
+    <Compile Include="Funciones\CuentaCliente_f.cs" />
     <Compile Include="Funciones\DetalleVenta_f.cs" />
     <Compile Include="Funciones\Mesas_f.cs" />
     <Compile Include="Funciones\R_VentaMesa_f.cs" />
@@ -143,12 +146,6 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CertificadoDigital.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\CierreCaja_Result.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\CierreCaja_SuperAdmin_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ClienteDomicilio.cs">
@@ -281,6 +278,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CRUD_TablaVentas_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CuentaCliente.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CuentasServicio.cs">
@@ -584,6 +584,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DescuentoDetalleCompra.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DescuentoProgramado.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DestapeProducto.cs">
@@ -1333,6 +1336,9 @@
     <Compile Include="Model\R_CotizacionCliente.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\R_CuentaCliente_DetalleVenta.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\R_CuentaServicio_DetalleServicio.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -1423,16 +1429,10 @@
     <Compile Include="Model\SoftwareDIAN.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\SP_Actualizar_CargoDescuentoVentas_Result.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\SP_Eliminar_CargoDescuentoVentas_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SP_InformeGeneralCategoria_Dias_Result.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\SP_Insertar_CargoDescuentoVentas_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SP_ServicioMesa_CRUD_Result.cs">
@@ -1897,6 +1897,9 @@
     <Compile Include="Model\V_Cotizacion.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\V_CuentaCliente.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\V_Cuentas.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -2115,7 +2118,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Model\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

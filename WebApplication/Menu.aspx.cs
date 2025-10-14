@@ -5,11 +5,10 @@ using DAL.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Policy;
 using System.Web;
-using System.Web.Script.Services;
-using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WebApplication.Class;
@@ -19,409 +18,578 @@ namespace WebApplication
 {
     public partial class Menu : Page
     {
+        #region Constantes de sesión / claves
+        private const string SessionVendedorKey = "Vendedor";
+        private const string SessionZonaActivaKey = "zonaactiva";
+        private const string SessionModelsKey = "Models";
+        private const string SessionIdVendedorKey = "idvendedor";
+        #endregion
 
         public MenuViewModels Models { get; private set; }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            if (!IsPostBack)
+            try
             {
-                int IdVenta = 0;
-                var vendedor = JsonConvert.DeserializeObject<Vendedor>(Session["Vendedor"].ToString());
-                List<V_Cuentas> cuentas = new List<V_Cuentas>();
-                cuentas = V_CuentasControler.Lista_IdVendedor(vendedor.id);
-                if (cuentas.Count == 0)
+                Models = new MenuViewModels();
+                Models = Session[SessionModelsKey] as MenuViewModels;
+
+                if (!IsPostBack)
                 {
-                    //en esta parte creamos una nueva cuenta para el vendedor
-                    IdVenta = TablaVentas_f.NuevaVenta();
-                    if (IdVenta > 0)
-                    {
-                        //ahora relacionamos el id del vendedor con el id de la venta
-                        if (!R_VentaVendedor_f.Relacionar_Vendedor_Venta(IdVenta, vendedor.id))
-                        {
-                            AlertModerno.Error(this, "¡Error!", "No fue posible crear la relación del vendedor con la venta.", true);
-                        }
-                    }
-                    else
-                    {
-                        AlertModerno.Error(this, "¡Error!", "No fue posible crear una nueva cuenta.", true);
-                    }
-                    //ahora si cargamos las cuentas
-                    cuentas = new List<V_Cuentas>();
-                    cuentas = V_CuentasControler.Lista_IdVendedor(vendedor.id);
+                    InicializarPagina();
                 }
                 else
                 {
-                    IdVenta = cuentas.FirstOrDefault().id;
+                    ProcesarPostBack();
                 }
-                var zonas = ZonasControler.Lista();
-                int idzonaactiva = zonas.FirstOrDefault().id;
-                var categorias = V_CategoriaControler.lista();
-                int idcate = categorias.FirstOrDefault().id;
-                Session["zonaactiva"] = idzonaactiva;
-                Models = new MenuViewModels
-                {
-                    IdCuentaActiva = IdVenta,
-                    IdZonaActiva = idzonaactiva,
-                    IdMesaActiva = 0,
-                    IdCategoriaActiva = idcate,
-                    cuentas = cuentas,
-                    zonas = zonas,
-                    Mesas = MesasControler.Lista(),
-                    categorias = categorias,
-                    productos = v_productoVentaControler.Lista(),
-                    venta = V_TablaVentasControler.Consultar_Id(IdVenta),
-                    detalleCaja = V_DetalleCajaControler.Lista_IdVenta(IdVenta),
-                };
+            }
+            catch (Exception ex)
+            {
+                // Error general en Page_Load
+                System.Diagnostics.Debug.WriteLine("Page_Load error: " + ex);
+                AlertModerno.Error(this, "¡Error!", "Ocurrió un error inesperado al cargar la página.", true);
+            }
+        }
 
-                // Usar ListaProductos según lo indicaste
-                if (Models != null && Models.productos != null)
+        #region Inicialización (primer load)
+
+        private void InicializarPagina()
+        {
+            var vendedor = ObtenerVendedorDesdeSession();
+            if (vendedor == null)
+            {
+                AlertModerno.Error(this, "¡Error!", "No se encontró la sesión del vendedor.", true);
+                return;
+            }
+
+            // Obtener cuentas del vendedor
+            var cuentas = V_CuentasControler.Lista_IdVendedor(vendedor.id) ?? new List<V_Cuentas>();
+            int idVenta;
+
+            if (!cuentas.Any())
+            {
+                idVenta = TablaVentas_f.NuevaVenta();
+                if (idVenta <= 0)
                 {
-                    rpProductos.DataSource = Models.productos;
-                    rpProductos.DataBind();
+                    AlertModerno.Error(this, "¡Error!", "No fue posible crear una nueva cuenta.", true);
+                    return;
                 }
 
-                Session["Models"] = Models;
-                DataBind();
+                var relacionado = R_VentaVendedor_f.Relacionar_Vendedor_Venta(idVenta, vendedor.id);
+                if (!relacionado)
+                {
+                    AlertModerno.Error(this, "¡Error!", "No fue posible crear la relación del vendedor con la venta.", true);
+                    // aún así intentamos recargar cuentas para que la UI no quede rota
+                }
+
+                // recargar cuentas
+                cuentas = V_CuentasControler.Lista_IdVendedor(vendedor.id) ?? new List<V_Cuentas>();
             }
             else
             {
-                string eventTarget = Request["__EVENTTARGET"];
-                string eventArgument = Request["__EVENTARGUMENT"];
-                System.Diagnostics.Debug.WriteLine("EventTarget: " + eventTarget);
-                System.Diagnostics.Debug.WriteLine("EventArgument: " + eventArgument);
+                idVenta = cuentas.First().id;
+            }
 
-                if (!string.IsNullOrEmpty(eventTarget) && eventTarget == "ActualizarCantidad")
+            // Cargar colecciones base
+            var zonas = ZonasControler.Lista() ?? new List<Zonas>();
+            var categorias = V_CategoriaControler.lista() ?? new List<V_Categoria>();
+            var mesas = MesasControler.Lista() ?? new List<Mesas>();
+            var productos = v_productoVentaControler.Lista() ?? new List<v_productoVenta>();
+
+            int idZonaActiva = zonas.FirstOrDefault()?.id ?? 0;
+            int idCategoriaActiva = categorias.FirstOrDefault()?.id ?? 0;
+
+            // Guardar zona activa en sesión (si otros módulos la usan)
+            Session[SessionZonaActivaKey] = idZonaActiva;
+            var listacc = V_CuentaClienteCotroler.Lista(false);
+
+            // Construir ViewModel
+            Models = new MenuViewModels
+            {
+                IdCuentaActiva = idVenta,
+                IdZonaActiva = idZonaActiva,
+                IdMesaActiva = 0,
+                IdCategoriaActiva = idCategoriaActiva,
+                IdCuenteClienteActiva = listacc.FirstOrDefault().id,
+                cuentas = cuentas,
+                zonas = zonas,
+                Mesas = mesas,
+                categorias = categorias,
+                productos = productos,
+                venta = V_TablaVentasControler.Consultar_Id(idVenta),
+                detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idVenta),
+                v_CuentaClientes =listacc
+            };
+
+            GuardarModelsEnSesion();
+            BindProductos();
+            DataBind();
+        }
+
+        private Vendedor ObtenerVendedorDesdeSession()
+        {
+            try
+            {
+                if (Session[SessionVendedorKey] == null) return null;
+                var json = Session[SessionVendedorKey].ToString();
+                if (string.IsNullOrWhiteSpace(json)) return null;
+                return JsonConvert.DeserializeObject<Vendedor>(json);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("ObtenerVendedorDesdeSession error: " + ex);
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region PostBack y eventos globales
+
+        private void ProcesarPostBack()
+        {
+            var eventTarget = Request["__EVENTTARGET"];
+            var eventArgument = Request["__EVENTARGUMENT"];
+
+            System.Diagnostics.Debug.WriteLine("EventTarget: " + eventTarget);
+            System.Diagnostics.Debug.WriteLine("EventArgument: " + eventArgument);
+
+            if (string.IsNullOrEmpty(eventTarget)) return;
+
+            switch (eventTarget)
+            {
+                case "ActualizarCantidad":
+                    ProcesarActualizarCantidad(eventArgument);
+                    break;
+
+                case "EliminarDetalle":
+                    ProcesarEliminarDetalle(eventArgument);
+                    break;
+
+                // en el switch donde procesas event targets:
+                case "GuardarCuenta":
+                    ProcesarGuardarCuenta(eventArgument);
+                    break;
+
+                case "AnclarDetalle":
+                    ProcesarAnclarDetalle(eventArgument);
+                    break;
+
+                default:
+                    // otros eventos por nombre...
+                    break;
+            }
+        }
+        private void ProcesarAnclarDetalle(string eventArgument)
+        {
+            if (string.IsNullOrWhiteSpace(eventArgument)) return;
+
+            var parts = eventArgument.Split('|');
+            if (parts.Length == 2)
+            {
+                if (int.TryParse(parts[0], out int detalleId) &&
+                    int.TryParse(parts[1], out int cuentaId))
                 {
-                    string[] datos = eventArgument.Split('|');
-                    int id = int.Parse(datos[0]);
-                    int cantidad = int.Parse(datos[1]);
-
-                    System.Diagnostics.Debug.WriteLine($"Actualizar ID {id} con cantidad {cantidad}");
-
-                    ActualizarCantidadEnBaseDeDatos(id, cantidad);
-                }
-
-                if (!string.IsNullOrEmpty(eventTarget) && eventTarget == "EliminarDetalle")
-                {
-                    string[] datos = eventArgument.Split('|');
-                    int id = int.Parse(datos[0]);
-                    string nota = datos[1];
-
-                    EliminarDetalle(id, nota);
+                    // Aquí llamas tu método que ancla el detalle a la cuenta
+                    System.Diagnostics.Debug.WriteLine($"detalle ID {detalleId} con cuenta id {cuentaId}");
+                    //AnclarDetalleEnCuenta(detalleId, cuentaId);
+                    GuardarModelsEnSesion();
+                    BindProductos();
+                    DataBind();
                 }
             }
 
         }
+        private void ProcesarActualizarCantidad(string eventArgument)
+        {
+            if (string.IsNullOrWhiteSpace(eventArgument)) return;
+
+            var partes = eventArgument.Split('|');
+            if (partes.Length < 2) return;
+
+            if (!int.TryParse(partes[0], out int id)) return;
+            if (!int.TryParse(partes[1], out int cantidad)) return;
+
+            System.Diagnostics.Debug.WriteLine($"Actualizar ID {id} con cantidad {cantidad}");
+            ActualizarCantidadEnBaseDeDatos(id, cantidad);
+        }
+
+        private void ProcesarEliminarDetalle(string eventArgument)
+        {
+            if (string.IsNullOrWhiteSpace(eventArgument)) return;
+
+            var partes = eventArgument.Split('|');
+            if (partes.Length < 2) return;
+
+            if (!int.TryParse(partes[0], out int id)) return;
+            var nota = partes[1];
+
+            EliminarDetalle(id, nota);
+        }
+
+        // ------------------ método a añadir en tu clase ------------------
+        private void ProcesarGuardarCuenta(string eventArgument)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(eventArgument)) return;
+
+                // formato: mode|id|nombre
+                var partes = eventArgument.Split(new char[] { '|' }, 3);
+                if (partes.Length < 3) return;
+
+                var mode = partes[0]; // "crear" o "editar"
+                var idPart = partes[1];
+                var nombre = partes[2]?.Trim() ?? "";
+
+                if (string.IsNullOrWhiteSpace(nombre) || nombre.Length < 2)
+                {
+                    // puedes mostrar alerta al usuario
+                    AlertModerno.Error(this, "Error", "Nombre inválido.", true);
+                    return;
+                }
+
+                if (mode == "crear")
+                {
+                    CrearCuenta(nombre);
+                }
+                else if (mode == "editar")
+                {
+                    if (!int.TryParse(idPart, out int idCuenta))
+                    {
+                        AlertModerno.Error(this, "Error", "ID de cuenta inválido.", true);
+                        return;
+                    }
+                    EditarCuenta(idCuenta, nombre);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("ProcesarGuardarCuenta error: " + ex);
+                AlertModerno.Error(this, "Error", "Ocurrió un error al guardar la cuenta.", true);
+            }
+        }
+
+        #endregion
+
+        #region Helpers: carga/bind/sesión
+
+        private void CargarModelsDesdeSesion()
+        {
+            try
+            {
+                Models = Session[SessionModelsKey] as MenuViewModels;
+                if (Models == null)
+                {
+                    // Reconstruir mínimamente si no hay sesión
+                    ReconstruirModelsBasico();
+                }
+
+                // Re-bind productos si existen
+                BindProductos();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("CargarModelsDesdeSesion error: " + ex);
+            }
+        }
+
+        private void ReconstruirModelsBasico()
+        {
+            // Intento de reconstrucción conservadora para evitar nulls
+            var vendedor = ObtenerVendedorDesdeSession();
+            int vendedorId = vendedor?.id ?? (Session[SessionIdVendedorKey] != null ? Convert.ToInt32(Session[SessionIdVendedorKey]) : 0);
+            var cuentas = V_CuentasControler.Lista_IdVendedor(vendedorId) ?? new List<V_Cuentas>();
+            int idCuenta = cuentas.FirstOrDefault()?.id ?? 0;
+
+            Models = new MenuViewModels
+            {
+                IdCuentaActiva = idCuenta,
+                cuentas = cuentas,
+                zonas = ZonasControler.Lista() ?? new List<Zonas>(),
+                Mesas = MesasControler.Lista() ?? new List<Mesas>(),
+                categorias = V_CategoriaControler.lista() ?? new List<V_Categoria>(),
+                productos = v_productoVentaControler.Lista() ?? new List<v_productoVenta>(),
+                venta = V_TablaVentasControler.Consultar_Id(idCuenta),
+                detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idCuenta)
+            };
+
+            GuardarModelsEnSesion();
+        }
+
+        private void BindProductos()
+        {
+            try
+            {
+                if (Models?.productos != null && Models.productos.Any())
+                {
+                    rpProductos.DataSource = Models.productos;
+                }
+                else
+                {
+                    rpProductos.DataSource = null;
+                }
+                rpProductos.DataBind();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("BindProductos error: " + ex);
+            }
+        }
+
+        private void GuardarModelsEnSesion()
+        {
+            Session[SessionModelsKey] = Models;
+        }
+
+        #endregion
+
+        #region Comandos de repeaters / botones
 
         protected void rpServicios_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            if (e.CommandName == "AbrirServicio")
-            {
-                int idStr = Convert.ToInt32(e.CommandArgument);
+            if (e.CommandName != "AbrirServicio") return;
 
-                Models = new MenuViewModels();
-                Models = Session["Models"] as MenuViewModels;
+            if (!int.TryParse(Convert.ToString(e.CommandArgument), out int idServicio)) return;
 
-                Models.venta = V_TablaVentasControler.Consultar_Id(idStr);
-                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idStr);
+            CargarModelsDesdeSesion();
+            Models.venta = V_TablaVentasControler.Consultar_Id(idServicio);
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idServicio);
 
-                Models.IdCuentaActiva = idStr;
-                Session["Models"] = Models;
+            Models.IdCuentaActiva = idServicio;
+            GuardarModelsEnSesion();
 
-                //AlertModerno.Success(this,"ok",$"servicio seleccionado {idStr}",true);
-                if (Models != null && Models.productos != null)
-                {
-                    rpProductos.DataSource = Models.productos;
-                    rpProductos.DataBind();
-                }
-                DataBind();
-            }
-        }
-
-        protected void btnNuevoServicio_Click(object sender, EventArgs e)
-        {
-            AlertModerno.Success(this, "ok", $"boton seleccionado {e.ToString()}", true);
-        }
-
-        protected void btnEliminarServicio_Clik(object sender, EventArgs e)
-        {
-            var btn = (System.Web.UI.HtmlControls.HtmlButton)sender;
-            AlertModerno.Success(this, "ok", $"boton seleccionado {btn.ID}", true);
+            BindProductos();
+            DataBind();
         }
 
         protected void rpZonas_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            if (e.CommandName == "CambiarZona")
-            {
-                int idZona = Convert.ToInt32(e.CommandArgument);
-                Session["zonaactiva"] = idZona;
-                Models = new MenuViewModels();
-                Models = Session["Models"] as MenuViewModels;
-                Models.IdZonaActiva = idZona;
-                if (Models != null && Models.productos != null)
-                {
-                    rpProductos.DataSource = Models.productos;
-                    rpProductos.DataBind();
-                }
-                Session["Models"] = Models;
-                DataBind();
-            }
+            if (e.CommandName != "CambiarZona") return;
+            if (!int.TryParse(Convert.ToString(e.CommandArgument), out int idZona)) return;
+
+            Session[SessionZonaActivaKey] = idZona;
+            CargarModelsDesdeSesion();
+            Models.IdZonaActiva = idZona;
+            GuardarModelsEnSesion();
+
+            BindProductos();
+            DataBind();
         }
 
         protected void rpMesas_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            Models = new MenuViewModels();
-            Models = Session["Models"] as MenuViewModels;
+            CargarModelsDesdeSesion();
 
-            if (e.CommandName == "AbrirMesa")
+            if (e.CommandName != "AbrirMesa")
             {
-                int idMesa = Convert.ToInt32(e.CommandArgument);
-                var mesa = MesasControler.Consultar_id(idMesa);
-                if (mesa != null)
-                {
-                    //ahora consultamos si esta mesa esta en una de las cuentas activa
-                    var cuentas = V_CuentasControler.Lista_Mesa(mesa.nombreMesa);
-                    if (cuentas.Count != 0)
-                    {
-                        //cargamos los datos de la mesa
-                        Models = new MenuViewModels();
-                        Models = Session["Models"] as MenuViewModels;
-                        Models.IdCuentaActiva = cuentas.FirstOrDefault().id;
-                        Models.IdMesaActiva = idMesa;
-                        Models.Mesas = MesasControler.Lista();
-                        Session["Models"] = Models;
-                        DataBind();
-                    }
-                    else
-                    {
-                        // Construimos los callbacks: hacer “click” en los botones ocultos
-                        string jsConfirm = $"document.getElementById('{btnMesaNuevaCuenta.ClientID}').click();";
-
-                        // AHORA: abrir modal (sin postback), seteando mesa y título
-                        string jsDeny = $@"
-abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreMesa ?? $"MESA {idMesa}")}', '{idMesa}');
-";
-                        // ==================== / FIN CAMBIO ÚNICO ============================
-
-                        AlertModerno.ConfirmDual(
-                            this,
-                            $"Mesa - {mesa.nombreMesa}",
-                            "¿Qué deseas hacer con esta mesa?",
-                            jsConfirm,
-                            jsDeny,
-                            textoConfirm: "Nuevo servicio",
-                            textoDeny: "Amarrar a existente",
-                            textoCancel: "Cancelar"
-                        );
-                        //enviamos la pregunta
-
-                        Models.IdMesaActiva = idMesa;
-                        Models.Mesas = MesasControler.Lista();
-
-                    }
-                }
-
-
+                // solo manejamos AbrirMesa en este handler
+                return;
             }
 
-            if (Models != null && Models.productos != null)
+            if (!int.TryParse(Convert.ToString(e.CommandArgument), out int idMesa)) return;
+
+            var mesa = MesasControler.Consultar_id(idMesa);
+            if (mesa == null)
             {
-                rpProductos.DataSource = Models.productos;
-                rpProductos.DataBind();
+                AlertModerno.Error(this, "Error", "No se encontró la mesa.", true);
+                return;
             }
-            Session["Models"] = Models;
-            DataBind();
-        }
-        protected void MesaNuevaCuenta(object sender, EventArgs e)
-        {
-            Models = new MenuViewModels();
-            Models = Session["Models"] as MenuViewModels;
 
-            var mesa = MesasControler.Consultar_id(Models.IdMesaActiva);
-            if (mesa != null)
+            var cuentasMesa = V_CuentasControler.Lista_Mesa(mesa.nombreMesa) ?? new List<V_Cuentas>();
+            if (cuentasMesa.Any())
             {
-                //creamos la nueva venta
-                int idVenta = TablaVentas_f.NuevaVenta();
-
-                if (idVenta > 0)
-                {
-                    Models.IdCuentaActiva = idVenta;
-                    //amaramos la venta con la mesa
-                    var rvm = R_VentaMesa_f.Relacionar_Venta_Mesa(idVenta, Models.IdMesaActiva);
-                    if (rvm)
-                    {
-                        //cambiamos el estado de la mesa
-                        mesa.estadoMesa = 1;
-                        bool resp = MesasControler.CRUD(mesa, 1);
-                        //amarramos al venta con el vendedor
-                        var rvv = R_VentaVendedor_f.Relacionar_Vendedor_Venta(idVenta, Convert.ToInt32(Session["idvendedor"]));
-                        if (rvv)
-                        {
-                            AlertModerno.Success(this, "Listo", $"Servicio #{idVenta} creado para la mesa {mesa.nombreMesa}", true, 2000);
-                        }
-                        else
-                        {
-                            AlertModerno.Error(this, "Error", $"Servicio #{idVenta} creado con exíto. pero no se amarro la mesa {mesa.nombreMesa}", true, 2000);
-                        }
-                    }
-                    else
-                    {
-                        AlertModerno.Error(this, "Error", $"Servicio #{idVenta} creado con exíto. pero no se amarro la mesa {mesa.nombreMesa}", true, 2000);
-                    }
-                }
-                else
-                {
-                    AlertModerno.Error(this, "Error", $"No se creo el servicio", true, 2000);
-                }
+                // La mesa ya está asociada a una cuenta
+                Models.IdCuentaActiva = cuentasMesa.First().id;
+                Models.IdMesaActiva = idMesa;
+                Models.Mesas = MesasControler.Lista();
+                GuardarModelsEnSesion();
+                DataBind();
             }
             else
             {
-                AlertModerno.Error(this, "Error", $"No se encontro la mesa.", true, 2000);
+                // Preguntar acción: nuevo servicio o amarrar a existente (usa AlertModerno con callbacks JS)
+                string jsConfirm = $"document.getElementById('{btnMesaNuevaCuenta.ClientID}').click();";
+                string jsDeny = $@"abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreMesa ?? $"MESA {idMesa}")}', '{idMesa}');";
+
+                AlertModerno.ConfirmDual(
+                    this,
+                    $"Mesa - {mesa.nombreMesa}",
+                    "¿Qué deseas hacer con esta mesa?",
+                    jsConfirm,
+                    jsDeny,
+                    textoConfirm: "Nuevo servicio",
+                    textoDeny: "Amarrar a existente",
+                    textoCancel: "Cancelar"
+                );
+
+                Models.IdMesaActiva = idMesa;
+                Models.Mesas = MesasControler.Lista();
+                GuardarModelsEnSesion();
             }
+
+            BindProductos();
+            DataBind();
+        }
+
+        protected void MesaNuevaCuenta(object sender, EventArgs e)
+        {
+            CargarModelsDesdeSesion();
+
+            var mesa = MesasControler.Consultar_id(Models.IdMesaActiva);
+            if (mesa == null)
+            {
+                AlertModerno.Error(this, "Error", "No se encontró la mesa.", true, 2000);
+                return;
+            }
+
+            int idVenta = TablaVentas_f.NuevaVenta();
+            if (idVenta <= 0)
+            {
+                AlertModerno.Error(this, "Error", "No se creó el servicio.", true, 2000);
+                return;
+            }
+
+            Models.IdCuentaActiva = idVenta;
+
+            // Relacionar venta - mesa
+            var rvm = R_VentaMesa_f.Relacionar_Venta_Mesa(idVenta, Models.IdMesaActiva);
+            if (!rvm)
+            {
+                AlertModerno.Error(this, "Error", $"Servicio #{idVenta} creado pero no se amarró la mesa {mesa.nombreMesa}", true, 2000);
+            }
+            else
+            {
+                mesa.estadoMesa = 1;
+                MesasControler.CRUD(mesa, 1);
+
+                // amarro venta con vendedor (uso session idvendedor si existe)
+                var rvv = R_VentaVendedor_f.Relacionar_Vendedor_Venta(idVenta, ObtenerIdVendedorSeguro());
+                if (rvv)
+                {
+                    AlertModerno.Success(this, "Listo", $"Servicio #{idVenta} creado para la mesa {mesa.nombreMesa}", true, 2000);
+                }
+                else
+                {
+                    AlertModerno.Error(this, "Error", $"Servicio #{idVenta} creado con éxito, pero no se amarró al vendedor.", true, 2000);
+                }
+            }
+
+            // Actualizar modelos y UI
             Models.Mesas = MesasControler.Lista();
-            Models.cuentas = V_CuentasControler.Lista_IdVendedor(Convert.ToInt32(Session["idvendedor"]));
+            Models.cuentas = V_CuentasControler.Lista_IdVendedor(ObtenerIdVendedorSeguro());
             Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
             Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
-            if (Models != null && Models.productos != null)
-            {
-                rpProductos.DataSource = Models.productos;
-                rpProductos.DataBind();
-            }
-            Session["Models"] = Models;
+
+            GuardarModelsEnSesion();
+            BindProductos();
             DataBind();
         }
 
         protected void MesaAmarar(object sender, EventArgs e)
         {
-            int idMesa = int.Parse(hfMesaId.Value);
-            int idServicio = int.Parse(hfServicioId.Value);
+            if (!int.TryParse(hfMesaId?.Value, out int idMesa)) return;
+            if (!int.TryParse(hfServicioId?.Value, out int idServicio)) return;
 
-            Models = new MenuViewModels();
-            Models = Session["Models"] as MenuViewModels;
+            CargarModelsDesdeSesion();
 
             var mesa = MesasControler.Consultar_id(idMesa);
+            if (mesa == null)
+            {
+                AlertModerno.Error(this, "Error", "No se encontró la mesa.", true);
+                return;
+            }
+
             mesa.estadoMesa = 1;
-            bool respCrud = MesasControler.CRUD(mesa, 1);
+            MesasControler.CRUD(mesa, 1);
 
             bool resp = R_VentaMesa_f.Relacionar_Venta_Mesa(idServicio, idMesa);
             if (resp)
             {
-                AlertModerno.Success(this, "Amarrada",
-    $"Mesa {mesa.nombreMesa} amarrada al servicio #{idServicio}.", true, 1200);
+                AlertModerno.Success(this, "Amarrada", $"Mesa {mesa.nombreMesa} amarrada al servicio #{idServicio}.", true, 1200);
             }
             else
             {
-                AlertModerno.Error(this, "Error",
-    $"Mesa {mesa.nombreMesa} no fue amarrada al servicio #{idServicio}.", true, 1200);
+                AlertModerno.Error(this, "Error", $"Mesa {mesa.nombreMesa} no fue amarrada al servicio #{idServicio}.", true, 1200);
             }
 
             Models.IdCuentaActiva = idServicio;
             Models.IdMesaActiva = idMesa;
-            Models.cuentas = V_CuentasControler.Lista_IdVendedor(Convert.ToInt32(Session["idvendedor"]));
+            Models.cuentas = V_CuentasControler.Lista_IdVendedor(ObtenerIdVendedorSeguro());
             Models.Mesas = MesasControler.Lista();
             Models.venta = V_TablaVentasControler.Consultar_Id(idServicio);
             Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idServicio);
-            if (Models != null && Models.productos != null)
-            {
-                rpProductos.DataSource = Models.productos;
-                rpProductos.DataBind();
-            }
-            Session["Models"] = Models;
+
+            GuardarModelsEnSesion();
+            BindProductos();
             DataBind();
         }
 
         protected void rpProductos_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            Models = new MenuViewModels();
-            Models = Session["Models"] as MenuViewModels;
 
+            if (e.CommandName != "AgregarAlCarrito") return;
 
-            // DEBUG rápido
-            System.Diagnostics.Debug.WriteLine("rpProductos_ItemCommand fired: " + e.CommandName);
-
-            if (e.CommandName == "AgregarAlCarrito")
+            if (!int.TryParse(Convert.ToString(e.CommandArgument), out int idPresentacion))
             {
-                int idPresentacion;
-                if (!int.TryParse(Convert.ToString(e.CommandArgument), out idPresentacion))
-                {
-                    // CommandArgument inválido
-                    return;
-                }
-
-                // Obtener TextBox de la misma fila
-                var txt = e.Item.FindControl("txtCantidad") as TextBox;
-                int cantidad = 0;
-                if (txt != null) int.TryParse(txt.Text, out cantidad);
-
-                /* validamos la cantidad */
-                if (cantidad <= 0)
-                {
-                    /* como la cantidad es 0 o menor a cero solamente hacemos en return sin enviar alert */
-                    return;
-                }
-
-                // en esta parte llamamos la función que se encarga de recibir la cantidad y el id de la presentación.
-                //retorna una respuesta true o false
-                var resp = DetalleVenta_f.AgregarProducto(idPresentacion, cantidad, Models.IdCuentaActiva);
-                if (resp.estado)
-                {
-                    //enviamos alert ok
-                    AlertModerno.Success(this, "¡OK!", $"{resp.mensaje}", true,800);
-                }
-                else
-                {
-                    //enviamos alert error
-                    AlertModerno.Error(this, "¡Error!", $"{resp.mensaje}", true);
-                }
-
-                // reiniciamos el cuadro de texto de cantidad
-                if (txt != null) txt.Text = "0";
-
-                Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
-                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
-                // Usar ListaProductos según lo indicaste
-                if (Models != null && Models.productos != null)
-                {
-                    rpProductos.DataSource = Models.productos;
-                    rpProductos.DataBind();
-                }
-                Session["Models"] = Models;
-                DataBind();
+                // CommandArgument inválido
+                return;
             }
+
+            var txt = e.Item.FindControl("txtCantidad") as TextBox;
+            int cantidad = 0;
+            if (txt != null) int.TryParse(txt.Text, out cantidad);
+
+            if (cantidad <= 0)
+            {
+                AlertModerno.Error(this, "¡Error!", $"la cantidad reportada es ({cantidad})", true);
+                BindProductos();
+                DataBind();
+                return;
+            }
+
+            var resp = DetalleVenta_f.AgregarProducto(idPresentacion, cantidad, Models.IdCuentaActiva);
+            if (resp.estado)
+            {
+                AlertModerno.Success(this, "¡OK!", $"{resp.mensaje}", true, 800);
+            }
+            else
+            {
+                AlertModerno.Error(this, "¡Error!", $"{resp.mensaje}", true);
+            }
+
+            if (txt != null) txt.Text = "0";
+
+            Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+
+            GuardarModelsEnSesion();
+            BindProductos();
+            DataBind();
         }
 
         protected void btnCuentaGeneral_Click(object sender, EventArgs e)
         {
-            Models = new MenuViewModels();
-            Models = Session["Models"] as MenuViewModels;
-            // Usar ListaProductos según lo indicaste
-            if (Models != null && Models.productos != null)
-            {
-                rpProductos.DataSource = Models.productos;
-                rpProductos.DataBind();
-            }
-            Session["Models"] = Models;
+            CargarModelsDesdeSesion();
+            BindProductos();
+            GuardarModelsEnSesion();
             DataBind();
         }
 
+        #endregion
+
+        #region Operaciones sobre detalle (cantidad / eliminar)
+
         private void ActualizarCantidadEnBaseDeDatos(int id, int cantidad)
         {
-            Models = new MenuViewModels();
-            if (Session["Models"] != null)
+            try
             {
-                Models = Session["Models"] as MenuViewModels;
-                // Usar ListaProductos según lo indicaste
-                if (Models != null && Models.productos != null)
-                {
-                    rpProductos.DataSource = Models.productos;
-                    rpProductos.DataBind();
-                }
+                CargarModelsDesdeSesion();
 
-                var respdal=DetalleVenta_f.ActualizarCantidadDetalle(id, cantidad);
+                var respdal = DetalleVenta_f.ActualizarCantidadDetalle(id, cantidad);
                 if (respdal.estado)
                 {
-                    AlertModerno.Success(this, "Ok",respdal.mensaje, true, 500);
+                    AlertModerno.Success(this, "Ok", respdal.mensaje, true, 500);
                 }
                 else
                 {
@@ -431,36 +599,121 @@ abrirModalServicios('{System.Web.HttpUtility.JavaScriptStringEncode(mesa.nombreM
                 Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
                 Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
 
-                Session["Models"] = Models;
+                GuardarModelsEnSesion();
+                BindProductos();
                 DataBind();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("ActualizarCantidadEnBaseDeDatos error: " + ex);
+                AlertModerno.Error(this, "Error", "No se pudo actualizar la cantidad.", true);
             }
         }
 
-        private void EliminarDetalle(int id,string nota)
+        private void EliminarDetalle(int id, string nota)
         {
-            Models = new MenuViewModels();
-            Models = Session["Models"] as MenuViewModels;
-            // Usar ListaProductos según lo indicaste
-            if (Models != null && Models.productos != null)
+            try
             {
-                rpProductos.DataSource = Models.productos;
-                rpProductos.DataBind();
+                CargarModelsDesdeSesion();
+
+                var respdal = DetalleVenta_f.Eliminar(id, nota);
+                if (respdal.estado)
+                {
+                    AlertModerno.Success(this, "Ok", respdal.mensaje, true, 500);
+                }
+                else
+                {
+                    AlertModerno.Error(this, "Error", respdal.mensaje, true, 500);
+                }
+
+                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+                Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("EliminarDetalle error: " + ex);
+                AlertModerno.Error(this, "Error", "No se pudo eliminar el detalle.", true);
+            }
+        }
+
+        private void CrearCuenta(string nombreCuenta)
+        {
+            int idventa= Models.IdCuentaActiva;
+            // TODO: reemplaza estas llamadas por tus funciones DAL reales
+            // Ejemplo genérico: crear una nueva venta/tabla de cuentas y asignarle nombre
+            int nuevoId = CuentaCliente_f.Crear(idventa,nombreCuenta); // si ese es el flujo para crear 'cuenta'
+            if (nuevoId <= 0)
+            {
+                AlertModerno.Error(this, "Error", "No fue posible crear la cuenta.", true);
+                return;
             }
 
-            var respdal = DetalleVenta_f.Eliminar(id, nota);
-            if (respdal.estado)
+            // Si tienes un método para asignar nombre a la cuenta, usarlo:
+            // bool ok = V_CuentasControler.AsignarNombreCuenta(nuevoId, nombreCuenta);
+            // Si no, haz la llamada DAL que corresponda. Aquí dejo un placeholder:
+            bool ok = true; // reemplaza
+
+            if (ok)
             {
-                AlertModerno.Success(this, "Ok", respdal.mensaje, true, 500);
+                // refrescar Models para que se vea en UI
+                CargarModelsDesdeSesion(); // o reconstruir Models
+                                           // Forzar recarga de cuentas desde BD
+                Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
+                GuardarModelsEnSesion();
+                BindProductos();
+                AlertModerno.Success(this, "Creado", $"Cuenta creada con nombre '{nombreCuenta}'.", true, 1500);
             }
             else
             {
-                AlertModerno.Error(this, "Error", respdal.mensaje, true, 500);
+                AlertModerno.Error(this, "Error", "No fue posible asignar nombre a la cuenta.", true);
             }
+        }
 
-            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
-            Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
-            Session["Models"] = Models;
-            DataBind();
+        private void EditarCuenta(int idCuenta, string nuevoNombre)
+        {
+            // TODO: reemplaza por la llamada real que actualice campo nombre
+            // Ej: bool ok = V_CuentasControler.EditarNombre(idCuenta, nuevoNombre);
+            bool ok = CuentaCliente_f.Editar(idCuenta,nuevoNombre); ; // placeholder
+
+            if (ok)
+            {
+                // refrescar datos
+                Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
+                GuardarModelsEnSesion();
+                BindProductos();
+                AlertModerno.Success(this, "Actualizado", $"Nombre de cuenta actualizado.", true, 1200);
+            }
+            else
+            {
+                AlertModerno.Error(this, "Error", "No fue posible actualizar la cuenta.", true);
+            }
+        }
+
+        #endregion
+
+        #region Utilidades
+
+        private int ObtenerIdVendedorSeguro()
+        {
+            try
+            {
+                var vendedor = ObtenerVendedorDesdeSession();
+                if (vendedor != null) return vendedor.id;
+                if (Session[SessionIdVendedorKey] != null) return Convert.ToInt32(Session[SessionIdVendedorKey]);
+            }
+            catch { /* ignorar */ }
+            return 0;
+        }
+
+        #endregion
+
+        protected void btnEliminarServicio_ServerClick(object sender, EventArgs e)
+        {
+
         }
     }
 }

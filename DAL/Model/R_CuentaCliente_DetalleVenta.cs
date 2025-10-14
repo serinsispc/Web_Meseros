@@ -10,11 +10,17 @@
 namespace DAL.Model
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class SP_Actualizar_CargoDescuentoVentas_Result
+    public partial class R_CuentaCliente_DetalleVenta
     {
-        public Nullable<int> estado { get; set; }
-        public Nullable<int> idAfectado { get; set; }
-        public string mensaje { get; set; }
+        public int id { get; set; }
+        public System.DateTime fecha { get; set; }
+        public int idCuentaCliente { get; set; }
+        public int idDetalleVenta { get; set; }
+        public bool eliminada { get; set; }
+    
+        public virtual CuentaCliente CuentaCliente { get; set; }
+        public virtual DetalleVenta DetalleVenta { get; set; }
     }
 }

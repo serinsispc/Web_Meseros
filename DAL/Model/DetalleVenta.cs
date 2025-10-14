@@ -22,6 +22,7 @@ namespace DAL.Model
             this.CargosDescuentosDetalleVenta = new HashSet<CargosDescuentosDetalleVenta>();
             this.ComandImpresaa = new HashSet<ComandImpresaa>();
             this.DetalleInsumo = new HashSet<DetalleInsumo>();
+            this.R_CuentaCliente_DetalleVenta = new HashSet<R_CuentaCliente_DetalleVenta>();
         }
     
         public int id { get; set; }
@@ -54,5 +55,7 @@ namespace DAL.Model
         public virtual Presentacion Presentacion1 { get; set; }
         public virtual TablaVentas TablaVentas { get; set; }
         public virtual TablaVentas TablaVentas1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<R_CuentaCliente_DetalleVenta> R_CuentaCliente_DetalleVenta { get; set; }
     }
 }

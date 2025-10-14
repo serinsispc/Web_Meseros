@@ -12,16 +12,19 @@ namespace DAL.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class CargoDescuentoVentas
+    public partial class V_CuentaCliente
     {
         public int id { get; set; }
+        public System.DateTime fecha { get; set; }
         public int idVenta { get; set; }
-        public bool tipo { get; set; }
-        public int codigo { get; set; }
-        public string razon { get; set; }
-        public decimal valor { get; set; }
-        public decimal @base { get; set; }
-    
-        public virtual TablaVentas TablaVentas { get; set; }
+        public string nombreCuenta { get; set; }
+        public bool preCuenta { get; set; }
+        public bool eliminada { get; set; }
+        public Nullable<decimal> subtotalVenta { get; set; }
+        public Nullable<decimal> ivaVenta { get; set; }
+        public Nullable<decimal> totalVenta { get; set; }
+        public decimal por_propina { get; set; }
+        public Nullable<decimal> propina { get; set; }
+        public Nullable<decimal> total_A_Pagar { get; set; }
     }
 }

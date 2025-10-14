@@ -2,8 +2,10 @@
     MaintainScrollPositionOnPostback="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-
-        <style>
+    <!-- =========================
+     Estilos específicos de la página
+     ========================= -->
+    <style>
         /* Contenedor flotante */
         .scroll-buttons {
             position: fixed;
@@ -15,7 +17,6 @@
             z-index: 9999;
         }
 
-        /* Estilo de cada botón */
         .scroll-btn {
             width: 50px;
             height: 50px;
@@ -29,84 +30,496 @@
             transition: background-color 0.3s, transform 0.3s;
         }
 
-        .scroll-btn:hover {
-            background-color: #0056b3;
-            transform: scale(1.1);
+            .scroll-btn:hover {
+                background-color: #0056b3;
+                transform: scale(1.1);
+            }
+
+        /* Pequeñas utilidades usadas en el markup */
+        .service-chip.active {
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.12);
+        }
+
+        .mesa-card {
+            padding: 10px;
+            border-radius: 6px;
+            display: block;
+            text-decoration: none;
+        }
+
+            .mesa-card.libre {
+                background: #f8f9fa;
+                color: #212529;
+            }
+
+            .mesa-card.ocupada {
+                background: #ffdede;
+                color: #212529;
+            }
+
+        .producto-item {
+            border-bottom: 1px solid #eee;
+            padding: 8px 0;
+        }
+
+        .controls-inline .qty-input, .quantity-input {
+            width: 70px;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+        }
+
+            .icon-btn.danger {
+                color: #dc3545;
+            }
+
+        .price-badge {
+            padding: 6px 10px;
+            background: #f1f3f5;
+            border-radius: 6px;
+        }
+
+        .cta {
+            font-weight: 600;
+            border-radius: 8px;
+        }
+
+        .cta-orange {
+            background: linear-gradient(90deg,#ff7a00,#ff9a33);
+            color: white;
+            border: none;
+        }
+
+        .cta-purple {
+            background: linear-gradient(90deg,#7b61ff,#b992ff);
+            color: white;
+            border: none;
+        }
+
+        .cta-green {
+            background: linear-gradient(90deg,#28a745,#52d172);
+            color: white;
+            border: none;
         }
     </style>
 
+    <!-- =========================
+         Scripts globales pequeños (scroll)
+         ========================= -->
     <script>
-        // Función para subir al inicio
         function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        // Función para bajar al final
         function scrollToBottom() {
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
     </script>
 
-
-    <%-- primero validamos el porcentaje de la propina --%>
+    <!-- =========================
+         Cálculo rápido de propina (se ejecuta en render)
+         Nota: mantenido como código server-side (inline) para compatibilidad.
+         Si prefieres, podemos mover esto al code-behind.
+         ========================= -->
     <%
+        // Variables calculadas en servidor para mostrar totales con propina
         int porpropina = 0;
         int valorpropina = 0;
-        int totalapagar = Convert.ToInt32(Models.venta.totalVenta);
-        if (Models.venta.por_propina > 0)
+        int totalapagar = 0;
+        if (Models?.venta != null)
         {
-            var pp = Models.venta.por_propina;
-            var pp2 = pp * 100;
-            porpropina = Convert.ToInt32(pp2);
-        }
-        if (porpropina > 0)
-        {
-            if (Models.venta.propina == 0)
+            totalapagar = Convert.ToInt32(Models.venta.totalVenta);
+            if (Models.venta.por_propina > 0)
             {
-                valorpropina = WebApplication.Class.ClassPropina.CalcularValoPropina(Models.venta.por_propina.ToString(), Models.venta.subtotalVenta.ToString());
+                var pp = Models.venta.por_propina;
+                var pp2 = pp * 100;
+                porpropina = Convert.ToInt32(pp2);
             }
-            else
+            if (porpropina > 0)
             {
-                valorpropina = Convert.ToInt32(Models.venta.subtotalVenta);
+                if (Models.venta.propina == 0)
+                {
+                    valorpropina = WebApplication.Class.ClassPropina.CalcularValoPropina(
+                        Models.venta.por_propina.ToString(),
+                        Models.venta.subtotalVenta.ToString()
+                    );
+                }
+                else
+                {
+                    valorpropina = Convert.ToInt32(Models.venta.subtotalVenta);
+                }
             }
+            totalapagar = totalapagar + valorpropina;
+            Models.venta.total_A_Pagar = totalapagar;
+            /* DataBind se llama en code-behind; si necesitas que este bloque refresque
+               controles declarados con  debes llamar DataBind en servidor. */
         }
-        totalapagar = totalapagar + valorpropina;
-        Models.venta.total_A_Pagar = totalapagar;
-        DataBind();
     %>
 
+    <!-- Botones flotantes -->
+    <div class="scroll-buttons">
+        <button type="button" class="scroll-btn" onclick="scrollToTop()">▲</button>
+        <button type="button" class="scroll-btn" onclick="scrollToBottom()">▼</button>
+    </div>
 
-
-            <%-- Botones flotantes --%>
-            <div class="scroll-buttons">
-                <button type="button" class="scroll-btn" onclick="scrollToTop()">▲</button>
-                <button type="button" class="scroll-btn" onclick="scrollToBottom()">▼</button>
-            </div>
-      
-
+    <!-- Hidden fields / botones ocultos para postback -->
     <asp:HiddenField ID="hfMesaId" runat="server" />
     <asp:HiddenField ID="hfServicioId" runat="server" />
 
     <asp:Button ID="btnMesaNuevaCuenta" runat="server"
         OnClick="MesaNuevaCuenta" Style="display: none" UseSubmitBehavior="false" />
 
-    <!-- Postback final cuando ya eligió servicio -->
     <asp:Button ID="btnMesaAmarrar" runat="server"
         OnClick="MesaAmarar" Style="display: none" UseSubmitBehavior="false" />
+
+    <!-- =========================
+         Main layout (columns)
+         ========================= -->
+    <div class="container-fluid menu-wrap py-3 py-lg-4">
+        <!-- fila: barra de servicios + acciones -->
+        <div class="row g-3 align-items-center mb-3">
+            <div class="col-12 col-xl">
+                <div class="d-flex flex-wrap gap-2">
+                    <asp:Repeater runat="server" ID="rpCuentas"
+                        DataSource="<%# Models.cuentas %>"
+                        OnItemCommand="rpServicios_ItemCommand">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="btnServicio" runat="server"
+                                CommandName="AbrirServicio"
+                                CommandArgument='<%# Eval("id") %>'
+                                CssClass='<%# "service-chip" + ((Eval("id").ToString() == Models.IdCuentaActiva.ToString()) ? " active" : "") %>'>
+                                <span class="chip-title"><%# Eval("id") %></span>
+                                <small class="text-muted d-block"><%# Eval("mesa") %></small>
+                                <i class="bi bi-pencil-fill chip-edit"></i>
+                            </asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-auto">
+                <div class="d-flex gap-2 justify-content-start justify-content-xl-end">
+                    <button runat="server" id="btnNuevoServicio"
+                        class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-circle me-1"></i>Nuevo servicio
+                    </button>
+
+                    <button runat="server" id="btnEliminarServicio"
+                        type="button"
+                        class="btn btn-warning btn-sm text-dark"
+                        onserverclick="btnEliminarServicio_ServerClick">
+                        <i class="bi bi-trash3 me-1"></i>Eliminar servicio
+                    </button>
+
+                    <button id="btnLiberarMesa" type="button" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-x-circle me-1"></i>Liberar mesa
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- banner servicio activo -->
+        <div class="alert alert-primary-soft d-flex align-items-center justify-content-between px-3 py-2 mb-3">
+            <div class="fw-semibold">Servicio Activo: <%# Models.IdCuentaActiva %> </div>
+            <div class="small text-muted"></div>
+        </div>
+
+        <!-- 3 columnas -->
+        <div class="row g-3">
+            <!-- Columna 1: Zonas / Mesas -->
+            <div class="col-12 col-lg-6 col-xl-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <ul class="nav nav-pills mb-3 zone-tabs">
+                            <asp:Repeater ID="rpZonas" runat="server"
+                                DataSource="<%# Models.zonas %>"
+                                OnItemCommand="rpZonas_ItemCommand">
+                                <ItemTemplate>
+                                    <li class="nav-item m-1">
+                                        <asp:LinkButton ID="lnkZona" runat="server"
+                                            CommandName="CambiarZona"
+                                            CommandArgument='<%# Eval("id") %>'
+                                            CssClass='<%# (Session["zonaactiva"]?.ToString() == Eval("id").ToString()) ? "nav-link bg-primary text-white" : "nav-link" %>'>
+                                            <%# Eval("nombreZona") %>
+                                        </asp:LinkButton>
+                                    </li>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </ul>
+
+                        <!-- grilla de mesas -->
+                        <div class="row g-2">
+                            <asp:Repeater runat="server" ID="rpMesas"
+                                DataSource="<%# Models.Mesas.Where(x=>x.idZona==Models.IdZonaActiva).ToList() %>"
+                                OnItemCommand="rpMesas_ItemCommand">
+                                <ItemTemplate>
+                                    <div class="col-2 col-lg-6 col-xl-4" style="min-width: 100px; max-width: 110px">
+                                        <asp:LinkButton ID="lnkMesa" runat="server"
+                                            data-name='<%# Eval("nombreMesa") %>'
+                                            CommandName="AbrirMesa"
+                                            CommandArgument='<%# Eval("id") %>'
+                                            CssClass='<%# (Convert.ToInt32(Eval("estadoMesa")) == 1) ? "mesa-card ocupada d-block text-start" : "mesa-card libre d-block text-start" %>'>
+                                            <div class="mesa-titulo"><%# Eval("nombreMesa") %></div>
+                                            <div class="mesa-sub"><%# (Convert.ToInt32(Eval("estadoMesa")) == 1) ? "Ocupada" : "Libre" %></div>
+                                        </asp:LinkButton>
+                                    </div>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna 2: Productos -->
+            <div class="col-12 col-lg-6 col-xl-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <!-- Buscador -->
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                            <input type="text" id="buscador-productos" class="form-control" placeholder="Buscar producto por nombre..." />
+                            <button type="button" id="limpiar-buscador" class="btn btn-outline-secondary"><i class="bi bi-x-lg"></i></button>
+                        </div>
+
+                        <!-- categorías -->
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <div id="categorias-container">
+                                <% foreach (var cat in Models.categorias)
+                                    { %>
+                                <a href="#" class="pill <%= (cat.id == Models.IdCategoriaActiva ? "active" : "") %>" data-id="<%= cat.id %>">
+                                    <%= cat.nombreCategoria %>
+                                </a>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <!-- lista de productos -->
+                        <div class="vstack gap-2">
+                            <div id="productos-container">
+                                <asp:Repeater ID="rpProductos" runat="server" OnItemCommand="rpProductos_ItemCommand">
+                                    <ItemTemplate>
+                                        <div class="producto-item" data-categoria='<%# Eval("idCategoria") %>'>
+                                            <div class="prod-main d-flex justify-content-between align-items-center">
+                                                <div class="prod-info">
+                                                    <div class="prod-name"><%# Eval("nombreProducto") %></div>
+                                                    <div class="prod-meta">
+                                                        $<%# string.Format("{0:N0}", Eval("precioVenta")) %>
+                                                        <a href="#" class="link-primary small ms-2">Ver detalle</a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="product-actions d-flex align-items-center">
+                                                    <div class="controls-inline d-flex align-items-center gap-2">
+                                                        <button type="button" class="btn btn-light btn-sm minus" title="Disminuir">
+                                                            <i class="bi bi-dash"></i>
+                                                        </button>
+
+                                                        <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control qty-input text-center" Text="0" />
+
+                                                        <button type="button" class="btn btn-light btn-sm plus" title="Aumentar">
+                                                            <i class="bi bi-plus"></i>
+                                                        </button>
+
+                                                        <asp:LinkButton ID="btnAgregarCarrito" runat="server"
+                                                            CommandName="AgregarAlCarrito"
+                                                            CommandArgument='<%# Eval("idPresentacion") %>'
+                                                            CssClass="icon-btn cart-btn ms-2"
+                                                            title="Agregar al carrito">
+                                                            <i class="bi bi-cart2"></i>
+                                                        </asp:LinkButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna 3: Pedido -->
+            <div class="col-12 col-xl-4">
+                <div class="card h-100 order-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <button runat="server" id="btnNuevaCuentaUI" type="button"
+                                class="btn btn-success-subtle btn-sm border-success text-success"
+                                onclick="abrirModalCuenta('crear', '', '');">
+                                <i class="bi bi-plus-lg me-1"></i>Nueva cuenta
+                            </button>
+
+                            <div class="flex-grow-1">
+                                <asp:LinkButton ID="btnCuentaGeneral" runat="server"
+                                    CssClass="text-decoration-none w-100"
+                                    OnClick="btnCuentaGeneral_Click">
+                                    <div class="input-group input-group-sm bg-white border">
+                                        <span class="input-group-text">Cuenta</span>
+                                        <input type="text" class="form-control" placeholder="Buscar / seleccionar..." />
+                                    </div>
+                                </asp:LinkButton>
+                            </div>
+                        </div>
+
+                        <!-- Lista Cuentas Clientes -->
+                        <div class="mb-3">
+                            <div class="d-flex flex-wrap gap-2">
+                                <% 
+                                    // Asegurarse que la colección no sea null y filtrar por move
+                                    if (Models?.v_CuentaClientes != null && Models.v_CuentaClientes.Any(x => x.idVenta == Models.IdCuentaActiva))
+                                    {
+                                        var cuentasFiltradas = Models.v_CuentaClientes.Where(x => x.idVenta == Models.IdCuentaActiva);
+                                        foreach (var cuenta in cuentasFiltradas)
+                                        { %>
+                                <div class="card cuenta-card border-success-subtle shadow-sm" style="min-width: 160px; flex: 1;">
+                                    <div class="card-body p-2 d-flex flex-column justify-content-between">
+                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                            <span class="fw-semibold text-uppercase text-truncate" style="max-width: 120px;">
+                                                <%= cuenta.nombreCuenta %>
+                                            </span>
+                                            <button type="button" class="btn btn-link p-0 text-success"
+                                                title="Editar cuenta"
+                                                onclick="abrirModalCuenta('editar', '<%= cuenta.id %>', '<%= cuenta.nombreCuenta %>');">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+                                        </div>
+                                        <div class="text-end fw-bold text-success fs-6">
+                                            <%= string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", cuenta.total_A_Pagar) %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%      }
+                                    }
+                                    else
+                                    { %>
+                                <div class="alert alert-light border text-center w-100 p-2">
+                                    No hay cuentas activas
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <!-- lista detalle pedido -->
+                        <asp:Repeater runat="server" ID="rpDetalleCaja" DataSource="<%# Models.detalleCaja %>">
+                            <ItemTemplate>
+                                <div class="pedido-item mb-2 p-2 border rounded" style="width: 100%; box-sizing: border-box;">
+                                    <div class="d-flex flex-column">
+                                        <asp:Panel runat="server" CssClass="account-badge"
+                                            Visible='<%# !String.IsNullOrEmpty(Eval("nombreCuenta") as string) %>'>
+                                            <%# Eval("nombreCuenta") %>
+                                        </asp:Panel>
+
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div class="nombre-producto fw-semibold lh-sm text-uppercase"><%# Eval("nombreProducto") %></div>
+                                            <div class="small text-muted precio-pequenho"><%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Eval("precioVenta")) %></div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-start align-items-center gap-2 flex-wrap mb-2">
+                                            <div class="quantity-group btn-group btn-group-sm" role="group" aria-label="Cantidad">
+                                                <button type="button" class="btn btn-light btn-qty btn-square btn-decrease">
+                                                    <i class="bi bi-dash"></i>
+                                                </button>
+
+                                                <input type="number" class="form-control quantity-input text-center" value='<%# Convert.ToInt32(Eval("unidad")) %>' min="1" style="width: 100px;" />
+
+                                                <button type="button" class="btn btn-light btn-qty btn-square btn-increase">
+                                                    <i class="bi bi-plus"></i>
+                                                </button>
+                                            </div>
+
+                                            <button type="button" class="icon-btn cart-btn ms-auto" title="Guardar" data-id='<%# Eval("id") %>'>
+                                                <i class="bi bi-floppy"></i>
+                                            </button>
+                                        </div>
+
+                                        <div class="d-flex flex-wrap gap-2 mb-2">
+                                            <button type="button" class="icon-btn" title="Comentario" data-id='<%# Eval("id") %>'><i class="bi bi-chat"></i></button>
+                                            <button type="button" class="icon-btn btn-anclar" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-link-45deg"></i></button>
+                                            <button type="button" class="icon-btn danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
+                                            <button type="button" class="icon-btn" title="Cortar / Promo" data-id='<%# Eval("id") %>'><i class="bi bi-scissors"></i></button>
+                                        </div>
+
+
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="text-muted">
+                                                <i class="bi bi-journal-text me-1"></i>
+                                                <%# Eval("adiciones") %>
+                                            </div>
+                                            <div class="price-badge">
+                                                <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Eval("totalDetalle")) %>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </ItemTemplate>
+                        </asp:Repeater>
+
+                        <hr />
+
+                        <!-- totales -->
+                        <div class="d-flex justify-content-between small mb-1">
+                            <span class="text-muted">SubTotal:</span>
+                            <span><%# "$" + string.Format("{0:N0}", Models.venta.subtotalVenta) %></span>
+                        </div>
+                        <div class="d-flex justify-content-between small mb-2">
+                            <span class="text-muted">Impuestos (8%)</span>
+                            <span><%# "$" + string.Format("{0:N0}", Models.venta.ivaVenta) %></span>
+                        </div>
+                        <div class="d-flex justify-content-between fw-semibold mb-2">
+                            <span>Total 1:</span>
+                            <span><%# "$" + string.Format("{0:N0}", Models.venta.totalVenta) %></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span>Servicio (<%= porpropina %>%)</span>
+                            <div>
+                                <span class="badge bg-primary-subtle text-primary fw-semibold me-2">Editar</span>
+                                <span><%= "$" + string.Format("{0:N0}", valorpropina) %></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between fs-6 fw-bold mb-3">
+                            <span>Total 2:</span>
+                            <span><%= "$" + string.Format("{0:N0}", totalapagar) %></span>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-12 col-md-4">
+                                <button class="cta cta-orange w-100" style="height: 80px;"><i class="bi bi-send me-2"></i>Comandar</button>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <button class="cta cta-purple w-100" style="height: 80px;">
+                                    <i class="bi bi-chat-left-text me-2"></i>Solicitar<br />
+                                    Cuenta</button>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <button class="cta cta-green w-100" style="height: 80px;"><i class="bi bi-cash-coin me-2"></i>Cobrar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- card-body -->
+                </div>
+                <!-- card -->
+            </div>
+            <!-- col -->
+        </div>
+        <!-- /row 3 cols -->
+    </div>
+    <!-- /container-fluid -->
 
     <!-- Modal: seleccionar servicio existente -->
     <div class="modal fade" id="mdlServicios" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Seleccionar servicio para <span id="lblMesaSeleccionada" class="fw-semibold"></span>
-                    </h5>
+                    <h5 class="modal-title">Seleccionar servicio para <span id="lblMesaSeleccionada" class="fw-semibold"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
@@ -115,7 +528,6 @@
                     <div id="listaServicios" class="list-group">
                         <asp:Repeater ID="rpServiciosActivos" runat="server" DataSource="<%# Models.cuentas %>">
                             <ItemTemplate>
-                                <!-- Cada item es clickeable; lleva data-id del servicio -->
                                 <button type="button"
                                     class="list-group-item list-group-item-action d-flex justify-content-between align-items-center servicio-item"
                                     data-id='<%# Eval("id") %>'>
@@ -138,776 +550,539 @@
         </div>
     </div>
 
-    <div class="container-fluid menu-wrap py-3 py-lg-4">
-
-        <!-- ====== fila: barra de servicios + acciones ====== -->
-        <div class="row g-3 align-items-center mb-3">
-            <div class="col-12 col-xl">
-                <div class="d-flex flex-wrap gap-2">
-
-                    <asp:Repeater runat="server" ID="rpCuentas"
-                        DataSource="<%# Models.cuentas %>"
-                        OnItemCommand="rpServicios_ItemCommand">
-                        <ItemTemplate>
-                            <asp:LinkButton ID="btnServicio" runat="server"
-                                CommandName="AbrirServicio"
-                                CommandArgument='<%# Eval("id") %>'
-                                CssClass='<%# "service-chip" + ((Eval("id").ToString() == Models.IdCuentaActiva.ToString()) ? " active" : "") %>'>
-            <span class="chip-title"><%# Eval("id") %></span>
-            <small class="text-muted d-block">
-                <%# Eval("mesa") %>
-            </small>
-            <i class="bi bi-pencil-fill chip-edit"></i>
-                            </asp:LinkButton>
-                        </ItemTemplate>
-                    </asp:Repeater>
-
-
-
-
-                </div>
-            </div>
-
-            <div class="col-12 col-xl-auto">
-                <div class="d-flex gap-2 justify-content-start justify-content-xl-end">
-                    <button runat="server" id="btnNuevoServicio"
-                        onserverclick="btnNuevoServicio_Click"
-                        class="btn btn-primary btn-sm">
-                        <i class="bi bi-plus-circle me-1"></i>Nuevo servicio
-                    </button>
-                    <button runat="server" id="btnEliminarServicio"
-                        type="button"
-                        class="btn btn-warning btn-sm text-dark"
-                        onserverclick="btnEliminarServicio_Clik">
-                        <i class="bi bi-trash3 me-1"></i>Eliminar servicio
-                    </button>
-                    <button type="button" class="btn btn-outline-danger btn-sm">
-                        <i class="bi bi-x-circle me-1"></i>Liberar mesa
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ====== banner servicio activo ====== -->
-        <div class="alert alert-primary-soft d-flex align-items-center justify-content-between px-3 py-2 mb-3">
-            <div class="fw-semibold">Servicio Activo: <%# Models.IdCuentaActiva %> </div>
-            <div class="small text-muted"></div>
-        </div>
-
-        <!-- ====== 3 columnas ====== -->
-        <div class="row g-3">
-            <!-- === Columna 1: Zonas / Mesas === -->
-            <div class="col-12 col-lg-6 col-xl-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <!-- tabs de zona -->
-                        <ul class="nav nav-pills mb-3 zone-tabs">
-
-
-                            <asp:Repeater ID="rpZonas" runat="server"
-                                DataSource="<%# Models.zonas %>"
-                                OnItemCommand="rpZonas_ItemCommand">
-                                <ItemTemplate>
-                                    <li class="nav-item m-1">
-                                        <asp:LinkButton ID="lnkZona" runat="server"
-                                            CommandName="CambiarZona"
-                                            CommandArgument='<%# Eval("id") %>'
-                                            CssClass='<%# (Session["zonaactiva"]?.ToString() == Eval("id").ToString())
-            ? "nav-link bg-primary text-white"
-            : "nav-link" %>'>
-  <%# Eval("nombreZona") %>
-                                        </asp:LinkButton>
-                                    </li>
-                                </ItemTemplate>
-                            </asp:Repeater>
-
-
-
-
-                        </ul>
-
-                        <%--                        <div class="d-flex align-items-center gap-2 mb-2 small">
-                            <span class="text-muted">Mesas en ZONA 1 :</span>
-                            <span class="badge bg-secondary">10</span>
-                            <span class="badge bg-success-subtle text-success">Libres: 7</span>
-                            <span class="badge bg-danger-subtle text-danger">Ocupadas: 3</span>
-                        </div>--%>
-
-                        <!-- grilla de mesas -->
-                        <div class="row g-2">
-
-
-                            <asp:Repeater runat="server" ID="rpMesas"
-                                DataSource="<%# Models.Mesas.Where(x=>x.idZona==Models.IdZonaActiva).ToList() %>"
-                                OnItemCommand="rpMesas_ItemCommand">
-                                <ItemTemplate>
-                                    <div class="col-2 col-lg-6 col-xl-4" style="min-width:100px; max-width:110px">
-                                        <asp:LinkButton ID="lnkMesa" runat="server"
-                                            data-name='<%# Eval("nombreMesa") %>'
-                                            CommandName="AbrirMesa"
-                                            CommandArgument='<%# Eval("id") %>'
-                                            CssClass='<%# (Convert.ToInt32(Eval("estadoMesa")) == 1)
-                    ? "mesa-card ocupada d-block text-start"
-                    : "mesa-card libre d-block text-start" %>'>
-        <div class="mesa-titulo"><%# Eval("nombreMesa") %></div>
-        <div class="mesa-sub">
-          <%# (Convert.ToInt32(Eval("estadoMesa")) == 1) ? "Ocupada" : "Libre" %>
-        </div>
-                                        </asp:LinkButton>
-                                    </div>
-                                </ItemTemplate>
-                            </asp:Repeater>
-
-
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- === Columna 2: Productos === -->
-            <div class="col-12 col-lg-6 col-xl-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <!-- Buscador -->
-                        <div class="input-group mb-3">
-                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                            <input type="text" id="buscador-productos" class="form-control" placeholder="Buscar producto por nombre..." />
-                            <button type="button" id="limpiar-buscador" class="btn btn-outline-secondary"><i class="bi bi-x-lg"></i></button>
-                        </div>
-
-
-                        <!-- categorías -->
-                        <div class="d-flex flex-wrap gap-2 mb-3">
-
-                            <!-- Categorías -->
-                            <div id="categorias-container">
-                                <% foreach (var cat in Models.categorias)
-                                    { %>
-                                <a href="#"
-                                    class="pill <%=(cat.id == Models.IdCategoriaActiva ? "active" : "") %>"
-                                    data-id="<%= cat.id %>">
-                                    <%= cat.nombreCategoria %>
-                                </a>
-                                <% }
-                                %>
-                            </div>
-
-
-
-
-                        </div>
-
-                        <!-- lista de productos -->
-                        <div class="vstack gap-2">
-
-                            <!-- Productos -->
-                            <div id="productos-container">
-                                <asp:Repeater ID="rpProductos" runat="server" OnItemCommand="rpProductos_ItemCommand">
-                                    <ItemTemplate>
-                                        <div class="producto-item" data-categoria='<%# Eval("idCategoria") %>'>
-                                            <div class="prod-main">
-                                                <div class="prod-info">
-                                                    <div class="prod-name"><%# Eval("nombreProducto") %></div>
-                                                    <div class="prod-meta">
-                                                        $<%# string.Format("{0:N0}", Eval("precioVenta")) %>
-                                                        <a href="#" class="link-primary small ms-2">Ver detalle</a>
-                                                    </div>
-                                                </div>
-
-                                                <div class="product-actions d-flex flex-column align-items-stretch">
-                                                    <div class="controls-inline d-flex align-items-center gap-2">
-                                                        <button type="button" class="btn btn-light btn-sm minus" title="Disminuir">
-                                                            <i class="bi bi-dash"></i>
-                                                        </button>
-
-                                                        <asp:TextBox ID="txtCantidad" runat="server"
-                                                            CssClass="form-control qty-input text-center"
-                                                            Text="0" />
-
-                                                        <button type="button" class="btn btn-light btn-sm plus" title="Aumentar">
-                                                            <i class="bi bi-plus"></i>
-                                                        </button>
-
-                                                        <asp:LinkButton ID="btnAgregarCarrito" runat="server"
-                                                            CommandName="AgregarAlCarrito"
-                                                            CommandArgument='<%# Eval("idPresentacion") %>'
-                                                            CssClass="icon-btn cart-btn ms-2"
-                                                            title="Agregar al carrito">
-                                <i class="bi bi-cart2"></i>
-                                                        </asp:LinkButton>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </ItemTemplate>
-                                </asp:Repeater>
-                            </div>
-
-
-
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- === Columna 3: Pedido === -->
-            <div class="col-12 col-xl-4">
-                <div class="card h-100 order-card">
-                    <div class="card-body">
-
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <button class="btn btn-success-subtle btn-sm border-success text-success">
-                                <i class="bi bi-plus-lg me-1"></i>Nueva cuenta
-                            </button>
-                            <div class="flex-grow-1">
-                                <asp:LinkButton ID="btnCuentaGeneral" runat="server" CssClass="text-decoration-none w-100" OnClick="btnCuentaGeneral_Click">
-    <div class="input-group input-group-sm bg-white border rounded">
-        <span class="input-group-text bg-white"><i class="bi bi-person-badge"></i></span>
-        <span class="form-control border-0 bg-white">Cuenta General</span>
-        <span class="input-group-text bg-white fw-semibold">
-            <%# "$" + string.Format("{0:N0}", Models.venta.total_A_Pagar ) %>
-        </span>
-    </div>
-                                </asp:LinkButton>
-                            </div>
-                        </div>
-
-                        <asp:Repeater runat="server" ID="rpDetalleCaja" DataSource="<%# Models.detalleCaja %>">
-                            <ItemTemplate>
-                                <!-- item pedido -->
-                                <div class="pedido-item mb-2 p-2 border rounded" style="width: 100%; box-sizing: border-box;">
-
-                                    <div class="d-flex flex-column">
-
-                                        <!-- Nombre y precio pequeño -->
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <div class="nombre-producto fw-semibold lh-sm text-uppercase">
-                                                <%# Eval("nombreProducto") %>
-                                            </div>
-                                            <div class="small text-muted precio-pequenho">
-                                                <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Eval("precioVenta")) %>
-                                            </div>
-                                        </div>
-
-                                        <!-- Fila 1: Cantidad + carrito -->
-<div class="d-flex justify-content-start align-items-center gap-2 flex-wrap mb-2">
-    <div class="quantity-group btn-group btn-group-sm" role="group" aria-label="Cantidad">
-        <button type="button" class="btn btn-light btn-qty btn-square btn-decrease">
-            <i class="bi bi-dash"></i>
-        </button>
-
-        <input type="number" class="form-control quantity-input text-center" 
-               value='<%# Convert.ToInt32(Eval("unidad")) %>' min="1" style="width:100px;" />
-
-        <button type="button" class="btn btn-light btn-qty btn-square btn-increase">
-            <i class="bi bi-plus"></i>
-        </button>
-    </div>
-
-    <!-- Botón que usará __doPostBack -->
-    <button type="button" class="icon-btn cart-btn ms-auto" 
-            title="Guardar" 
-            data-id='<%# Eval("id") %>'>
-        <i class="bi bi-floppy"></i>
-    </button>
-</div>
-
-
-                                        <!-- Fila 2: Iconos de acción -->
-                                        <div class="d-flex flex-wrap gap-2 mb-2">
-
-                                            <button type="button" class="icon-btn" title="Comentario" data-id='<%# Eval("id") %>'><i class="bi bi-chat"></i></button>
-                                            <button type="button" class="icon-btn" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-link-45deg"></i></button>
-                                            <button type="button" class="icon-btn danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
-                                            <button type="button" class="icon-btn" title="Cortar / Promo" data-id='<%# Eval("id") %>'><i class="bi bi-scissors"></i></button>
-                                        </div>
-
-                                        <!-- Badge precio alineado a la derecha -->
-                                        <div class="d-flex justify-content-end">
-                                            <div class="price-badge">
-                                                <%# string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Eval("totalDetalle")) %>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </ItemTemplate>
-                        </asp:Repeater>
-
-
-                        <hr />
-
-                        <!-- totales -->
-                        <div class="d-flex justify-content-between small mb-1">
-                            <span class="text-muted">SubTotal:</span>
-                            <span><%# "$" + string.Format("{0:N0}", Models.venta.subtotalVenta) %></span>
-                        </div>
-                        <div class="d-flex justify-content-between small mb-2">
-                            <span class="text-muted">Impuestos (8%)</span>
-                            <span><%# "$" + string.Format("{0:N0}", Models.venta.ivaVenta) %></span>
-                        </div>
-                        <div class="d-flex justify-content-between fw-semibold mb-2">
-                            <span>Total 1:</span>
-                            <span><%# "$" + string.Format("{0:N0}", Models.venta.totalVenta) %></span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span>Servicio (<%= porpropina %>%)</span>
-
-                            <div>
-                                <span class="badge bg-primary-subtle text-primary fw-semibold me-2">Editar</span>
-                                <span><%= "$" + string.Format("{0:N0}", valorpropina) %></span>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-between fs-6 fw-bold mb-3">
-                            <span>Total 2:</span>
-                            <span><%= "$" + string.Format("{0:N0}", totalapagar) %></span>
-                        </div>
-
-                        <!-- acciones grandes -->
-                        <div class="row g-3">
-                            <div class="col-12 col-md-4" >
-                                <button class="cta cta-orange w-100" style="min-height:80px; max-height:80px; height:80px;">
-                                    <i class="bi bi-send me-2"></i>Comandar
-                                </button>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <button class="cta cta-purple w-100" style="min-height:80px; max-height:80px; height:80px;">
-                                    <i class="bi bi-chat-left-text me-2"></i>Solicitar<br />
-                                    Cuenta
-                                </button>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <button class="cta cta-green w-100" style="min-height:80px; max-height:80px; height:80px;">
-                                    <i class="bi bi-cash-coin me-2"></i>Cobrar
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-        <!-- /row 3 cols -->
-
-    </div>
-    <!-- /container-fluid -->
-
-    <%-- ************************************************ --%>
-    <%-- ************************************************ --%>
-    <%-- ************************************************ --%>
-    <%-- modales --%>
     <!-- Modal eliminar detalle -->
-<div class="modal fade" id="modalEliminarDetalle" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content p-3">
-            <div class="modal-header">
-                <h5 class="modal-title">Eliminar detalle</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <label for="notaEliminar" class="form-label">Ingrese el motivo de eliminación:</label>
-                <textarea id="notaEliminar" class="form-control" rows="3"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+    <div class="modal fade" id="modalEliminarDetalle" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar detalle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="notaEliminar" class="form-label">Ingrese el motivo de eliminación:</label>
+                    <textarea id="notaEliminar" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-    <!-- Modal de alerta de sesión -->
-<div class="modal fade" id="sessionModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-warning">
-      <div class="modal-header bg-warning text-dark">
-        <h5 class="modal-title">Sesión a punto de expirar</h5>
-      </div>
-      <div class="modal-body">
-        Tu sesión ha expirado o está por expirar. Serás redirigido automáticamente.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="btnGoDefault">Ir Ahora</button>
-      </div>
+    <!-- Modal alerta sesión -->
+    <div class="modal fade" id="sessionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-warning">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title">Sesión a punto de expirar</h5>
+                </div>
+                <div class="modal-body">
+                    Tu sesión ha expirado o está por expirar. Serás redirigido automáticamente.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnGoDefault">Ir Ahora</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
+
+    <!-- Hidden fields para mantener estado -->
+    <asp:HiddenField ID="hfCuentaId" runat="server" />
+    <asp:HiddenField ID="hfCuentaMode" runat="server" />
+
+    <!-- Modal: Crear / Editar Nombre de Cuenta -->
+    <div class="modal fade" id="modalCuentaCliente" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCuentaTitulo">Nueva Cuenta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label for="txtCuentaNombre" class="form-label">Nombre de la cuenta</label>
+                        <input type="text" id="txtCuentaNombre" class="form-control" maxlength="100" placeholder="Ingrese el nombre de la cuenta" />
+                        <div id="cuentaError" class="form-text text-danger d-none">Ingrese un nombre válido (mín. 2 caracteres).</div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+                    <!-- botón de guardar-client (no server control) -->
+                    <button type="button" id="btnGuardarCuenta" class="btn btn-primary" onclick="guardarCuenta()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Anclar detalle a cuenta -->
+    <div class="modal fade" id="modalAnclar" tabindex="-1" aria-labelledby="modalAnclarLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAnclarLabel">Anclar detalle a cuenta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="anclar-cuentas-list" class="d-grid gap-2">
+                        <!-- botones de cuentas se agregan aquí -->
+
+                    </div>
+                    <div id="anclar-empty" class="text-muted small d-none">No hay cuentas disponibles.</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-
-
-    <script>
-        // Debe estar fuera de DOMContentLoaded para que sea global
-        function abrirModalServicios(nombreMesa, idMesa) {
-            document.getElementById('lblMesaSeleccionada').textContent = nombreMesa || '';
-            document.getElementById('<%= hfMesaId.ClientID %>').value = idMesa || '';
-
-            var el = document.getElementById('mdlServicios');
-            if (!el) { console.warn('#mdlServicios no existe'); return; }
-
-            if (window.bootstrap && bootstrap.Modal) {
-                var m = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
-                m.show();
-            } else if (window.jQuery && $.fn.modal) {
-                $(el).modal('show');
-            } else {
-                console.error('Bootstrap 5/4 no está cargado. Revisa Site.Master.');
-            }
-        }
-    </script>
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var contenedor = document.getElementById('listaServicios');
-            if (!contenedor) return;
-
-            // Evitar doble enlace si hay UpdatePanel
-            if (!contenedor._wired) {
-                contenedor._wired = true;
-
-                contenedor.addEventListener('click', function (ev) {
-                    var btn = ev.target.closest('.servicio-item');
-                    if (!btn) return;
-
-                    // Obtener ID del servicio seleccionado
-                    var idServicio = btn.getAttribute('data-id');
-
-                    // Setear hidden field para enviar al servidor
-                    var hfServicio = document.getElementById('<%= hfServicioId.ClientID %>');
-                    if (hfServicio) hfServicio.value = idServicio;
-
-                    // Cerrar modal de manera segura con Bootstrap 5
-                    var modalEl = document.getElementById('mdlServicios');
-                    if (modalEl && window.bootstrap && bootstrap.Modal) {
-                        var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-                        modal.hide();
-
-                        // Esperar 200ms para que termine animación antes de postback
-                        setTimeout(function () {
-                            // Ejecutar postback al botón oculto
-                            __doPostBack('<%= btnMesaAmarrar.UniqueID %>', '');
-                        }, 200);
-                    } else {
-                        // Fallback por si no hay Bootstrap 5
-                        __doPostBack('<%= btnMesaAmarrar.UniqueID %>', '');
-                    }
-                });
-            }
-        });
-    </script>
-
-
-    <%-- al precionar enter dentro de la cantidad de la lista de productos --%>
     <script>
         (function () {
-            function inicializarEventosProductos() {
-                document.querySelectorAll('.qty-input').forEach(function (input) {
-                    // cuando el usuario presione Enter
-                    input.addEventListener('keydown', function (e) {
-                        if (e.key === 'Enter' || e.keyCode === 13) {
-                            e.preventDefault();
+            // --- Guardar inicialización para evitar doble wiring en UpdatePanel / postbacks parciales ---
+            if (window.__menuInit) return;
+            window.__menuInit = true;
 
-                            // buscamos el contenedor más cercano del producto
-                            const contenedor = input.closest('.producto-item');
-                            if (!contenedor) return;
+            // -----------------------
+            // Helpers DOM / utilidades
+            // -----------------------
+            function $id(id) { return document.getElementById(id); }
+            function toArray(nodeList) { return nodeList ? Array.prototype.slice.call(nodeList) : []; }
+            function formatSafe(val, fallback) { return val == null ? (fallback || '') : val; }
 
-                            // buscamos el botón de carrito dentro del mismo producto
-                            const boton = contenedor.querySelector('.cart-btn');
-                            if (boton) {
-                                boton.click(); // simulamos clic
+            // Obtener colecciones (accede a ClientID server controls con inline expressions)
+            var hfMesaClientId = '<%= hfMesaId.ClientID %>';
+            var hfServicioClientId = '<%= hfServicioId.ClientID %>';
+            var btnMesaAmarrarUniqueId = '<%= btnMesaAmarrar.UniqueID %>';
+            var btnMesaAmarrarClientId = '<%= btnMesaAmarrar.ClientID %>'; // en caso de necesitar
+            // campos de cuentas (modal)
+            var hfCuentaIdClientId = '<%= hfCuentaId.ClientID %>';
+            var hfCuentaModeClientId = '<%= hfCuentaMode.ClientID %>';
+
+            // -----------------------
+            // Funciones exportadas (globales para uso en HTML)
+            // -----------------------
+            window.abrirModalServicios = function (nombreMesa, idMesa) {
+                var lbl = $id('lblMesaSeleccionada');
+                if (lbl) lbl.textContent = nombreMesa || '';
+
+                var hf = $id(hfMesaClientId);
+                if (hf) hf.value = idMesa || '';
+
+                var el = $id('mdlServicios');
+                if (!el) { console.warn('#mdlServicios no existe'); return; }
+
+                if (window.bootstrap && bootstrap.Modal) {
+                    var m = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
+                    m.show();
+                } else if (window.jQuery && $.fn.modal) {
+                    $(el).modal('show');
+                } else {
+                    console.error('Bootstrap no está cargado.');
+                }
+            };
+
+            window.abrirModalCuenta = function (mode, id, name) {
+                var titulo = $id('modalCuentaTitulo');
+                if (titulo) titulo.textContent = (mode === 'editar') ? 'Editar nombre de cuenta' : 'Nueva cuenta';
+
+                var input = $id('txtCuentaNombre');
+                if (input) input.value = name || '';
+
+                var err = $id('cuentaError');
+                if (err) err.classList.add('d-none');
+
+                var hfId = $id(hfCuentaIdClientId);
+                var hfMode = $id(hfCuentaModeClientId);
+                if (hfId) hfId.value = id || '';
+                if (hfMode) hfMode.value = mode || 'crear';
+
+                var modalEl = $id('modalCuentaCliente');
+                if (!modalEl) return console.warn('modalCuentaCliente no encontrado');
+                var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modal.show();
+
+                modalEl.addEventListener('shown.bs.modal', function () {
+                    if (input) input.focus();
+                }, { once: true });
+            };
+
+            window.guardarCuenta = function () {
+                var input = $id('txtCuentaNombre');
+                var err = $id('cuentaError');
+                var hfId = $id(hfCuentaIdClientId);
+                var hfMode = $id(hfCuentaModeClientId);
+
+                var nombre = input ? input.value.trim() : '';
+                var mode = hfMode ? hfMode.value : 'crear';
+                var id = hfId ? hfId.value : '';
+
+                if (!nombre || nombre.length < 2) {
+                    if (err) err.classList.remove('d-none');
+                    if (input) input.focus();
+                    return;
+                } else {
+                    if (err) err.classList.add('d-none');
+                }
+
+                var safeNombre = nombre.replace(/\|/g, ' ');
+                var argumento = mode + '|' + (id || '') + '|' + safeNombre;
+
+                __doPostBack('GuardarCuenta', argumento);
+            };
+
+            // -----------------------
+            // DOMContentLoaded: inicializadores y delegación
+            // -----------------------
+            document.addEventListener('DOMContentLoaded', function () {
+                // referencias containers
+                var serviciosContainer = $id('listaServicios');
+                var buscador = $id('buscador-productos');
+                var btnLimpiar = $id('limpiar-buscador');
+                var categoriaContainer = $id('categorias-container');
+                var productosContainer = $id('productos-container');
+
+                // helpers para productos/categorias
+                function obtenerProductosLista() {
+                    return productosContainer ? toArray(productosContainer.querySelectorAll('.producto-item')) : [];
+                }
+                function obtenerCategoriasLista() {
+                    return categoriaContainer ? toArray(categoriaContainer.querySelectorAll('.pill')) : [];
+                }
+
+                // Filtrado por texto
+                function filtrarProductos(texto) {
+                    texto = (texto || '').toLowerCase().trim();
+                    var productos = obtenerProductosLista();
+                    var categoriaCount = {};
+
+                    productos.forEach(function (prod) {
+                        var nameEl = prod.querySelector('.prod-name');
+                        var nombre = nameEl ? nameEl.textContent.toLowerCase() : '';
+                        var catId = prod.dataset.categoria || '';
+                        var visible = nombre.indexOf(texto) !== -1;
+                        prod.style.display = visible ? 'block' : 'none';
+                        if (visible) categoriaCount[catId] = (categoriaCount[catId] || 0) + 1;
+                    });
+
+                    // activar categoria con más coincidencias
+                    var maxCat = null, maxCount = 0;
+                    for (var k in categoriaCount) {
+                        if (categoriaCount[k] > maxCount) { maxCount = categoriaCount[k]; maxCat = k; }
+                    }
+                    var cats = obtenerCategoriasLista();
+                    cats.forEach(function (c) {
+                        if (c.dataset.id === maxCat) c.classList.add('active'); else c.classList.remove('active');
+                    });
+                }
+
+                // Inicializar buscador
+                if (buscador) {
+                    buscador.addEventListener('input', function () {
+                        filtrarProductos(buscador.value);
+                    });
+                }
+
+                if (btnLimpiar) {
+                    btnLimpiar.addEventListener('click', function () {
+                        if (buscador) buscador.value = '';
+                        obtenerProductosLista().forEach(function (p) { p.style.display = 'block'; });
+                        obtenerCategoriasLista().forEach(function (c) { c.classList.remove('active'); });
+                    });
+                }
+
+                // Manejo de categorias (delegación sobre container)
+                if (categoriaContainer) {
+                    categoriaContainer.addEventListener('click', function (ev) {
+                        var a = ev.target.closest('.pill');
+                        if (!a) return;
+                        ev.preventDefault();
+                        var idCategoria = a.dataset.id;
+                        obtenerCategoriasLista().forEach(function (c) { c.classList.remove('active'); });
+                        a.classList.add('active');
+                        obtenerProductosLista().forEach(function (prod) {
+                            prod.style.display = (prod.dataset.categoria === idCategoria) ? 'block' : 'none';
+                        });
+                        if (buscador) buscador.value = '';
+                    });
+
+                    // activar la categoría que tenga la clase active (si existe)
+                    var primeraActiva = categoriaContainer.querySelector('.pill.active');
+                    if (primeraActiva) primeraActiva.click();
+                }
+
+                // -----------------------
+                // Delegación unificada de click sobre document.body
+                // - minus / plus (productos)
+                // - cart-btn (productos)
+                // - btn-decrease / btn-increase / cart-btn en detalle pedido
+                // - eliminar (icon-btn.danger)
+                // -----------------------
+                document.body.addEventListener('click', function (ev) {
+                    // servicios modal: selección
+                    var servicioBtn = ev.target.closest('.servicio-item');
+                    if (servicioBtn && serviciosContainer && serviciosContainer.contains(servicioBtn)) {
+                        var idServicio = servicioBtn.getAttribute('data-id');
+                        if (idServicio) {
+                            var hfServicio = $id(hfServicioClientId);
+                            if (hfServicio) hfServicio.value = idServicio;
+
+                            var modalEl = $id('mdlServicios');
+                            if (modalEl && window.bootstrap && bootstrap.Modal) {
+                                var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                                modal.hide();
+                                setTimeout(function () { __doPostBack(btnMesaAmarrarUniqueId, ''); }, 200);
+                            } else {
+                                __doPostBack(btnMesaAmarrarUniqueId, '');
                             }
                         }
-                    });
-                });
-            }
+                        return;
+                    }
 
-            // compatibilidad con UpdatePanel o cargas parciales
-            if (window.Sys && Sys.Application) {
-                Sys.Application.add_load(inicializarEventosProductos);
-            } else {
-                document.addEventListener('DOMContentLoaded', inicializarEventosProductos);
-            }
+                    // Productos - decrease / increase (lista de productos)
+                    var minus = ev.target.closest('.minus');
+                    if (minus) {
+                        var container = minus.closest('.producto-item');
+                        var input = container ? container.querySelector('.qty-input') : null;
+                        var val = parseInt(input?.value || '0') || 0;
+                        if (val > 0 && input) input.value = val - 1;
+                        return;
+                    }
+                    var plus = ev.target.closest('.plus');
+                    if (plus) {
+                        var container = plus.closest('.producto-item');
+                        var input = container ? container.querySelector('.qty-input') : null;
+                        var val = parseInt(input?.value || '0') || 0;
+                        if (input) input.value = val + 1;
+                        return;
+                    }
+                    var add = ev.target.closest('.cart-btn');
+                    if (add && add.closest('.producto-item')) {
+                        // Si el botón es LinkButton server-side, el postback lo gestiona ASP.NET automáticamente
+                        // Si se quisiera manejar con fetch/axios, poner aquí la lógica
+                        return;
+                    }
+
+                    // Detalle pedido - cantidad / guardar
+                    var dec = ev.target.closest('.btn-decrease');
+                    if (dec) {
+                        var grp = dec.closest('.quantity-group');
+                        var input = grp ? grp.querySelector('.quantity-input') : null;
+                        if (!input) return;
+                        var val = parseInt(input.value || '0') || 0;
+                        if (val > 1) input.value = val - 1;
+                        return;
+                    }
+                    var inc = ev.target.closest('.btn-increase');
+                    if (inc) {
+                        var grp2 = inc.closest('.quantity-group');
+                        var input2 = grp2 ? grp2.querySelector('.quantity-input') : null;
+                        if (!input2) return;
+                        var val2 = parseInt(input2.value || '0') || 0;
+                        input2.value = val2 + 1;
+                        return;
+                    }
+                    var guardar = ev.target.closest('.pedido-item .cart-btn');
+                    if (guardar) {
+                        var id = guardar.getAttribute('data-id');
+                        var row = guardar.closest('.pedido-item');
+                        var inputCantidad = row ? row.querySelector('.quantity-input') : null;
+                        if (!inputCantidad || parseInt(inputCantidad.value || '0') < 1) {
+                            alert('Ingrese una cantidad válida.');
+                            return;
+                        }
+                        // Llamada estándar al server; el code-behind debe manejar el target "ActualizarCantidad"
+                        __doPostBack('ActualizarCantidad', id + '|' + inputCantidad.value);
+                        return;
+                    }
+
+                    // Eliminar detalle (icon-btn.danger)
+                    var eliminar = ev.target.closest('.icon-btn.danger');
+                    if (eliminar) {
+                        var idEliminar = eliminar.getAttribute('data-id');
+                        var nota = $id('notaEliminar');
+                        if (nota) nota.value = '';
+                        var modalEl = $id('modalEliminarDetalle');
+                        if (modalEl && window.bootstrap && bootstrap.Modal) {
+                            var m = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                            m.show();
+                            modalEl._idToDelete = idEliminar;
+                        } else {
+                            var motivo = prompt('Motivo de eliminación:');
+                            if (motivo) __doPostBack('EliminarDetalle', idEliminar + '|' + motivo);
+                        }
+                        return;
+                    }
+                });
+
+                // -----------------------
+                // Confirmar eliminar (modal)
+                // -----------------------
+                var btnConfirmarEliminar = $id('btnConfirmarEliminar');
+                if (btnConfirmarEliminar) {
+                    btnConfirmarEliminar.addEventListener('click', function () {
+                        var notaEl = $id('notaEliminar');
+                        var motivo = notaEl ? notaEl.value.trim() : '';
+                        var modalEl = $id('modalEliminarDetalle');
+                        var idEliminar = modalEl ? modalEl._idToDelete : null;
+                        if (!motivo) { alert('Debe ingresar una nota para eliminar el detalle.'); return; }
+                        if (!idEliminar) { alert('No se determinó el detalle a eliminar.'); return; }
+                        __doPostBack('EliminarDetalle', idEliminar + '|' + motivo);
+                        if (modalEl && window.bootstrap && bootstrap.Modal) {
+                            var m = bootstrap.Modal.getInstance(modalEl);
+                            if (m) m.hide();
+                        }
+                    });
+                }
+
+                // -----------------------
+                // Interceptar ENTER en inputs de cantidad (detalle)
+                // -----------------------
+                document.body.addEventListener('keydown', function (e) {
+                    var input = e.target;
+                    if (input && input.classList && input.classList.contains('quantity-input') && (e.key === 'Enter' || e.keyCode === 13)) {
+                        e.preventDefault();
+                        var row = input.closest('.pedido-item');
+                        var btn = row ? row.querySelector('.cart-btn') : null;
+                        if (!btn) return;
+                        var v = parseInt(input.value || '0') || 0;
+                        if (v < 1) { input.value = 1; return; }
+                        btn.click();
+                    }
+                });
+
+                // -----------------------
+                // Sesión: mostrar modal al expirar (timeout calculado en servidor)
+                // -----------------------
+                (function () {
+                    try {
+                        var sessionTimeoutMinutes = <%= Session.Timeout %>;
+                        var sessionTimeoutMs = sessionTimeoutMinutes * 60 * 1000;
+                        var nombreDB = '<%= Session["db"] != null ? Session["db"].ToString() : "" %>';
+                        setTimeout(function () {
+                            var modalEl = $id('sessionModal');
+                            if (!modalEl) return;
+                            if (window.bootstrap && bootstrap.Modal) {
+                                var m = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: false });
+                                m.show();
+                                setTimeout(function () { window.location.href = 'Default.aspx?db=' + encodeURIComponent(nombreDB); }, 5000);
+                            } else {
+                                window.location.href = 'Default.aspx?db=' + encodeURIComponent(nombreDB);
+                            }
+                        }, sessionTimeoutMs);
+
+                        var btnGo = $id('btnGoDefault');
+                        if (btnGo) btnGo.addEventListener('click', function () {
+                            window.location.href = 'Default.aspx?db=' + encodeURIComponent(nombreDB);
+                        });
+                    } catch (err) { console.warn(err); }
+
+
+                    // Capturamos Enter en cualquier TextBox de cantidad dentro del repeater
+                    document.querySelectorAll('.qty-input').forEach(function (input) {
+                        input.addEventListener('keydown', function (e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault(); // Evita que el formulario se envíe por defecto
+
+                                // Buscar el botón de carrito dentro del mismo contenedor de producto
+                                const productoItem = input.closest('.producto-item');
+                                if (productoItem) {
+                                    const btn = productoItem.querySelector('.cart-btn');
+                                    if (btn) {
+                                        btn.click(); // Dispara el postback del LinkButton
+                                    }
+                                }
+                            }
+                        });
+                    });
+
+
+
+
+                    // Inicializar Bootstrap modal  modalAnclar
+                    var modalEl = document.getElementById('modalAnclar');
+                    var bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: true });
+
+                    // Delegación: abrir modal cuando se haga click en un botón .btn-anclar
+                    document.addEventListener('click', function (e) {
+                        var btn = e.target.closest('.btn-anclar');
+                        if (!btn) return;
+
+                        var detalleId = btn.getAttribute('data-id');
+                        openAnclarModal(detalleId);
+                    });
+
+                    // Función que abre modal y rellena las cuentas
+                    function openAnclarModal(detalleId) {
+                        var container = document.getElementById('anclar-cuentas-list');
+                        var empty = document.getElementById('anclar-empty');
+                        container.innerHTML = '';
+
+                        if (!window.cuentas || cuentas.length === 0) {
+                            empty.classList.remove('d-none');
+                            bsModal.show();
+                            return;
+                        }
+                        empty.classList.add('d-none');
+
+                        // por cada cuenta, crear un botón
+                        cuentas.forEach(function (c) {
+                            // crear botón
+                            var b = document.createElement('button');
+                            b.type = 'button';
+                            b.className = 'btn btn-outline-primary btn-sm';
+                            b.style.justifyContent = 'space-between';
+                            b.style.display = 'flex';
+                            b.style.alignItems = 'center';
+                            b.style.gap = '8px';
+                            b.setAttribute('data-cuenta-id', c.id);
+                            b.setAttribute('data-detalle-id', detalleId);
+
+                            // contenido: nombre y total a la derecha
+                            var left = document.createElement('span');
+                            left.textContent = c.nombre;
+
+                            var right = document.createElement('span');
+                            right.className = 'badge bg-light text-dark';
+                            // formatea total si viene numérico
+                            if (c.total !== undefined && !isNaN(c.total)) {
+                                right.textContent = Number(c.total).toLocaleString('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+                            } else {
+                                right.textContent = c.total ?? '';
+                            }
+
+                            b.appendChild(left);
+                            b.appendChild(right);
+
+                            // click en la cuenta -> __doPostBack con target 'AnclarDetalle' y argumento 'detalleId|cuentaId'
+                            b.addEventListener('click', function () {
+                                var cuentaId = this.getAttribute('data-cuenta-id');
+                                var detId = this.getAttribute('data-detalle-id');
+
+                                // Llamada a __doPostBack
+                                var arg = detId + '|' + cuentaId;
+                                __doPostBack('AnclarDetalle', arg);
+                            });
+
+                            container.appendChild(b);
+                        });
+
+                        bsModal.show();
+                    }
+
+
+
+                })();
+
+            }); // DOMContentLoaded
         })();
     </script>
 
 
 
 
-<script type="text/javascript">
-    // Tiempo de sesión en milisegundos
-    var sessionTimeoutMinutes = <%= Session.Timeout %>;
-    var sessionTimeoutMs = sessionTimeoutMinutes * 60 * 1000;
-
-    // Obtenemos el valor de Session["db"] desde el servidor
-    var nombreDB = '<%= Session["db"] != null ? Session["db"].ToString() : "" %>';
-
-    // Mostrar modal al expirar la sesión
-    setTimeout(function () {
-        var sessionModal = new bootstrap.Modal(document.getElementById('sessionModal'), {
-            backdrop: 'static',
-            keyboard: false
-        });
-        sessionModal.show();
-
-        // Redirigir automáticamente después de 5 segundos
-        setTimeout(function () {
-            window.location.href = 'Default.aspx?db=' + encodeURIComponent(nombreDB);
-        }, 5000);
-    }, sessionTimeoutMs);
-
-    // Botón para ir inmediatamente a Default.aspx
-    document.getElementById('btnGoDefault').addEventListener('click', function () {
-        window.location.href = 'Default.aspx?db=' + encodeURIComponent(nombreDB);
-    });
-</script>
-
-
-
-
-
-    <%-- *************************************************** --%>
-    <%-- *************************************************** --%>
-    <%-- *************************************************** --%>
-    <%-- *************************************************** --%>
-    <%-- *************************************************** --%>
-
-        <!-- ======= BLOQUE DE SCRIPTS OPTIMIZADO ======= -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const categorias = document.querySelectorAll("#categorias-container .pill");
-            const productos = document.querySelectorAll("#productos-container .producto-item");
-            const buscador = document.getElementById("buscador-productos");
-            const btnLimpiar = document.getElementById("limpiar-buscador");
-
-            // ===== Función de filtrado de productos =====
-            function filtrarProductos(texto = "") {
-                const categoriaCount = {};
-
-                productos.forEach(prod => {
-                    const nombre = prod.querySelector(".prod-name").textContent.toLowerCase();
-                    const catId = prod.dataset.categoria;
-                    let visible = nombre.includes(texto.toLowerCase());
-                    prod.style.display = visible ? "block" : "none";
-
-                    if (visible) {
-                        categoriaCount[catId] = (categoriaCount[catId] || 0) + 1;
-                    }
-                });
-
-                // Activar la categoría con más coincidencias
-                let maxCat = null;
-                let maxCount = 0;
-                for (const catId in categoriaCount) {
-                    if (categoriaCount[catId] > maxCount) {
-                        maxCount = categoriaCount[catId];
-                        maxCat = catId;
-                    }
-                }
-
-                categorias.forEach(cat => {
-                    if (cat.dataset.id === maxCat) {
-                        cat.classList.add("active");
-                    } else {
-                        cat.classList.remove("active");
-                    }
-                });
-            }
-
-            // ===== Eventos =====
-
-            // Buscador en tiempo real
-            buscador.addEventListener("input", () => filtrarProductos(buscador.value));
-
-            // Botón limpiar buscador
-            btnLimpiar.addEventListener("click", function () {
-                buscador.value = "";
-                productos.forEach(prod => prod.style.display = "block");
-                categorias.forEach(cat => cat.classList.remove("active"));
-            });
-
-            // Click en categorías
-            categorias.forEach(cat => {
-                cat.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    const idCategoria = this.dataset.id;
-
-                    categorias.forEach(c => c.classList.remove("active"));
-                    this.classList.add("active");
-
-                    productos.forEach(prod => {
-                        prod.style.display = (prod.dataset.categoria === idCategoria) ? "block" : "none";
-                    });
-
-                    buscador.value = ""; // limpiar búsqueda al cambiar categoría
-                });
-            });
-
-            // Inicializar mostrando la categoría activa
-            const catActiva = document.querySelector("#categorias-container .pill.active");
-            if (catActiva) catActiva.click();
-
-            // ===== Botones + / - de cantidad lista de productos =====
-            productos.forEach(item => {
-                const minus = item.querySelector(".minus");
-                const plus = item.querySelector(".plus");
-                const input = item.querySelector(".qty-input");
-
-                minus.addEventListener("click", () => {
-                    let val = parseInt(input.value) || 0;
-                    if (val > 0) input.value = val - 1;
-                });
-
-                plus.addEventListener("click", () => {
-                    let val = parseInt(input.value) || 0;
-                    input.value = val + 1;
-                });
-            });
-
-            // ===== Agregar al carrito =====
-            const botonesCarrito = document.querySelectorAll(".add-to-cart");
-            botonesCarrito.forEach(btn => {
-                btn.addEventListener("click", function () {
-                    const idPresentacion = this.dataset.id;
-                    const inputCantidad = this.closest(".controls-inline").querySelector(".qty-input");
-                    const cantidadDetalle = parseInt(inputCantidad.value) || 0;
-
-                    if (cantidadDetalle <= 0) {
-                        alert("Debe ingresar una cantidad mayor a cero.");
-                        return;
-                    }
-
-                    fetch('Menu.aspx.cs/AgregarPro', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-                        body: JSON.stringify({ idPresentacion, cantidadDetalle })
-                    })
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data.d.success) {
-                                alert("Producto agregado correctamente.");
-                                inputCantidad.value = 0;
-                            } else {
-                                alert("Error: " + data.d.message);
-                            }
-                        })
-                        .catch(err => console.error(err));
-                });
-            });
-
-
-            // Función para validar cantidad en detalle
-            function validarCantidad(input) {
-                const value = input.value.trim();
-                if (value === "" || isNaN(value) || parseInt(value) < 1) {
-                    input.value = "1"; // Si está vacío o inválido, lo ponemos en 1
-                    return false;
-                }
-                return true;
-            }
-
-            // Interceptar Enter en todos los inputs de cantidad detalle
-            document.querySelectorAll(".quantity-input").forEach(function (input) {
-                input.addEventListener("keydown", function (e) {
-                    if (e.key === "Enter") {
-                        e.preventDefault(); // Evita submit por defecto
-                        if (validarCantidad(input)) {
-                            const btn = input.closest(".d-flex").querySelector(".cart-btn");
-                            btn.click(); // Dispara el click del botón de guardar
-                        }
-                    }
-                });
-
-                // Validar al perder el foco detalle
-                input.addEventListener("blur", function () {
-                    validarCantidad(input);
-                });
-            });
-
-            // Botones de aumentar detalle
-            document.querySelectorAll(".btn-increase").forEach(function (btn) {
-                btn.addEventListener("click", function () {
-                    const input = btn.closest(".quantity-group").querySelector(".quantity-input");
-                    validarCantidad(input);
-                    input.value = parseInt(input.value) + 1;
-                });
-            });
-
-            // Botones de disminuir  detalle
-            document.querySelectorAll(".btn-decrease").forEach(function (btn) {
-                btn.addEventListener("click", function () {
-                    const input = btn.closest(".quantity-group").querySelector(".quantity-input");
-                    validarCantidad(input);
-                    let value = parseInt(input.value);
-                    if (value > 1) input.value = value - 1;
-                });
-            });
-
-            // Botones de guardar detalle
-            document.querySelectorAll(".cart-btn").forEach(function (btn) {
-                btn.addEventListener("click", function () {
-                    const input = btn.closest(".d-flex").querySelector(".quantity-input");
-                    if (validarCantidad(input)) {
-                        const id = btn.getAttribute("data-id");
-                        const quantity = input.value;
-                        __doPostBack('ActualizarCantidad', id + '|' + quantity);
-                    }
-                });
-            });
-
-
-            /********** en pesamos el bloque del boton eliminar ***********/
-            let detalleIdAEliminar = null;
-
-            // Abrir modal
-            document.querySelectorAll(".icon-btn.danger").forEach(function (btn) {
-                btn.addEventListener("click", function () {
-                    detalleIdAEliminar = btn.getAttribute("data-id");
-                    document.getElementById("notaEliminar").value = "";
-
-                    const modalEl = document.getElementById("modalEliminarDetalle");
-                    const modal = new bootstrap.Modal(modalEl);
-                    modal.show();
-
-                    // Cuando el modal se muestra, enfocamos el textarea
-                    modalEl.addEventListener('shown.bs.modal', function () {
-                        document.getElementById("notaEliminar").focus();
-                    }, { once: true }); // { once: true } asegura que solo se dispare una vez
-                });
-            });
-
-            // Confirmar eliminación
-            document.getElementById("btnConfirmarEliminar").addEventListener("click", function () {
-                const nota = document.getElementById("notaEliminar").value.trim();
-                if (nota === "") {
-                    alert("Debe ingresar una nota para eliminar el detalle.");
-                    return;
-                }
-
-                if (detalleIdAEliminar) {
-                    __doPostBack("EliminarDetalle", detalleIdAEliminar + "|" + nota);
-                    const modal = bootstrap.Modal.getInstance(document.getElementById("modalEliminarDetalle"));
-                    modal.hide();
-                }
-            });
-            //fin de script
-        });
-    </script>
-
 </asp:Content>
-
-
-
-
-
-
-
-
-

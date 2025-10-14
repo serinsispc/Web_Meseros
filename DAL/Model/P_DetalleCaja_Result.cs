@@ -22,12 +22,12 @@ namespace DAL.Model
         public Nullable<int> impuesto_id { get; set; }
         public string presentacion { get; set; }
         public decimal unidad { get; set; }
+        public decimal descuentoDetalle { get; set; }
         public Nullable<decimal> preVentaNeto { get; set; }
         public Nullable<decimal> precioVenta { get; set; }
-        public decimal descuentoDetalle { get; set; }
         public Nullable<decimal> porImpuesto { get; set; }
-        public decimal baseImpuesto { get; set; }
-        public decimal valorImpuesto { get; set; }
+        public Nullable<decimal> baseImpuesto { get; set; }
+        public Nullable<decimal> valorImpuesto { get; set; }
         public Nullable<decimal> subTotalDetalleNeto { get; set; }
         public Nullable<decimal> subTotalDetalle { get; set; }
         public Nullable<decimal> totalDetalle { get; set; }
@@ -37,5 +37,9 @@ namespace DAL.Model
         public string observacion { get; set; }
         public string opciones { get; set; }
         public string adiciones { get; set; }
+        public int estadoDetalle { get; set; }
+        public Nullable<int> idCategoria { get; set; }
+        public Nullable<int> idCuentaCliente { get; set; }
+        public string nombreCuenta { get; set; }
     }
 }

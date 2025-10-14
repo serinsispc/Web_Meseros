@@ -18,7 +18,7 @@ namespace DAL.Model
     public partial class DBEntities : DbContext
     {
         public DBEntities()
-            : base("name=DBEntities")
+            : base(ClassConexionDinamica.DBDinamica)
         {
         }
     
@@ -65,9 +65,11 @@ namespace DAL.Model
         public virtual DbSet<CorreosCliente> CorreosCliente { get; set; }
         public virtual DbSet<CorreosNotificaciones> CorreosNotificaciones { get; set; }
         public virtual DbSet<Cotizaciones> Cotizaciones { get; set; }
+        public virtual DbSet<CuentaCliente> CuentaCliente { get; set; }
         public virtual DbSet<CuentasServicio> CuentasServicio { get; set; }
         public virtual DbSet<departments> departments { get; set; }
         public virtual DbSet<DescuentoDetalleCompra> DescuentoDetalleCompra { get; set; }
+        public virtual DbSet<DescuentoProgramado> DescuentoProgramado { get; set; }
         public virtual DbSet<DestapeProducto> DestapeProducto { get; set; }
         public virtual DbSet<DetalleComanda> DetalleComanda { get; set; }
         public virtual DbSet<DetalleCompra> DetalleCompra { get; set; }
@@ -137,6 +139,7 @@ namespace DAL.Model
         public virtual DbSet<R_ClienteVendedor> R_ClienteVendedor { get; set; }
         public virtual DbSet<R_CompraCliente> R_CompraCliente { get; set; }
         public virtual DbSet<R_CotizacionCliente> R_CotizacionCliente { get; set; }
+        public virtual DbSet<R_CuentaCliente_DetalleVenta> R_CuentaCliente_DetalleVenta { get; set; }
         public virtual DbSet<R_CuentaServicio_DetalleServicio> R_CuentaServicio_DetalleServicio { get; set; }
         public virtual DbSet<R_DepartamentoMunicipio> R_DepartamentoMunicipio { get; set; }
         public virtual DbSet<R_DetalleServicioCuenta> R_DetalleServicioCuenta { get; set; }
@@ -222,6 +225,7 @@ namespace DAL.Model
         public virtual DbSet<V_ConsultaCategoriaDetalleCaja> V_ConsultaCategoriaDetalleCaja { get; set; }
         public virtual DbSet<V_CorreosCliente> V_CorreosCliente { get; set; }
         public virtual DbSet<V_Cotizacion> V_Cotizacion { get; set; }
+        public virtual DbSet<V_CuentaCliente> V_CuentaCliente { get; set; }
         public virtual DbSet<V_Cuentas> V_Cuentas { get; set; }
         public virtual DbSet<V_CuentasPC> V_CuentasPC { get; set; }
         public virtual DbSet<V_CuentasServicio> V_CuentasServicio { get; set; }
@@ -336,7 +340,7 @@ namespace DAL.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CargarProductosManual");
         }
     
-        public virtual ObjectResult<CierreCaja_Result> CierreCaja(Nullable<int> year, Nullable<int> month)
+        public virtual int CierreCaja(Nullable<int> year, Nullable<int> month)
         {
             var yearParameter = year.HasValue ?
                 new ObjectParameter("year", year) :
@@ -346,10 +350,10 @@ namespace DAL.Model
                 new ObjectParameter("month", month) :
                 new ObjectParameter("month", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CierreCaja_Result>("CierreCaja", yearParameter, monthParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CierreCaja", yearParameter, monthParameter);
         }
     
-        public virtual ObjectResult<CierreCaja_SuperAdmin_Result> CierreCaja_SuperAdmin(Nullable<int> year, Nullable<int> month)
+        public virtual int CierreCaja_SuperAdmin(Nullable<int> year, Nullable<int> month)
         {
             var yearParameter = year.HasValue ?
                 new ObjectParameter("year", year) :
@@ -359,7 +363,7 @@ namespace DAL.Model
                 new ObjectParameter("month", month) :
                 new ObjectParameter("month", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CierreCaja_SuperAdmin_Result>("CierreCaja_SuperAdmin", yearParameter, monthParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CierreCaja_SuperAdmin", yearParameter, monthParameter);
         }
     
         public virtual int ClonarDetalleVenta(Nullable<int> idNumevaVenta, Nullable<int> idVenta)
@@ -1949,7 +1953,7 @@ namespace DAL.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Info_VentasProductos_Categoria_YEAR_Result>("Info_VentasProductos_Categoria_YEAR", yearParameter, idCategoriaParameter);
         }
     
-        public virtual ObjectResult<string> Informe_day(Nullable<int> year, Nullable<int> month, Nullable<int> day1, Nullable<int> day2)
+        public virtual int Informe_day(Nullable<int> year, Nullable<int> month, Nullable<int> day1, Nullable<int> day2)
         {
             var yearParameter = year.HasValue ?
                 new ObjectParameter("year", year) :
@@ -1967,7 +1971,7 @@ namespace DAL.Model
                 new ObjectParameter("day2", day2) :
                 new ObjectParameter("day2", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("Informe_day", yearParameter, monthParameter, day1Parameter, day2Parameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Informe_day", yearParameter, monthParameter, day1Parameter, day2Parameter);
         }
     
         public virtual int Informe_Fechas_Dinamico(string json)
@@ -1979,7 +1983,7 @@ namespace DAL.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Informe_Fechas_Dinamico", jsonParameter);
         }
     
-        public virtual ObjectResult<string> Informe_month(Nullable<int> year, Nullable<int> month)
+        public virtual int Informe_month(Nullable<int> year, Nullable<int> month)
         {
             var yearParameter = year.HasValue ?
                 new ObjectParameter("year", year) :
@@ -1989,16 +1993,16 @@ namespace DAL.Model
                 new ObjectParameter("month", month) :
                 new ObjectParameter("month", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("Informe_month", yearParameter, monthParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Informe_month", yearParameter, monthParameter);
         }
     
-        public virtual ObjectResult<string> Informe_year(Nullable<int> year)
+        public virtual int Informe_year(Nullable<int> year)
         {
             var yearParameter = year.HasValue ?
                 new ObjectParameter("year", year) :
                 new ObjectParameter("year", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("Informe_year", yearParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Informe_year", yearParameter);
         }
     
         public virtual ObjectResult<InformeFiscal_General_Result> InformeFiscal_General(Nullable<int> month, Nullable<int> year)
@@ -4091,13 +4095,13 @@ namespace DAL.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SelectAlistamiento", idVendedorParameter, idEstadoParameter);
         }
     
-        public virtual ObjectResult<SP_Actualizar_CargoDescuentoVentas_Result> SP_Actualizar_CargoDescuentoVentas(string json)
+        public virtual int SP_Actualizar_CargoDescuentoVentas(string json)
         {
             var jsonParameter = json != null ?
                 new ObjectParameter("json", json) :
                 new ObjectParameter("json", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Actualizar_CargoDescuentoVentas_Result>("SP_Actualizar_CargoDescuentoVentas", jsonParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Actualizar_CargoDescuentoVentas", jsonParameter);
         }
     
         public virtual ObjectResult<SP_Eliminar_CargoDescuentoVentas_Result> SP_Eliminar_CargoDescuentoVentas(string json)
@@ -4130,13 +4134,13 @@ namespace DAL.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_InformeGeneralCategoria_Dias_Result>("SP_InformeGeneralCategoria_Dias", yearParameter, monthParameter, day1Parameter, day2Parameter);
         }
     
-        public virtual ObjectResult<SP_Insertar_CargoDescuentoVentas_Result> SP_Insertar_CargoDescuentoVentas(string json)
+        public virtual int SP_Insertar_CargoDescuentoVentas(string json)
         {
             var jsonParameter = json != null ?
                 new ObjectParameter("json", json) :
                 new ObjectParameter("json", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Insertar_CargoDescuentoVentas_Result>("SP_Insertar_CargoDescuentoVentas", jsonParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Insertar_CargoDescuentoVentas", jsonParameter);
         }
     
         public virtual ObjectResult<SP_ServicioMesa_CRUD_Result> SP_ServicioMesa_CRUD(string json)

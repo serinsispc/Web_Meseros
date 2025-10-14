@@ -370,8 +370,8 @@ input[type="button"], input[type="submit"], input[type="reset"] {
 
 /* Price badge */
 .price-badge {
-    background: #4b5563;
-    color: #fff;
+    background: #f1f3f5; /* gris claro */
+    color: #212529; /* negro suave (Bootstrap text color base) */
     font-weight: 700;
     padding: 6px 12px;
     border-radius: 999px;
@@ -380,6 +380,7 @@ input[type="button"], input[type="submit"], input[type="reset"] {
     min-width: 70px;
     text-align: center;
 }
+
 
 /* Utilidades */
 .btn-success-subtle {
@@ -528,3 +529,52 @@ input[type="button"], input[type="submit"], input[type="reset"] {
         margin-top: 0 !important;
     }
 }
+
+
+
+
+.cuenta-card {
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+    .cuenta-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    }
+
+
+
+
+
+/* Badge pequeño y discreto para el nombre de la cuenta */
+.account-badge {
+    display: inline-block; /* se comporta como una 'marquilla' sin romper el flujo */
+    font-size: 0.78rem; /* tamaño pequeño */
+    line-height: 1; /* compacto verticalmente */
+    color: rgba(33, 37, 41, 0.65); /* negro suave, semitransparente */
+    background: rgba(33, 37, 41, 0.03); /* fondo muy tenue para dar contraste (opcional) */
+    padding: 2px 8px; /* pequeño acolchado */
+    border-radius: 999px; /* forma pill */
+    font-weight: 600; /* ligeramente destacado sin ser pesado */
+    letter-spacing: 0.2px; /* opcional, mejora legibilidad */
+    white-space: nowrap; /* evita que se rompa si es corto */
+    vertical-align: middle; /* alinea con texto/elementos cercanos */
+    box-shadow: none; /* sin sombra para mantener discreción */
+}
+
+    /* Variante aún más tenue si la quieres menos visible */
+    .account-badge.subtle {
+        color: rgba(33,37,41,0.45);
+        background: transparent;
+        font-weight: 500;
+    }
+
+/* Responsive: si hay poco espacio, reducir aún más */
+@media (max-width: 576px) {
+    .account-badge {
+        font-size: 0.72rem;
+        padding: 1px 6px;
+    }
+}
+

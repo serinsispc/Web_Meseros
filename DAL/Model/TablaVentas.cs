@@ -18,6 +18,7 @@ namespace DAL.Model
         public TablaVentas()
         {
             this.CargoDescuentoVentas = new HashSet<CargoDescuentoVentas>();
+            this.CuentaCliente = new HashSet<CuentaCliente>();
             this.DetalleVenta = new HashSet<DetalleVenta>();
             this.DetalleVenta1 = new HashSet<DetalleVenta>();
             this.Domicilios = new HashSet<Domicilios>();
@@ -64,6 +65,8 @@ namespace DAL.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CargoDescuentoVentas> CargoDescuentoVentas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CuentaCliente> CuentaCliente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

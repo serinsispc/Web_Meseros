@@ -51,24 +51,6 @@ namespace WebApplication
         protected global::System.Web.UI.WebControls.Button btnMesaAmarrar;
 
         /// <summary>
-        /// Control rpServiciosActivos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rpServiciosActivos;
-
-        /// <summary>
-        /// Control divSinServicios.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSinServicios;
-
-        /// <summary>
         /// Control rpCuentas.
         /// </summary>
         /// <remarks>
@@ -123,6 +105,15 @@ namespace WebApplication
         protected global::System.Web.UI.WebControls.Repeater rpProductos;
 
         /// <summary>
+        /// Control btnNuevaCuentaUI.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnNuevaCuentaUI;
+
+        /// <summary>
         /// Control btnCuentaGeneral.
         /// </summary>
         /// <remarks>
@@ -139,5 +130,41 @@ namespace WebApplication
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rpDetalleCaja;
+
+        /// <summary>
+        /// Control rpServiciosActivos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rpServiciosActivos;
+
+        /// <summary>
+        /// Control divSinServicios.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSinServicios;
+
+        /// <summary>
+        /// Control hfCuentaId.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfCuentaId;
+
+        /// <summary>
+        /// Control hfCuentaMode.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfCuentaMode;
     }
 }

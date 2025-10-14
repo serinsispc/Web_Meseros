@@ -10,11 +10,16 @@
 namespace DAL.Model
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class SP_Insertar_CargoDescuentoVentas_Result
+    public partial class DescuentoProgramado
     {
-        public Nullable<int> estado { get; set; }
-        public Nullable<int> idAfectado { get; set; }
-        public string mensaje { get; set; }
+        public int id { get; set; }
+        public System.DateTime fecha { get; set; }
+        public System.DateTime fecha_inicio { get; set; }
+        public System.DateTime fecha_fin { get; set; }
+        public decimal porcentaje { get; set; }
+        public string descripcion { get; set; }
+        public Nullable<bool> estado { get; set; }
     }
 }
