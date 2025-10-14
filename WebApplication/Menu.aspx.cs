@@ -209,7 +209,7 @@ namespace WebApplication
             if (string.IsNullOrWhiteSpace(eventArgument)) return;
 
             var parts = eventArgument.Split('|');
-            if (parts.Length == 2)
+            if (parts.Length == 3)
             {
                 if (int.TryParse(parts[0], out int detalleId) &&
                     int.TryParse(parts[1], out int cantidadActual) &&

@@ -157,7 +157,7 @@ namespace DAL.Funciones
                     return new Respuesta_DAL { data = "Error", estado = false, mensaje = $"se agrego el nuevo detalle, <br>pero no se logro modificar la cantidad del detalle actual... <br>NOTA: modifica manualmente la cantidad del detalle actual." };
                 }
 
-                return new Respuesta_DAL { data = "Success", estado = false, mensaje = $"proceso exitoso." };
+                return new Respuesta_DAL { data = "Success", estado = true, mensaje = $"proceso exitoso." };
             }
             catch (Exception ex)
             {

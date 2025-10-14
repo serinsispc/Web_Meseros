@@ -442,9 +442,8 @@
                                         <div class="d-flex flex-wrap gap-2 mb-2">
                                             <button type="button" class="icon-btn" title="Comentario" data-id='<%# Eval("id") %>'><i class="bi bi-chat"></i></button>
                                             <button type="button" class="icon-btn btn-anclar" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-link-45deg"></i></button>
-
-                                            <button type="button" class="icon-btn danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
-                                            <button type="button" class="icon-btn" title="Cortar / Promo" data-id='<%# Eval("id") %>'><i class="bi bi-scissors"></i></button>
+                                            <button type="button" class="icon-btn btn-eliminar danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
+                                            <button type="button" class="icon-btn btn-dividir" title="Dividir" data-id='<%# Eval("id") %>' data-cantidadActual='<%# Eval("unidad") %>'><i class="bi bi-scissors"></i></button>
                                         </div>
 
 
@@ -622,30 +621,56 @@
         </div>
     </div>
 
-<!-- Modal: Anclar detalle a cuenta -->
-<div class="modal fade" id="modalAnclar" tabindex="-1" aria-labelledby="modalAnclarLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalAnclarLabel">Anclar detalle a cuenta</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div id="anclar-cuentas-list" class="d-grid gap-2">
-                    <!-- botones de cuentas se agregan vía JS -->
+    <!-- Modal: Anclar detalle a cuenta -->
+    <div class="modal fade" id="modalAnclar" tabindex="-1" aria-labelledby="modalAnclarLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAnclarLabel">Anclar detalle a cuenta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div id="anclar-empty" class="text-muted small d-none">No hay cuentas disponibles.</div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <div class="modal-body">
+                    <div id="anclar-cuentas-list" class="d-grid gap-2">
+                        <!-- botones de cuentas se agregan vía JS -->
+                    </div>
+                    <div id="anclar-empty" class="text-muted small d-none">No hay cuentas disponibles.</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 <!-- Hidden field para detalle seleccionado (opcional) -->
 <asp:HiddenField ID="hfDetalleId" runat="server" />
 
+
+<!-- Modal Dividir Detalle -->
+<div class="modal fade" id="modalDividirDetalle" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title">Dividir detalle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-2">
+                    <label class="form-label">Cantidad actual:</label>
+                    <input type="number" id="txtCantidadActual" class="form-control" readonly />
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Cantidad a dividir:</label>
+                    <input type="number" id="txtCantidadDividir" class="form-control" min="1" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnConfirmarDividir">Dividir</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
     <script>
@@ -1116,6 +1141,114 @@
 
       })();
   </script>
+
+
+<script>
+    (function () {
+        // --- Evita doble inicialización ---
+        if (window.__initDividirDetalle) return;
+        window.__initDividirDetalle = true;
+
+        function $id(id) { return document.getElementById(id); }
+
+        // --- Inicializar modal ---
+        const modalEl = $id('modalDividirDetalle');
+        if (!modalEl) { console.error('modalDividirDetalle no encontrado'); return; }
+
+        let bsModal;
+        function initModal() {
+            if (!bsModal && window.bootstrap && bootstrap.Modal) {
+                bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: true });
+            }
+        }
+        initModal();
+
+        const inputActual = $id('txtCantidadActual');
+        const inputDividir = $id('txtCantidadDividir');
+        const btnConfirmar = $id('btnConfirmarDividir');
+
+        let detalleIdGlobal = null;
+        let cantidadActualGlobal = 0;
+
+        // --- Función para abrir modal ---
+        function openDividirModal(detalleId, cantidadActual) {
+            initModal();
+
+            detalleIdGlobal = detalleId;
+            cantidadActualGlobal = cantidadActual;
+
+            if (inputActual) inputActual.value = cantidadActualGlobal;
+            if (inputDividir) {
+                inputDividir.value = 1;
+                inputDividir.max = cantidadActualGlobal - 1;
+            }
+
+            bsModal.show();
+        }
+
+        // --- Delegación click en botones .btn-dividir ---
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.btn-dividir');
+            if (!btn) return;
+
+            const cantidadActual = parseInt(btn.getAttribute('data-cantidadActual') || '0');
+            const detalleId = btn.getAttribute('data-id');
+
+            if (!detalleId) {
+                console.warn('data-id no definido en el botón .btn-dividir');
+                return;
+            }
+
+            if (cantidadActual <= 1) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '¡Atención!',
+                    text: 'No se puede dividir un detalle con cantidad menor o igual a 1.',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+
+            console.log('Click detectado en .btn-dividir, detalleId:', detalleId);
+            openDividirModal(detalleId, cantidadActual);
+        });
+
+        // --- Confirmar división ---
+        if (btnConfirmar) {
+            btnConfirmar.addEventListener('click', function () {
+                const cantidadDividir = parseInt(inputDividir.value || '0');
+                if (cantidadDividir < 1 || cantidadDividir >= cantidadActualGlobal) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '¡Atención!',
+                        text: 'Cantidad inválida para dividir.',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
+                    });
+                    return;
+                }
+
+                if (typeof __doPostBack === 'function') {
+                    const arg = detalleIdGlobal + '|' + cantidadActualGlobal + '|' + cantidadDividir;
+                    __doPostBack('DividirDetalle', arg);
+                    bsModal.hide();
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'División realizada',
+                        html: `DetalleId: <b>${detalleIdGlobal}</b><br>
+                           Cantidad a dividir: <b>${cantidadDividir}</b>`,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
+                    });
+                    bsModal.hide();
+                }
+            });
+        }
+
+    })();
+</script>
 
 
 
