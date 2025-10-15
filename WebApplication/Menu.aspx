@@ -440,7 +440,14 @@
                                         </div>
 
                                         <div class="d-flex flex-wrap gap-2 mb-2">
-                                            <button type="button" class="icon-btn" title="Comentario" data-id='<%# Eval("id") %>'><i class="bi bi-chat"></i></button>
+<button type="button" class="icon-btn btn-comentario" title="Comentario"
+        data-id='<%# Eval("id") %>'
+        data-idcategoria='<%# Eval("idCategoria") %>'
+        data-adiciones='<%# Eval("adiciones") %>'
+        data-bs-toggle="modal" data-bs-target="#modalNotasDetalle">
+  <i class="bi bi-chat"></i>
+</button>
+
                                             <button type="button" class="icon-btn btn-anclar" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-link-45deg"></i></button>
                                             <button type="button" class="icon-btn btn-eliminar danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
                                             <button type="button" class="icon-btn btn-dividir" title="Dividir" data-id='<%# Eval("id") %>' data-cantidadActual='<%# Eval("unidad") %>'><i class="bi bi-scissors"></i></button>
@@ -671,6 +678,46 @@
         </div>
     </div>
 </div>
+
+
+
+    <!-- Modal: Notas / Adiciones del detalle -->
+<div class="modal fade" id="modalNotasDetalle" tabindex="-1" aria-labelledby="modalNotasDetalleLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNotasDetalleLabel">Comentario / Adiciones</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Lista de adiciones -->
+        <div class="mb-2">
+          <div class="small text-muted mb-1">Toque para agregar o quitar:</div>
+          <div id="notas-adiciones-list" class="d-flex flex-wrap gap-2"></div>
+          <div id="notas-adiciones-empty" class="text-muted small d-none">No hay adiciones para esta categoría.</div>
+        </div>
+
+        <!-- Textarea -->
+        <label for="notas-adiciones-textarea" class="form-label small text-muted">Comentario (puede escribir manualmente):</label>
+        <textarea id="notas-adiciones-textarea" class="form-control" rows="4" placeholder="Ej: con hielo; sin verduras;"></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" id="btnNotasLimpiar">
+          <i class="bi bi-eraser"></i> Limpiar
+        </button>
+        <button type="button" class="btn btn-primary" id="btnNotasGuardar">
+          <i class="bi bi-check2"></i> Guardar
+        </button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 
     <script>
@@ -1246,6 +1293,142 @@
                 }
             });
         }
+
+    })();
+</script>
+
+
+
+<script runat="server">
+  protected string AdicionesJson => Newtonsoft.Json.JsonConvert.SerializeObject(
+      Models.adiciones ?? new List<DAL.Model.V_CatagoriaAdicion>()
+  );
+</script>
+
+<!-- 👇 ESTO sí es cliente (JS en el navegador) -->
+<script>
+  // V_CatagoriaAdicion => { id, idCategoria, idAdicion, nombreCategoria, nombreAdicion, estado }
+  window.adiciones = <%= AdicionesJson %>;
+    console.log('[NotasDetalle] adiciones cargadas:', Array.isArray(window.adiciones) ? window.adiciones.length : window.adiciones);
+</script>
+
+
+
+<script type="text/javascript">
+    (function () {
+        if (window.__initNotasDetalle2) return;
+        window.__initNotasDetalle2 = true;
+
+        function $id(id) { return document.getElementById(id); }
+        function tokenize(str) {
+            const seen = new Set(), out = [];
+            (str || '').split(';').map(s => s.trim()).filter(Boolean).forEach(s => {
+                const k = s.toLowerCase(); if (!seen.has(k)) { seen.add(k); out.push(s); }
+            });
+            return out;
+        }
+        function joinCanon(tokens) { return tokens.length ? (tokens.join('; ') + ';') : ''; }
+
+        var modalEl = $id('modalNotasDetalle');
+        var listEl = $id('notas-adiciones-list');
+        var emptyEl = $id('notas-adiciones-empty');
+        var txtEl = $id('notas-adiciones-textarea');
+        var btnGuardar = $id('btnNotasGuardar');
+        var btnLimpiar = $id('btnNotasLimpiar');
+
+        // Render de adiciones para la categoría
+        function renderAdiciones(idCategoria, selectedTokens) {
+            listEl.innerHTML = '';
+            const cat = Number(idCategoria);
+
+            const items = (window.adiciones || []).filter(a => Number(a.idCategoria) === cat);
+            console.log('[NotasDetalle] filtrando por categoría', { cat, total: (window.adiciones || []).length, filtradas: items.length });
+
+            if (!items.length) {
+                emptyEl.classList.remove('d-none');
+                return;
+            }
+            emptyEl.classList.add('d-none');
+
+            const setSel = new Set((selectedTokens || []).map(t => t.toLowerCase()));
+
+            items.forEach(a => {
+                const name = String(a.nombreAdicion || '').trim();
+                if (!name) return;
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'btn btn-sm btn-outline-secondary adicion-btn';
+                btn.dataset.name = name;
+                btn.textContent = name;
+
+                if (setSel.has(name.toLowerCase())) btn.classList.add('active');
+
+                btn.onclick = function () {
+                    const toks = tokenize(txtEl.value);
+                    const i = toks.findIndex(t => t.toLowerCase() === name.toLowerCase());
+                    if (i >= 0) { toks.splice(i, 1); btn.classList.remove('active'); }
+                    else { toks.push(name); btn.classList.add('active'); }
+                    txtEl.value = joinCanon(toks);
+                };
+
+                listEl.appendChild(btn);
+            });
+        }
+
+
+        function syncFromTextarea() {
+            const toks = tokenize(txtEl.value);
+            const set = new Set(toks.map(t => t.toLowerCase()));
+            listEl.querySelectorAll('.adicion-btn').forEach(btn => {
+                const name = (btn.dataset.name || '').toLowerCase();
+                btn.classList.toggle('active', set.has(name));
+            });
+        }
+        txtEl.addEventListener('input', syncFromTextarea);
+
+        // ⚡ Punto clave: cuando el modal va a mostrarse, Bootstrap nos da el botón que lo abrió
+        modalEl.addEventListener('show.bs.modal', function (ev) {
+            const triggerBtn = ev.relatedTarget; // <-- el botón "Comentario" que se clickeó
+            if (!triggerBtn) return;
+
+            const id = triggerBtn.getAttribute('data-id');
+            const idCategoria = triggerBtn.getAttribute('data-idcategoria');
+            const adicionesIniciales = triggerBtn.getAttribute('data-adiciones') || '';
+
+            // Precarga textarea y lista
+            txtEl.value = adicionesIniciales;
+            renderAdiciones(idCategoria, tokenize(adicionesIniciales));
+
+            // Configurar Guardar para este id
+            btnGuardar.onclick = function () {
+                const texto = joinCanon(tokenize(txtEl.value));
+                const payload = String(id) + '|' + texto;
+                if (typeof __doPostBack === 'function') {
+                    __doPostBack('NotasDetalle', payload);
+                } else {
+                    console.error('__doPostBack no disponible');
+                }
+            };
+
+            // Limpiar con confirmación moderna
+            btnLimpiar.onclick = function () {
+                if (!txtEl.value.trim()) return;
+
+                AlertModerno.Confirm(
+                    "¿Deseas limpiar el comentario/adiciones?",
+                    "Esta acción eliminará todo el texto actual.",
+                    function (ok) {
+                        if (ok) {
+                            txtEl.value = '';
+                            syncFromTextarea();
+                            AlertModerno.Success(null, "¡Listo!", "Comentario limpiado correctamente.", false, 800);
+                        }
+                    }
+                );
+            };
+
+        });
 
     })();
 </script>

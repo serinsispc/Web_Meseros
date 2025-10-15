@@ -165,5 +165,32 @@ namespace DAL.Funciones
                 return new Respuesta_DAL { data = null, estado = false, mensaje = "no fue posible dividir el item." };
             }
         }
+
+        public static Respuesta_DAL NotasDetalle(int iddetalle, string nota)
+        {
+            try
+            {
+                var detalle = new DetalleVenta();
+                detalle = DetalleVentaControler.ConsultarId(iddetalle);
+                if (detalle == null)
+                {
+                    return new Respuesta_DAL { data = null, estado = false, mensaje = "No se actualizo." };
+                }
+
+                detalle.adiciones = nota;
+                bool crud = DetalleVentaControler.CRUD(detalle, 1);
+                if (crud == false)
+                {
+                    return new Respuesta_DAL { data = null, estado = false, mensaje = "No se actualizo." };
+                }
+
+                return new Respuesta_DAL { data = null, estado = true, mensaje = "Nota Actualizada." };
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+                return new Respuesta_DAL { data = null, estado = false, mensaje = "NO se actualizo." };
+            }
+        }
     }
 }

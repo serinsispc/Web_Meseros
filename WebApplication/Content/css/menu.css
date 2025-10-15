@@ -578,3 +578,99 @@ input[type="button"], input[type="submit"], input[type="reset"] {
     }
 }
 
+
+
+
+/* ===== Estilos Modal Notas / Adiciones ===== */
+#modalNotasDetalle .modal-content {
+    border-radius: 1rem;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+    border: none;
+}
+
+/* Título del modal */
+#modalNotasDetalle .modal-title {
+    font-weight: 600;
+    color: #0d47a1; /* azul oscuro corporativo */
+}
+
+/* Contenedor de botones de adiciones */
+#notas-adiciones-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+/* Botones de adiciones */
+.adicion-btn {
+    border-radius: 20px;
+    border: 1px solid #0d47a1;
+    color: #0d47a1;
+    background-color: #fff;
+    padding: 5px 12px;
+    font-size: 0.85rem;
+    transition: all 0.2s ease-in-out;
+}
+
+    .adicion-btn:hover {
+        background-color: #e3f2fd; /* azul claro hover */
+        color: #0d47a1;
+        transform: scale(1.05);
+    }
+
+    /* Botones activos (seleccionados) */
+    .adicion-btn.active {
+        background-color: #0d47a1;
+        color: #fff;
+        border-color: #0d47a1;
+        box-shadow: 0 0 6px rgba(13, 71, 161, 0.5);
+    }
+
+/* Textarea */
+#notas-adiciones-textarea {
+    border-radius: 10px;
+    border: 1px solid #90caf9;
+    resize: none;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s;
+}
+
+    #notas-adiciones-textarea:focus {
+        border-color: #0d47a1;
+        box-shadow: 0 0 0 0.2rem rgba(13, 71, 161, 0.25);
+    }
+
+/* Botón Limpiar */
+#btnNotasLimpiar {
+    border-radius: 8px;
+    border: 1px solid #90caf9;
+    color: #0d47a1;
+    background-color: #fff;
+    transition: all 0.2s ease-in-out;
+}
+
+    #btnNotasLimpiar:hover {
+        background-color: #e3f2fd;
+    }
+
+/* Botón Guardar */
+#btnNotasGuardar {
+    border-radius: 8px;
+    background-color: #0d47a1;
+    border: none;
+    transition: background-color 0.2s ease-in-out, transform 0.2s;
+}
+
+    #btnNotasGuardar:hover {
+        background-color: #1565c0;
+        transform: scale(1.03);
+    }
+
+/* Botón Cancelar */
+#modalNotasDetalle .btn-light {
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+    #modalNotasDetalle .btn-light:hover {
+        background-color: #f1f1f1;
+    }

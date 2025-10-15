@@ -2,6 +2,7 @@
 using DAL.Controler;
 using DAL.Funciones;
 using DAL.Model;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -138,7 +139,8 @@ namespace WebApplication
                 productos = productos,
                 venta = V_TablaVentasControler.Consultar_Id(idVenta),
                 detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idVenta),
-                v_CuentaClientes =listacc
+                v_CuentaClientes = listacc,
+                adiciones = V_CatagoriaAdicionControler.Lista()
             };
 
             GuardarModelsEnSesion();
@@ -199,10 +201,48 @@ namespace WebApplication
                     ProcesarDividirDetalle(eventArgument);
                     break;
 
+                case "NotasDetalle":
+                    ProcesarNotasDetalle(eventArgument);
+                    break;
+
                 default:
                     // otros eventos por nombre...
                     break;
             }
+        }
+        private void ProcesarNotasDetalle(string eventArgument)
+        {
+            if (string.IsNullOrWhiteSpace(eventArgument)) return;
+
+            var parts = eventArgument.Split('|');
+            if (parts.Length == 2)
+            {
+                if (int.TryParse(parts[0], out int detalleId))
+                {
+                    string notaDetalle = parts[1];
+
+                    var respuestadal = DetalleVenta_f.NotasDetalle(detalleId, notaDetalle);
+                    string titulo;
+                    if (respuestadal.estado)
+                    {
+                        titulo = "ok";
+                        AlertModerno.Success(this, titulo, respuestadal.mensaje, true, 1000);
+                    }
+                    else
+                    {
+                        titulo = "Error";
+                        AlertModerno.Error(this, titulo, respuestadal.mensaje, true, 1000);
+                    }
+
+                    Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
+                    Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+
+                    GuardarModelsEnSesion();
+                    BindProductos();
+                    DataBind();
+                }
+            }
+
         }
         private void ProcesarDividirDetalle(string eventArgument)
         {
