@@ -15,6 +15,7 @@ namespace DAL.Model
     public partial class V_CuentasVenta
     {
         public int id { get; set; }
+        public string aliasVenta { get; set; }
         public decimal efectivoVenta { get; set; }
         public int numeroVenta { get; set; }
         public decimal total { get; set; }

@@ -20,5 +20,6 @@ namespace DAL.Model
         public string mesa { get; set; }
         public int idVendedor { get; set; }
         public int estado { get; set; }
+        public string aliasVenta { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace DAL.Model
     {
         public int id { get; set; }
         public System.DateTime fechaVenta { get; set; }
+        public string aliasVenta { get; set; }
         public string tipoFactura { get; set; }
         public string prefijo { get; set; }
         public int numeroVenta { get; set; }

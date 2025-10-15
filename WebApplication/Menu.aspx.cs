@@ -127,6 +127,7 @@ namespace WebApplication
             // Construir ViewModel
             Models = new MenuViewModels
             {
+                NombreMesero= Session["NombreMesero"].ToString(),
                 IdCuentaActiva = idVenta,
                 IdZonaActiva = idZonaActiva,
                 IdMesaActiva = 0,
@@ -829,6 +830,25 @@ namespace WebApplication
         protected void btnEliminarServicio_ServerClick(object sender, EventArgs e)
         {
 
+        }
+
+        protected void btnGuardarAlias_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var idCuenta = hfCuentaId.Value;
+                var nuevoAlias = txtAlias.Text?.Trim() ?? "";
+
+                //var venta = TablaVentas_f.Consultar_Id(Convert.ToInt32(idCuenta));
+
+                // Recarga datos y rebind
+                CargarModelsDesdeSesion(); // si usas este patrón
+                DataBind();
+            }
+            catch (Exception ex)
+            {
+                // AlertModerno.Error(this, "Error", ex.Message, true);
+            }
         }
     }
 }

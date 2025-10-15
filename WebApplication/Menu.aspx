@@ -180,24 +180,38 @@
          Main layout (columns)
          ========================= -->
     <div class="container-fluid menu-wrap py-3 py-lg-4">
-        <!-- fila: barra de servicios + acciones -->
+        <!-- fila: barra de servicios + acciones --> 
         <div class="row g-3 align-items-center mb-3">
             <div class="col-12 col-xl">
                 <div class="d-flex flex-wrap gap-2">
-                    <asp:Repeater runat="server" ID="rpCuentas"
-                        DataSource="<%# Models.cuentas %>"
-                        OnItemCommand="rpServicios_ItemCommand">
-                        <ItemTemplate>
-                            <asp:LinkButton ID="btnServicio" runat="server"
-                                CommandName="AbrirServicio"
-                                CommandArgument='<%# Eval("id") %>'
-                                CssClass='<%# "service-chip" + ((Eval("id").ToString() == Models.IdCuentaActiva.ToString()) ? " active" : "") %>'>
-                                <span class="chip-title"><%# Eval("id") %></span>
-                                <small class="text-muted d-block"><%# Eval("mesa") %></small>
-                                <i class="bi bi-pencil-fill chip-edit"></i>
-                            </asp:LinkButton>
-                        </ItemTemplate>
-                    </asp:Repeater>
+<asp:Repeater runat="server" ID="rpCuentas"
+    DataSource="<%# Models.cuentas %>"
+    OnItemCommand="rpServicios_ItemCommand">
+    <ItemTemplate>
+        <div class="position-relative">
+            <!-- Botón flotante del lápiz -->
+            <button type="button"
+                    class="btn btn-link position-absolute top-0 end-0 p-0 m-1 z-3 btn-alias"
+                    data-id='<%# Eval("id") %>'
+                    data-alias='<%# Eval("aliasVenta") %>'
+                    title="Editar alias">
+                <i class="bi bi-pencil-fill text-warning fs-5"></i>
+            </button>
+
+            <!-- LinkButton principal -->
+            <asp:LinkButton ID="btnServicio" runat="server"
+                CommandName="AbrirServicio"
+                CommandArgument='<%# Eval("id") %>'
+                CssClass='<%# "service-chip w-100 d-block text-start p-3 border rounded shadow-sm bg-white position-relative" + ((Eval("id").ToString() == Models.IdCuentaActiva.ToString()) ? " active" : "") %>'>
+
+                <span class="fw-bold text-primary d-block fs-5"><%# Eval("aliasVenta") %></span>
+                <small class="text-muted d-block"><%# Eval("mesa") %></small>
+            </asp:LinkButton>
+        </div>
+    </ItemTemplate>
+</asp:Repeater>
+
+
                 </div>
             </div>
 
@@ -224,7 +238,7 @@
 
         <!-- banner servicio activo -->
         <div class="alert alert-primary-soft d-flex align-items-center justify-content-between px-3 py-2 mb-3">
-            <div class="fw-semibold">Servicio Activo: <%# Models.IdCuentaActiva %> </div>
+            <div class="fw-semibold">Mesero Activo: <%# Models.NombreMesero %> </div>
             <div class="small text-muted"></div>
         </div>
 
@@ -356,14 +370,13 @@
 
                             <div class="flex-grow-1">
                                 <asp:LinkButton ID="btnCuentaGeneral" runat="server"
-                                    CssClass="text-decoration-none w-100"
-                                    OnClick="btnCuentaGeneral_Click">
-                                    <div class="input-group input-group-sm bg-white border">
-                                        <span class="input-group-text">Cuenta</span>
-                                        <input type="text" class="form-control" placeholder="Buscar / seleccionar..." />
-                                    </div>
+                                    CssClass="btn btn-primary w-100 text-white d-flex justify-content-between align-items-center">
+                                    <span>Cuenta General</span>
+                                    <span> <%= string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Models.venta.total_A_Pagar) %></span>
                                 </asp:LinkButton>
                             </div>
+
+
                         </div>
 
                         <!-- Lista Cuentas Clientes -->
@@ -717,6 +730,34 @@
 </div>
 
 
+    <!-- Modal: Editar Alias -->
+<div class="modal fade" id="modalAlias" tabindex="-1" aria-labelledby="modalAliasLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAliasLabel">Editar alias de la cuenta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- ID cuenta oculto -->
+        <asp:HiddenField ID="HiddenField1" runat="server" />
+
+        <div class="mb-3">
+          <label for="txtAlias" class="form-label">Alias</label>
+          <asp:TextBox ID="txtAlias" runat="server" CssClass="form-control" MaxLength="100" />
+          <div class="form-text">Ej.: agrega el nombre personalizado para este servicio.</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <asp:Button ID="btnGuardarAlias" runat="server" CssClass="btn btn-primary"
+                    Text="Guardar" OnClick="btnGuardarAlias_Click" />
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -1433,6 +1474,47 @@
     })();
 </script>
 
+
+
+
+    <script>
+        (function () {
+            if (window.__initModalAlias) return;
+            window.__initModalAlias = true;
+
+            function $id(id) { return document.getElementById(id); }
+
+            // Instancia del modal
+            var modalEl = $id('modalAlias');
+            var modalAlias = null;
+            function ensureModal() {
+                if (!modalAlias && window.bootstrap && bootstrap.Modal) {
+                    modalAlias = new bootstrap.Modal(modalEl);
+                }
+                return modalAlias;
+            }
+
+            // Delegación de eventos: cualquier .btn-alias abre el modal
+            document.addEventListener('click', function (ev) {
+                var btn = ev.target.closest('.btn-alias');
+                if (!btn) return;
+
+                // Evita que el click “pase” al LinkButton debajo
+                ev.preventDefault();
+                ev.stopPropagation();
+
+                var id = btn.getAttribute('data-id') || '';
+                // Si quieres pre-cargar el alias actual, puedes guardarlo en data-alias
+                var aliasActual = btn.getAttribute('data-alias') || '';
+
+                $id('<%= hfCuentaId.ClientID %>').value = id;
+    $id('<%= txtAlias.ClientID %>').value = aliasActual;
+
+      var m = ensureModal();
+      if (m) m.show();
+  }, true);
+        })();
+    </script>
 
 
 

@@ -36,6 +36,7 @@ namespace WebApplication
                 if (vendedor != null)
                 {
                     Session["idvendedor"] = vendedor.id;
+                    Session["NombreMesero"]= vendedor.nombreVendedor;
                     Session["vendedor"]=JsonConvert.SerializeObject(vendedor);
                     AlertModerno.SuccessGoTo(this, "Ok", $"Bienvenido {vendedor.nombreVendedor}", "~/menu.aspx", esToast: false, ms: 1200);
                 }
