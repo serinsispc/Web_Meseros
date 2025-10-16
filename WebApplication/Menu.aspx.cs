@@ -838,16 +838,35 @@ namespace WebApplication
             {
                 var idCuenta = hfCuentaId.Value;
                 var nuevoAlias = txtAlias.Text?.Trim() ?? "";
-
-                //var venta = TablaVentas_f.Consultar_Id(Convert.ToInt32(idCuenta));
-
+                var venta = new TablaVentas();
+                var resp = TablaVentasControler.Consultar_Id(Convert.ToInt32(idCuenta));
+                if (resp.estado)
+                {
+                    AlertModerno.Error(this,"Error",$"no se encontro la venta {idCuenta}");
+                }
+                else
+                {
+                    venta = JsonConvert.DeserializeObject<TablaVentas>(resp.data);
+                }
+                venta.aliasVenta = nuevoAlias;
+                var crud = TablaVentasControler.CRUD(venta,1);
+                if (crud.estado)
+                {
+                    AlertModerno.Error(this, "Error", $"no se modifico el alias");
+                }
+                else
+                {
+                    AlertModerno.Success(this, "OK", $"alias modificado correctamente.",true);
+                }
+                Models.IdCuentaActiva = Convert.ToInt32(idCuenta);
+                Models.cuentas = V_CuentasControler.Lista_IdVendedor(Convert.ToInt32(Session["idvendedor"]));
                 // Recarga datos y rebind
                 CargarModelsDesdeSesion(); // si usas este patrón
                 DataBind();
             }
             catch (Exception ex)
             {
-                // AlertModerno.Error(this, "Error", ex.Message, true);
+                AlertModerno.Error(this, "Error", ex.Message, true);
             }
         }
     }

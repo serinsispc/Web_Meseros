@@ -65,6 +65,7 @@
     <Compile Include="Controler\R_VentaMesaControler.cs" />
     <Compile Include="Controler\R_VentaVendedorControler.cs" />
     <Compile Include="Controler\SedeControler.cs" />
+    <Compile Include="Controler\TablaVentasControler.cs" />
     <Compile Include="Controler\VendedorControler.cs" />
     <Compile Include="Controler\V_CatagoriaAdicionControler.cs" />
     <Compile Include="Controler\V_CategoriaControler.cs" />
