@@ -30,11 +30,6 @@
         box-shadow: 0 6px 18px rgba(0,0,0,.06);
     }
 
-    .service-chip.active {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 .15rem rgba(13,110,253,.15);
-    }
-
     .service-chip .chip-title {
         display: block;
         font-weight: 700;
@@ -674,3 +669,11 @@ input[type="button"], input[type="submit"], input[type="reset"] {
     #modalNotasDetalle .btn-light:hover {
         background-color: #f1f1f1;
     }
+
+
+
+.service-chip.active {
+    background: #90caf9;
+    color: #fff !important;
+    border-color: #0b5ed7 !important;
+}

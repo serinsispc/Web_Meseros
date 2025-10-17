@@ -16,6 +16,7 @@ namespace DAL.Funciones
                 Guid guid = Guid.NewGuid();
                 TablaVentas tablaVentas = new TablaVentas {
                     id = 0,
+                    aliasVenta="--",
                     fechaVenta = DateTime.Now,
                     numeroVenta = 0,
                     descuentoVenta = 0,

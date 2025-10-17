@@ -202,8 +202,8 @@
             <asp:LinkButton ID="btnServicio" runat="server"
                 CommandName="AbrirServicio"
                 CommandArgument='<%# Eval("id") %>'
-                CssClass='<%# "service-chip w-100 d-block text-start p-3 border rounded shadow-sm bg-white position-relative" + ((Eval("id").ToString() == Models.IdCuentaActiva.ToString()) ? " active" : "") %>'>
-
+                CssClass='<%# "service-chip w-100 d-block text-start p-3 border rounded shadow-sm bg-white position-relative" 
+           + (Convert.ToInt32(Eval("id")) == Models.IdCuentaActiva ? " active" : "") %>'>
                 <span class="fw-bold text-primary d-block fs-5"><%# Eval("aliasVenta") %></span>
                 <small class="text-muted d-block"><%# Eval("mesa") %></small>
             </asp:LinkButton>
@@ -217,8 +217,8 @@
 
             <div class="col-12 col-xl-auto">
                 <div class="d-flex gap-2 justify-content-start justify-content-xl-end">
-                    <button runat="server" id="btnNuevoServicio"
-                        class="btn btn-primary btn-sm">
+                    <button id="btnNuevoServicio"
+                        class="btn btn-primary btn-sm>
                         <i class="bi bi-plus-circle me-1"></i>Nuevo servicio
                     </button>
 
@@ -554,7 +554,7 @@
                                 <button type="button"
                                     class="list-group-item list-group-item-action d-flex justify-content-between align-items-center servicio-item"
                                     data-id='<%# Eval("id") %>'>
-                                    <span class="fw-semibold"><%# Eval("id") %></span>
+                                    <span class="fw-semibold"><%# Eval("aliasVenta") %></span>
                                     <small class="text-muted">#<%# Eval("id") %> · <%# Eval("mesa") %></small>
                                 </button>
                             </ItemTemplate>
@@ -1516,6 +1516,16 @@
         })();
     </script>
 
+
+
+
+
+    <script>
+        document.getElementById('btnNuevoServicio').addEventListener('click', function (e) {
+            e.preventDefault();
+            __doPostBack('btnNuevoServicio', '');
+        });
+    </script>
 
 
 </asp:Content>

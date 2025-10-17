@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -204,6 +205,10 @@ namespace WebApplication
 
                 case "NotasDetalle":
                     ProcesarNotasDetalle(eventArgument);
+                    break;
+
+                case "btnNuevoServicio":
+                    BTN_NuevoServicio();
                     break;
 
                 default:
@@ -824,6 +829,48 @@ namespace WebApplication
             catch { /* ignorar */ }
             return 0;
         }
+        private void BTN_NuevoServicio()
+        {
+            int idVenta = TablaVentas_f.NuevaVenta();
+            if (idVenta <= 0)
+            {
+                AlertModerno.Error(this, "Error", "No se creó el servicio.", true, 2000);
+                return;
+            }
+            else
+            {
+                // procedemos a modificar el alias
+                var resp = TablaVentasControler.Consultar_Id(idVenta);
+                if (resp.estado)
+                {
+                    var venta = resp.data as TablaVentas;
+                    venta.aliasVenta =Convert.ToString(idVenta);
+                    var crud = TablaVentasControler.CRUD(venta,1);
+                }
+            }
+            Models.IdCuentaActiva = idVenta;
+
+            // amarro venta con vendedor (uso session idvendedor si existe)
+            var rvv = R_VentaVendedor_f.Relacionar_Vendedor_Venta(idVenta, ObtenerIdVendedorSeguro());
+            if (rvv)
+            {
+                AlertModerno.Success(this, "Listo", $"Servicio #{idVenta} creado con éxito.", true, 2000);
+            }
+            else
+            {
+                AlertModerno.Error(this, "Error", $"Servicio #{idVenta} creado con éxito, pero no se amarró al vendedor.", true, 2000);
+            }
+
+
+            // Actualizar modelos y UI
+            Models.cuentas = V_CuentasControler.Lista_IdVendedor(ObtenerIdVendedorSeguro());
+            Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+
+            GuardarModelsEnSesion();
+            BindProductos();
+            DataBind();
+        }
 
         #endregion
 
@@ -840,17 +887,17 @@ namespace WebApplication
                 var nuevoAlias = txtAlias.Text?.Trim() ?? "";
                 var venta = new TablaVentas();
                 var resp = TablaVentasControler.Consultar_Id(Convert.ToInt32(idCuenta));
-                if (resp.estado)
+                if (!resp.estado)
                 {
                     AlertModerno.Error(this,"Error",$"no se encontro la venta {idCuenta}");
                 }
                 else
                 {
-                    venta = JsonConvert.DeserializeObject<TablaVentas>(resp.data);
+                    venta = resp.data as TablaVentas;
                 }
                 venta.aliasVenta = nuevoAlias;
                 var crud = TablaVentasControler.CRUD(venta,1);
-                if (crud.estado)
+                if (!crud.estado)
                 {
                     AlertModerno.Error(this, "Error", $"no se modifico el alias");
                 }
