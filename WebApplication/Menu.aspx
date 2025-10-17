@@ -200,6 +200,8 @@
 
             <!-- LinkButton principal -->
             <asp:LinkButton ID="btnServicio" runat="server"
+                data-id='<%# Eval("id") %>'
+                data-alias='<%# Eval("aliasVenta") %>'
                 CommandName="AbrirServicio"
                 CommandArgument='<%# Eval("id") %>'
                 CssClass='<%# "service-chip w-100 d-block text-start p-3 border rounded shadow-sm bg-white position-relative" 
@@ -222,10 +224,9 @@
                         <i class="bi bi-plus-circle me-1"></i>Nuevo servicio
                     </button>
 
-                    <button runat="server" id="btnEliminarServicio"
+                    <button id="btnEliminarServicio"
                         type="button"
                         class="btn btn-warning btn-sm text-dark"
-                        onserverclick="btnEliminarServicio_ServerClick">
                         <i class="bi bi-trash3 me-1"></i>Eliminar servicio
                     </button>
 
@@ -1517,15 +1518,44 @@
     </script>
 
 
-
-
-
     <script>
         document.getElementById('btnNuevoServicio').addEventListener('click', function (e) {
             e.preventDefault();
             __doPostBack('btnNuevoServicio', '');
         });
     </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var idCuentaActiva = <%= Models.IdCuentaActiva %>;
+    var btnEliminar = document.getElementById('btnEliminarServicio');
+
+    // Buscar aliasVenta correspondiente
+    var botonServicio = document.querySelector('[data-id="' + idCuentaActiva + '"]');
+    var aliasVenta = botonServicio ? botonServicio.getAttribute('data-alias') : "este servicio";
+
+    btnEliminar.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        Swal.fire({
+            title: '¿Eliminar servicio?',
+            html: `<b>${aliasVenta}</b><br>Esta acción no se puede deshacer.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                __doPostBack('btnEliminarServicio', '');
+            }
+        });
+    });
+});
+</script>
+
 
 
 </asp:Content>

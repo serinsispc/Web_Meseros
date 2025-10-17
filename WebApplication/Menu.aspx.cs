@@ -12,6 +12,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WebApplication.Class;
@@ -209,6 +210,10 @@ namespace WebApplication
 
                 case "btnNuevoServicio":
                     BTN_NuevoServicio();
+                    break;
+
+                case "btnEliminarServicio":
+                    btnEliminarServicio();
                     break;
 
                 default:
@@ -874,9 +879,44 @@ namespace WebApplication
 
         #endregion
 
-        protected void btnEliminarServicio_ServerClick(object sender, EventArgs e)
+        private void btnEliminarServicio()
         {
+            int idventa = Models.IdCuentaActiva;
 
+            //consultamos si la venta tiene detalle cargados
+            var detalles = V_DetalleCajaControler.Lista_IdVenta(idventa);
+            if(detalles!=null && detalles.Count > 0)
+            {
+                AlertModerno.Error(this, "Error", $"El servicio #{idventa} aun tiene items cargados.",true);
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+                return;
+            }
+
+            var rsp = TablaVentasControler.Consultar_Id(idventa);
+            if (!rsp.estado)
+            {
+                AlertModerno.Error(this, "Error", $"El servicio #{idventa} no se pudo eliminar.", true);
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+                return;
+            }
+
+            var venta = rsp.data as TablaVentas;
+            var rsp_crud = TablaVentasControler.CRUD(venta,2);
+            if (!rsp_crud.estado)
+            {
+                AlertModerno.Error(this, "Error", $"El servicio #{idventa} no se pudo eliminar.", true);
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+                return;
+            }
+
+            AlertModerno.Success(this,"OK",$"Servicio #{idventa} eliminado con éxito.");
+            InicializarPagina();
         }
 
         protected void btnGuardarAlias_Click(object sender, EventArgs e)
