@@ -129,6 +129,7 @@ namespace WebApplication
             // Construir ViewModel
             Models = new MenuViewModels
             {
+                IdMesero=Convert.ToInt32(Session["idvendedor"].ToString()),
                 NombreMesero= Session["NombreMesero"].ToString(),
                 IdCuentaActiva = idVenta,
                 IdZonaActiva = idZonaActiva,
@@ -526,6 +527,14 @@ namespace WebApplication
             if (cuentasMesa.Any())
             {
                 // La mesa ya está asociada a una cuenta
+                if (cuentasMesa.FirstOrDefault().idVendedor != Models.IdMesero)
+                {
+                    AlertModerno.Error(this, "Error", $"la mesa {mesa.nombreMesa} pertenece a otro mesero.",true);
+                    GuardarModelsEnSesion();
+                    BindProductos();
+                    DataBind();
+                    return; 
+                }
                 Models.IdCuentaActiva = cuentasMesa.First().id;
                 Models.IdMesaActiva = idMesa;
                 Models.Mesas = MesasControler.Lista();
@@ -905,7 +914,8 @@ namespace WebApplication
             }
 
             var venta = rsp.data as TablaVentas;
-            var rsp_crud = TablaVentasControler.CRUD(venta,2);
+            venta.eliminada = true;
+            var rsp_crud = TablaVentasControler.CRUD(venta,1);
             if (!rsp_crud.estado)
             {
                 AlertModerno.Error(this, "Error", $"El servicio #{idventa} no se pudo eliminar.", true);

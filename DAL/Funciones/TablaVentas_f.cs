@@ -35,7 +35,8 @@ namespace DAL.Funciones
                     idResolucion=0,
                     idFormaDePago=1,
                     razonDescuento="-",
-                    idBaseCaja=0
+                    idBaseCaja=0,
+                    eliminada=false
                 };
                 using (DBEntities cn = new DBEntities())
                 {

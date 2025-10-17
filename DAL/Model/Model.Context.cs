@@ -18,7 +18,7 @@ namespace DAL.Model
     public partial class DBEntities : DbContext
     {
         public DBEntities()
-            : base(ClassConexionDinamica.DBDinamica)
+            : base("name=DBEntities")
         {
         }
     
@@ -2018,7 +2018,7 @@ namespace DAL.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InformeFiscal_General_Result>("InformeFiscal_General", monthParameter, yearParameter);
         }
     
-        public virtual ObjectResult<InformeFiscal_SuperAdmin_Result> InformeFiscal_SuperAdmin(Nullable<int> month, Nullable<int> year)
+        public virtual int InformeFiscal_SuperAdmin(Nullable<int> month, Nullable<int> year)
         {
             var monthParameter = month.HasValue ?
                 new ObjectParameter("month", month) :
@@ -2028,7 +2028,7 @@ namespace DAL.Model
                 new ObjectParameter("year", year) :
                 new ObjectParameter("year", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InformeFiscal_SuperAdmin_Result>("InformeFiscal_SuperAdmin", monthParameter, yearParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InformeFiscal_SuperAdmin", monthParameter, yearParameter);
         }
     
         public virtual ObjectResult<InformeFiscal_TipoFactura_Result> InformeFiscal_TipoFactura(string tipoFactura, Nullable<int> month, Nullable<int> year)
