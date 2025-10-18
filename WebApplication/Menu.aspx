@@ -394,7 +394,8 @@
 
                                         foreach (var cuenta in cuentasFiltradas)
                                         { %>
-                                <div class="card cuenta-card border-success-subtle shadow-sm" style="min-width: 160px; flex: 1;">
+                                <a class="card cuenta-card border-success-subtle shadow-sm" style="min-width: 160px; flex: 1;"
+                                    data-id='<%= cuenta.id %>'>
                                     <div class="card-body p-2 d-flex flex-column justify-content-between">
                                         <div class="d-flex justify-content-between align-items-start mb-1">
                                             <span class="fw-semibold text-uppercase text-truncate" style="max-width: 120px;">
@@ -410,7 +411,7 @@
                                             <%= string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", cuenta.total_A_Pagar) %>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                                 <%      }
                                     }
                                     else
@@ -487,32 +488,42 @@
                         </asp:Repeater>
 
                         <hr />
-
+                        <%
+                            dynamic totales;
+                            if (Models.IdCuenteClienteActiva == 0)
+                            {
+                                totales = Models.venta;
+                            }
+                            else
+                            {
+                                    totales = Models.ventaCuenta;
+                            }
+                            %>
                         <!-- totales -->
                         <div class="d-flex justify-content-between small mb-1">
                             <span class="text-muted">SubTotal:</span>
-                            <span><%# "$" + string.Format("{0:N0}", Models.venta.subtotalVenta) %></span>
+                            <span><%= "$" + string.Format("{0:N0}", totales.subtotalVenta) %></span>
                         </div>
                         <div class="d-flex justify-content-between small mb-2">
                             <span class="text-muted">Impuestos (8%)</span>
-                            <span><%# "$" + string.Format("{0:N0}", Models.venta.ivaVenta) %></span>
+                            <span><%= "$" + string.Format("{0:N0}", totales.ivaVenta) %></span>
                         </div>
                         <div class="d-flex justify-content-between fw-semibold mb-2">
                             <span>Total 1:</span>
-                            <span><%# "$" + string.Format("{0:N0}", Models.venta.totalVenta) %></span>
+                            <span><%= "$" + string.Format("{0:N0}", totales.totalVenta) %></span>
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span>Servicio (<%= porpropina %>%)</span>
+                            <span>Servicio (<%= totales.porpropina %>%)</span>
                             <div>
                                 <span class="badge bg-primary-subtle text-primary fw-semibold me-2">Editar</span>
-                                <span><%= "$" + string.Format("{0:N0}", valorpropina) %></span>
+                                <span><%= "$" + string.Format("{0:N0}", totales.valorpropina) %></span>
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-between fs-6 fw-bold mb-3">
                             <span>Total 2:</span>
-                            <span><%= "$" + string.Format("{0:N0}", totalapagar) %></span>
+                            <span><%= "$" + string.Format("{0:N0}", totales.totalapagar) %></span>
                         </div>
 
                         <div class="row g-3">
@@ -1657,6 +1668,26 @@
 });
     </script>
 
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Selecciona todos los enlaces de cuenta
+            const cuentas = document.querySelectorAll('.cuenta-card');
+
+            cuentas.forEach(cuenta => {
+                cuenta.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Obtiene el id del atributo data-id
+                    const idCuenta = this.dataset.id;
+
+                    // Llama al postback con el id
+                    __doPostBack('btnCuentaCliente', idCuenta);
+                });
+            });
+        });
+    </script>
 
 
 

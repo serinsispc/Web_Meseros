@@ -25,5 +25,6 @@ namespace WebApplication.ViewModels
         public List<V_DetalleCaja> detalleCaja { get; set; }
         public List<V_CuentaCliente> v_CuentaClientes { get; set; }
         public List<V_CatagoriaAdicion> adiciones { get; set; }
+        public V_CuentaCliente ventaCuenta { get; set; }
     }
 }

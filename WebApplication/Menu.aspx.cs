@@ -135,7 +135,7 @@ namespace WebApplication
                 IdZonaActiva = idZonaActiva,
                 IdMesaActiva = 0,
                 IdCategoriaActiva = idCategoriaActiva,
-                IdCuenteClienteActiva = listacc.FirstOrDefault().id,
+                IdCuenteClienteActiva = 0,
                 cuentas = cuentas,
                 zonas = zonas,
                 Mesas = mesas,
@@ -225,6 +225,10 @@ namespace WebApplication
                     rpMesas_ItemCommand(eventArgument);
                     break;
 
+                case "btnCuentaCliente":
+                    btnCuentaCliente(eventArgument);
+                    break;
+
                 default:
                     // otros eventos por nombre...
                     break;
@@ -264,7 +268,7 @@ namespace WebApplication
 
             Models.IdCuenteClienteActiva = idCuenta;
             Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva,idCuenta);
-            Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+            Models.ventaCuenta = V_CuentaClienteCotroler.Consultar(idCuenta);
             GuardarModelsEnSesion();
             BindProductos();
             DataBind();

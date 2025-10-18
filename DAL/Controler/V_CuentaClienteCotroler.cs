@@ -33,5 +33,20 @@ namespace DAL.Controler
                 return null;
             }
         }
+        public static V_CuentaCliente Consultar(int id)
+        {
+            try
+            {
+                using (DBEntities cn = new DBEntities())
+                {
+                    return cn.V_CuentaCliente.AsNoTracking().Where(x => x.id == id).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                return null;
+            }
+        }
     }
 }

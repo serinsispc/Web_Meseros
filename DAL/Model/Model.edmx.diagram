@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0525510234ba4e19b916e2e7813cb5de" Name="Diagram1">
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.AdicionDetalleText" Width="1.5" PointX="8.25" PointY="31.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.AdicionDetalleVenta" Width="1.5" PointX="11.25" PointY="40.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Adiciones" Width="1.5" PointX="9" PointY="50.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.AdminControl" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.AmbienteEmpresa" Width="1.5" PointX="21" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.AperturasCajon" Width="1.5" PointX="9" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ArchivoCompras" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.AutorizacionFacturacionElectronica" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.AutorizacionPC" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.BackupDB" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.BaseCaja" Width="1.5" PointX="6.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Bodega" Width="1.5" PointX="14.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Bolsillo" Width="1.5" PointX="9.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.buyer_benefit" Width="1.5" PointX="16" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.CargoDescuentoCompra" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.CargoDescuentoVentas" Width="1.5" PointX="3" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.CargosDescuentosDetalleVenta" Width="1.5" PointX="8.25" PointY="45.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Categoria" Width="1.5" PointX="4.5" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.CertificadoDigital" Width="1.5" PointX="21" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ClienteDomicilio" Width="1.5" PointX="0.75" PointY="31.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Clientes" Width="1.5" PointX="13.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Comandas" Width="1.5" PointX="21" PointY="29.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ComandImpresaa" Width="1.5" PointX="8.25" PointY="48.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.CompraActiva" Width="1.5" PointX="18.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Compras" Width="1.5" PointX="11.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ConfiguracionDian" Width="1.5" PointX="14.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ConfiguracionSMTP" Width="1.5" PointX="23.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ConsecutivoCaja" Width="1.5" PointX="23.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ConsecutivoCarta" Width="1.5" PointX="23.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ConsecutivoCompras" Width="1.5" PointX="23.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ConsecutivoDocumentoSoporte" Width="1.5" PointX="23.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ConsecutivoFactura" Width="1.5" PointX="11.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ConsecutivoPedido" Width="1.5" PointX="6" PointY="69.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ConsecutivoRecibo" Width="1.5" PointX="25.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ConsecutivoVentaUsado" Width="1.5" PointX="25.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.CorreosCliente" Width="1.5" PointX="16" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.CorreosNotificaciones" Width="1.5" PointX="25.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Cotizaciones" Width="1.5" PointX="16.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.CuentaCliente" Width="1.5" PointX="3" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.CuentasServicio" Width="1.5" PointX="21" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.departments" Width="1.5" PointX="25.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DescuentoDetalleCompra" Width="1.5" PointX="25.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DescuentoProgramado" Width="1.5" PointX="25.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DestapeProducto" Width="1.5" PointX="26.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DetalleComanda" Width="1.5" PointX="23.25" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DetalleCompra" Width="1.5" PointX="9" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DetalleCotizacion" Width="1.5" PointX="19" PointY="33.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DetalleInsumo" Width="1.5" PointX="11.25" PointY="34.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DetalleOrdenFabrica" Width="1.5" PointX="13.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DetallePedido" Width="1.5" PointX="6" PointY="71.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DetalleServicio" Width="1.5" PointX="21" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DetalleTraslado" Width="1.5" PointX="15.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DetalleVenta" Width="1.5" PointX="6" PointY="36.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DetalleVenta_eliminado" Width="1.5" PointX="25.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DetalleVentaActiva" Width="1.5" PointX="27.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Domicilios" Width="1.5" PointX="3" PointY="35.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Empresas" Width="1.5" PointX="18.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.EstadoAI" Width="1.5" PointX="27.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.EstadoDomicilio" Width="1.5" PointX="0.75" PointY="28.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.EstadoInventario" Width="1.5" PointX="27.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.EstadoPedido" Width="1.5" PointX="1.5" PointY="69.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.FacturaElectronica" Width="1.5" PointX="3" PointY="39.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.FacturaElectronicaJSON" Width="1.5" PointX="3" PointY="43.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.FacturaSoftware" Width="1.5" PointX="27.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Gastos" Width="1.5" PointX="12" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.GuidTraslados" Width="1.5" PointX="17.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Imagenes" Width="1.5" PointX="27.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ImprecionComandaAdd" Width="1.5" PointX="27.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Impresora" Width="1.5" PointX="27.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ImprimirCuenta" Width="1.5" PointX="3" PointY="50" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ImprimirFactura" Width="1.5" PointX="3" PointY="52.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ImpuestoCompras" Width="1.5" PointX="28.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.InformeFiscalMensual" Width="1.5" PointX="7.75" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.InsumosDetalleCompra" Width="1.5" PointX="11.25" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Inventario" Width="1.5" PointX="21.75" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.InventarioTotal" Width="1.5" PointX="27.75" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.LibroDiario" Width="1.5" PointX="29.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Licencia" Width="1.5" PointX="29.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ListaPrecios" Width="1.5" PointX="29.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ListaWhatsApp" Width="1.5" PointX="29.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.MediosDePagoInternos" Width="1.5" PointX="3.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.MensajesEnEspera" Width="1.5" PointX="29.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Merma" Width="1.5" PointX="12" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Mesas" Width="1.5" PointX="6.75" PointY="65.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Modulos" Width="1.5" PointX="29.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.MovimientosInventario" Width="1.5" PointX="29.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.municipalities" Width="1.5" PointX="29.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Notas_CreditoDebito" Width="1.5" PointX="3" PointY="58.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.NotasCredito" Width="1.5" PointX="3" PointY="54.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Notificaciones" Width="1.5" PointX="29.75" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.OrdenFabrica" Width="1.5" PointX="13.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.OrdenServicio" Width="1.5" PointX="15.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.PagosCompras" Width="1.5" PointX="30.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.PagosCreditoTienda" Width="1.5" PointX="23.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.PagosVenta" Width="1.5" PointX="6" PointY="33.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.payment_forms" Width="1.5" PointX="17.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.payment_methods" Width="1.5" PointX="31.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.PedidoActivo" Width="1.5" PointX="31.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Pedidos" Width="1.5" PointX="3.75" PointY="68.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.PermisoModulo" Width="1.5" PointX="31.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.PermisoSubModulo" Width="1.5" PointX="10.75" PointY="31.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.persona" Width="1.5" PointX="31.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Precios" Width="1.5" PointX="6" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.PreCuentas" Width="1.5" PointX="31.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Presentacion" Width="1.5" PointX="3.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Producto" Width="1.5" PointX="6.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Proveedor" Width="1.5" PointX="31.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_AdicionCategoria" Width="1.5" PointX="11.25" PointY="28.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_CategoriaComanda" Width="1.5" PointX="6.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_ClienteVendedor" Width="1.5" PointX="24" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_CompraCliente" Width="1.5" PointX="16" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_CotizacionCliente" Width="1.5" PointX="19" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_CuentaCliente_DetalleVenta" Width="1.5" PointX="5.25" PointY="24.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_CuentaServicio_DetalleServicio" Width="1.5" PointX="23.25" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_DepartamentoMunicipio" Width="1.5" PointX="31.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_DetalleServicioCuenta" Width="1.5" PointX="31.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_MediosDePago_MediosDePagoInternos" Width="1.5" PointX="6" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_PedidoVenta" Width="1.5" PointX="6" PointY="43.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_ProductoCompra" Width="1.5" PointX="24" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_ProductoInsumo" Width="1.5" PointX="9" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_ServicioMesa" Width="1.5" PointX="21" PointY="44.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_VehiculoVenta" Width="1.5" PointX="9" PointY="38.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_VentaBase" Width="1.5" PointX="9" PointY="34.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_VentaCliente" Width="1.5" PointX="31.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_VentaDomicilio" Width="1.5" PointX="11.25" PointY="37.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_VentaMesa" Width="1.5" PointX="9" PointY="42.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_VentaUsuario" Width="1.5" PointX="32.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.R_VentaVendedor" Width="1.5" PointX="3" PointY="79.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ReporteActualizacionEquipo" Width="1.5" PointX="25.75" PointY="32.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ReporteImpuestos" Width="1.5" PointX="3" PointY="82.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Resoluciones" Width="1.5" PointX="27.75" PointY="32.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ResponsableOrdenFabrica" Width="1.5" PointX="2.75" PointY="32.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.RutaActualizacionEquipo" Width="1.5" PointX="33.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Sede" Width="1.5" PointX="33.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.SedesAsignadas" Width="1.5" PointX="33.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.SeguimientoDomicilio" Width="1.5" PointX="5.25" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Semana" Width="1.5" PointX="21.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ServicioMesa" Width="1.5" PointX="18.75" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.SoftwareDIAN" Width="1.5" PointX="21" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.SubModulos" Width="1.5" PointX="33.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TablaDias" Width="1.5" PointX="33.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TablaMeses" Width="1.5" PointX="33.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TablaVentas" Width="1.5" PointX="0.75" PointY="34.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TablaYear" Width="1.5" PointX="33.75" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.tax_details" Width="1.5" PointX="29.75" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.taxes" Width="1.5" PointX="31.75" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TipoArticulo" Width="1.5" PointX="33.75" PointY="32.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.tipoComanda" Width="1.5" PointX="4.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TipoGasto" Width="1.5" PointX="9.75" PointY="54.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TipoHambiente" Width="1.5" PointX="34.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TipoIdentificacion" Width="1.5" PointX="21.75" PointY="34.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TipoMedida" Width="1.5" PointX="4.5" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TipoMerma" Width="1.5" PointX="9.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TipoPresentacion" Width="1.5" PointX="1.5" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TipoRegimen" Width="1.5" PointX="35.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TipoServicio" Width="1.5" PointX="35.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TipoTercero" Width="1.5" PointX="35.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TipoUsuario" Width="1.5" PointX="7.5" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TipoWhatsApp" Width="1.5" PointX="35.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.tokenEmpresa" Width="1.5" PointX="21" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Traslados" Width="1.5" PointX="13.75" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Tutoriales" Width="1.5" PointX="15.75" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.type_document_identifications" Width="1.5" PointX="35.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.type_documents" Width="1.5" PointX="35.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.type_environments" Width="1.5" PointX="35.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.type_liabilities" Width="1.5" PointX="23.75" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.type_organizations" Width="1.5" PointX="35.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.type_regimes" Width="1.5" PointX="35.75" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Usuario" Width="1.5" PointX="9.75" PointY="24.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Vehiculo" Width="1.5" PointX="6.75" PointY="51.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Vendedor" Width="1.5" PointX="35.75" PointY="31.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.VentaActiva" Width="1.5" PointX="33.75" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.VersionSoftware" Width="1.5" PointX="35.75" PointY="34.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Zonas" Width="1.5" PointX="4.5" PointY="65.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DetalleNotaCredito" Width="1.5" PointX="36.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.DocumentoSoporte" Width="1.5" PointX="14" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Agotados" Width="1.5" PointX="29.75" PointY="36.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.BuscadorProducto" Width="1.5" PointX="37.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Comanda" Width="1.5" PointX="37.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.ComandaAdiciones" Width="1.5" PointX="37.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.CuentasVendedor" Width="1.5" PointX="17.75" PointY="37.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Kardex" Width="1.5" PointX="37.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.TurnosCajaros" Width="1.5" PointX="19.75" PointY="37.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Adiciones" Width="1.5" PointX="37.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_AdicionesDetalle" Width="1.5" PointX="37.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_ArchivoCompras" Width="1.5" PointX="25.75" PointY="37.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Bolsillos" Width="1.5" PointX="37.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_BuscadorInsumos" Width="1.5" PointX="37.75" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.v_buyer_benefit" Width="1.5" PointX="37.75" PointY="32.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_CatagoriaAdicion" Width="1.5" PointX="37.75" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Categoria" Width="1.5" PointX="38.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Clientes" Width="1.5" PointX="31.75" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Comandas" Width="1.5" PointX="21.75" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Compra" Width="1.5" PointX="33.75" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_ConfiguracionDIAN" Width="1.5" PointX="35.75" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_ConsultaCategoriaDetalleCaja" Width="1.5" PointX="37.75" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_CorreosCliente" Width="1.5" PointX="39.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Cotizacion" Width="1.5" PointX="39.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_CuentaCliente" Width="1.5" PointX="13.75" PointY="39.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Cuentas" Width="1.5" PointX="39.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_CuentasPC" Width="1.5" PointX="39.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_CuentasServicio" Width="1.5" PointX="39.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_CuentasVenta" Width="1.5" PointX="39.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_descuantoDetalleCompra" Width="1.5" PointX="39.75" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_DetalleCaja" Width="1.5" PointX="39.75" PointY="37.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_DetalleCajaCotizacion" Width="1.5" PointX="40.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_DetalleComandas" Width="1.5" PointX="23.75" PointY="40.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_DetalleCompra" Width="1.5" PointX="25.75" PointY="40.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_DetalleServicio" Width="1.5" PointX="27.75" PointY="40.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_DetalleTipoComanda" Width="1.5" PointX="41.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_DetalleTraslado" Width="1.5" PointX="41.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_DetalleVenta" Width="1.5" PointX="41.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Domicilios" Width="1.5" PointX="15.75" PointY="41.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Empresa" Width="1.5" PointX="41.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_FacturasCredito" Width="1.5" PointX="41.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Gastos" Width="1.5" PointX="41.75" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_GastosTurno" Width="1.5" PointX="41.75" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_ImpuestosDetalleCompra" Width="1.5" PointX="41.75" PointY="37.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_InventarioReport" Width="1.5" PointX="41.75" PointY="41.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_ListaPrecio" Width="1.5" PointX="42.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_ListaWhatsApp" Width="1.5" PointX="43.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_MediosDePagoInternos" Width="1.5" PointX="43.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Merma" Width="1.5" PointX="43.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Mesas" Width="1.5" PointX="43.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Municipios" Width="1.5" PointX="43.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_NotasRapidas" Width="1.5" PointX="17.75" PointY="43.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Opciones" Width="1.5" PointX="43.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_PagoCP" Width="1.5" PointX="43.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_PagosCreditoTienda" Width="1.5" PointX="43.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Precios" Width="1.5" PointX="43.75" PointY="32.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Presentacion" Width="1.5" PointX="43.75" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Producto" Width="1.5" PointX="35.75" PointY="43.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_ProductoInsumos" Width="1.5" PointX="43.75" PointY="41.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_ProductosVentdidos" Width="1.5" PointX="11.75" PointY="44.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.v_productoVenta" Width="1.5" PointX="29.75" PointY="44.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_R_CotizacionCliente" Width="1.5" PointX="44.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_R_MediosDePago_MediosDePagoInternos" Width="1.5" PointX="45.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_R_ServicioMesa" Width="1.5" PointX="45.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_R_VentaBase" Width="1.5" PointX="45.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_R_VentaCliente" Width="1.5" PointX="45.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_R_VEntausuario" Width="1.5" PointX="13.75" PointY="45.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Resoluciones" Width="1.5" PointX="45.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Sede" Width="1.5" PointX="45.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_SedesAsignadas" Width="1.5" PointX="45.75" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_SeguimientoDomicilio" Width="1.5" PointX="45.75" PointY="32.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_ServicioMesa" Width="1.5" PointX="45.75" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_TablaVentas" Width="1.5" PointX="37.75" PointY="45.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_TipoGasto" Width="1.5" PointX="45.75" PointY="40.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_TipoMedida" Width="1.5" PointX="45.75" PointY="43.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_TipoMerma" Width="1.5" PointX="46.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_TipoPresentacion" Width="1.5" PointX="15.75" PointY="46.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_TotalImventario" Width="1.5" PointX="17.75" PointY="46.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_TotalVentasDetalle" Width="1.5" PointX="23.75" PointY="46.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Traslados" Width="1.5" PointX="25.75" PointY="46.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_TurnosCaja" Width="1.5" PointX="31.75" PointY="46.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_TurnosCaja_DIAN" Width="1.5" PointX="39.75" PointY="46.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.v_Usuario" Width="1.5" PointX="41.75" PointY="46.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Utilidad_X_Venta" Width="1.5" PointX="43.75" PointY="46.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_UtilidadVenta" Width="1.5" PointX="45.75" PointY="46.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Vendedor" Width="1.5" PointX="47.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_VentaInsumo" Width="1.5" PointX="47.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_VentasPagosInternos" Width="1.5" PointX="47.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.v_VentasPorCategoria" Width="1.5" PointX="47.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_VentasVendedor" Width="1.5" PointX="47.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.V_Zona" Width="1.5" PointX="19.75" PointY="47.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.VentasInsumos" Width="1.5" PointX="47.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.VistaMediosDePago" Width="1.5" PointX="47.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.VistaMetodosDepago" Width="1.5" PointX="47.75" PointY="27.75" IsExpanded="true" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__AdicionDe__idDet__5F492382" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__AdicionDe__idAdi__603D47BB" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__AdicionDe__idDet__61316BF4" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Adicion__idAdi__0B27A5C0" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__AmbienteE__idEmp__165A2CA1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Aperturas__idBas__6049CB61" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Gastos__idBaseca__7720AD13" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_VentaBa__idBas__2116E6DF" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Gastos__idBolsil__7814D14C" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__buyer_ben__clien__640DD89F" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__buyer_ben__clien__6F8A7843" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__CargoDesc__idVen__0B816F85" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__CargosDes__idDet__28EEA97F" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Producto__idCate__093F5D4E" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Adicion__idCat__0C1BC9F9" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Categor__idCat__0D0FEE32" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Certifica__idEmp__1936994C" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Domicilio__idCli__314E19FF" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__CorreosCl__idCli__67DE6983" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__CorreosCl__idCli__68D28DBC" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_CompraC__idCli__0FEC5ADD" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Cotizac__idCli__10E07F16" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleCo__idCom__7AAB1DE7" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__ComandImp__idDet__6501FCD8" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Documento__idCom__3CF5A22C" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Consecuti__guidP__66EA454A" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleCo__idCot__6D9742D9" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Cotizac__idCot__11D4A34F" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__CuentaCli__idVen__664FEAD6" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_CuentaC__idCue__692C5781" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__CuentasSe__idSer__0592C0AE" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_CuentaS__idCue__09635192" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleCo__idDet__7B9F4220" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleCo__idPre__69C6B1F5" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleCo__idPre__6ABAD62E" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleCo__idPro__6BAEFA67" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleCo__idPro__6CA31EA0" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__InsumosDe__idDet__2CBF3A63" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__InsumosDe__idDet__46FE2F53" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleIn__idDet__6E8B6712" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleIn__idRPI__6F7F8B4B" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK_DetallePedido_Pedidos" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleSe__idSer__02B65403" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_CuentaS__idDet__086F2D59" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleVe__idPre__7167D3BD" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleVe__idPre__725BF7F6" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleVe__idVen__73501C2F" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__DetalleVe__idVen__74444068" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_CuentaC__idDet__6A207BBA" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Domicilio__idEst__32423E38" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Domicilio__idVen__33366271" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_VentaDo__idDom__3AD78439" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Seguimien__idDom__3612CF1C" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__SoftwareD__idEmp__1C1305F7" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__tokenEmpr__idEmp__5D21AF45" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Seguimien__idEst__3706F355" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Pedidos__idEstad__0662F0A3" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__FacturaEl__idVen__762C88DA" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__FacturaEl__idven__395D48CE" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__FacturaEl__idven__680D4ABF" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Gastos__idTipoGa__79FD19BE" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__ImprimirC__idven__7AF13DF7" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__ImprimirF__idven__7BE56230" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__InsumosDe__idPre__2DB35E9C" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__InsumosDe__idPre__47F2538C" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__InsumosDe__idPro__2EA782D5" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__InsumosDe__idPro__48E677C5" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idInv__14B10FFA" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__PagosVent__idMed__436CCA3A" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_MediosD__idMed__464936E5" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Merma__idProduct__7EC1CEDB" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Merma__idTipoMer__7FB5F314" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Merma__idUsuario__00AA174D" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Mesas__idZona__019E3B86" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Servici__idMes__727FEC3A" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_VentaMe__idMes__23F3538A" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Notas_Cre__idVen__02925FBF" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__NotasCred__idVen__7266E4EE" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__PagosVent__idVen__4278A601" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_PedidoV__guidP__12C8C788" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Precios__idPrese__075714DC" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Presentac__idTip__084B3915" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Producto__idTipo__0A338187" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idIns__15A53433" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idIns__1699586C" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idIns__178D7CA5" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idIns__1881A0DE" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idPro__1975C517" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idPro__1A69E950" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idPro__1B5E0D89" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idPro__1C5231C2" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Categor__idTip__0E04126B" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Cliente__idSem__0EF836A4" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_PedidoV__idVen__13BCEBC1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idUni__1D4655FB" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idUni__1E3A7A34" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idUni__1F2E9E6D" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Product__idUni__2022C2A6" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Servici__idSer__718BC801" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Vehicul__idVeh__1AF3F935" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Vehicul__idVeh__44B528D7" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Vehicul__idVeh__75435199" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Vehicul__idVen__1BE81D6E" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Vehicul__idVen__45A94D10" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_Vehicul__idVen__763775D2" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_VentaBa__idVen__220B0B18" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_VentaDo__idVen__39E36000" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_VentaMe__idVen__24E777C3" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__R_VentaVe__idVen__25DB9BFC" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__ReporteIm__idVen__26CFC035" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_STRAGOS_CLUB_SASModel.FK__Usuario__idTipoU__29AC2CE0" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
