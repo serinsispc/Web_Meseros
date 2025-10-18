@@ -27,5 +27,20 @@ namespace DAL.Controler
                 return false;
             }
         }
+        public static R_VentaMesa Consultar_relacion(int idventa, int idmesa)
+        {
+            try
+            {
+                using (DBEntities cn = new DBEntities()) 
+                {
+                    return cn.R_VentaMesa.AsNoTracking().Where(x => x.idVenta == idventa && x.idMesa == idmesa).FirstOrDefault();
+                }
+            }
+            catch(Exception ex)
+            {
+                string error = ex.Message;
+                return null;
+            }
+        }
     }
 }

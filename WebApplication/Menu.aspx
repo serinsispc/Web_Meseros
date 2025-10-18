@@ -230,7 +230,11 @@
                         <i class="bi bi-trash3 me-1"></i>Eliminar servicio
                     </button>
 
-                    <button id="btnLiberarMesa" type="button" class="btn btn-outline-danger btn-sm">
+                    <button type="button" 
+                        class="btn btn-outline-danger btn-sm"
+                        id="btnLiberarMesa"
+                        data-idServicio='<%# Models.IdCuentaActiva %>'
+                        data-idMesa='<%# Models.IdMesaActiva %>'>
                         <i class="bi bi-x-circle me-1"></i>Liberar mesa
                     </button>
                 </div>
@@ -267,20 +271,18 @@
                         </ul>
 
                         <!-- grilla de mesas -->
-                        <div class="row g-2">
+                        <div class="row g-2 lista-mesas">
                             <asp:Repeater runat="server" ID="rpMesas"
-                                DataSource="<%# Models.Mesas.Where(x=>x.idZona==Models.IdZonaActiva).ToList() %>"
-                                OnItemCommand="rpMesas_ItemCommand">
+                                DataSource="<%# Models.Mesas.Where(x=>x.idZona==Models.IdZonaActiva).ToList() %>">
                                 <ItemTemplate>
                                     <div class="col-2 col-lg-6 col-xl-4" style="min-width: 100px; max-width: 110px">
-                                        <asp:LinkButton ID="lnkMesa" runat="server"
+                                        <button id="lnkMesa"
+                                            data-id='<%# Eval("id") %>'
                                             data-name='<%# Eval("nombreMesa") %>'
-                                            CommandName="AbrirMesa"
-                                            CommandArgument='<%# Eval("id") %>'
-                                            CssClass='<%# (Convert.ToInt32(Eval("estadoMesa")) == 1) ? "mesa-card ocupada d-block text-start" : "mesa-card libre d-block text-start" %>'>
+                                            class='<%# (Convert.ToInt32(Eval("estadoMesa")) == 1) ? "btnMesa mesa-card ocupada d-block text-start" : "btnMesa mesa-card libre d-block text-start" %>'>
                                             <div class="mesa-titulo"><%# Eval("nombreMesa") %></div>
                                             <div class="mesa-sub"><%# (Convert.ToInt32(Eval("estadoMesa")) == 1) ? "Ocupada" : "Libre" %></div>
-                                        </asp:LinkButton>
+                                        </button>
                                     </div>
                                 </ItemTemplate>
                             </asp:Repeater>
@@ -1555,6 +1557,106 @@
     });
 });
 </script>
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const contenedor = document.querySelector('.lista-mesas');
+            if (!contenedor) {
+                Swal.fire('Error', 'No se encontró el contenedor .lista-mesas', 'error');
+                return;
+            }
+
+            
+            contenedor.addEventListener('click', function (e) {
+                const boton = e.target.closest('.btnMesa');
+                if (!boton || !contenedor.contains(boton)) return;
+
+                e.preventDefault();
+
+                const idMesa = boton.dataset.id;
+                const nombreMesa = boton.dataset.name;
+
+                if (!idMesa) {
+                    Swal.fire('Error', 'El botón no tiene el atributo data-id.', 'error');
+                    return;
+                }
+
+                if (typeof __doPostBack === 'function') {
+                    __doPostBack('btnMesa', idMesa)
+                } else {
+                    Swal.fire('Error', '__doPostBack no está disponible en esta página.', 'error');
+                    return;
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1️⃣ Referencias principales
+            const btnLiberar = document.getElementById('btnLiberarMesa');
+            const contenedor = document.querySelector('.lista-mesas'); // clase, no id
+
+            // 2️⃣ Validaciones básicas
+            if (!btnLiberar) {
+                console.error('No se encontró el botón #btnLiberarMesa');
+                return;
+            }
+            if (!contenedor) {
+                console.error('No se encontró el contenedor .lista-mesas');
+                return;
+            }
+
+            // 3️⃣ Escuchar el clic en el botón principal
+            btnLiberar.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // 4️⃣ Tomar el data-idmesa
+                const idMesa = btnLiberar.dataset.idmesa;
+                if (!idMesa) {
+                    Swal.fire('Error', 'El botón no tiene el atributo data-idmesa.', 'error');
+                    return;
+                }
+
+                // 5️⃣ Buscar dentro del contenedor el botón con el mismo data-id
+                const botonCoincidente = contenedor.querySelector('[data-id="' + idMesa + '"]');
+                if (!botonCoincidente) {
+                    Swal.fire('Error', `No se encontró ninguna mesa con id ${idMesa}.`, 'error');
+                    return;
+                }
+
+                // 6️⃣ Tomar el nombre de la mesa
+                const nombreMesa = botonCoincidente.dataset.name || 'esta mesa';
+
+                // 7️⃣ Mostrar confirmación con SweetAlert2
+                Swal.fire({
+                    title: '¿Liberar mesa?',
+                    html: `<b>${nombreMesa}</b><br>Esta acción no se puede deshacer.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, liberar',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    allowOutsideClick: false,
+                    allowEscapeKey: true
+                }).then((result) => {
+                    if (!result.isConfirmed) return;
+
+                    const payload = idMesa + '|' + nombreMesa;
+
+                    // 8️⃣ Llamar al postback con el idMesa
+                    if (typeof __doPostBack === 'function') {
+                        __doPostBack('btnLiberarMesa', payload);
+        } else {
+            console.error('__doPostBack no está disponible en esta página.');
+        }
+    });
+  });
+});
+    </script>
+
 
 
 

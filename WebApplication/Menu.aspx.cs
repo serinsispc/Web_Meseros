@@ -217,10 +217,101 @@ namespace WebApplication
                     btnEliminarServicio();
                     break;
 
+                case "btnLiberarMesa":
+                    btnLiberarMesa(eventArgument);
+                    break;
+
+                case "btnMesa":
+                    rpMesas_ItemCommand(eventArgument);
+                    break;
+
                 default:
                     // otros eventos por nombre...
                     break;
             }
+        }
+        private void btnLiberarMesa(string eventArgument)
+        {
+            if (string.IsNullOrEmpty(eventArgument))
+            {
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+                return;
+            }
+
+
+            // 1️⃣ Separar por "|"
+            var parts = eventArgument.Split('|');
+
+            // 2️⃣ Validar que haya al menos dos partes
+            if (parts.Length < 2)
+            {
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+                return;
+            }
+
+            // 3️⃣ Convertir la primera parte a int
+            if (!int.TryParse(parts[0], out int idMesa))
+            {
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+                return;
+            }
+
+            // 4️⃣ Tomar la segunda parte (nombre)
+            string nombreMesa = parts[1];
+
+            //primero consultamos el id de la mesa
+            var mesa = MesasControler.Consultar_id(idMesa);
+            if(mesa==null)
+            {
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+                return;
+            }
+
+            mesa.estadoMesa = 0;
+            var crud = MesasControler.CRUD(mesa,1);
+            if (!crud)
+            {
+                AlertModerno.Error(this,"Error",$"no se pudo modificar el estado de la mesa {nombreMesa}");
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+                return;
+            }
+
+            //ahora eliminos la relacion de la mesa con el servicio
+            var relacion = R_VentaMesaControler.Consultar_relacion(Models.IdCuentaActiva,idMesa);
+            if (relacion == null) 
+            {
+                AlertModerno.Error(this, "Error", $"no se pudo modificar el estado de la mesa {nombreMesa}");
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+            }
+
+            var crud_r = R_VentaMesaControler.CRUD(relacion, 2);
+            if (!crud_r)
+            {
+                AlertModerno.Error(this, "Error", $"no se pudo modificar el estado de la mesa {nombreMesa}");
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+            }
+
+            AlertModerno.Success(this, "Ok", $"mesa {nombreMesa} liberada");
+            Models.Mesas = MesasControler.Lista();
+            Models.cuentas = V_CuentasControler.Lista_IdVendedor(Models.IdMesero);
+            GuardarModelsEnSesion();
+            BindProductos();
+            DataBind();
+
         }
         private void ProcesarNotasDetalle(string eventArgument)
         {
@@ -340,7 +431,6 @@ namespace WebApplication
             System.Diagnostics.Debug.WriteLine($"Actualizar ID {id} con cantidad {cantidad}");
             ActualizarCantidadEnBaseDeDatos(id, cantidad);
         }
-
         private void ProcesarEliminarDetalle(string eventArgument)
         {
             if (string.IsNullOrWhiteSpace(eventArgument)) return;
@@ -420,7 +510,6 @@ namespace WebApplication
                 System.Diagnostics.Debug.WriteLine("CargarModelsDesdeSesion error: " + ex);
             }
         }
-
         private void ReconstruirModelsBasico()
         {
             // Intento de reconstrucción conservadora para evitar nulls
@@ -443,7 +532,6 @@ namespace WebApplication
 
             GuardarModelsEnSesion();
         }
-
         private void BindProductos()
         {
             try
@@ -463,7 +551,6 @@ namespace WebApplication
                 System.Diagnostics.Debug.WriteLine("BindProductos error: " + ex);
             }
         }
-
         private void GuardarModelsEnSesion()
         {
             Session[SessionModelsKey] = Models;
@@ -504,17 +591,15 @@ namespace WebApplication
             DataBind();
         }
 
-        protected void rpMesas_ItemCommand(object source, RepeaterCommandEventArgs e)
+        private void rpMesas_ItemCommand(string eventArgument)
         {
             CargarModelsDesdeSesion();
 
-            if (e.CommandName != "AbrirMesa")
-            {
-                // solo manejamos AbrirMesa en este handler
-                return;
-            }
+            if (string.IsNullOrWhiteSpace(eventArgument)) return;
 
-            if (!int.TryParse(Convert.ToString(e.CommandArgument), out int idMesa)) return;
+            var partes = eventArgument.Split('|');
+
+            if (!int.TryParse(partes[0], out int idMesa)) return;
 
             var mesa = MesasControler.Consultar_id(idMesa);
             if (mesa == null)

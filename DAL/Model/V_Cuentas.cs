@@ -17,6 +17,7 @@ namespace DAL.Model
         public int id { get; set; }
         public int idVenta { get; set; }
         public string aliasVenta { get; set; }
+        public Nullable<bool> eliminada { get; set; }
         public int idUsuario { get; set; }
         public string mesa { get; set; }
         public int idVendedor { get; set; }
