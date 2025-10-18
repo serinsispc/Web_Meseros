@@ -230,6 +230,46 @@ namespace WebApplication
                     break;
             }
         }
+        private void btnCuentaCliente (string eventArgument)
+        {
+            if (string.IsNullOrEmpty(eventArgument))
+            {
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+                return;
+            }
+
+            // 1️⃣ Separar por "|"
+            var parts = eventArgument.Split('|');
+
+            // 2️⃣ Validar que haya al menos dos partes
+            if (parts.Length < 1)
+            {
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+                return;
+            }
+
+            // 3️⃣ Convertir la primera parte a int
+            if (!int.TryParse(parts[0], out int idCuenta))
+            {
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+                return;
+            }
+
+
+            Models.IdCuenteClienteActiva = idCuenta;
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva,idCuenta);
+            Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+            GuardarModelsEnSesion();
+            BindProductos();
+            DataBind();
+
+        }
         private void btnLiberarMesa(string eventArgument)
         {
             if (string.IsNullOrEmpty(eventArgument))

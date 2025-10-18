@@ -8,6 +8,7 @@ namespace WebApplication.ViewModels
 {
     public class MenuViewModels
     {
+        public int cajero {  get; set; }
         public int IdMesero { get; set; }    
         public string NombreMesero { get; set; }
         public int IdCuentaActiva { get; set; }

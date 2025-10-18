@@ -35,6 +35,7 @@ namespace WebApplication
                 vendedor = VendedorControler.Consultar_usuario_clave(usuario,clave);
                 if (vendedor != null)
                 {
+                    Session["cajero"]= vendedor.cajaMovil;
                     Session["idvendedor"] = vendedor.id;
                     Session["NombreMesero"]= vendedor.nombreVendedor;
                     Session["vendedor"]=JsonConvert.SerializeObject(vendedor);
