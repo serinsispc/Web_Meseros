@@ -3574,7 +3574,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_TablaVentas' no ti
           <Property Name="imagenQR" Type="nvarchar(max)" Nullable="false" />
           <Property Name="idBaseCaja" Type="int" />
           <Property Name="razonDescuento" Type="varchar(max)" />
-          <Property Name="porpropina" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="por_propina" Type="decimal" Precision="18" Scale="2" />
           <Property Name="eliminada" Type="bit" />
         </EntityType>
         <!--Errores durante la generación:
@@ -8070,7 +8070,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
     [V_TablaVentas].[imagenQR] AS [imagenQR], 
     [V_TablaVentas].[idBaseCaja] AS [idBaseCaja], 
     [V_TablaVentas].[razonDescuento] AS [razonDescuento], 
-    [V_TablaVentas].[porpropina] AS [porpropina], 
+    [V_TablaVentas].[por_propina] AS [por_propina], 
     [V_TablaVentas].[eliminada] AS [eliminada]
     FROM [dbo].[V_TablaVentas] AS [V_TablaVentas]</DefiningQuery>
           </EntitySet>
@@ -12411,7 +12411,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Name="imagenQR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="idBaseCaja" Type="Int32" />
           <Property Name="razonDescuento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="porpropina" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="por_propina" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="eliminada" Type="Boolean" />
         </EntityType>
         <EntityType Name="V_TipoGasto">
@@ -21969,7 +21969,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
                 <ScalarProperty Name="imagenQR" ColumnName="imagenQR" />
                 <ScalarProperty Name="idBaseCaja" ColumnName="idBaseCaja" />
                 <ScalarProperty Name="razonDescuento" ColumnName="razonDescuento" />
-                <ScalarProperty Name="porpropina" ColumnName="porpropina" />
+                <ScalarProperty Name="por_propina" ColumnName="por_propina" />
                 <ScalarProperty Name="eliminada" ColumnName="eliminada" />
               </MappingFragment>
             </EntityTypeMapping>

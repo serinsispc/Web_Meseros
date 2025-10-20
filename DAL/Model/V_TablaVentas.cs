@@ -63,7 +63,7 @@ namespace DAL.Model
         public string imagenQR { get; set; }
         public Nullable<int> idBaseCaja { get; set; }
         public string razonDescuento { get; set; }
-        public Nullable<decimal> porpropina { get; set; }
+        public Nullable<decimal> por_propina { get; set; }
         public Nullable<bool> eliminada { get; set; }
     }
 }

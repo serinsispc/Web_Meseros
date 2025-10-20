@@ -613,7 +613,7 @@ namespace WebApplication
             CargarModelsDesdeSesion();
             Models.venta = V_TablaVentasControler.Consultar_Id(idServicio);
             Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idServicio);
-
+            Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
             Models.IdCuentaActiva = idServicio;
             GuardarModelsEnSesion();
 
@@ -664,6 +664,7 @@ namespace WebApplication
                     DataBind();
                     return; 
                 }
+                Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
                 Models.IdCuentaActiva = cuentasMesa.First().id;
                 Models.IdMesaActiva = idMesa;
                 Models.Mesas = MesasControler.Lista();
@@ -686,7 +687,7 @@ namespace WebApplication
                     textoDeny: "Amarrar a existente",
                     textoCancel: "Cancelar"
                 );
-
+                Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
                 Models.IdMesaActiva = idMesa;
                 Models.Mesas = MesasControler.Lista();
                 GuardarModelsEnSesion();
@@ -826,7 +827,7 @@ namespace WebApplication
 
             Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
             Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
-
+            Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
             GuardarModelsEnSesion();
             BindProductos();
             DataBind();
@@ -862,7 +863,7 @@ namespace WebApplication
 
                 Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
                 Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
-
+                Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
                 GuardarModelsEnSesion();
                 BindProductos();
                 DataBind();
@@ -892,7 +893,7 @@ namespace WebApplication
 
                 Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
                 Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
-
+                Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
                 GuardarModelsEnSesion();
                 BindProductos();
                 DataBind();

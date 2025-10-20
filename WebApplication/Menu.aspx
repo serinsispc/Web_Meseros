@@ -514,16 +514,16 @@
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span>Servicio (<%= totales.porpropina %>%)</span>
+                            <span>Servicio (<%= totales.por_propina %>%)</span>
                             <div>
                                 <span class="badge bg-primary-subtle text-primary fw-semibold me-2">Editar</span>
-                                <span><%= "$" + string.Format("{0:N0}", totales.valorpropina) %></span>
+                                <span><%= "$" + string.Format("{0:N0}", totales.propina) %></span>
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-between fs-6 fw-bold mb-3">
                             <span>Total 2:</span>
-                            <span><%= "$" + string.Format("{0:N0}", totales.totalapagar) %></span>
+                            <span><%= "$" + string.Format("{0:N0}", totales.total_A_Pagar) %></span>
                         </div>
 
                         <div class="row g-3">
