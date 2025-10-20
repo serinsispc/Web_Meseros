@@ -129,8 +129,8 @@ namespace WebApplication
             // Construir ViewModel
             Models = new MenuViewModels
             {
-                IdMesero=Convert.ToInt32(Session["idvendedor"].ToString()),
-                NombreMesero= Session["NombreMesero"].ToString(),
+                IdMesero = Convert.ToInt32(Session["idvendedor"].ToString()),
+                NombreMesero = Session["NombreMesero"].ToString(),
                 IdCuentaActiva = idVenta,
                 IdZonaActiva = idZonaActiva,
                 IdMesaActiva = 0,
@@ -142,7 +142,8 @@ namespace WebApplication
                 categorias = categorias,
                 productos = productos,
                 venta = V_TablaVentasControler.Consultar_Id(idVenta),
-                detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idVenta),
+                ventaCuenta = V_CuentaClienteCotroler.Consultar(0),
+                detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idVenta, 0),
                 v_CuentaClientes = listacc,
                 adiciones = V_CatagoriaAdicionControler.Lista()
             };
@@ -227,6 +228,12 @@ namespace WebApplication
 
                 case "btnCuentaCliente":
                     btnCuentaCliente(eventArgument);
+                    break;
+
+                case "btnEditarPropina":
+                    var json = Request.Form["hdnEditarPropina"];
+                    
+                    btnEditarPropina(json);
                     break;
 
                 default:
@@ -382,7 +389,7 @@ namespace WebApplication
                     }
 
                     Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
-                    Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+                    Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
 
                     GuardarModelsEnSesion();
                     BindProductos();
@@ -416,8 +423,8 @@ namespace WebApplication
                     }
 
                     Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
-                    Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
-
+                    Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
+                    Models.ventaCuenta = V_CuentaClienteCotroler.Consultar(Models.IdCuenteClienteActiva);
                     GuardarModelsEnSesion();
                     BindProductos();
                     DataBind();
@@ -453,8 +460,8 @@ namespace WebApplication
                     }
 
                     Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
-                    Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
-
+                    Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
+                    Models.ventaCuenta = V_CuentaClienteCotroler.Consultar(Models.IdCuenteClienteActiva);
                     GuardarModelsEnSesion();
                     BindProductos();
                     DataBind();
@@ -571,7 +578,7 @@ namespace WebApplication
                 categorias = V_CategoriaControler.lista() ?? new List<V_Categoria>(),
                 productos = v_productoVentaControler.Lista() ?? new List<v_productoVenta>(),
                 venta = V_TablaVentasControler.Consultar_Id(idCuenta),
-                detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idCuenta)
+                detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idCuenta, Models.IdCuenteClienteActiva)
             };
 
             GuardarModelsEnSesion();
@@ -612,7 +619,7 @@ namespace WebApplication
 
             CargarModelsDesdeSesion();
             Models.venta = V_TablaVentasControler.Consultar_Id(idServicio);
-            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idServicio);
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idServicio, Models.IdCuenteClienteActiva);
             Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
             Models.IdCuentaActiva = idServicio;
             GuardarModelsEnSesion();
@@ -744,7 +751,7 @@ namespace WebApplication
             Models.Mesas = MesasControler.Lista();
             Models.cuentas = V_CuentasControler.Lista_IdVendedor(ObtenerIdVendedorSeguro());
             Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
-            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
 
             GuardarModelsEnSesion();
             BindProductos();
@@ -783,7 +790,7 @@ namespace WebApplication
             Models.cuentas = V_CuentasControler.Lista_IdVendedor(ObtenerIdVendedorSeguro());
             Models.Mesas = MesasControler.Lista();
             Models.venta = V_TablaVentasControler.Consultar_Id(idServicio);
-            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idServicio);
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idServicio, Models.IdCuenteClienteActiva);
 
             GuardarModelsEnSesion();
             BindProductos();
@@ -816,6 +823,17 @@ namespace WebApplication
             var resp = DetalleVenta_f.AgregarProducto(idPresentacion, cantidad, Models.IdCuentaActiva);
             if (resp.estado)
             {
+                //como si se creo el produto ahora verificamos si esta activa una cuenta de cleinte
+                if (Models.IdCuenteClienteActiva > 0)
+                {
+                    var ralacion = new R_CuentaCliente_DetalleVenta { 
+                        id=0,
+                     fecha=DateTime.Now,
+                     idCuentaCliente=Models.IdCuenteClienteActiva,
+                     idDetalleVenta=(int)resp.data,
+                     eliminada=false};
+                    var crudrelacion = R_CuentaCliente_DetalleVentaControler.CRUD(ralacion,0);
+                }
                 AlertModerno.Success(this, "¡OK!", $"{resp.mensaje}", true, 800);
             }
             else
@@ -826,20 +844,14 @@ namespace WebApplication
             if (txt != null) txt.Text = "0";
 
             Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
-            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
             Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
+            Models.ventaCuenta = V_CuentaClienteCotroler.Consultar(Models.IdCuenteClienteActiva);
             GuardarModelsEnSesion();
             BindProductos();
             DataBind();
         }
 
-        protected void btnCuentaGeneral_Click(object sender, EventArgs e)
-        {
-            CargarModelsDesdeSesion();
-            BindProductos();
-            GuardarModelsEnSesion();
-            DataBind();
-        }
 
         #endregion
 
@@ -861,9 +873,10 @@ namespace WebApplication
                     AlertModerno.Error(this, "Error", respdal.mensaje, true, 500);
                 }
 
-                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
                 Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
                 Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
+                Models.ventaCuenta = V_CuentaClienteCotroler.Consultar(Models.IdCuenteClienteActiva);
                 GuardarModelsEnSesion();
                 BindProductos();
                 DataBind();
@@ -891,9 +904,10 @@ namespace WebApplication
                     AlertModerno.Error(this, "Error", respdal.mensaje, true, 500);
                 }
 
-                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
                 Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
                 Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
+                Models.ventaCuenta = V_CuentaClienteCotroler.Consultar(Models.IdCuenteClienteActiva);
                 GuardarModelsEnSesion();
                 BindProductos();
                 DataBind();
@@ -1009,7 +1023,7 @@ namespace WebApplication
             // Actualizar modelos y UI
             Models.cuentas = V_CuentasControler.Lista_IdVendedor(ObtenerIdVendedorSeguro());
             Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
-            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva);
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva,Models.IdCuenteClienteActiva);
 
             GuardarModelsEnSesion();
             BindProductos();
@@ -1023,7 +1037,7 @@ namespace WebApplication
             int idventa = Models.IdCuentaActiva;
 
             //consultamos si la venta tiene detalle cargados
-            var detalles = V_DetalleCajaControler.Lista_IdVenta(idventa);
+            var detalles = V_DetalleCajaControler.Lista_IdVenta(idventa, Models.IdCuenteClienteActiva);
             if(detalles!=null && detalles.Count > 0)
             {
                 AlertModerno.Error(this, "Error", $"El servicio #{idventa} aun tiene items cargados.",true);
@@ -1095,6 +1109,72 @@ namespace WebApplication
             {
                 AlertModerno.Error(this, "Error", ex.Message, true);
             }
+        }
+
+        protected void btnCuentaGeneral_Click(object sender, EventArgs e)
+        {
+            CargarModelsDesdeSesion();
+
+            Models.IdCuenteClienteActiva = 0;
+            Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva,0);
+            Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+
+            BindProductos();
+            GuardarModelsEnSesion();
+            DataBind();
+        }
+
+        private class EditarPropinaDto
+        {
+            public decimal porcentaje { get; set; }
+            public int propina { get; set; } // en COP enteros
+            public int idventa { get; set; }
+            public int idcuenta { get; set; }
+        }
+        private void btnEditarPropina(string json)
+        {
+            CargarModelsDesdeSesion();
+
+            if (!string.IsNullOrWhiteSpace(json))
+            {
+                var dto = JsonConvert.DeserializeObject<EditarPropinaDto>(json);
+                decimal por_propina = dto.porcentaje / 100;
+                if (dto.idcuenta > 0)
+                {
+                    //hallamos la cuenta cliente con el id
+                    var cc = CuentaClienteControler.CuentaCliente(dto.idcuenta);
+                    if (cc != null)
+                    {
+                        cc.por_propina= por_propina;
+                        cc.propina = dto.propina;
+                        var respcc = CuentaClienteControler.CRUD(cc,1);
+                    }
+                }
+                else
+                {
+                    var respuesta = TablaVentasControler.Consultar_Id(dto.idventa);
+                    if(respuesta.estado)
+                    {
+                        var venta= respuesta.data as TablaVentas;
+                        venta.porpropina = por_propina;
+                        venta.propina = dto.propina;
+                        var respventa = TablaVentasControler.CRUD(venta,1);
+                    }
+                }
+
+                Models.IdCuenteClienteActiva = dto.idcuenta;
+                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva, dto.idcuenta);
+                Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+                Models.ventaCuenta = V_CuentaClienteCotroler.Consultar(dto.idcuenta);
+                Models.v_CuentaClientes=V_CuentaClienteCotroler.Lista(false);
+                BindProductos();
+                GuardarModelsEnSesion();
+                DataBind();
+            }
+
+            BindProductos();
+            GuardarModelsEnSesion();
+            DataBind();
         }
     }
 }

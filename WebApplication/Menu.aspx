@@ -180,38 +180,38 @@
          Main layout (columns)
          ========================= -->
     <div class="container-fluid menu-wrap py-3 py-lg-4">
-        <!-- fila: barra de servicios + acciones --> 
+        <!-- fila: barra de servicios + acciones -->
         <div class="row g-3 align-items-center mb-3">
             <div class="col-12 col-xl">
                 <div class="d-flex flex-wrap gap-2">
-<asp:Repeater runat="server" ID="rpCuentas"
-    DataSource="<%# Models.cuentas %>"
-    OnItemCommand="rpServicios_ItemCommand">
-    <ItemTemplate>
-        <div class="position-relative">
-            <!-- Botón flotante del lápiz -->
-            <button type="button"
-                    class="btn btn-link position-absolute top-0 end-0 p-0 m-1 z-3 btn-alias"
-                    data-id='<%# Eval("id") %>'
-                    data-alias='<%# Eval("aliasVenta") %>'
-                    title="Editar alias">
-                <i class="bi bi-pencil-fill text-warning fs-5"></i>
-            </button>
+                    <asp:Repeater runat="server" ID="rpCuentas"
+                        DataSource="<%# Models.cuentas %>"
+                        OnItemCommand="rpServicios_ItemCommand">
+                        <ItemTemplate>
+                            <div class="position-relative">
+                                <!-- Botón flotante del lápiz -->
+                                <button type="button"
+                                    class="btn btn-link position-absolute top-0 end-0 p-0 m-1 z-3 btn-alias"
+                                    data-id='<%# Eval("id") %>'
+                                    data-alias='<%# Eval("aliasVenta") %>'
+                                    title="Editar alias">
+                                    <i class="bi bi-pencil-fill text-warning fs-5"></i>
+                                </button>
 
-            <!-- LinkButton principal -->
-            <asp:LinkButton ID="btnServicio" runat="server"
-                data-id='<%# Eval("id") %>'
-                data-alias='<%# Eval("aliasVenta") %>'
-                CommandName="AbrirServicio"
-                CommandArgument='<%# Eval("id") %>'
-                CssClass='<%# "service-chip w-100 d-block text-start p-3 border rounded shadow-sm bg-white position-relative" 
+                                <!-- LinkButton principal -->
+                                <asp:LinkButton ID="btnServicio" runat="server"
+                                    data-id='<%# Eval("id") %>'
+                                    data-alias='<%# Eval("aliasVenta") %>'
+                                    CommandName="AbrirServicio"
+                                    CommandArgument='<%# Eval("id") %>'
+                                    CssClass='<%# "service-chip w-100 d-block text-start p-3 border rounded shadow-sm bg-white position-relative" 
            + (Convert.ToInt32(Eval("id")) == Models.IdCuentaActiva ? " active" : "") %>'>
                 <span class="fw-bold text-primary d-block fs-5"><%# Eval("aliasVenta") %></span>
                 <small class="text-muted d-block"><%# Eval("mesa") %></small>
-            </asp:LinkButton>
-        </div>
-    </ItemTemplate>
-</asp:Repeater>
+                                </asp:LinkButton>
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
 
 
                 </div>
@@ -372,7 +372,7 @@
                             </button>
 
                             <div class="flex-grow-1">
-                                <asp:LinkButton ID="btnCuentaGeneral" runat="server"
+                                <asp:LinkButton ID="btnCuentaGeneral" runat="server" OnClick="btnCuentaGeneral_Click"
                                     CssClass="btn btn-primary w-100 text-white d-flex justify-content-between align-items-center">
                                     <span>Cuenta General</span>
                                     <span> <%= string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Models.venta.total_A_Pagar) %></span>
@@ -457,13 +457,13 @@
                                         </div>
 
                                         <div class="d-flex flex-wrap gap-2 mb-2">
-<button type="button" class="icon-btn btn-comentario" title="Comentario"
-        data-id='<%# Eval("id") %>'
-        data-idcategoria='<%# Eval("idCategoria") %>'
-        data-adiciones='<%# Eval("adiciones") %>'
-        data-bs-toggle="modal" data-bs-target="#modalNotasDetalle">
-  <i class="bi bi-chat"></i>
-</button>
+                                            <button type="button" class="icon-btn btn-comentario" title="Comentario"
+                                                data-id='<%# Eval("id") %>'
+                                                data-idcategoria='<%# Eval("idCategoria") %>'
+                                                data-adiciones='<%# Eval("adiciones") %>'
+                                                data-bs-toggle="modal" data-bs-target="#modalNotasDetalle">
+                                                <i class="bi bi-chat"></i>
+                                            </button>
 
                                             <button type="button" class="icon-btn btn-anclar" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-link-45deg"></i></button>
                                             <button type="button" class="icon-btn btn-eliminar danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
@@ -516,7 +516,15 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span>Servicio (<%= totales.por_propina %>%)</span>
                             <div>
-                                <span class="badge bg-primary-subtle text-primary fw-semibold me-2">Editar</span>
+                                <button id="btnEditarPropina" 
+                                    class="badge bg-primary-subtle text-primary fw-semibold me-2"
+                                    data-porcentaje='<%= totales.por_propina %>'
+                                    data-propina='<%= Convert.ToInt32(totales.propina) %>'
+                                    data-idventa='<%# Models.IdCuentaActiva %>'
+                                    data-idcuenta='<%# Models.IdCuenteClienteActiva %>'
+                                    data-subtotal='<%= Convert.ToInt32(totales.subtotalVenta) %>'>
+                                    Editar
+                                </button>
                                 <span><%= "$" + string.Format("{0:N0}", totales.propina) %></span>
                             </div>
                         </div>
@@ -527,17 +535,17 @@
                         </div>
 
                         <div class="row g-3">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-6">
                                 <button class="cta cta-orange w-100" style="height: 80px;"><i class="bi bi-send me-2"></i>Comandar</button>
                             </div>
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-6">
                                 <button class="cta cta-purple w-100" style="height: 80px;">
                                     <i class="bi bi-chat-left-text me-2"></i>Solicitar<br />
                                     Cuenta</button>
                             </div>
-                            <div class="col-12 col-md-4">
+<%--                            <div class="col-12 col-md-4">
                                 <button class="cta cta-green w-100" style="height: 80px;"><i class="bi bi-cash-coin me-2"></i>Cobrar</button>
-                            </div>
+                            </div>--%>
                         </div>
 
                     </div>
@@ -772,6 +780,70 @@
     </div>
   </div>
 </div>
+
+
+
+    
+<!-- 🔒 Hidden para enviar datos al servidor -->
+<input type="hidden" id="hdnEditarPropina" name="hdnEditarPropina" />
+
+<!-- 🧮 Modal Editar Propina -->
+<!-- 🧮 Modal Editar Propina -->
+<div class="modal fade" id="modalPropina" tabindex="-1" aria-labelledby="modalPropinaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title" id="modalPropinaLabel">Editar propina</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-2">
+          <label class="form-label small mb-1">Subtotal</label>
+          <input type="text" id="txtSubtotal" class="form-control form-control-sm" readonly>
+        </div>
+
+        <div class="row g-2">
+          <div class="col-6">
+            <label class="form-label small mb-1">% Propina</label>
+            <!-- ✅ Solo enteros -->
+            <input type="number" id="txtPorcentaje"
+                   min="0" max="15" step="1"
+                   class="form-control form-control-sm"
+                   inputmode="numeric"
+                   oninput="this.value = this.value.replace(/[^0-9]/g,'');" />
+          </div>
+          <div class="col-6">
+            <label class="form-label small mb-1">Valor propina</label>
+            <!-- ✅ Solo números sin decimales -->
+            <input type="text" id="txtPropina"
+                   class="form-control form-control-sm"
+                   inputmode="numeric"
+                   pattern="[0-9]*"
+                   oninput="this.value = this.value.replace(/[^0-9]/g,'');" />
+          </div>
+        </div>
+
+        <div class="mt-2 d-flex flex-wrap gap-1">
+          <button type="button" class="btn btn-outline-secondary btn-sm quick-tip" data-tip="0">0%</button>
+          <button type="button" class="btn btn-outline-secondary btn-sm quick-tip" data-tip="5">5%</button>
+          <button type="button" class="btn btn-outline-secondary btn-sm quick-tip" data-tip="10">10%</button>
+          <button type="button" class="btn btn-outline-secondary btn-sm quick-tip" data-tip="15">15%</button>
+          <button type="button" class="btn btn-outline-danger btn-sm" id="btnQuitarPropina">Quitar</button>
+        </div>
+
+        <small id="ayudaPropina" class="text-muted d-block mt-2"></small>
+      </div>
+
+      <div class="modal-footer py-2">
+        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary btn-sm" id="btnGuardarPropina">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 
 
@@ -1688,6 +1760,185 @@
             });
         });
     </script>
+
+<script>
+    (function () {
+        if (window.__initEditarPropina) return;
+        window.__initEditarPropina = true;
+
+        // ---- Elementos base ----
+        const btnTrigger = document.getElementById('btnEditarPropina');
+        const hdnPayload = document.getElementById('hdnEditarPropina');
+        const modalEl = document.getElementById('modalPropina');
+
+        if (!btnTrigger || !hdnPayload || !modalEl) {
+            console.error('Faltan elementos: btnEditarPropina, hdnEditarPropina o modalPropina.');
+            return;
+        }
+
+        let bsModal;
+        function ensureModal() {
+            if (!bsModal && window.bootstrap?.Modal) {
+                bsModal = new bootstrap.Modal(modalEl);
+            }
+            return bsModal;
+        }
+
+        // ---- Constantes y helpers ----
+        const MAX_PERCENT = 15; // % máximo permitido
+        const nfCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+
+        function formatCOP(n) { return nfCOP.format(isFinite(n) ? n : 0); }
+        function clamp(n, min, max) { return Math.min(Math.max(n, min), max); }
+        function roundTo100(n) { return Math.round(n / 100) * 100; } // múltiplo de 100
+
+        // Parser robusto: quita miles y normaliza decimal
+        function parseNumber(str) {
+            if (typeof str === 'number') return str;
+            if (!str) return 0;
+            str = String(str).trim();
+            str = str.replace(/[^\d.,-]/g, '');
+
+            if (str.includes('.') && str.includes(',')) {
+                str = str.replace(/\./g, '').replace(',', '.');
+            } else if (str.includes(',')) {
+                str = str.replace(/\./g, '').replace(',', '.');
+            } else {
+                str = str.replace(/\./g, '');
+            }
+
+            const n = parseFloat(str);
+            return Number.isFinite(n) ? n : 0;
+        }
+
+        // ---- Controles del modal ----
+        const txtSubtotal = document.getElementById('txtSubtotal');
+        const txtPorcentaje = document.getElementById('txtPorcentaje');
+        const txtPropina = document.getElementById('txtPropina');
+        const ayuda = document.getElementById('ayudaPropina');
+        const btnGuardar = document.getElementById('btnGuardarPropina');
+        const btnQuitar = document.getElementById('btnQuitarPropina');
+
+        // Estado
+        let subtotal = 0, porcentaje = 0, propina = 0, idventa = 0, idcuenta = 0;
+        let lastEdited = null; // 'percent' | 'value'
+
+        function renderHelp() {
+            ayuda && (ayuda.textContent = `Esto equivale a ${porcentaje}% sobre ${formatCOP(subtotal)}.`);
+        }
+
+        // Sincronización: % -> valor
+        function syncFromPercent() {
+            porcentaje = Math.round(clamp(parseNumber(txtPorcentaje.value), 0, MAX_PERCENT));
+            const calc = (subtotal * porcentaje) / 100;
+            propina = Math.min(roundTo100(calc), subtotal);
+            txtPorcentaje.value = porcentaje;
+            txtPropina.value = formatCOP(propina);
+            lastEdited = 'percent';
+            renderHelp();
+        }
+
+        // Sincronización: valor -> %
+        function syncFromValue() {
+            let raw = parseNumber(txtPropina.value);
+            raw = Math.max(0, raw);
+            propina = Math.min(roundTo100(raw), subtotal);
+            porcentaje = subtotal > 0 ? Math.round((propina / subtotal) * 100) : 0;
+            porcentaje = clamp(porcentaje, 0, MAX_PERCENT);
+            txtPorcentaje.value = porcentaje;
+            txtPropina.value = formatCOP(propina);
+            lastEdited = 'value';
+            renderHelp();
+        }
+
+        // Eventos
+        txtPorcentaje?.addEventListener('input', () => {
+            porcentaje = Math.round(clamp(parseNumber(txtPorcentaje.value), 0, MAX_PERCENT));
+            const calc = (subtotal * porcentaje) / 100;
+            propina = Math.min(roundTo100(calc), subtotal);
+            txtPropina.value = formatCOP(propina);
+            lastEdited = 'percent';
+            renderHelp();
+        });
+
+        txtPropina?.addEventListener('input', () => {
+            let raw = Math.max(0, parseNumber(txtPropina.value));
+            let pTmp = subtotal > 0 ? Math.round((raw / subtotal) * 100) : 0;
+            pTmp = clamp(pTmp, 0, MAX_PERCENT);
+            txtPorcentaje.value = pTmp;
+            lastEdited = 'value';
+            renderHelp();
+        });
+
+        txtPorcentaje?.addEventListener('blur', syncFromPercent);
+        txtPropina?.addEventListener('blur', syncFromValue);
+
+        // Atajos de porcentaje
+        document.querySelectorAll('.quick-tip').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const p = parseNumber(btn.dataset.tip);
+                txtPorcentaje.value = p;
+                syncFromPercent();
+            });
+        });
+
+        // Quitar propina
+        btnQuitar?.addEventListener('click', () => {
+            txtPorcentaje.value = '0';
+            txtPropina.value = formatCOP(0);
+            syncFromPercent();
+        });
+
+        // Abrir modal
+        btnTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            subtotal = parseNumber(btnTrigger.dataset.subtotal);
+            porcentaje = Math.round(clamp(parseNumber(btnTrigger.dataset.porcentaje), 0, MAX_PERCENT));
+            propina = Math.max(0, parseNumber(btnTrigger.dataset.propina));
+            idventa = parseInt(btnTrigger.dataset.idventa || '0', 10) || 0;
+            idcuenta = parseInt(btnTrigger.dataset.idcuenta || '0', 10) || 0;
+
+            if (propina > 0) {
+                porcentaje = subtotal > 0 ? Math.round(clamp((propina / subtotal) * 100, 0, MAX_PERCENT)) : 0;
+            } else {
+                const calc = (subtotal * porcentaje) / 100;
+                propina = Math.min(roundTo100(calc), subtotal);
+            }
+
+            txtSubtotal.value = formatCOP(subtotal);
+            txtPorcentaje.value = porcentaje;
+            txtPropina.value = formatCOP(propina);
+            lastEdited = null;
+            renderHelp();
+
+            ensureModal()?.show();
+        });
+
+        // Guardar
+        btnGuardar.addEventListener('click', () => {
+            if (lastEdited === 'value') syncFromValue();
+            else syncFromPercent();
+
+            const payload = {
+                porcentaje: porcentaje,  // entero sin decimales
+                propina: propina,        // entero COP múltiplo de 100
+                idventa: idventa,
+                idcuenta: idcuenta
+            };
+
+            hdnPayload.value = JSON.stringify(payload);
+            if (typeof __doPostBack === 'function') {
+                __doPostBack('btnEditarPropina', '');
+            }
+
+            btnGuardar.disabled = true;
+            setTimeout(() => { btnGuardar.disabled = false; }, 2000);
+        });
+
+    })();
+</script>
+
 
 
 

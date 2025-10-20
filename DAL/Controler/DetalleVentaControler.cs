@@ -9,7 +9,7 @@ namespace DAL.Controler
 {
     public class DetalleVentaControler
     {
-        public static bool CRUD(DetalleVenta dv,int boton)
+        public static Respuesta_DAL CRUD(DetalleVenta dv,int boton)
         {
             try
             {
@@ -20,12 +20,12 @@ namespace DAL.Controler
                     if (boton == 2) { cn.Entry(dv).State = System.Data.Entity.EntityState.Deleted; }
                     cn.SaveChanges();
                 }
-                return true;
+                return new Respuesta_DAL { data=dv.id, estado=true, mensaje="ok" };
             }
             catch (Exception e)
             {
                 string msg = e.Message;
-                return false;
+                return new Respuesta_DAL { data = 0, estado = false, mensaje = "error" };
             }
         }
         public static DetalleVenta ConsultarId(int id)

@@ -41,14 +41,14 @@ namespace DAL.Funciones
                     };
                     string data = JsonConvert.SerializeObject(dv);
                     /* llamamos el crud para guardar */
-                    bool respCRUD = DetalleVentaControler.CRUD(dv,0);
-                    if (respCRUD) 
+                    var respCRUD = DetalleVentaControler.CRUD(dv,0);
+                    if (respCRUD.estado) 
                     {
-                        return new Respuesta_DAL { data=data, estado=true, mensaje=$"Producto ({producto.nombreProducto}) agregado." };
+                        return new Respuesta_DAL { data=respCRUD.data, estado= respCRUD.estado, mensaje=$"Producto ({producto.nombreProducto}) agregado." };
                     }
                     else
                     {
-                        return new Respuesta_DAL { data = data, estado = false, mensaje = $"Producto ({producto.nombreProducto}) no fue agregado." };
+                        return new Respuesta_DAL { data = respCRUD.data, estado = respCRUD.estado, mensaje = $"Producto ({producto.nombreProducto}) no fue agregado." };
                     }
                 }
                 else
@@ -75,8 +75,8 @@ namespace DAL.Funciones
                 }
 
                 detalle.cantidadDetalle = cantidad;
-                bool crud = DetalleVentaControler.CRUD(detalle,1);
-                if(crud == false)
+                var crud = DetalleVentaControler.CRUD(detalle,1);
+                if(crud.estado == false)
                 {
                     return new Respuesta_DAL { data = null, estado = false, mensaje = "No se actualizo." };
                 }
@@ -102,8 +102,8 @@ namespace DAL.Funciones
                 }
                 detalle.nombreProducto = nota;
                 detalle.estadoDetalle = 0;
-                bool crud = DetalleVentaControler.CRUD(detalle, 1);
-                if (crud == false)
+                var crud = DetalleVentaControler.CRUD(detalle, 1);
+                if (crud.estado == false)
                 {
                     return new Respuesta_DAL { data = null, estado = false, mensaje = "No se elimino." };
                 }
@@ -145,14 +145,14 @@ namespace DAL.Funciones
                     impuesto_id = detalle.impuesto_id
                 };
                 var dal1 = DetalleVentaControler.CRUD(nuevoDetalle,0);
-                if (!dal1)
+                if (!dal1.estado)
                 {
                     return new Respuesta_DAL { data = "Error", estado = false, mensaje = $"no se crear agregar el nuevo detalle." };
                 }
 
                 detalle.cantidadDetalle = cantidadActual - cantidadDividir;
                 var dal2= DetalleVentaControler.CRUD(detalle, 1);
-                if (!dal2)
+                if (!dal2.estado)
                 {
                     return new Respuesta_DAL { data = "Error", estado = false, mensaje = $"se agrego el nuevo detalle, <br>pero no se logro modificar la cantidad del detalle actual... <br>NOTA: modifica manualmente la cantidad del detalle actual." };
                 }
@@ -178,8 +178,8 @@ namespace DAL.Funciones
                 }
 
                 detalle.adiciones = nota;
-                bool crud = DetalleVentaControler.CRUD(detalle, 1);
-                if (crud == false)
+                var crud = DetalleVentaControler.CRUD(detalle, 1);
+                if (crud.estado == false)
                 {
                     return new Respuesta_DAL { data = null, estado = false, mensaje = "No se actualizo." };
                 }

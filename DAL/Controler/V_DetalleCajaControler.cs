@@ -10,7 +10,7 @@ namespace DAL.Controler
 {
     public class V_DetalleCajaControler
     {
-        public static List<V_DetalleCaja>Lista_IdVenta(int idVenta, [Optional]int idCuanta)
+        public static List<V_DetalleCaja>Lista_IdVenta(int idVenta,int idCuanta)
         {
             try
             {
