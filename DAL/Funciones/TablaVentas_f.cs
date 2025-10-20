@@ -36,7 +36,8 @@ namespace DAL.Funciones
                     idFormaDePago=1,
                     razonDescuento="-",
                     idBaseCaja=0,
-                    eliminada=false
+                    eliminada=false,
+                    porpropina=0,
                 };
                 using (DBEntities cn = new DBEntities())
                 {

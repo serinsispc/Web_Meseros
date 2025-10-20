@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
+using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -618,10 +619,12 @@ namespace WebApplication
             if (!int.TryParse(Convert.ToString(e.CommandArgument), out int idServicio)) return;
 
             CargarModelsDesdeSesion();
+            Models.IdCuenteClienteActiva = 0;
             Models.venta = V_TablaVentasControler.Consultar_Id(idServicio);
             Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(idServicio, Models.IdCuenteClienteActiva);
             Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
             Models.IdCuentaActiva = idServicio;
+            Models.ventaCuenta = V_CuentaClienteCotroler.Consultar(Models.IdCuenteClienteActiva);
             GuardarModelsEnSesion();
 
             BindProductos();
@@ -673,8 +676,11 @@ namespace WebApplication
                 }
                 Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
                 Models.IdCuentaActiva = cuentasMesa.First().id;
+                Models.IdCuenteClienteActiva = 0;
                 Models.IdMesaActiva = idMesa;
                 Models.Mesas = MesasControler.Lista();
+                Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva,0);
                 GuardarModelsEnSesion();
                 DataBind();
             }
@@ -1021,10 +1027,12 @@ namespace WebApplication
 
 
             // Actualizar modelos y UI
+            Models.IdCuenteClienteActiva = 0;
             Models.cuentas = V_CuentasControler.Lista_IdVendedor(ObtenerIdVendedorSeguro());
             Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
             Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva,Models.IdCuenteClienteActiva);
-
+            Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false, Models.IdCuentaActiva);
+            Models.ventaCuenta = V_CuentaClienteCotroler.Consultar(Models.IdCuenteClienteActiva);
             GuardarModelsEnSesion();
             BindProductos();
             DataBind();
