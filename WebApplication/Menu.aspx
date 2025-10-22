@@ -536,7 +536,7 @@
 
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
-                                <button class="cta cta-orange w-100" style="height: 80px;"><i class="bi bi-send me-2"></i>Comandar</button>
+                                <button runat="server" id="btnComandar" onserverclick="btnComandar_ServerClick" class="cta cta-orange w-100" style="height: 80px;"><i class="bi bi-send me-2"></i>Comandar</button>
                             </div>
                             <div class="col-12 col-md-6">
                                 <button class="cta cta-purple w-100" style="height: 80px;">

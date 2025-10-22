@@ -1,4 +1,5 @@
-﻿using DAL.Model;
+﻿using DAL.Funciones;
+using DAL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,11 @@ namespace DAL.Controler
                     if (boton == 1) { cn.Entry(dv).State=System.Data.Entity.EntityState.Modified; }
                     if (boton == 2) { cn.Entry(dv).State = System.Data.Entity.EntityState.Deleted; }
                     cn.SaveChanges();
+                }
+                if (boton > 0)
+                {
+                    //llamamos a la función que se encarga de eliminar ComandImpresaa
+                    ComandImpresaa_f.LiberarDetalle(dv.id);
                 }
                 return new Respuesta_DAL { data=dv.id, estado=true, mensaje="ok" };
             }

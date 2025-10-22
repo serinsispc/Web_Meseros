@@ -1,4 +1,5 @@
-﻿using DAL.Model;
+﻿using DAL.Funciones;
+using DAL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace DAL.Controler
                     if (boton == 2) { cn.Entry(relacion).State = System.Data.Entity.EntityState.Deleted; }
                     cn.SaveChanges();
                 }
+                ComandImpresaa_f.LiberarDetalle(relacion.idDetalleVenta);
                 return new Respuesta_DAL { data = relacion.id, estado = true, mensaje = "ok" };
             }
             catch(Exception ex)

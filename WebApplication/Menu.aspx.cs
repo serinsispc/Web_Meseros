@@ -1184,5 +1184,31 @@ namespace WebApplication
             GuardarModelsEnSesion();
             DataBind();
         }
+
+        protected void btnComandar_ServerClick(object sender, EventArgs e)
+        {
+            CargarModelsDesdeSesion();
+            var comanda = new ImprecionComandaAdd
+            {
+                id = 0,
+                idVenta = Models.IdCuentaActiva,
+                idMesa = Convert.ToString(Models.IdMesaActiva),
+                idMesero = Convert.ToString(Models.IdMesero),
+                estado = 1
+            };
+            var resp = ImprecionComandaAddControler.CRUD(comanda,0);
+            if (resp.estado)
+            {
+                AlertModerno.Success(this,"Ok","Comanda enviada correctamente.",true,1500);
+            }
+            else
+            {
+                AlertModerno.Error(this, "Error", "Comanda no enviada correctamente.", true, 1500);
+            }
+
+            GuardarModelsEnSesion();
+            BindProductos();
+            DataBind();
+        }
     }
 }

@@ -114,6 +114,15 @@ namespace WebApplication
         protected global::System.Web.UI.WebControls.Repeater rpDetalleCaja;
 
         /// <summary>
+        /// Control btnComandar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnComandar;
+
+        /// <summary>
         /// Control rpServiciosActivos.
         /// </summary>
         /// <remarks>

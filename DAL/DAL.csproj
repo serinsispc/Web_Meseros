@@ -57,9 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassConexionDinamica.cs" />
+    <Compile Include="Controler\ComandImpresaaControler.cs" />
     <Compile Include="Controler\CuentaClienteControler.cs" />
     <Compile Include="Controler\DetalleVentaControler.cs" />
     <Compile Include="Controler\ImagenesControler.cs" />
+    <Compile Include="Controler\ImprecionComandaAddControler.cs" />
     <Compile Include="Controler\MesasControler.cs" />
     <Compile Include="Controler\R_CuentaCliente_DetalleVentaControler.cs" />
     <Compile Include="Controler\R_VentaMesaControler.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Controler\V_ServicioMesaControler.cs" />
     <Compile Include="Controler\V_TablaVentasControler.cs" />
     <Compile Include="Controler\ZonasControler.cs" />
+    <Compile Include="Funciones\ComandImpresaa_f.cs" />
     <Compile Include="Funciones\CuentaCliente_f.cs" />
     <Compile Include="Funciones\DetalleVenta_f.cs" />
     <Compile Include="Funciones\Mesas_f.cs" />
