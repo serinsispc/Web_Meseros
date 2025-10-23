@@ -1210,5 +1210,28 @@ namespace WebApplication
             BindProductos();
             DataBind();
         }
+
+        protected void btnCuenta_ServerClick(object sender, EventArgs e)
+        {
+            CargarModelsDesdeSesion();
+            var cuenta = new ImprimirCuenta
+            {
+                id = 0,
+                idventa = Models.IdCuentaActiva
+            };
+            var resp = ImprimirCuentaControler.CRUD(cuenta, 0);
+            if (resp.estado)
+            {
+                AlertModerno.Success(this, "Ok", "Cuenta enviada correctamente.", true, 1500);
+            }
+            else
+            {
+                AlertModerno.Error(this, "Error", "Cuenta no enviada correctamente.", true, 1500);
+            }
+
+            GuardarModelsEnSesion();
+            BindProductos();
+            DataBind();
+        }
     }
 }

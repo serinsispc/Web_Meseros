@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="265edf234ca24a70bcae571501235536" Name="Diagram1">
+      <Diagram DiagramId="65ccc8cd6f03422c9df8620d6f142677" Name="Diagram1">
         <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.AdicionDetalleText" Width="1.5" PointX="8.25" PointY="31.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.AdicionDetalleVenta" Width="1.5" PointX="11.25" PointY="40.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_STRAGOS_CLUB_SASModel.Adiciones" Width="1.5" PointX="9" PointY="50.75" IsExpanded="true" />

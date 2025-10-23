@@ -22,7 +22,7 @@ namespace DAL.Model
         public int numeroVenta { get; set; }
         public string estadoVenta { get; set; }
         public Nullable<decimal> subTotalDetalle { get; set; }
-        public decimal valorImpuesto { get; set; }
+        public Nullable<decimal> valorImpuesto { get; set; }
         public Nullable<decimal> totalDetalle { get; set; }
         public Nullable<decimal> costoTotal { get; set; }
     }

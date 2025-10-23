@@ -36,7 +36,7 @@ namespace DAL.Model
         public decimal otrosImpuestos { get; set; }
         public decimal ivaVenta { get; set; }
         public decimal totalVenta { get; set; }
-        public decimal total_A_Pagar { get; set; }
+        public Nullable<decimal> total_A_Pagar { get; set; }
         public Nullable<decimal> efectivoVenta { get; set; }
         public Nullable<decimal> cambioVenta { get; set; }
         public string formaDePago { get; set; }

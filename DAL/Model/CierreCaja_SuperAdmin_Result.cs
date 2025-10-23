@@ -10,9 +10,8 @@
 namespace DAL.Model
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class V_TurnosCaja
+    public partial class CierreCaja_SuperAdmin_Result
     {
         public int id { get; set; }
         public Nullable<System.DateTime> fechaApertura { get; set; }

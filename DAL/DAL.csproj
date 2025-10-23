@@ -62,6 +62,7 @@
     <Compile Include="Controler\DetalleVentaControler.cs" />
     <Compile Include="Controler\ImagenesControler.cs" />
     <Compile Include="Controler\ImprecionComandaAddControler.cs" />
+    <Compile Include="Controler\ImprimirCuentaControler.cs" />
     <Compile Include="Controler\MesasControler.cs" />
     <Compile Include="Controler\R_CuentaCliente_DetalleVentaControler.cs" />
     <Compile Include="Controler\R_VentaMesaControler.cs" />
@@ -153,6 +154,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CertificadoDigital.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CierreCaja_SuperAdmin_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ClienteDomicilio.cs">
@@ -264,6 +268,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CRUD_NotasCreditoJSON_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRUD_PagosCompras_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CRUD_PreCuentas_Result.cs">
@@ -699,12 +706,6 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\InformeFiscalMensual.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\InformeFiscal_General_Result.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\InformeFiscal_SuperAdmin_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\InformeFiscal_TipoFactura_Result.cs">

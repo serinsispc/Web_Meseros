@@ -119,45 +119,7 @@
         }
     </script>
 
-    <!-- =========================
-         Cálculo rápido de propina (se ejecuta en render)
-         Nota: mantenido como código server-side (inline) para compatibilidad.
-         Si prefieres, podemos mover esto al code-behind.
-         ========================= -->
-    <%
-        // Variables calculadas en servidor para mostrar totales con propina
-        int porpropina = 0;
-        int valorpropina = 0;
-        int totalapagar = 0;
-        if (Models?.venta != null)
-        {
-            totalapagar = Convert.ToInt32(Models.venta.totalVenta);
-            if (Models.venta.por_propina > 0)
-            {
-                var pp = Models.venta.por_propina;
-                var pp2 = pp * 100;
-                porpropina = Convert.ToInt32(pp2);
-            }
-            if (porpropina > 0)
-            {
-                if (Models.venta.propina == 0)
-                {
-                    valorpropina = WebApplication.Class.ClassPropina.CalcularValoPropina(
-                        Models.venta.por_propina.ToString(),
-                        Models.venta.subtotalVenta.ToString()
-                    );
-                }
-                else
-                {
-                    valorpropina = Convert.ToInt32(Models.venta.subtotalVenta);
-                }
-            }
-            totalapagar = totalapagar + valorpropina;
-            Models.venta.total_A_Pagar = totalapagar;
-            /* DataBind se llama en code-behind; si necesitas que este bloque refresque
-               controles declarados con  debes llamar DataBind en servidor. */
-        }
-    %>
+
 
     <!-- Botones flotantes -->
     <div class="scroll-buttons">
@@ -539,7 +501,7 @@
                                 <button runat="server" id="btnComandar" onserverclick="btnComandar_ServerClick" class="cta cta-orange w-100" style="height: 80px;"><i class="bi bi-send me-2"></i>Comandar</button>
                             </div>
                             <div class="col-12 col-md-6">
-                                <button class="cta cta-purple w-100" style="height: 80px;">
+                                <button runat="server" id="btnCuenta" onserverclick="btnCuenta_ServerClick" class="cta cta-purple w-100" style="height: 80px;">
                                     <i class="bi bi-chat-left-text me-2"></i>Solicitar<br />
                                     Cuenta</button>
                             </div>

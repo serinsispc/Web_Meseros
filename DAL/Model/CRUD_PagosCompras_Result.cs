@@ -10,19 +10,15 @@
 namespace DAL.Model
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Comanda
+    public partial class CRUD_PagosCompras_Result
     {
         public int id { get; set; }
-        public int idVenta { get; set; }
-        public string nombreCuenta { get; set; }
-        public string nombreProducto { get; set; }
-        public string presentacion { get; set; }
-        public decimal unidad { get; set; }
-        public string observacion { get; set; }
-        public string adiciones { get; set; }
-        public string estado { get; set; }
-        public string tipoComanda { get; set; }
+        public Nullable<System.DateTime> fechaPagoCompra { get; set; }
+        public Nullable<decimal> valorPagadoCompra { get; set; }
+        public Nullable<int> saldoActualCompra { get; set; }
+        public Nullable<int> idBolsillo { get; set; }
+        public Nullable<int> idBaseCaja { get; set; }
+        public int idCompra { get; set; }
     }
 }

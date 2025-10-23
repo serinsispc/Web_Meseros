@@ -1904,17 +1904,18 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.Comanda' no tiene de
           <Key>
             <PropertyRef Name="id" />
             <PropertyRef Name="idVenta" />
-            <PropertyRef Name="cantidadDetalle" />
+            <PropertyRef Name="unidad" />
             <PropertyRef Name="observacion" />
             <PropertyRef Name="adiciones" />
             <PropertyRef Name="estado" />
             <PropertyRef Name="tipoComanda" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" />
           <Property Name="idVenta" Type="int" Nullable="false" />
+          <Property Name="nombreCuenta" Type="varchar" MaxLength="100" />
           <Property Name="nombreProducto" Type="varchar(max)" />
           <Property Name="presentacion" Type="varchar" MaxLength="50" />
-          <Property Name="cantidadDetalle" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="unidad" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="observacion" Type="varchar(max)" Nullable="false" />
           <Property Name="adiciones" Type="varchar(max)" Nullable="false" />
           <Property Name="estado" Type="varchar" MaxLength="7" Nullable="false" />
@@ -3194,7 +3195,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_ProductosVentdidos
           <Property Name="tipoFactura" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="idProducto" Type="int" Nullable="false" />
           <Property Name="cantidadUnidad" Type="decimal" Precision="37" Scale="4" />
-          <Property Name="totalDetalle" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="totalDetalle" Type="decimal" Precision="18" Scale="2" />
           <Property Name="idBaseCaja" Type="int" Nullable="false" />
           <Property Name="estadoVenta" Type="varchar(max)" Nullable="false" />
           <Property Name="idCategoria" Type="int" />
@@ -3512,7 +3513,6 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_TablaVentas' no ti
             <PropertyRef Name="otrosImpuestos" />
             <PropertyRef Name="ivaVenta" />
             <PropertyRef Name="totalVenta" />
-            <PropertyRef Name="total_A_Pagar" />
             <PropertyRef Name="estadoVenta" />
             <PropertyRef Name="numeroReferenciaPago" />
             <PropertyRef Name="observacionVenta" />
@@ -3547,7 +3547,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_TablaVentas' no ti
           <Property Name="otrosImpuestos" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ivaVenta" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="totalVenta" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="total_A_Pagar" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="total_A_Pagar" Type="decimal" Precision="38" Scale="4" />
           <Property Name="efectivoVenta" Type="decimal" Precision="18" Scale="0" />
           <Property Name="cambioVenta" Type="decimal" Precision="18" Scale="0" />
           <Property Name="formaDePago" Type="varchar" MaxLength="50" />
@@ -3568,7 +3568,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_TablaVentas' no ti
           <Property Name="idCliente" Type="int" Nullable="false" />
           <Property Name="nit" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="nombreCliente" Type="varchar(max)" Nullable="false" />
-          <Property Name="propina" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="propina" Type="decimal" Precision="37" Scale="4" />
           <Property Name="cufe" Type="varchar(max)" Nullable="false" />
           <Property Name="estadoFE" Type="varchar" MaxLength="8" Nullable="false" />
           <Property Name="imagenQR" Type="nvarchar(max)" Nullable="false" />
@@ -3646,7 +3646,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_TotalVentasDetalle
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="fechaVenta" Type="datetime" Nullable="false" />
-          <Property Name="totalDetalle" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="totalDetalle" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_Traslados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -3672,6 +3672,13 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_TurnosCaja' no tie
         <EntityType Name="V_TurnosCaja">
           <Key>
             <PropertyRef Name="id" />
+            <PropertyRef Name="ventasCredito" />
+            <PropertyRef Name="pagoCC_Efectivo" />
+            <PropertyRef Name="pagoCC_Targeta" />
+            <PropertyRef Name="pagoCP_Efectivo" />
+            <PropertyRef Name="gastos_Efectivo" />
+            <PropertyRef Name="ventasEfectivo" />
+            <PropertyRef Name="ventasTargeta" />
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="fechaApertura" Type="datetime" />
@@ -3679,15 +3686,15 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_TurnosCaja' no tie
           <Property Name="idUsuarioApertura" Type="int" />
           <Property Name="nombreUsuario" Type="varchar(max)" />
           <Property Name="valorBase" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="ventasCredito" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="ventasCredito" Type="decimal" Precision="38" Scale="2" Nullable="false" />
           <Property Name="totalEfectivo" Type="decimal" Precision="38" Scale="0" />
           <Property Name="efectivoMasBase" Type="decimal" Precision="38" Scale="0" />
-          <Property Name="pagoCC_Efectivo" Type="decimal" Precision="38" Scale="2" />
-          <Property Name="pagoCC_Targeta" Type="decimal" Precision="38" Scale="2" />
-          <Property Name="pagoCP_Efectivo" Type="decimal" Precision="38" Scale="2" />
-          <Property Name="gastos_Efectivo" Type="decimal" Precision="38" Scale="2" />
-          <Property Name="ventasEfectivo" Type="decimal" Precision="38" Scale="0" />
-          <Property Name="ventasTargeta" Type="decimal" Precision="38" Scale="0" />
+          <Property Name="pagoCC_Efectivo" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="pagoCC_Targeta" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="pagoCP_Efectivo" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="gastos_Efectivo" Type="decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="ventasEfectivo" Type="decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ventasTargeta" Type="decimal" Precision="38" Scale="0" Nullable="false" />
           <Property Name="totalIngresos" Type="decimal" Precision="38" Scale="0" />
           <Property Name="totalEgresos" Type="decimal" Precision="38" Scale="2" />
           <Property Name="producido" Type="decimal" Precision="38" Scale="0" />
@@ -3768,7 +3775,6 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_UtilidadVenta' no 
             <PropertyRef Name="tipoFactura" />
             <PropertyRef Name="numeroVenta" />
             <PropertyRef Name="estadoVenta" />
-            <PropertyRef Name="valorImpuesto" />
           </Key>
           <Property Name="iddetalle" Type="int" Nullable="false" />
           <Property Name="nombreProducto" Type="varchar(max)" />
@@ -3778,9 +3784,9 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_UtilidadVenta' no 
           <Property Name="numeroVenta" Type="int" Nullable="false" />
           <Property Name="estadoVenta" Type="varchar(max)" Nullable="false" />
           <Property Name="subTotalDetalle" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="valorImpuesto" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="totalDetalle" Type="decimal" Precision="20" Scale="2" />
-          <Property Name="costoTotal" Type="decimal" Precision="37" Scale="2" />
+          <Property Name="valorImpuesto" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="totalDetalle" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="costoTotal" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.V_Vendedor' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -5363,6 +5369,10 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Parameter Name="funcion" Type="int" Mode="In" />
           <Parameter Name="json" Type="nvarchar(max)" Mode="In" />
         </Function>
+        <Function Name="CRUD_PagosCompras" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="json" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="funcion" Type="int" Mode="In" />
+        </Function>
         <Function Name="CRUD_PreCuentas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="json" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="funcion" Type="int" Mode="In" />
@@ -6457,9 +6467,6 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Parameter Name="idVendedor" Type="int" Mode="In" />
           <Parameter Name="idEstado" Type="int" Mode="In" />
         </Function>
-        <Function Name="SP_Actualizar_CargoDescuentoVentas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="json" Type="nvarchar(max)" Mode="In" />
-        </Function>
         <Function Name="SP_Eliminar_CargoDescuentoVentas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="json" Type="nvarchar(max)" Mode="In" />
         </Function>
@@ -6469,14 +6476,8 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Parameter Name="day1" Type="int" Mode="In" />
           <Parameter Name="day2" Type="int" Mode="In" />
         </Function>
-        <Function Name="SP_Insertar_CargoDescuentoVentas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="json" Type="nvarchar(max)" Mode="In" />
-        </Function>
         <Function Name="SP_ServicioMesa_CRUD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Json" Type="nvarchar(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_TablaVentas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="idCuenta" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_V_ServicioMesa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idcuenta" Type="int" Mode="In" />
@@ -7038,9 +7039,10 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <DefiningQuery>SELECT 
     [Comanda].[id] AS [id], 
     [Comanda].[idVenta] AS [idVenta], 
+    [Comanda].[nombreCuenta] AS [nombreCuenta], 
     [Comanda].[nombreProducto] AS [nombreProducto], 
     [Comanda].[presentacion] AS [presentacion], 
-    [Comanda].[cantidadDetalle] AS [cantidadDetalle], 
+    [Comanda].[unidad] AS [unidad], 
     [Comanda].[observacion] AS [observacion], 
     [Comanda].[adiciones] AS [adiciones], 
     [Comanda].[estado] AS [estado], 
@@ -10877,17 +10879,18 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Key>
             <PropertyRef Name="id" />
             <PropertyRef Name="idVenta" />
-            <PropertyRef Name="cantidadDetalle" />
+            <PropertyRef Name="unidad" />
             <PropertyRef Name="observacion" />
             <PropertyRef Name="adiciones" />
             <PropertyRef Name="estado" />
             <PropertyRef Name="tipoComanda" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="idVenta" Type="Int32" Nullable="false" />
+          <Property Name="nombreCuenta" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="nombreProducto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="presentacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="cantidadDetalle" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="unidad" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="observacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="adiciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="estado" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
@@ -12057,7 +12060,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Name="tipoFactura" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="idProducto" Type="Int32" Nullable="false" />
           <Property Name="cantidadUnidad" Type="Decimal" Precision="37" Scale="4" />
-          <Property Name="totalDetalle" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="totalDetalle" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="idBaseCaja" Type="Int32" Nullable="false" />
           <Property Name="estadoVenta" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="idCategoria" Type="Int32" />
@@ -12349,7 +12352,6 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <PropertyRef Name="otrosImpuestos" />
             <PropertyRef Name="ivaVenta" />
             <PropertyRef Name="totalVenta" />
-            <PropertyRef Name="total_A_Pagar" />
             <PropertyRef Name="estadoVenta" />
             <PropertyRef Name="numeroReferenciaPago" />
             <PropertyRef Name="observacionVenta" />
@@ -12384,7 +12386,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Name="otrosImpuestos" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ivaVenta" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="totalVenta" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="total_A_Pagar" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="total_A_Pagar" Type="Decimal" Precision="38" Scale="4" />
           <Property Name="efectivoVenta" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="cambioVenta" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="formaDePago" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -12405,7 +12407,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Name="idCliente" Type="Int32" Nullable="false" />
           <Property Name="nit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="nombreCliente" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="propina" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="propina" Type="Decimal" Precision="37" Scale="4" />
           <Property Name="cufe" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="estadoFE" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="imagenQR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
@@ -12471,7 +12473,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="fechaVenta" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="totalDetalle" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="totalDetalle" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="V_Traslados">
           <Key>
@@ -12493,6 +12495,13 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
         <EntityType Name="V_TurnosCaja">
           <Key>
             <PropertyRef Name="id" />
+            <PropertyRef Name="ventasCredito" />
+            <PropertyRef Name="pagoCC_Efectivo" />
+            <PropertyRef Name="pagoCC_Targeta" />
+            <PropertyRef Name="pagoCP_Efectivo" />
+            <PropertyRef Name="gastos_Efectivo" />
+            <PropertyRef Name="ventasEfectivo" />
+            <PropertyRef Name="ventasTargeta" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="fechaApertura" Type="DateTime" Precision="3" />
@@ -12500,15 +12509,15 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Name="idUsuarioApertura" Type="Int32" />
           <Property Name="nombreUsuario" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="valorBase" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ventasCredito" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="ventasCredito" Type="Decimal" Precision="38" Scale="2" Nullable="false" />
           <Property Name="totalEfectivo" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="efectivoMasBase" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="pagoCC_Efectivo" Type="Decimal" Precision="38" Scale="2" />
-          <Property Name="pagoCC_Targeta" Type="Decimal" Precision="38" Scale="2" />
-          <Property Name="pagoCP_Efectivo" Type="Decimal" Precision="38" Scale="2" />
-          <Property Name="gastos_Efectivo" Type="Decimal" Precision="38" Scale="2" />
-          <Property Name="ventasEfectivo" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="ventasTargeta" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="pagoCC_Efectivo" Type="Decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="pagoCC_Targeta" Type="Decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="pagoCP_Efectivo" Type="Decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="gastos_Efectivo" Type="Decimal" Precision="38" Scale="2" Nullable="false" />
+          <Property Name="ventasEfectivo" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ventasTargeta" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
           <Property Name="totalIngresos" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="totalEgresos" Type="Decimal" Precision="38" Scale="2" />
           <Property Name="producido" Type="Decimal" Precision="38" Scale="0" />
@@ -12581,7 +12590,6 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <PropertyRef Name="tipoFactura" />
             <PropertyRef Name="numeroVenta" />
             <PropertyRef Name="estadoVenta" />
-            <PropertyRef Name="valorImpuesto" />
           </Key>
           <Property Name="iddetalle" Type="Int32" Nullable="false" />
           <Property Name="nombreProducto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -12591,9 +12599,9 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Name="numeroVenta" Type="Int32" Nullable="false" />
           <Property Name="estadoVenta" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="subTotalDetalle" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="valorImpuesto" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="totalDetalle" Type="Decimal" Precision="20" Scale="2" />
-          <Property Name="costoTotal" Type="Decimal" Precision="37" Scale="2" />
+          <Property Name="valorImpuesto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="totalDetalle" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="costoTotal" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="V_Vendedor">
           <Key>
@@ -14792,7 +14800,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="year" Mode="In" Type="Int32" />
             <Parameter Name="month" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="CierreCaja_SuperAdmin">
+          <FunctionImport Name="CierreCaja_SuperAdmin" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.CierreCaja_SuperAdmin_Result)">
             <Parameter Name="year" Mode="In" Type="Int32" />
             <Parameter Name="month" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -14867,6 +14875,10 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <FunctionImport Name="CRUD_NotasCreditoJSON" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.CRUD_NotasCreditoJSON_Result)">
             <Parameter Name="funcion" Mode="In" Type="Int32" />
             <Parameter Name="json" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CRUD_PagosCompras" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.CRUD_PagosCompras_Result)">
+            <Parameter Name="json" Mode="In" Type="String" />
+            <Parameter Name="funcion" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="CRUD_PreCuentas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.CRUD_PreCuentas_Result)">
             <Parameter Name="json" Mode="In" Type="String" />
@@ -15310,7 +15322,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="year" Mode="In" Type="Int32" />
             <Parameter Name="idCategoria" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Informe_day">
+          <FunctionImport Name="Informe_day" ReturnType="Collection(String)">
             <Parameter Name="year" Mode="In" Type="Int32" />
             <Parameter Name="month" Mode="In" Type="Int32" />
             <Parameter Name="day1" Mode="In" Type="Int32" />
@@ -15319,18 +15331,18 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <FunctionImport Name="Informe_Fechas_Dinamico">
             <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="Informe_month">
+          <FunctionImport Name="Informe_month" ReturnType="Collection(String)">
             <Parameter Name="year" Mode="In" Type="Int32" />
             <Parameter Name="month" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Informe_year">
+          <FunctionImport Name="Informe_year" ReturnType="Collection(String)">
             <Parameter Name="year" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="InformeFiscal_General" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.InformeFiscal_General_Result)">
+          <FunctionImport Name="InformeFiscal_General">
             <Parameter Name="month" Mode="In" Type="Int32" />
             <Parameter Name="year" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="InformeFiscal_SuperAdmin" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.InformeFiscal_SuperAdmin_Result)">
+          <FunctionImport Name="InformeFiscal_SuperAdmin">
             <Parameter Name="month" Mode="In" Type="Int32" />
             <Parameter Name="year" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -15962,9 +15974,6 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="idVendedor" Mode="In" Type="Int32" />
             <Parameter Name="idEstado" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SP_Actualizar_CargoDescuentoVentas">
-            <Parameter Name="json" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="SP_Eliminar_CargoDescuentoVentas" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.SP_Eliminar_CargoDescuentoVentas_Result)">
             <Parameter Name="json" Mode="In" Type="String" />
           </FunctionImport>
@@ -15974,14 +15983,8 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             <Parameter Name="day1" Mode="In" Type="Int32" />
             <Parameter Name="day2" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SP_Insertar_CargoDescuentoVentas">
-            <Parameter Name="json" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="SP_ServicioMesa_CRUD" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.SP_ServicioMesa_CRUD_Result)">
             <Parameter Name="Json" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_TablaVentas">
-            <Parameter Name="idCuenta" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_V_ServicioMesa" ReturnType="Collection(DB_STRAGOS_CLUB_SASModel.SP_V_ServicioMesa_Result)">
             <Parameter Name="idcuenta" Mode="In" Type="Int32" />
@@ -16332,6 +16335,27 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Type="Int32" Name="estado" Nullable="false" />
           <Property Type="String" Name="BackColor" Nullable="false" MaxLength="5" />
         </ComplexType>
+        <ComplexType Name="CierreCaja_SuperAdmin_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="DateTime" Name="fechaApertura" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="fechaCierre" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="idUsuarioApertura" Nullable="true" />
+          <Property Type="String" Name="nombreUsuario" Nullable="true" />
+          <Property Type="Decimal" Name="valorBase" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ventasCredito" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="totalEfectivo" Nullable="true" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="efectivoMasBase" Nullable="true" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="pagoCC_Efectivo" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="pagoCC_Targeta" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="pagoCP_Efectivo" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="gastos_Efectivo" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="ventasEfectivo" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="ventasTargeta" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="totalIngresos" Nullable="true" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="totalEgresos" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="producido" Nullable="true" Precision="38" Scale="0" />
+          <Property Type="String" Name="estadoBase" Nullable="true" MaxLength="50" />
+        </ComplexType>
         <ComplexType Name="CONSULTAR_ConfiguracionSMTP_Result">
           <Property Type="Int32" Name="estado" Nullable="false" />
           <Property Type="String" Name="mensaje" Nullable="false" MaxLength="17" />
@@ -16454,6 +16478,15 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Type="Int32" Name="estado" Nullable="true" />
           <Property Type="Int32" Name="idAfectado" Nullable="true" />
           <Property Type="String" Name="mensaje" Nullable="true" MaxLength="4000" />
+        </ComplexType>
+        <ComplexType Name="CRUD_PagosCompras_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="DateTime" Name="fechaPagoCompra" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="valorPagadoCompra" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="saldoActualCompra" Nullable="true" />
+          <Property Type="Int32" Name="idBolsillo" Nullable="true" />
+          <Property Type="Int32" Name="idBaseCaja" Nullable="true" />
+          <Property Type="Int32" Name="idCompra" Nullable="false" />
         </ComplexType>
         <ComplexType Name="CRUD_PreCuentas_Result">
           <Property Type="Int32" Name="estado" Nullable="true" />
@@ -16984,7 +17017,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Type="String" Name="nombreCliente" Nullable="false" />
           <Property Type="Decimal" Name="IVA" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="totalVenta" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="propina" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="propina" Nullable="true" Precision="37" Scale="4" />
           <Property Type="String" Name="estadoFE" Nullable="false" MaxLength="8" />
           <Property Type="String" Name="cufe" Nullable="false" />
         </ComplexType>
@@ -17049,38 +17082,6 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Type="Decimal" Name="cant" Nullable="false" Precision="38" Scale="2" />
           <Property Type="Decimal" Name="totalPorProducto" Nullable="false" Precision="38" Scale="2" />
         </ComplexType>
-        <ComplexType Name="InformeFiscal_General_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
-          <Property Type="Int32" Name="dia" Nullable="false" />
-          <Property Type="Int32" Name="mes" Nullable="true" />
-          <Property Type="Int32" Name="año" Nullable="true" />
-          <Property Type="Int32" Name="venta_del" Nullable="false" />
-          <Property Type="Int32" Name="venta_al" Nullable="false" />
-          <Property Type="Int32" Name="facturas" Nullable="false" />
-          <Property Type="Decimal" Name="subTotal" Nullable="false" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="baseImpuesto" Nullable="false" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="impuesto" Nullable="false" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="propina" Nullable="false" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="total" Nullable="false" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="efectivo" Nullable="false" Precision="38" Scale="0" />
-          <Property Type="Decimal" Name="banco" Nullable="false" Precision="38" Scale="0" />
-        </ComplexType>
-        <ComplexType Name="InformeFiscal_SuperAdmin_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
-          <Property Type="Int32" Name="dia" Nullable="false" />
-          <Property Type="Int32" Name="mes" Nullable="true" />
-          <Property Type="Int32" Name="año" Nullable="true" />
-          <Property Type="Decimal" Name="facturasPOS" Nullable="false" Precision="18" Scale="0" />
-          <Property Type="Decimal" Name="facturasELECTRONICAS" Nullable="false" Precision="18" Scale="0" />
-          <Property Type="Decimal" Name="facturaseCAJA" Nullable="false" Precision="18" Scale="0" />
-          <Property Type="Decimal" Name="subTotal" Nullable="false" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="baseImpuesto" Nullable="false" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="impuesto" Nullable="false" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="propina" Nullable="false" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="total" Nullable="false" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="efectivo" Nullable="false" Precision="38" Scale="0" />
-          <Property Type="Decimal" Name="banco" Nullable="false" Precision="38" Scale="0" />
-        </ComplexType>
         <ComplexType Name="InformeFiscal_TipoFactura_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="Int32" Name="dia" Nullable="false" />
@@ -17091,7 +17092,7 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <Property Type="Int32" Name="facturaNumeroAl" Nullable="false" />
           <Property Type="Int32" Name="facturas" Nullable="true" />
           <Property Type="Decimal" Name="impuesto" Nullable="false" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="propina" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="propina" Nullable="false" Precision="38" Scale="4" />
           <Property Type="Decimal" Name="efectivo" Nullable="false" Precision="38" Scale="0" />
           <Property Type="Decimal" Name="banco" Nullable="false" Precision="38" Scale="0" />
           <Property Type="Decimal" Name="total" Nullable="false" Precision="38" Scale="2" />
@@ -20801,9 +20802,10 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
               <MappingFragment StoreEntitySet="Comanda">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="idVenta" ColumnName="idVenta" />
+                <ScalarProperty Name="nombreCuenta" ColumnName="nombreCuenta" />
                 <ScalarProperty Name="nombreProducto" ColumnName="nombreProducto" />
                 <ScalarProperty Name="presentacion" ColumnName="presentacion" />
-                <ScalarProperty Name="cantidadDetalle" ColumnName="cantidadDetalle" />
+                <ScalarProperty Name="unidad" ColumnName="unidad" />
                 <ScalarProperty Name="observacion" ColumnName="observacion" />
                 <ScalarProperty Name="adiciones" ColumnName="adiciones" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
@@ -22283,7 +22285,31 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <FunctionImportMapping FunctionImportName="CargarDetalleNotaCredito" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.CargarDetalleNotaCredito" />
           <FunctionImportMapping FunctionImportName="CargarProductosManual" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.CargarProductosManual" />
           <FunctionImportMapping FunctionImportName="CierreCaja" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.CierreCaja" />
-          <FunctionImportMapping FunctionImportName="CierreCaja_SuperAdmin" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.CierreCaja_SuperAdmin" />
+          <FunctionImportMapping FunctionImportName="CierreCaja_SuperAdmin" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.CierreCaja_SuperAdmin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_STRAGOS_CLUB_SASModel.CierreCaja_SuperAdmin_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fechaApertura" ColumnName="fechaApertura" />
+                <ScalarProperty Name="fechaCierre" ColumnName="fechaCierre" />
+                <ScalarProperty Name="idUsuarioApertura" ColumnName="idUsuarioApertura" />
+                <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
+                <ScalarProperty Name="valorBase" ColumnName="valorBase" />
+                <ScalarProperty Name="ventasCredito" ColumnName="ventasCredito" />
+                <ScalarProperty Name="totalEfectivo" ColumnName="totalEfectivo" />
+                <ScalarProperty Name="efectivoMasBase" ColumnName="efectivoMasBase" />
+                <ScalarProperty Name="pagoCC_Efectivo" ColumnName="pagoCC_Efectivo" />
+                <ScalarProperty Name="pagoCC_Targeta" ColumnName="pagoCC_Targeta" />
+                <ScalarProperty Name="pagoCP_Efectivo" ColumnName="pagoCP_Efectivo" />
+                <ScalarProperty Name="gastos_Efectivo" ColumnName="gastos_Efectivo" />
+                <ScalarProperty Name="ventasEfectivo" ColumnName="ventasEfectivo" />
+                <ScalarProperty Name="ventasTargeta" ColumnName="ventasTargeta" />
+                <ScalarProperty Name="totalIngresos" ColumnName="totalIngresos" />
+                <ScalarProperty Name="totalEgresos" ColumnName="totalEgresos" />
+                <ScalarProperty Name="producido" ColumnName="producido" />
+                <ScalarProperty Name="estadoBase" ColumnName="estadoBase" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ClonarDetalleVenta" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.ClonarDetalleVenta" />
           <FunctionImportMapping FunctionImportName="CONSULTAR_ConfiguracionSMTP" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.CONSULTAR_ConfiguracionSMTP">
             <ResultMapping>
@@ -22472,6 +22498,19 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
                 <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="idAfectado" ColumnName="idAfectado" />
                 <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CRUD_PagosCompras" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.CRUD_PagosCompras">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_STRAGOS_CLUB_SASModel.CRUD_PagosCompras_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fechaPagoCompra" ColumnName="fechaPagoCompra" />
+                <ScalarProperty Name="valorPagadoCompra" ColumnName="valorPagadoCompra" />
+                <ScalarProperty Name="saldoActualCompra" ColumnName="saldoActualCompra" />
+                <ScalarProperty Name="idBolsillo" ColumnName="idBolsillo" />
+                <ScalarProperty Name="idBaseCaja" ColumnName="idBaseCaja" />
+                <ScalarProperty Name="idCompra" ColumnName="idCompra" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -23546,46 +23585,8 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
           <FunctionImportMapping FunctionImportName="Informe_Fechas_Dinamico" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.Informe_Fechas_Dinamico" />
           <FunctionImportMapping FunctionImportName="Informe_month" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.Informe_month" />
           <FunctionImportMapping FunctionImportName="Informe_year" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.Informe_year" />
-          <FunctionImportMapping FunctionImportName="InformeFiscal_General" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.InformeFiscal_General">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DB_STRAGOS_CLUB_SASModel.InformeFiscal_General_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="dia" ColumnName="dia" />
-                <ScalarProperty Name="mes" ColumnName="mes" />
-                <ScalarProperty Name="año" ColumnName="año" />
-                <ScalarProperty Name="venta_del" ColumnName="venta_del" />
-                <ScalarProperty Name="venta_al" ColumnName="venta_al" />
-                <ScalarProperty Name="facturas" ColumnName="facturas" />
-                <ScalarProperty Name="subTotal" ColumnName="subTotal" />
-                <ScalarProperty Name="baseImpuesto" ColumnName="baseImpuesto" />
-                <ScalarProperty Name="impuesto" ColumnName="impuesto" />
-                <ScalarProperty Name="propina" ColumnName="propina" />
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="efectivo" ColumnName="efectivo" />
-                <ScalarProperty Name="banco" ColumnName="banco" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="InformeFiscal_SuperAdmin" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.InformeFiscal_SuperAdmin">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DB_STRAGOS_CLUB_SASModel.InformeFiscal_SuperAdmin_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="dia" ColumnName="dia" />
-                <ScalarProperty Name="mes" ColumnName="mes" />
-                <ScalarProperty Name="año" ColumnName="año" />
-                <ScalarProperty Name="facturasPOS" ColumnName="facturasPOS" />
-                <ScalarProperty Name="facturasELECTRONICAS" ColumnName="facturasELECTRONICAS" />
-                <ScalarProperty Name="facturaseCAJA" ColumnName="facturaseCAJA" />
-                <ScalarProperty Name="subTotal" ColumnName="subTotal" />
-                <ScalarProperty Name="baseImpuesto" ColumnName="baseImpuesto" />
-                <ScalarProperty Name="impuesto" ColumnName="impuesto" />
-                <ScalarProperty Name="propina" ColumnName="propina" />
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="efectivo" ColumnName="efectivo" />
-                <ScalarProperty Name="banco" ColumnName="banco" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InformeFiscal_General" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.InformeFiscal_General" />
+          <FunctionImportMapping FunctionImportName="InformeFiscal_SuperAdmin" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.InformeFiscal_SuperAdmin" />
           <FunctionImportMapping FunctionImportName="InformeFiscal_TipoFactura" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.InformeFiscal_TipoFactura">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DB_STRAGOS_CLUB_SASModel.InformeFiscal_TipoFactura_Result">
@@ -25419,7 +25420,6 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SelectAlistamiento" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.SelectAlistamiento" />
-          <FunctionImportMapping FunctionImportName="SP_Actualizar_CargoDescuentoVentas" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.SP_Actualizar_CargoDescuentoVentas" />
           <FunctionImportMapping FunctionImportName="SP_Eliminar_CargoDescuentoVentas" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.SP_Eliminar_CargoDescuentoVentas">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DB_STRAGOS_CLUB_SASModel.SP_Eliminar_CargoDescuentoVentas_Result">
@@ -25439,7 +25439,6 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Insertar_CargoDescuentoVentas" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.SP_Insertar_CargoDescuentoVentas" />
           <FunctionImportMapping FunctionImportName="SP_ServicioMesa_CRUD" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.SP_ServicioMesa_CRUD">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DB_STRAGOS_CLUB_SASModel.SP_ServicioMesa_CRUD_Result">
@@ -25449,7 +25448,6 @@ advertencia 6002: La tabla o vista 'DB_STRAGOS_CLUB_SAS.dbo.VistaMetodosDepago' 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_TablaVentas" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.sp_TablaVentas" />
           <FunctionImportMapping FunctionImportName="SP_V_ServicioMesa" FunctionName="DB_STRAGOS_CLUB_SASModel.Store.SP_V_ServicioMesa">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DB_STRAGOS_CLUB_SASModel.SP_V_ServicioMesa_Result">
