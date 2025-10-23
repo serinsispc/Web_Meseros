@@ -77,7 +77,7 @@ namespace WebApplication
 
         #region Inicialización (primer load)
 
-        private void InicializarPagina()
+        public void InicializarPagina()
         {
             var vendedor = ObtenerVendedorDesdeSession();
             if (vendedor == null)
@@ -154,7 +154,7 @@ namespace WebApplication
             DataBind();
         }
 
-        private Vendedor ObtenerVendedorDesdeSession()
+        public Vendedor ObtenerVendedorDesdeSession()
         {
             try
             {
@@ -1233,5 +1233,12 @@ namespace WebApplication
             BindProductos();
             DataBind();
         }
+
+
+        protected void btnActualizar_Click(object sender, EventArgs e)
+        {
+            InicializarPagina(); // 🔁 Llama directamente tu método
+        }
+
     }
 }
