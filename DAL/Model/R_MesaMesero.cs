@@ -12,14 +12,13 @@ namespace DAL.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Proveedor
+    public partial class R_MesaMesero
     {
         public int id { get; set; }
-        public string documentoProveedor { get; set; }
-        public string nombreProveedor { get; set; }
-        public string direccionProveedor { get; set; }
-        public string telefonoProveedor { get; set; }
-        public string emailProveedor { get; set; }
-        public Nullable<int> idEstado { get; set; }
+        public int idMesa { get; set; }
+        public int idMesero { get; set; }
+    
+        public virtual Mesas Mesas { get; set; }
+        public virtual Vendedor Vendedor { get; set; }
     }
 }

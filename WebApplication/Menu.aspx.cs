@@ -92,7 +92,7 @@ namespace WebApplication
 
             if (!cuentas.Any())
             {
-                idVenta = TablaVentas_f.NuevaVenta();
+                idVenta = TablaVentas_f.NuevaVenta((int)Session["porpropina"]);
                 if (idVenta <= 0)
                 {
                     AlertModerno.Error(this, "¡Error!", "No fue posible crear una nueva cuenta.", true);
@@ -130,6 +130,8 @@ namespace WebApplication
             // Construir ViewModel
             Models = new MenuViewModels
             {
+                estadopropina = (bool)Session["estadopropina"],
+                porpropina = (int)Session["porpropina"],
                 IdMesero = Convert.ToInt32(Session["idvendedor"].ToString()),
                 NombreMesero = Session["NombreMesero"].ToString(),
                 IdCuentaActiva = idVenta,
@@ -721,7 +723,7 @@ namespace WebApplication
                 return;
             }
 
-            int idVenta = TablaVentas_f.NuevaVenta();
+            int idVenta = TablaVentas_f.NuevaVenta((int)Session["porpropina"]);
             if (idVenta <= 0)
             {
                 AlertModerno.Error(this, "Error", "No se creó el servicio.", true, 2000);
@@ -930,7 +932,7 @@ namespace WebApplication
             int idventa= Models.IdCuentaActiva;
             // TODO: reemplaza estas llamadas por tus funciones DAL reales
             // Ejemplo genérico: crear una nueva venta/tabla de cuentas y asignarle nombre
-            int nuevoId = CuentaCliente_f.Crear(idventa,nombreCuenta); // si ese es el flujo para crear 'cuenta'
+            int nuevoId = CuentaCliente_f.Crear(idventa, nombreCuenta, (int)Session["porpropina"]); // si ese es el flujo para crear 'cuenta'
             if (nuevoId <= 0)
             {
                 AlertModerno.Error(this, "Error", "No fue posible crear la cuenta.", true);
@@ -995,7 +997,7 @@ namespace WebApplication
         }
         private void BTN_NuevoServicio()
         {
-            int idVenta = TablaVentas_f.NuevaVenta();
+            int idVenta = TablaVentas_f.NuevaVenta((int)Session["porpropina"]);
             if (idVenta <= 0)
             {
                 AlertModerno.Error(this, "Error", "No se creó el servicio.", true, 2000);

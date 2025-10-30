@@ -10,7 +10,7 @@ namespace DAL.Funciones
 {
     public class CuentaCliente_f
     {
-        public static int Crear(int idventa,string nombre)
+        public static int Crear(int idventa,string nombre,int porpro)
         {
             try
             {
@@ -21,7 +21,7 @@ namespace DAL.Funciones
                  nombreCuenta=nombre,
                  preCuenta=false,
                  eliminada=false,
-                 por_propina=10,
+                 por_propina= Convert.ToDecimal(porpro) / 100,
                  propina=0
                 };
                 var respuesta = CuentaClienteControler.CRUD(cuenta,0);

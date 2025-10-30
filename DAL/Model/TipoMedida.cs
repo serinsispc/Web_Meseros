@@ -19,9 +19,6 @@ namespace DAL.Model
         {
             this.Producto = new HashSet<Producto>();
             this.R_ProductoInsumo = new HashSet<R_ProductoInsumo>();
-            this.R_ProductoInsumo1 = new HashSet<R_ProductoInsumo>();
-            this.R_ProductoInsumo2 = new HashSet<R_ProductoInsumo>();
-            this.R_ProductoInsumo3 = new HashSet<R_ProductoInsumo>();
         }
     
         public int id { get; set; }
@@ -32,11 +29,5 @@ namespace DAL.Model
         public virtual ICollection<Producto> Producto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<R_ProductoInsumo> R_ProductoInsumo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ProductoInsumo> R_ProductoInsumo1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ProductoInsumo> R_ProductoInsumo2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ProductoInsumo> R_ProductoInsumo3 { get; set; }
     }
 }

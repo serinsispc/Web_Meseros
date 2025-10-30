@@ -44,5 +44,7 @@ namespace DAL.Model
         public string impresora2 { get; set; }
         public int Gramera { get; set; }
         public System.Guid guidSede { get; set; }
+        public Nullable<bool> estadoPropina { get; set; }
+        public Nullable<int> porcentaje_propina { get; set; }
     }
 }

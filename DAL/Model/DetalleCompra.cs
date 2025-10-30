@@ -32,10 +32,8 @@ namespace DAL.Model
         public decimal contenidoPresentacion { get; set; }
         public Nullable<System.Guid> guiDetalleCompra { get; set; }
     
+        public virtual TablaCompras TablaCompras { get; set; }
         public virtual Presentacion Presentacion { get; set; }
-        public virtual Presentacion Presentacion1 { get; set; }
-        public virtual Producto Producto { get; set; }
-        public virtual Producto Producto1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InsumosDetalleCompra> InsumosDetalleCompra { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

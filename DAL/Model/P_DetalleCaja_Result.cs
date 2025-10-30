@@ -21,7 +21,7 @@ namespace DAL.Model
         public string nombreProducto { get; set; }
         public Nullable<int> impuesto_id { get; set; }
         public string presentacion { get; set; }
-        public decimal unidad { get; set; }
+        public Nullable<decimal> unidad { get; set; }
         public decimal descuentoDetalle { get; set; }
         public Nullable<decimal> preVentaNeto { get; set; }
         public Nullable<decimal> precioVenta { get; set; }

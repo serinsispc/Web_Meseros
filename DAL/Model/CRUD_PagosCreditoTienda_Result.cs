@@ -10,15 +10,11 @@
 namespace DAL.Model
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class R_CuentaServicio_DetalleServicio
+    public partial class CRUD_PagosCreditoTienda_Result
     {
-        public int id { get; set; }
-        public int idDetalleServicio { get; set; }
-        public int idCuentasServicio { get; set; }
-    
-        public virtual CuentasServicio CuentasServicio { get; set; }
-        public virtual DetalleServicio DetalleServicio { get; set; }
+        public Nullable<int> estado { get; set; }
+        public Nullable<int> idAfectado { get; set; }
+        public string mensaje { get; set; }
     }
 }

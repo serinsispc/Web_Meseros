@@ -10,16 +10,11 @@
 namespace DAL.Model
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class DescuentoProgramado
+    public partial class CRUD_Cotizaciones_Result
     {
-        public int id { get; set; }
-        public System.DateTime fecha { get; set; }
-        public System.DateTime fecha_inicio { get; set; }
-        public System.DateTime fecha_fin { get; set; }
-        public decimal porcentaje { get; set; }
-        public string descripcion { get; set; }
-        public Nullable<bool> estado { get; set; }
+        public int estado { get; set; }
+        public Nullable<int> nuevoId { get; set; }
+        public string mensaje { get; set; }
     }
 }

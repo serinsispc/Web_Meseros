@@ -49,6 +49,8 @@ namespace WebApplication
                     {
                         Session["NombreEmpresa"] = sede.nombreSede;
                         Session["Sede"]=JsonConvert.SerializeObject(sede);
+                        Session["estadopropina"] = sede.estadoPropina;
+                        Session["porpropina"] = sede.porcentaje_propina;
                         Imagenes imagenes = new Imagenes();
                         imagenes = ImagenesControler.Consultar(sede.guidSede);
                         if (imagenes != null)

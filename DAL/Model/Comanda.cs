@@ -19,7 +19,7 @@ namespace DAL.Model
         public string nombreCuenta { get; set; }
         public string nombreProducto { get; set; }
         public string presentacion { get; set; }
-        public decimal unidad { get; set; }
+        public Nullable<decimal> unidad { get; set; }
         public string observacion { get; set; }
         public string adiciones { get; set; }
         public string estado { get; set; }

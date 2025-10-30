@@ -10,11 +10,17 @@
 namespace DAL.Model
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class DELETE_CuentasVendedor_Result
+    public partial class pViejos
     {
-        public string estado { get; set; }
-        public string idAfectado { get; set; }
-        public string mensaje { get; set; }
+        public int id { get; set; }
+        public string codigo { get; set; }
+        public string nombreProducto { get; set; }
+        public string descripcionProducto { get; set; }
+        public string categoria { get; set; }
+        public decimal costo { get; set; }
+        public decimal precio { get; set; }
+        public Nullable<decimal> impuesto { get; set; }
     }
 }

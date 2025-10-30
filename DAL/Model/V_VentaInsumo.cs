@@ -18,7 +18,7 @@ namespace DAL.Model
         public int idInsumo { get; set; }
         public string nombreProducto { get; set; }
         public decimal cantidadInsumo { get; set; }
-        public decimal multiplicado { get; set; }
+        public Nullable<decimal> multiplicado { get; set; }
         public Nullable<decimal> descontado { get; set; }
     }
 }

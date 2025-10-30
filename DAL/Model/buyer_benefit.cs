@@ -19,6 +19,5 @@ namespace DAL.Model
         public int points { get; set; }
     
         public virtual Clientes Clientes { get; set; }
-        public virtual Clientes Clientes1 { get; set; }
     }
 }

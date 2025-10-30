@@ -15,10 +15,10 @@ namespace DAL.Model
     {
         public int id { get; set; }
         public Nullable<System.DateTime> fechaPagoCompra { get; set; }
-        public Nullable<decimal> valorPagadoCompra { get; set; }
-        public Nullable<int> saldoActualCompra { get; set; }
-        public Nullable<int> idBolsillo { get; set; }
-        public Nullable<int> idBaseCaja { get; set; }
+        public decimal valorPagadoCompra { get; set; }
+        public decimal saldoActualCompra { get; set; }
+        public int idBolsillo { get; set; }
+        public int idBaseCaja { get; set; }
         public int idCompra { get; set; }
     }
 }

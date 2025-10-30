@@ -12,13 +12,15 @@ namespace DAL.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class R_CompraCliente
+    public partial class CargoDescuentoServicio
     {
         public int id { get; set; }
-        public int idCompra { get; set; }
-        public int idCliente { get; set; }
+        public int idServicio { get; set; }
+        public string tipo { get; set; }
+        public string descripcionCargoDescuento { get; set; }
+        public decimal valor { get; set; }
     
-        public virtual Clientes Clientes { get; set; }
-        public virtual TablaCompras TablaCompras { get; set; }
+        public virtual ServicioMesa ServicioMesa { get; set; }
+        public virtual ServicioMesa ServicioMesa1 { get; set; }
     }
 }

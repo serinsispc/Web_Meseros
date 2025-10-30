@@ -22,7 +22,6 @@ namespace DAL.Model
         public decimal cantidadMerma { get; set; }
         public string observacion { get; set; }
     
-        public virtual Producto Producto { get; set; }
         public virtual TipoMerma TipoMerma { get; set; }
         public virtual Usuario Usuario { get; set; }
     }

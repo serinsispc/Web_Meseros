@@ -18,7 +18,9 @@ namespace DAL.Model
         public Cotizaciones()
         {
             this.DetalleCotizacion = new HashSet<DetalleCotizacion>();
+            this.DetalleCotizacion1 = new HashSet<DetalleCotizacion>();
             this.R_CotizacionCliente = new HashSet<R_CotizacionCliente>();
+            this.R_CotizacionCliente1 = new HashSet<R_CotizacionCliente>();
         }
     
         public int id { get; set; }
@@ -33,6 +35,10 @@ namespace DAL.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleCotizacion> DetalleCotizacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetalleCotizacion> DetalleCotizacion1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<R_CotizacionCliente> R_CotizacionCliente { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<R_CotizacionCliente> R_CotizacionCliente1 { get; set; }
     }
 }

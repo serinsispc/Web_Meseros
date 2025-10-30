@@ -23,22 +23,23 @@ namespace DAL.Model
             this.ComandImpresaa = new HashSet<ComandImpresaa>();
             this.DetalleInsumo = new HashSet<DetalleInsumo>();
             this.R_CuentaCliente_DetalleVenta = new HashSet<R_CuentaCliente_DetalleVenta>();
+            this.R_CuentaCliente_DetalleVenta1 = new HashSet<R_CuentaCliente_DetalleVenta>();
         }
     
         public int id { get; set; }
         public int idVenta { get; set; }
         public int idPresentacion { get; set; }
         public string nombreProducto { get; set; }
-        public decimal costoUnidad { get; set; }
-        public decimal precioVenta { get; set; }
+        public Nullable<decimal> costoUnidad { get; set; }
+        public Nullable<decimal> precioVenta { get; set; }
         public int estadoDetalle { get; set; }
         public Nullable<decimal> ivaDetalle { get; set; }
-        public decimal cantidadDetalle { get; set; }
+        public Nullable<decimal> cantidadDetalle { get; set; }
         public string codigoProducto { get; set; }
         public string observacion { get; set; }
         public Nullable<System.Guid> guidDetalle { get; set; }
-        public string opciones { get; set; }
         public string adiciones { get; set; }
+        public string opciones { get; set; }
         public Nullable<int> impuesto_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -57,5 +58,7 @@ namespace DAL.Model
         public virtual TablaVentas TablaVentas1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<R_CuentaCliente_DetalleVenta> R_CuentaCliente_DetalleVenta { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<R_CuentaCliente_DetalleVenta> R_CuentaCliente_DetalleVenta1 { get; set; }
     }
 }

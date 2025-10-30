@@ -14,24 +14,6 @@ namespace DAL.Model
     
     public partial class Producto
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Producto()
-        {
-            this.DetalleCompra = new HashSet<DetalleCompra>();
-            this.DetalleCompra1 = new HashSet<DetalleCompra>();
-            this.InsumosDetalleCompra = new HashSet<InsumosDetalleCompra>();
-            this.InsumosDetalleCompra1 = new HashSet<InsumosDetalleCompra>();
-            this.Merma = new HashSet<Merma>();
-            this.R_ProductoInsumo = new HashSet<R_ProductoInsumo>();
-            this.R_ProductoInsumo1 = new HashSet<R_ProductoInsumo>();
-            this.R_ProductoInsumo2 = new HashSet<R_ProductoInsumo>();
-            this.R_ProductoInsumo3 = new HashSet<R_ProductoInsumo>();
-            this.R_ProductoInsumo4 = new HashSet<R_ProductoInsumo>();
-            this.R_ProductoInsumo5 = new HashSet<R_ProductoInsumo>();
-            this.R_ProductoInsumo6 = new HashSet<R_ProductoInsumo>();
-            this.R_ProductoInsumo7 = new HashSet<R_ProductoInsumo>();
-        }
-    
         public int id { get; set; }
         public System.Guid guidProducto { get; set; }
         public string codigoProducto { get; set; }
@@ -41,41 +23,15 @@ namespace DAL.Model
         public int idTipoMedida { get; set; }
         public int estadoProducto { get; set; }
         public int gramera { get; set; }
-        public decimal porcentaje_impuesto { get; set; }
         public decimal costo_mas_impuesto { get; set; }
-        public Nullable<decimal> inventarioInicial { get; set; }
+        public decimal inventarioInicial { get; set; }
         public int insumo { get; set; }
         public decimal inventarioMinimo { get; set; }
-        public Nullable<int> impuesto_id { get; set; }
-        public Nullable<decimal> costo_neto { get; set; }
+        public decimal costo_neto { get; set; }
+        public decimal porcentaje_impuesto { get; set; }
+        public int impuesto_id { get; set; }
     
         public virtual Categoria Categoria { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleCompra> DetalleCompra { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleCompra> DetalleCompra1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InsumosDetalleCompra> InsumosDetalleCompra { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InsumosDetalleCompra> InsumosDetalleCompra1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Merma> Merma { get; set; }
         public virtual TipoMedida TipoMedida { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ProductoInsumo> R_ProductoInsumo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ProductoInsumo> R_ProductoInsumo1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ProductoInsumo> R_ProductoInsumo2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ProductoInsumo> R_ProductoInsumo3 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ProductoInsumo> R_ProductoInsumo4 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ProductoInsumo> R_ProductoInsumo5 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ProductoInsumo> R_ProductoInsumo6 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ProductoInsumo> R_ProductoInsumo7 { get; set; }
     }
 }

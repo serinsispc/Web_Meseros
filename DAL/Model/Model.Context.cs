@@ -18,7 +18,7 @@ namespace DAL.Model
     public partial class DBEntities : DbContext
     {
         public DBEntities()
-            : base(ClassConexionDinamica.DBDinamica)
+            : base("name=DBEntities")
         {
         }
     
@@ -42,6 +42,7 @@ namespace DAL.Model
         public virtual DbSet<Bolsillo> Bolsillo { get; set; }
         public virtual DbSet<buyer_benefit> buyer_benefit { get; set; }
         public virtual DbSet<CargoDescuentoCompra> CargoDescuentoCompra { get; set; }
+        public virtual DbSet<CargoDescuentoServicio> CargoDescuentoServicio { get; set; }
         public virtual DbSet<CargoDescuentoVentas> CargoDescuentoVentas { get; set; }
         public virtual DbSet<CargosDescuentosDetalleVenta> CargosDescuentosDetalleVenta { get; set; }
         public virtual DbSet<Categoria> Categoria { get; set; }
@@ -69,7 +70,6 @@ namespace DAL.Model
         public virtual DbSet<CuentasServicio> CuentasServicio { get; set; }
         public virtual DbSet<departments> departments { get; set; }
         public virtual DbSet<DescuentoDetalleCompra> DescuentoDetalleCompra { get; set; }
-        public virtual DbSet<DescuentoProgramado> DescuentoProgramado { get; set; }
         public virtual DbSet<DestapeProducto> DestapeProducto { get; set; }
         public virtual DbSet<DetalleComanda> DetalleComanda { get; set; }
         public virtual DbSet<DetalleCompra> DetalleCompra { get; set; }
@@ -99,6 +99,7 @@ namespace DAL.Model
         public virtual DbSet<ImprimirCuenta> ImprimirCuenta { get; set; }
         public virtual DbSet<ImprimirFactura> ImprimirFactura { get; set; }
         public virtual DbSet<ImpuestoCompras> ImpuestoCompras { get; set; }
+        public virtual DbSet<InformacionEmpresa> InformacionEmpresa { get; set; }
         public virtual DbSet<InformeFiscalMensual> InformeFiscalMensual { get; set; }
         public virtual DbSet<InsumosDetalleCompra> InsumosDetalleCompra { get; set; }
         public virtual DbSet<Inventario> Inventario { get; set; }
@@ -114,7 +115,6 @@ namespace DAL.Model
         public virtual DbSet<Modulos> Modulos { get; set; }
         public virtual DbSet<MovimientosInventario> MovimientosInventario { get; set; }
         public virtual DbSet<municipalities> municipalities { get; set; }
-        public virtual DbSet<Notas_CreditoDebito> Notas_CreditoDebito { get; set; }
         public virtual DbSet<NotasCredito> NotasCredito { get; set; }
         public virtual DbSet<Notificaciones> Notificaciones { get; set; }
         public virtual DbSet<OrdenFabrica> OrdenFabrica { get; set; }
@@ -130,20 +130,19 @@ namespace DAL.Model
         public virtual DbSet<PermisoSubModulo> PermisoSubModulo { get; set; }
         public virtual DbSet<persona> persona { get; set; }
         public virtual DbSet<Precios> Precios { get; set; }
-        public virtual DbSet<PreCuentas> PreCuentas { get; set; }
         public virtual DbSet<Presentacion> Presentacion { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
-        public virtual DbSet<Proveedor> Proveedor { get; set; }
+        public virtual DbSet<pViejos> pViejos { get; set; }
         public virtual DbSet<R_AdicionCategoria> R_AdicionCategoria { get; set; }
         public virtual DbSet<R_CategoriaComanda> R_CategoriaComanda { get; set; }
         public virtual DbSet<R_ClienteVendedor> R_ClienteVendedor { get; set; }
         public virtual DbSet<R_CompraCliente> R_CompraCliente { get; set; }
         public virtual DbSet<R_CotizacionCliente> R_CotizacionCliente { get; set; }
         public virtual DbSet<R_CuentaCliente_DetalleVenta> R_CuentaCliente_DetalleVenta { get; set; }
-        public virtual DbSet<R_CuentaServicio_DetalleServicio> R_CuentaServicio_DetalleServicio { get; set; }
         public virtual DbSet<R_DepartamentoMunicipio> R_DepartamentoMunicipio { get; set; }
         public virtual DbSet<R_DetalleServicioCuenta> R_DetalleServicioCuenta { get; set; }
         public virtual DbSet<R_MediosDePago_MediosDePagoInternos> R_MediosDePago_MediosDePagoInternos { get; set; }
+        public virtual DbSet<R_MesaMesero> R_MesaMesero { get; set; }
         public virtual DbSet<R_PedidoVenta> R_PedidoVenta { get; set; }
         public virtual DbSet<R_ProductoCompra> R_ProductoCompra { get; set; }
         public virtual DbSet<R_ProductoInsumo> R_ProductoInsumo { get; set; }
@@ -167,6 +166,7 @@ namespace DAL.Model
         public virtual DbSet<ServicioMesa> ServicioMesa { get; set; }
         public virtual DbSet<SoftwareDIAN> SoftwareDIAN { get; set; }
         public virtual DbSet<SubModulos> SubModulos { get; set; }
+        public virtual DbSet<TablaCompras> TablaCompras { get; set; }
         public virtual DbSet<TablaDias> TablaDias { get; set; }
         public virtual DbSet<TablaMeses> TablaMeses { get; set; }
         public virtual DbSet<TablaVentas> TablaVentas { get; set; }
@@ -485,6 +485,19 @@ namespace DAL.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRUD_Comandas_Result>("CRUD_Comandas", jsonParameter, funcionParameter);
         }
     
+        public virtual ObjectResult<CRUD_Cotizaciones_Result> CRUD_Cotizaciones(string json, Nullable<int> funcion)
+        {
+            var jsonParameter = json != null ?
+                new ObjectParameter("json", json) :
+                new ObjectParameter("json", typeof(string));
+    
+            var funcionParameter = funcion.HasValue ?
+                new ObjectParameter("funcion", funcion) :
+                new ObjectParameter("funcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRUD_Cotizaciones_Result>("CRUD_Cotizaciones", jsonParameter, funcionParameter);
+        }
+    
         public virtual ObjectResult<CRUD_CuentasServicio_Result> CRUD_CuentasServicio(string json, Nullable<int> funcion)
         {
             var jsonParameter = json != null ?
@@ -615,7 +628,7 @@ namespace DAL.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRUD_PagosCompras_Result>("CRUD_PagosCompras", jsonParameter, funcionParameter);
         }
     
-        public virtual ObjectResult<CRUD_PreCuentas_Result> CRUD_PreCuentas(string json, Nullable<int> funcion)
+        public virtual ObjectResult<CRUD_PagosCreditoTienda_Result> CRUD_PagosCreditoTienda(string json, Nullable<int> funcion)
         {
             var jsonParameter = json != null ?
                 new ObjectParameter("json", json) :
@@ -625,7 +638,20 @@ namespace DAL.Model
                 new ObjectParameter("funcion", funcion) :
                 new ObjectParameter("funcion", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRUD_PreCuentas_Result>("CRUD_PreCuentas", jsonParameter, funcionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRUD_PagosCreditoTienda_Result>("CRUD_PagosCreditoTienda", jsonParameter, funcionParameter);
+        }
+    
+        public virtual int CRUD_PreCuentas(string json, Nullable<int> funcion)
+        {
+            var jsonParameter = json != null ?
+                new ObjectParameter("json", json) :
+                new ObjectParameter("json", typeof(string));
+    
+            var funcionParameter = funcion.HasValue ?
+                new ObjectParameter("funcion", funcion) :
+                new ObjectParameter("funcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CRUD_PreCuentas", jsonParameter, funcionParameter);
         }
     
         public virtual ObjectResult<CRUD_R_DetalleServicioCuenta_Result> CRUD_R_DetalleServicioCuenta(string json, Nullable<int> funcion)
@@ -678,6 +704,19 @@ namespace DAL.Model
                 new ObjectParameter("funcion", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRUD_Resoluciones_Result>("CRUD_Resoluciones", jsonParameter, funcionParameter);
+        }
+    
+        public virtual ObjectResult<CRUD_Sede_Result> CRUD_Sede(string json, Nullable<int> funcion)
+        {
+            var jsonParameter = json != null ?
+                new ObjectParameter("json", json) :
+                new ObjectParameter("json", typeof(string));
+    
+            var funcionParameter = funcion.HasValue ?
+                new ObjectParameter("funcion", funcion) :
+                new ObjectParameter("funcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRUD_Sede_Result>("CRUD_Sede", jsonParameter, funcionParameter);
         }
     
         public virtual ObjectResult<CRUD_ServicioMesa_Result> CRUD_ServicioMesa(string json, Nullable<int> funcion)
@@ -921,13 +960,13 @@ namespace DAL.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DELETE_Cotizaciones_Result>("DELETE_Cotizaciones", jsonParameter);
         }
     
-        public virtual ObjectResult<DELETE_CuentasVendedor_Result> DELETE_CuentasVendedor(string json)
+        public virtual int DELETE_CuentasVendedor(string json)
         {
             var jsonParameter = json != null ?
                 new ObjectParameter("json", json) :
                 new ObjectParameter("json", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DELETE_CuentasVendedor_Result>("DELETE_CuentasVendedor", jsonParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DELETE_CuentasVendedor", jsonParameter);
         }
     
         public virtual ObjectResult<DELETE_DescuentoDetalleCompra_Result> DELETE_DescuentoDetalleCompra(string json)
@@ -2018,7 +2057,7 @@ namespace DAL.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("Informe_year", yearParameter);
         }
     
-        public virtual int InformeFiscal_General(Nullable<int> month, Nullable<int> year)
+        public virtual ObjectResult<InformeFiscal_General_Result> InformeFiscal_General(Nullable<int> month, Nullable<int> year)
         {
             var monthParameter = month.HasValue ?
                 new ObjectParameter("month", month) :
@@ -2028,10 +2067,10 @@ namespace DAL.Model
                 new ObjectParameter("year", year) :
                 new ObjectParameter("year", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InformeFiscal_General", monthParameter, yearParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InformeFiscal_General_Result>("InformeFiscal_General", monthParameter, yearParameter);
         }
     
-        public virtual int InformeFiscal_SuperAdmin(Nullable<int> month, Nullable<int> year)
+        public virtual ObjectResult<InformeFiscal_SuperAdmin_Result> InformeFiscal_SuperAdmin(Nullable<int> month, Nullable<int> year)
         {
             var monthParameter = month.HasValue ?
                 new ObjectParameter("month", month) :
@@ -2041,7 +2080,7 @@ namespace DAL.Model
                 new ObjectParameter("year", year) :
                 new ObjectParameter("year", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InformeFiscal_SuperAdmin", monthParameter, yearParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InformeFiscal_SuperAdmin_Result>("InformeFiscal_SuperAdmin", monthParameter, yearParameter);
         }
     
         public virtual ObjectResult<InformeFiscal_TipoFactura_Result> InformeFiscal_TipoFactura(string tipoFactura, Nullable<int> month, Nullable<int> year)

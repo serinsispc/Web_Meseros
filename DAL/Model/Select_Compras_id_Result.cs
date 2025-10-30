@@ -27,6 +27,7 @@ namespace DAL.Model
         public string namePayment_method { get; set; }
         public System.DateTime patment_due_date { get; set; }
         public int estadoCompra { get; set; }
-        public int idResolucion { get; set; }
+        public Nullable<int> idc { get; set; }
+        public Nullable<int> idResolucion { get; set; }
     }
 }

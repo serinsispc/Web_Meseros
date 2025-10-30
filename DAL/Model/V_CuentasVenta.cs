@@ -18,6 +18,7 @@ namespace DAL.Model
         public string aliasVenta { get; set; }
         public decimal efectivoVenta { get; set; }
         public int numeroVenta { get; set; }
+        public Nullable<bool> eliminada { get; set; }
         public decimal total { get; set; }
         public int idbase { get; set; }
         public int idusuario { get; set; }

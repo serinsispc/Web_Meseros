@@ -14,12 +14,6 @@ namespace DAL.Model
     
     public partial class CuentasServicio
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CuentasServicio()
-        {
-            this.R_CuentaServicio_DetalleServicio = new HashSet<R_CuentaServicio_DetalleServicio>();
-        }
-    
         public int id { get; set; }
         public int idServicio { get; set; }
         public string nombreCuentaServicio { get; set; }
@@ -27,7 +21,7 @@ namespace DAL.Model
         public Nullable<int> estadoPreCuenta { get; set; }
     
         public virtual ServicioMesa ServicioMesa { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_CuentaServicio_DetalleServicio> R_CuentaServicio_DetalleServicio { get; set; }
+        public virtual ServicioMesa ServicioMesa1 { get; set; }
+        public virtual ServicioMesa ServicioMesa2 { get; set; }
     }
 }

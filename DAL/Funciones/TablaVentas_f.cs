@@ -9,7 +9,7 @@ namespace DAL.Funciones
 {
     public class TablaVentas_f
     {
-        public static int NuevaVenta()
+        public static int NuevaVenta(int porpro)
         {
             try
             {
@@ -37,11 +37,17 @@ namespace DAL.Funciones
                     razonDescuento="-",
                     idBaseCaja=0,
                     eliminada=false,
-                    porpropina=0,
+                    porpropina=Convert.ToDecimal(porpro)/100,
                 };
                 using (DBEntities cn = new DBEntities())
                 {
                     cn.TablaVentas.Add(tablaVentas);
+                    cn.SaveChanges();
+                }
+                tablaVentas.aliasVenta =$"{tablaVentas.id}";
+                using (DBEntities cn = new DBEntities())
+                {
+                    cn.Entry(tablaVentas).State = System.Data.Entity.EntityState.Modified;
                     cn.SaveChanges();
                 }
                 //ahora consultamos el guid

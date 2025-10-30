@@ -26,5 +26,6 @@ namespace DAL.Model
         public Nullable<int> idPresentacion { get; set; }
     
         public virtual Cotizaciones Cotizaciones { get; set; }
+        public virtual Cotizaciones Cotizaciones1 { get; set; }
     }
 }

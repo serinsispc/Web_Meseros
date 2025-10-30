@@ -18,6 +18,8 @@ namespace DAL.Model
         public Usuario()
         {
             this.Merma = new HashSet<Merma>();
+            this.PermisoModulo = new HashSet<PermisoModulo>();
+            this.PermisoSubModulo = new HashSet<PermisoSubModulo>();
         }
     
         public int id { get; set; }
@@ -32,6 +34,10 @@ namespace DAL.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Merma> Merma { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PermisoModulo> PermisoModulo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PermisoSubModulo> PermisoSubModulo { get; set; }
         public virtual TipoUsuario TipoUsuario { get; set; }
     }
 }

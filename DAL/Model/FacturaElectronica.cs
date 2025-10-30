@@ -20,8 +20,8 @@ namespace DAL.Model
         public string numeroFactura { get; set; }
         public string fechaEmision { get; set; }
         public string fecahVensimiento { get; set; }
-        public string dataQR { get; set; }
         public string imagenQR { get; set; }
+        public string dataQR { get; set; }
         public Nullable<int> resolucion_id { get; set; }
         public string prefijo { get; set; }
         public Nullable<int> numero_factura { get; set; }

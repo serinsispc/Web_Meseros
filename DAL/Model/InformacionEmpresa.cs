@@ -12,9 +12,18 @@ namespace DAL.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class PreCuentas
+    public partial class InformacionEmpresa
     {
-        public int id { get; set; }
-        public int idServicio { get; set; }
+        public System.Guid id { get; set; }
+        public string razonSocial { get; set; }
+        public string nombreComercial { get; set; }
+        public string nit { get; set; }
+        public int idTipoContibuyente { get; set; }
+        public int idRegimen { get; set; }
+        public string direccion { get; set; }
+        public string telefono { get; set; }
+        public string correo { get; set; }
+    
+        public virtual TipoRegimen TipoRegimen { get; set; }
     }
 }

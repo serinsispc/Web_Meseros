@@ -144,6 +144,9 @@
     <Compile Include="Model\CargoDescuentoCompra.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\CargoDescuentoServicio.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\CargoDescuentoVentas.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -243,6 +246,9 @@
     <Compile Include="Model\CRUD_Comandas_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\CRUD_Cotizaciones_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\CRUD_CuentasServicio_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -273,7 +279,7 @@
     <Compile Include="Model\CRUD_PagosCompras_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\CRUD_PreCuentas_Result.cs">
+    <Compile Include="Model\CRUD_PagosCreditoTienda_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CRUD_Resoluciones_Result.cs">
@@ -286,6 +292,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CRUD_R_VentaCliente_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRUD_Sede_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CRUD_ServicioMesa_Result.cs">
@@ -355,9 +364,6 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DELETE_Cotizaciones_Result.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DELETE_CuentasVendedor_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DELETE_DescuentoDetalleCompra_Result.cs">
@@ -600,9 +606,6 @@
     <Compile Include="Model\DescuentoDetalleCompra.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\DescuentoProgramado.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\DestapeProducto.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -705,7 +708,16 @@
     <Compile Include="Model\ImpuestoCompras.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\InformacionEmpresa.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\InformeFiscalMensual.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\InformeFiscal_General_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\InformeFiscal_SuperAdmin_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\InformeFiscal_TipoFactura_Result.cs">
@@ -1161,9 +1173,6 @@
     <Compile Include="Model\NotasCredito.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Notas_CreditoDebito.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Notificaciones.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -1209,9 +1218,6 @@
     <Compile Include="Model\Precios.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\PreCuentas.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Presentacion.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -1224,7 +1230,7 @@
     <Compile Include="Model\ProductosVendidos_Categorias_Mes_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Proveedor.cs">
+    <Compile Include="Model\pViejos.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\P_AdminControl_Result.cs">
@@ -1347,9 +1353,6 @@
     <Compile Include="Model\R_CuentaCliente_DetalleVenta.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\R_CuentaServicio_DetalleServicio.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\R_DepartamentoMunicipio.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -1357,6 +1360,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\R_MediosDePago_MediosDePagoInternos.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\R_MesaMesero.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\R_PagoCredito_Result.cs">
@@ -1450,6 +1456,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SubModulos.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TablaCompras.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TablaDias.cs">
@@ -2126,6 +2135,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Model\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

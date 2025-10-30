@@ -19,10 +19,6 @@ namespace DAL.Model
         public int idVenta { get; set; }
     
         public virtual Vehiculo Vehiculo { get; set; }
-        public virtual Vehiculo Vehiculo1 { get; set; }
-        public virtual Vehiculo Vehiculo2 { get; set; }
         public virtual TablaVentas TablaVentas { get; set; }
-        public virtual TablaVentas TablaVentas1 { get; set; }
-        public virtual TablaVentas TablaVentas2 { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace DAL.Model
 {
     using System;
     
-    public partial class CRUD_PreCuentas_Result
+    public partial class CRUD_Sede_Result
     {
         public Nullable<int> estado { get; set; }
         public Nullable<int> idAfectado { get; set; }

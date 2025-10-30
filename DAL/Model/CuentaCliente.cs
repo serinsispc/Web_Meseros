@@ -18,6 +18,7 @@ namespace DAL.Model
         public CuentaCliente()
         {
             this.R_CuentaCliente_DetalleVenta = new HashSet<R_CuentaCliente_DetalleVenta>();
+            this.R_CuentaCliente_DetalleVenta1 = new HashSet<R_CuentaCliente_DetalleVenta>();
         }
     
         public int id { get; set; }
@@ -30,7 +31,10 @@ namespace DAL.Model
         public decimal propina { get; set; }
     
         public virtual TablaVentas TablaVentas { get; set; }
+        public virtual TablaVentas TablaVentas1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<R_CuentaCliente_DetalleVenta> R_CuentaCliente_DetalleVenta { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<R_CuentaCliente_DetalleVenta> R_CuentaCliente_DetalleVenta1 { get; set; }
     }
 }

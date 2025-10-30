@@ -19,5 +19,7 @@ namespace DAL.Model
         public string tipo { get; set; }
         public string descriptionCargoDescuento { get; set; }
         public decimal valor { get; set; }
+    
+        public virtual TablaCompras TablaCompras { get; set; }
     }
 }

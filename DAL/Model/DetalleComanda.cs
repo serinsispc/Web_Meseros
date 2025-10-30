@@ -20,6 +20,10 @@ namespace DAL.Model
         public Nullable<int> estado { get; set; }
     
         public virtual Comandas Comandas { get; set; }
+        public virtual Comandas Comandas1 { get; set; }
+        public virtual Comandas Comandas2 { get; set; }
         public virtual DetalleServicio DetalleServicio { get; set; }
+        public virtual DetalleServicio DetalleServicio1 { get; set; }
+        public virtual DetalleServicio DetalleServicio2 { get; set; }
     }
 }

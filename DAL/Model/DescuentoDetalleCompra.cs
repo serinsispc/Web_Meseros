@@ -15,11 +15,11 @@ namespace DAL.Model
     public partial class DescuentoDetalleCompra
     {
         public int id { get; set; }
+        public System.Guid guidCompra { get; set; }
         public bool descuento { get; set; }
         public string razonDescuento { get; set; }
         public decimal valorDescuento { get; set; }
         public System.Guid guidDetalleCompra { get; set; }
         public decimal porcentajeDescuento { get; set; }
-        public System.Guid guidCompra { get; set; }
     }
 }

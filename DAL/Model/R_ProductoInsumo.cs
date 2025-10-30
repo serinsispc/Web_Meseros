@@ -26,22 +26,11 @@ namespace DAL.Model
         public int idUnidadMedida { get; set; }
         public decimal cantidadInsumo { get; set; }
         public int opcional { get; set; }
-        public decimal precioInsumo { get; set; }
-        public int estado { get; set; }
+        public Nullable<decimal> precioInsumo { get; set; }
+        public Nullable<int> estado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleInsumo> DetalleInsumo { get; set; }
-        public virtual Producto Producto { get; set; }
-        public virtual Producto Producto1 { get; set; }
-        public virtual Producto Producto2 { get; set; }
-        public virtual Producto Producto3 { get; set; }
-        public virtual Producto Producto4 { get; set; }
-        public virtual Producto Producto5 { get; set; }
-        public virtual Producto Producto6 { get; set; }
-        public virtual Producto Producto7 { get; set; }
         public virtual TipoMedida TipoMedida { get; set; }
-        public virtual TipoMedida TipoMedida1 { get; set; }
-        public virtual TipoMedida TipoMedida2 { get; set; }
-        public virtual TipoMedida TipoMedida3 { get; set; }
     }
 }

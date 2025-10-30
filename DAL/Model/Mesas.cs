@@ -17,7 +17,10 @@ namespace DAL.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Mesas()
         {
+            this.R_MesaMesero = new HashSet<R_MesaMesero>();
             this.R_ServicioMesa = new HashSet<R_ServicioMesa>();
+            this.R_ServicioMesa1 = new HashSet<R_ServicioMesa>();
+            this.R_ServicioMesa2 = new HashSet<R_ServicioMesa>();
             this.R_VentaMesa = new HashSet<R_VentaMesa>();
         }
     
@@ -30,7 +33,13 @@ namespace DAL.Model
     
         public virtual Zonas Zonas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<R_MesaMesero> R_MesaMesero { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<R_ServicioMesa> R_ServicioMesa { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<R_ServicioMesa> R_ServicioMesa1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<R_ServicioMesa> R_ServicioMesa2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<R_VentaMesa> R_VentaMesa { get; set; }
     }

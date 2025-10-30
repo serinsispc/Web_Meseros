@@ -14,7 +14,7 @@ namespace DAL.Model
     public partial class P_PermisoModulo_Result
     {
         public int id { get; set; }
-        public Nullable<int> idUsuario { get; set; }
-        public Nullable<int> idModulo { get; set; }
+        public int idUsuario { get; set; }
+        public int idModulo { get; set; }
     }
 }

@@ -18,10 +18,10 @@ namespace DAL.Model
         public int consecutivoVPagoCompra { get; set; }
         public Nullable<System.DateTime> FechaVPagoCompra { get; set; }
         public Nullable<int> facturaVPagoCompra { get; set; }
-        public Nullable<decimal> pagoActualVPagoCompra { get; set; }
-        public Nullable<int> saldoVPagoCompra { get; set; }
-        public Nullable<int> idBolsillo { get; set; }
+        public decimal pagoActualVPagoCompra { get; set; }
+        public decimal saldoVPagoCompra { get; set; }
+        public int idBolsillo { get; set; }
         public string nombreBolsillo { get; set; }
-        public Nullable<int> idBase { get; set; }
+        public int idBase { get; set; }
     }
 }

@@ -16,6 +16,6 @@ namespace DAL.Model
         public int id { get; set; }
         public int idDetalle { get; set; }
         public int idRPI { get; set; }
-        public int idInsumo { get; set; }
+        public Nullable<int> idInsumo { get; set; }
     }
 }

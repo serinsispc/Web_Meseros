@@ -18,7 +18,6 @@ namespace DAL.Model
         public Presentacion()
         {
             this.DetalleCompra = new HashSet<DetalleCompra>();
-            this.DetalleCompra1 = new HashSet<DetalleCompra>();
             this.DetalleVenta = new HashSet<DetalleVenta>();
             this.DetalleVenta1 = new HashSet<DetalleVenta>();
             this.InsumosDetalleCompra = new HashSet<InsumosDetalleCompra>();
@@ -31,15 +30,13 @@ namespace DAL.Model
         public int idProducto { get; set; }
         public decimal contenidoPresentacion { get; set; }
         public int estadoPresentacion { get; set; }
-        public decimal precioVenta { get; set; }
+        public Nullable<decimal> precioVenta { get; set; }
         public Nullable<decimal> porcentajeUtilidad { get; set; }
         public Nullable<decimal> valorUtilidad { get; set; }
         public Nullable<decimal> precioNeto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleCompra> DetalleCompra { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleCompra> DetalleCompra1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

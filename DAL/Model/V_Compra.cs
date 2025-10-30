@@ -19,7 +19,7 @@ namespace DAL.Model
         public System.DateTime fechaCompra { get; set; }
         public string tipoFacturaCompra { get; set; }
         public string numeroFactura { get; set; }
-        public int idResolucion { get; set; }
+        public Nullable<int> idResolucion { get; set; }
         public string prefijo { get; set; }
         public Nullable<int> number { get; set; }
         public string notes { get; set; }

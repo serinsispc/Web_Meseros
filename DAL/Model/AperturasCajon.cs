@@ -17,7 +17,6 @@ namespace DAL.Model
         public int id { get; set; }
         public int idBaseCaja { get; set; }
         public System.DateTime fechaApertura { get; set; }
-        public string obcerbacion { get; set; }
     
         public virtual BaseCaja BaseCaja { get; set; }
     }

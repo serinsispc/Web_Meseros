@@ -458,7 +458,7 @@
                             }
                             else
                             {
-                                    totales = Models.ventaCuenta;
+                                 totales = Models.ventaCuenta;
                             }
                             %>
                         <!-- totales -->
@@ -474,6 +474,8 @@
                             <span>Total 1:</span>
                             <span><%= "$" + string.Format("{0:N0}", totales.totalVenta) %></span>
                         </div>
+
+
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span>Servicio (<%= totales.por_propina %>%)</span>
