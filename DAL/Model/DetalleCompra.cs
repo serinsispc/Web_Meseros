@@ -18,25 +18,22 @@ namespace DAL.Model
         public DetalleCompra()
         {
             this.InsumosDetalleCompra = new HashSet<InsumosDetalleCompra>();
-            this.InsumosDetalleCompra1 = new HashSet<InsumosDetalleCompra>();
         }
     
         public int id { get; set; }
         public int idCompra { get; set; }
         public int idProducto { get; set; }
         public string nombreProducto { get; set; }
-        public decimal cantidad { get; set; }
-        public decimal precioUnitario { get; set; }
+        public Nullable<decimal> cantidad { get; set; }
+        public Nullable<decimal> precioUnitario { get; set; }
         public int estadoDetalle { get; set; }
         public int idPresentacion { get; set; }
         public decimal contenidoPresentacion { get; set; }
         public Nullable<System.Guid> guiDetalleCompra { get; set; }
     
-        public virtual TablaCompras TablaCompras { get; set; }
         public virtual Presentacion Presentacion { get; set; }
+        public virtual Producto Producto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InsumosDetalleCompra> InsumosDetalleCompra { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InsumosDetalleCompra> InsumosDetalleCompra1 { get; set; }
     }
 }

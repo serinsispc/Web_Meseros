@@ -19,7 +19,6 @@ namespace DAL.Model
         {
             this.AperturasCajon = new HashSet<AperturasCajon>();
             this.Gastos = new HashSet<Gastos>();
-            this.PagosCompras = new HashSet<PagosCompras>();
             this.R_VentaBase = new HashSet<R_VentaBase>();
         }
     
@@ -36,8 +35,6 @@ namespace DAL.Model
         public virtual ICollection<AperturasCajon> AperturasCajon { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gastos> Gastos { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PagosCompras> PagosCompras { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<R_VentaBase> R_VentaBase { get; set; }
     }

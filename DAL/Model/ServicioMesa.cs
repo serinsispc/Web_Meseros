@@ -18,16 +18,9 @@ namespace DAL.Model
         public ServicioMesa()
         {
             this.CargoDescuentoServicio = new HashSet<CargoDescuentoServicio>();
-            this.CargoDescuentoServicio1 = new HashSet<CargoDescuentoServicio>();
             this.CuentasServicio = new HashSet<CuentasServicio>();
-            this.CuentasServicio1 = new HashSet<CuentasServicio>();
-            this.CuentasServicio2 = new HashSet<CuentasServicio>();
             this.DetalleServicio = new HashSet<DetalleServicio>();
-            this.DetalleServicio1 = new HashSet<DetalleServicio>();
-            this.DetalleServicio2 = new HashSet<DetalleServicio>();
             this.R_ServicioMesa = new HashSet<R_ServicioMesa>();
-            this.R_ServicioMesa1 = new HashSet<R_ServicioMesa>();
-            this.R_ServicioMesa2 = new HashSet<R_ServicioMesa>();
         }
     
         public int id { get; set; }
@@ -43,24 +36,10 @@ namespace DAL.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CargoDescuentoServicio> CargoDescuentoServicio { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CargoDescuentoServicio> CargoDescuentoServicio1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CuentasServicio> CuentasServicio { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CuentasServicio> CuentasServicio1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CuentasServicio> CuentasServicio2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleServicio> DetalleServicio { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleServicio> DetalleServicio1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleServicio> DetalleServicio2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<R_ServicioMesa> R_ServicioMesa { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ServicioMesa> R_ServicioMesa1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_ServicioMesa> R_ServicioMesa2 { get; set; }
     }
 }

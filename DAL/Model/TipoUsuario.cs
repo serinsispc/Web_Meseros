@@ -18,6 +18,7 @@ namespace DAL.Model
         public TipoUsuario()
         {
             this.Usuario = new HashSet<Usuario>();
+            this.Usuario1 = new HashSet<Usuario>();
         }
     
         public int id { get; set; }
@@ -25,5 +26,7 @@ namespace DAL.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Usuario> Usuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Usuario> Usuario1 { get; set; }
     }
 }

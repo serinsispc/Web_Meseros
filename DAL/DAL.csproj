@@ -288,10 +288,16 @@
     <Compile Include="Model\CRUD_R_DetalleServicioCuenta_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\CRUD_R_VentaBase_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\CRUD_R_VentaCliente_JSON_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CRUD_R_VentaCliente_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\CRUD_R_VentaVendedor_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\CRUD_Sede_Result.cs">
@@ -706,6 +712,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ImpuestoCompras.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Impuestos.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\InformacionEmpresa.cs">
@@ -1230,6 +1239,9 @@
     <Compile Include="Model\ProductosVendidos_Categorias_Mes_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Proveedor.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\pViejos.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -1362,9 +1374,6 @@
     <Compile Include="Model\R_MediosDePago_MediosDePagoInternos.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\R_MesaMesero.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\R_PagoCredito_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -1456,9 +1465,6 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SubModulos.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\TablaCompras.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TablaDias.cs">

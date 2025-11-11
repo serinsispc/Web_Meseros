@@ -22,7 +22,6 @@ namespace DAL.Model
             this.CorreosCliente1 = new HashSet<CorreosCliente>();
             this.R_CompraCliente = new HashSet<R_CompraCliente>();
             this.R_CotizacionCliente = new HashSet<R_CotizacionCliente>();
-            this.R_CotizacionCliente1 = new HashSet<R_CotizacionCliente>();
         }
     
         public int id { get; set; }
@@ -51,7 +50,5 @@ namespace DAL.Model
         public virtual ICollection<R_CompraCliente> R_CompraCliente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<R_CotizacionCliente> R_CotizacionCliente { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_CotizacionCliente> R_CotizacionCliente1 { get; set; }
     }
 }

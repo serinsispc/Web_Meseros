@@ -27,7 +27,7 @@ namespace DAL.Funciones
                         idVenta = idventa,
                         idPresentacion = idpresentacion,
                         nombreProducto = producto.nombreProducto,
-                        costoUnidad = producto.costo_mas_impuesto,
+                        costoUnidad = (decimal)producto.costo_mas_impuesto,
                         precioVenta = producto.precioVenta,
                         estadoDetalle = 1,
                         ivaDetalle = producto.porcentaje_impuesto,

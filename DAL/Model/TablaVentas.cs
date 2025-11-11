@@ -19,19 +19,18 @@ namespace DAL.Model
         {
             this.CargoDescuentoVentas = new HashSet<CargoDescuentoVentas>();
             this.CuentaCliente = new HashSet<CuentaCliente>();
-            this.CuentaCliente1 = new HashSet<CuentaCliente>();
             this.DetalleVenta = new HashSet<DetalleVenta>();
             this.DetalleVenta1 = new HashSet<DetalleVenta>();
             this.Domicilios = new HashSet<Domicilios>();
             this.FacturaElectronica = new HashSet<FacturaElectronica>();
             this.FacturaElectronicaJSON = new HashSet<FacturaElectronicaJSON>();
-            this.FacturaElectronicaJSON1 = new HashSet<FacturaElectronicaJSON>();
             this.ImprimirCuenta = new HashSet<ImprimirCuenta>();
             this.ImprimirFactura = new HashSet<ImprimirFactura>();
             this.NotasCredito = new HashSet<NotasCredito>();
             this.PagosVenta = new HashSet<PagosVenta>();
             this.R_PedidoVenta = new HashSet<R_PedidoVenta>();
             this.R_VehiculoVenta = new HashSet<R_VehiculoVenta>();
+            this.R_VehiculoVenta1 = new HashSet<R_VehiculoVenta>();
             this.R_VentaBase = new HashSet<R_VentaBase>();
             this.R_VentaDomicilio = new HashSet<R_VentaDomicilio>();
             this.R_VentaMesa = new HashSet<R_VentaMesa>();
@@ -56,19 +55,17 @@ namespace DAL.Model
         public decimal abonoEfectivo { get; set; }
         public Nullable<int> idMedioDePago { get; set; }
         public Nullable<int> idResolucion { get; set; }
-        public Nullable<int> idFormaDePago { get; set; }
         public string razonDescuento { get; set; }
+        public Nullable<int> idFormaDePago { get; set; }
         public Nullable<int> idBaseCaja { get; set; }
-        public string aliasVenta { get; set; }
-        public Nullable<decimal> porpropina { get; set; }
         public Nullable<bool> eliminada { get; set; }
+        public Nullable<decimal> porpropina { get; set; }
+        public string aliasVenta { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CargoDescuentoVentas> CargoDescuentoVentas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CuentaCliente> CuentaCliente { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CuentaCliente> CuentaCliente1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -79,8 +76,6 @@ namespace DAL.Model
         public virtual ICollection<FacturaElectronica> FacturaElectronica { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FacturaElectronicaJSON> FacturaElectronicaJSON { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FacturaElectronicaJSON> FacturaElectronicaJSON1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ImprimirCuenta> ImprimirCuenta { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -93,6 +88,8 @@ namespace DAL.Model
         public virtual ICollection<R_PedidoVenta> R_PedidoVenta { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<R_VehiculoVenta> R_VehiculoVenta { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<R_VehiculoVenta> R_VehiculoVenta1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<R_VentaBase> R_VentaBase { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

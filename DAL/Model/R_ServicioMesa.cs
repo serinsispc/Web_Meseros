@@ -19,10 +19,6 @@ namespace DAL.Model
         public int idMesa { get; set; }
     
         public virtual Mesas Mesas { get; set; }
-        public virtual Mesas Mesas1 { get; set; }
-        public virtual Mesas Mesas2 { get; set; }
         public virtual ServicioMesa ServicioMesa { get; set; }
-        public virtual ServicioMesa ServicioMesa1 { get; set; }
-        public virtual ServicioMesa ServicioMesa2 { get; set; }
     }
 }

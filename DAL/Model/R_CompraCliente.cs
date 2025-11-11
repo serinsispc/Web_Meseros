@@ -19,6 +19,5 @@ namespace DAL.Model
         public int idCliente { get; set; }
     
         public virtual Clientes Clientes { get; set; }
-        public virtual TablaCompras TablaCompras { get; set; }
     }
 }

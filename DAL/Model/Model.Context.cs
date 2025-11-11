@@ -18,7 +18,7 @@ namespace DAL.Model
     public partial class DBEntities : DbContext
     {
         public DBEntities()
-            : base("name=DBEntities")
+            : base(ClassConexionDinamica.DBDinamica)
         {
         }
     
@@ -99,6 +99,7 @@ namespace DAL.Model
         public virtual DbSet<ImprimirCuenta> ImprimirCuenta { get; set; }
         public virtual DbSet<ImprimirFactura> ImprimirFactura { get; set; }
         public virtual DbSet<ImpuestoCompras> ImpuestoCompras { get; set; }
+        public virtual DbSet<Impuestos> Impuestos { get; set; }
         public virtual DbSet<InformacionEmpresa> InformacionEmpresa { get; set; }
         public virtual DbSet<InformeFiscalMensual> InformeFiscalMensual { get; set; }
         public virtual DbSet<InsumosDetalleCompra> InsumosDetalleCompra { get; set; }
@@ -132,6 +133,7 @@ namespace DAL.Model
         public virtual DbSet<Precios> Precios { get; set; }
         public virtual DbSet<Presentacion> Presentacion { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
+        public virtual DbSet<Proveedor> Proveedor { get; set; }
         public virtual DbSet<pViejos> pViejos { get; set; }
         public virtual DbSet<R_AdicionCategoria> R_AdicionCategoria { get; set; }
         public virtual DbSet<R_CategoriaComanda> R_CategoriaComanda { get; set; }
@@ -142,7 +144,6 @@ namespace DAL.Model
         public virtual DbSet<R_DepartamentoMunicipio> R_DepartamentoMunicipio { get; set; }
         public virtual DbSet<R_DetalleServicioCuenta> R_DetalleServicioCuenta { get; set; }
         public virtual DbSet<R_MediosDePago_MediosDePagoInternos> R_MediosDePago_MediosDePagoInternos { get; set; }
-        public virtual DbSet<R_MesaMesero> R_MesaMesero { get; set; }
         public virtual DbSet<R_PedidoVenta> R_PedidoVenta { get; set; }
         public virtual DbSet<R_ProductoCompra> R_ProductoCompra { get; set; }
         public virtual DbSet<R_ProductoInsumo> R_ProductoInsumo { get; set; }
@@ -166,7 +167,6 @@ namespace DAL.Model
         public virtual DbSet<ServicioMesa> ServicioMesa { get; set; }
         public virtual DbSet<SoftwareDIAN> SoftwareDIAN { get; set; }
         public virtual DbSet<SubModulos> SubModulos { get; set; }
-        public virtual DbSet<TablaCompras> TablaCompras { get; set; }
         public virtual DbSet<TablaDias> TablaDias { get; set; }
         public virtual DbSet<TablaMeses> TablaMeses { get; set; }
         public virtual DbSet<TablaVentas> TablaVentas { get; set; }
@@ -667,6 +667,19 @@ namespace DAL.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRUD_R_DetalleServicioCuenta_Result>("CRUD_R_DetalleServicioCuenta", jsonParameter, funcionParameter);
         }
     
+        public virtual ObjectResult<CRUD_R_VentaBase_Result> CRUD_R_VentaBase(string json, Nullable<int> funcion)
+        {
+            var jsonParameter = json != null ?
+                new ObjectParameter("json", json) :
+                new ObjectParameter("json", typeof(string));
+    
+            var funcionParameter = funcion.HasValue ?
+                new ObjectParameter("funcion", funcion) :
+                new ObjectParameter("funcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRUD_R_VentaBase_Result>("CRUD_R_VentaBase", jsonParameter, funcionParameter);
+        }
+    
         public virtual ObjectResult<CRUD_R_VentaCliente_Result> CRUD_R_VentaCliente(string json, Nullable<int> funcion)
         {
             var jsonParameter = json != null ?
@@ -691,6 +704,19 @@ namespace DAL.Model
                 new ObjectParameter("json", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRUD_R_VentaCliente_JSON_Result>("CRUD_R_VentaCliente_JSON", funcionParameter, jsonParameter);
+        }
+    
+        public virtual ObjectResult<CRUD_R_VentaVendedor_Result> CRUD_R_VentaVendedor(string json, Nullable<int> funcion)
+        {
+            var jsonParameter = json != null ?
+                new ObjectParameter("json", json) :
+                new ObjectParameter("json", typeof(string));
+    
+            var funcionParameter = funcion.HasValue ?
+                new ObjectParameter("funcion", funcion) :
+                new ObjectParameter("funcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRUD_R_VentaVendedor_Result>("CRUD_R_VentaVendedor", jsonParameter, funcionParameter);
         }
     
         public virtual ObjectResult<CRUD_Resoluciones_Result> CRUD_Resoluciones(string json, Nullable<int> funcion)

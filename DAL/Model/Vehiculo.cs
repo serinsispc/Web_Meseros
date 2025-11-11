@@ -18,6 +18,7 @@ namespace DAL.Model
         public Vehiculo()
         {
             this.R_VehiculoVenta = new HashSet<R_VehiculoVenta>();
+            this.R_VehiculoVenta1 = new HashSet<R_VehiculoVenta>();
         }
     
         public int idVehiculo { get; set; }
@@ -28,5 +29,7 @@ namespace DAL.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<R_VehiculoVenta> R_VehiculoVenta { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<R_VehiculoVenta> R_VehiculoVenta1 { get; set; }
     }
 }

@@ -20,10 +20,10 @@ namespace DAL.Model
         public string proveedorVPagoCompra { get; set; }
         public Nullable<decimal> totalVPagoCompra { get; set; }
         public decimal totalPagadoVPagoCompra { get; set; }
-        public decimal pagoActualVPagoCompra { get; set; }
-        public decimal saldoVPagoCompra { get; set; }
-        public int idBolsillo { get; set; }
+        public Nullable<decimal> pagoActualVPagoCompra { get; set; }
+        public Nullable<int> saldoVPagoCompra { get; set; }
+        public Nullable<int> idBolsillo { get; set; }
         public string nombreBolsillo { get; set; }
-        public int idBase { get; set; }
+        public Nullable<int> idBase { get; set; }
     }
 }

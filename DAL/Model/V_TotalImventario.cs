@@ -18,8 +18,8 @@ namespace DAL.Model
         public string codigoProducto { get; set; }
         public string nombreProducto { get; set; }
         public string nombreCategoria { get; set; }
-        public decimal costo_mas_impuesto { get; set; }
-        public Nullable<decimal> precioVenta { get; set; }
+        public Nullable<decimal> costo_mas_impuesto { get; set; }
+        public decimal precioVenta { get; set; }
         public Nullable<decimal> inventarioActual { get; set; }
         public Nullable<decimal> totalCosto { get; set; }
         public Nullable<decimal> totalVenta { get; set; }

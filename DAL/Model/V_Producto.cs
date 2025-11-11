@@ -20,16 +20,16 @@ namespace DAL.Model
         public string nombreProducto { get; set; }
         public string descripcionProducto { get; set; }
         public int idCategoria { get; set; }
-        public int impuesto_id { get; set; }
+        public Nullable<int> impuesto_id { get; set; }
         public string nombreCategoria { get; set; }
         public int idTipoMedida { get; set; }
         public string nombreTipoMedida { get; set; }
         public int estadoProducto { get; set; }
         public int gramera { get; set; }
-        public decimal costo_neto { get; set; }
-        public decimal porcentaje_impuesto { get; set; }
-        public decimal costo_mas_impuesto { get; set; }
-        public decimal inventarioInicial { get; set; }
+        public Nullable<decimal> costo_neto { get; set; }
+        public Nullable<decimal> porcentaje_impuesto { get; set; }
+        public Nullable<decimal> costo_mas_impuesto { get; set; }
+        public Nullable<decimal> inventarioInicial { get; set; }
         public Nullable<decimal> inventarioActual { get; set; }
         public int insumo { get; set; }
         public decimal inventarioMinimo { get; set; }

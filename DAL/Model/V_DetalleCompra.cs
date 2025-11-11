@@ -20,7 +20,7 @@ namespace DAL.Model
         public int idProducto { get; set; }
         public string code { get; set; }
         public string nombreProducto { get; set; }
-        public decimal cantidad { get; set; }
+        public Nullable<decimal> cantidad { get; set; }
         public decimal contenidoPresentacion { get; set; }
         public Nullable<decimal> cantidadTotal { get; set; }
         public Nullable<decimal> precioUnitario { get; set; }

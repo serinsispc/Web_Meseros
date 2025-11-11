@@ -186,11 +186,11 @@
                         <i class="bi bi-plus-circle me-1"></i>Nuevo servicio
                     </button>
 
-                    <button id="btnEliminarServicio"
+<%--                    <button id="btnEliminarServicio"
                         type="button"
                         class="btn btn-warning btn-sm text-dark"
                         <i class="bi bi-trash3 me-1"></i>Eliminar servicio
-                    </button>
+                    </button>--%>
 
                     <button type="button" 
                         class="btn btn-outline-danger btn-sm"
@@ -257,12 +257,20 @@
             <div class="col-12 col-lg-6 col-xl-4">
                 <div class="card h-100">
                     <div class="card-body">
-                        <!-- Buscador -->
-                        <div class="input-group mb-3">
-                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                            <input type="text" id="buscador-productos" class="form-control" placeholder="Buscar producto por nombre..." />
-                            <button type="button" id="limpiar-buscador" class="btn btn-outline-secondary"><i class="bi bi-x-lg"></i></button>
-                        </div>
+<!-- Buscador -->
+<div class="input-group mb-3">
+    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+    <input 
+        type="search" 
+        inputmode="search"
+        id="buscador-productos" 
+        class="form-control" 
+        placeholder="Buscar producto por nombre..." 
+        autocomplete="off" />
+    <button type="button" id="limpiar-buscador" class="btn btn-outline-secondary">
+        <i class="bi bi-x-lg"></i>
+    </button>
+</div>
 
                         <!-- categorías -->
                         <div class="d-flex flex-wrap gap-2 mb-3">
@@ -1904,6 +1912,32 @@
 </script>
 
 
+
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const buscador = document.getElementById("buscador-productos");
+
+        // Evento más confiable para móviles
+        buscador.addEventListener("keydown", function (e) {
+            // Detecta tecla Enter (tanto física como virtual)
+            if (e.key === "Enter" || e.keyCode === 13) {
+                e.preventDefault(); // Evita tabular
+                const valor = buscador.value.trim();
+                if (valor !== "") {
+                    // Llamada al postback
+                    __doPostBack("btnCuscarProducto", valor);
+                }
+            }
+        });
+
+        // Botón de limpiar (opcional)
+        document.getElementById("limpiar-buscador").addEventListener("click", function () {
+            buscador.value = "";
+            buscador.focus();
+        });
+    });
+</script>
 
 
 </asp:Content>

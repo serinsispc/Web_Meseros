@@ -21,8 +21,6 @@ namespace DAL.Model
         public bool eliminada { get; set; }
     
         public virtual CuentaCliente CuentaCliente { get; set; }
-        public virtual CuentaCliente CuentaCliente1 { get; set; }
         public virtual DetalleVenta DetalleVenta { get; set; }
-        public virtual DetalleVenta DetalleVenta1 { get; set; }
     }
 }

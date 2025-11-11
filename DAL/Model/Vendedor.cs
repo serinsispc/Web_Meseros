@@ -14,19 +14,10 @@ namespace DAL.Model
     
     public partial class Vendedor
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Vendedor()
-        {
-            this.R_MesaMesero = new HashSet<R_MesaMesero>();
-        }
-    
         public int id { get; set; }
         public string nombreVendedor { get; set; }
         public string telefonoVendedor { get; set; }
         public string calveVendedor { get; set; }
         public Nullable<int> cajaMovil { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<R_MesaMesero> R_MesaMesero { get; set; }
     }
 }

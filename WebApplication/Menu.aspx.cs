@@ -18,6 +18,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using WebApplication.Class;
 using WebApplication.ViewModels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WebApplication
 {
@@ -53,6 +54,11 @@ namespace WebApplication
                 }
 
                 // Filtrar cuentas de la venta activa
+                if(Models == null)
+                {
+                    Models.v_CuentaClientes = new List<V_CuentaCliente>();
+                } 
+
                 var cuentasActivas = Models.v_CuentaClientes
                 .Where(x => x.idVenta == Models.IdCuentaActiva)
                 .Select(x => new
@@ -235,14 +241,69 @@ namespace WebApplication
 
                 case "btnEditarPropina":
                     var json = Request.Form["hdnEditarPropina"];
-                    
                     btnEditarPropina(json);
+                    break;
+
+                case "btnCuscarProducto":
+                    btnBuscarProducto(eventArgument);
                     break;
 
                 default:
                     // otros eventos por nombre...
                     break;
             }
+        }
+        private void btnBuscarProducto(string eventArgument)
+        {
+            // el valor que vino desde el input del buscador
+            string textoBuscado = eventArgument?.Trim() ?? string.Empty;
+            // consultamos el id de la presentasion en la lista de productos
+            var producto = Models.productos.Where(x => x.codigoProducto == textoBuscado).FirstOrDefault();
+            if (producto == null) 
+            {
+                AlertModerno.Error(this, "¡Error!", $"el código {textoBuscado} no se encontro", true);
+                Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
+                Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
+                Models.ventaCuenta = V_CuentaClienteCotroler.Consultar(Models.IdCuenteClienteActiva);
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+            }
+            else
+            {
+                var resp = DetalleVenta_f.AgregarProducto(producto.idPresentacion, 1, Models.IdCuentaActiva);
+                if (resp.estado)
+                {
+                    //como si se creo el produto ahora verificamos si esta activa una cuenta de cleinte
+                    if (Models.IdCuenteClienteActiva > 0)
+                    {
+                        var ralacion = new R_CuentaCliente_DetalleVenta
+                        {
+                            id = 0,
+                            fecha = DateTime.Now,
+                            idCuentaCliente = Models.IdCuenteClienteActiva,
+                            idDetalleVenta = (int)resp.data,
+                            eliminada = false
+                        };
+                        var crudrelacion = R_CuentaCliente_DetalleVentaControler.CRUD(ralacion, 0);
+                    }
+                    AlertModerno.Success(this, "¡OK!", $"{resp.mensaje}", true, 800);
+                }
+                else
+                {
+                    AlertModerno.Error(this, "¡Error!", $"{resp.mensaje}", true);
+                }
+
+                Models.venta = V_TablaVentasControler.Consultar_Id(Models.IdCuentaActiva);
+                Models.detalleCaja = V_DetalleCajaControler.Lista_IdVenta(Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
+                Models.v_CuentaClientes = V_CuentaClienteCotroler.Lista(false);
+                Models.ventaCuenta = V_CuentaClienteCotroler.Consultar(Models.IdCuenteClienteActiva);
+                GuardarModelsEnSesion();
+                BindProductos();
+                DataBind();
+            }
+
         }
         private void btnCuentaCliente (string eventArgument)
         {

@@ -18,8 +18,6 @@ namespace DAL.Model
         public DetalleServicio()
         {
             this.DetalleComanda = new HashSet<DetalleComanda>();
-            this.DetalleComanda1 = new HashSet<DetalleComanda>();
-            this.DetalleComanda2 = new HashSet<DetalleComanda>();
         }
     
         public int id { get; set; }
@@ -41,12 +39,6 @@ namespace DAL.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleComanda> DetalleComanda { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleComanda> DetalleComanda1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetalleComanda> DetalleComanda2 { get; set; }
         public virtual ServicioMesa ServicioMesa { get; set; }
-        public virtual ServicioMesa ServicioMesa1 { get; set; }
-        public virtual ServicioMesa ServicioMesa2 { get; set; }
     }
 }

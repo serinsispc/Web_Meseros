@@ -21,7 +21,5 @@ namespace DAL.Model
         public Nullable<int> estadoPreCuenta { get; set; }
     
         public virtual ServicioMesa ServicioMesa { get; set; }
-        public virtual ServicioMesa ServicioMesa1 { get; set; }
-        public virtual ServicioMesa ServicioMesa2 { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace DAL.Model
         public int id { get; set; }
         public string codigoProducto { get; set; }
         public string nombreProducto { get; set; }
-        public decimal inventarioInicial { get; set; }
+        public Nullable<decimal> inventarioInicial { get; set; }
         public int idCategoria { get; set; }
         public string nombreCategoria { get; set; }
         public decimal inventarioMinimo { get; set; }

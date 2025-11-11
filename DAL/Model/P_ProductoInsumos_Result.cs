@@ -22,7 +22,7 @@ namespace DAL.Model
         public string letraTipoMedida { get; set; }
         public decimal cantidadInsumo { get; set; }
         public string opcional { get; set; }
-        public Nullable<decimal> precioInsumo { get; set; }
-        public Nullable<int> estado { get; set; }
+        public decimal precioInsumo { get; set; }
+        public int estado { get; set; }
     }
 }

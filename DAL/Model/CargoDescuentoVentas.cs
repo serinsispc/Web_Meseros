@@ -21,6 +21,7 @@ namespace DAL.Model
         public string razon { get; set; }
         public decimal valor { get; set; }
         public decimal @base { get; set; }
+        public string descripcionCargoDescuento { get; set; }
     
         public virtual TablaVentas TablaVentas { get; set; }
     }

@@ -23,8 +23,7 @@ namespace DAL.Model
         public int contenidoPresentacion { get; set; }
     
         public virtual DetalleCompra DetalleCompra { get; set; }
-        public virtual DetalleCompra DetalleCompra1 { get; set; }
         public virtual Presentacion Presentacion { get; set; }
-        public virtual Presentacion Presentacion1 { get; set; }
+        public virtual Producto Producto { get; set; }
     }
 }

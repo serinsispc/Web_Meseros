@@ -21,6 +21,5 @@ namespace DAL.Model
         public decimal valor { get; set; }
     
         public virtual ServicioMesa ServicioMesa { get; set; }
-        public virtual ServicioMesa ServicioMesa1 { get; set; }
     }
 }

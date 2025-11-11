@@ -15,10 +15,7 @@ namespace DAL.Model
     public partial class PermisoModulo
     {
         public int id { get; set; }
-        public int idUsuario { get; set; }
-        public int idModulo { get; set; }
-    
-        public virtual Modulos Modulos { get; set; }
-        public virtual Usuario Usuario { get; set; }
+        public Nullable<int> idUsuario { get; set; }
+        public Nullable<int> idModulo { get; set; }
     }
 }

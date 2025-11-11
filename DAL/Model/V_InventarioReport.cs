@@ -20,7 +20,7 @@ namespace DAL.Model
         public string categoria { get; set; }
         public string presentacion { get; set; }
         public Nullable<decimal> contenido { get; set; }
-        public decimal costo_mas_impuesto { get; set; }
+        public Nullable<decimal> costo_mas_impuesto { get; set; }
         public Nullable<decimal> precio { get; set; }
         public Nullable<decimal> utilidadUnidad { get; set; }
         public Nullable<decimal> inventarioActual { get; set; }

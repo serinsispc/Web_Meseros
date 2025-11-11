@@ -18,7 +18,7 @@ namespace DAL.Model
         public int idProducto { get; set; }
         public decimal contenidoPresentacion { get; set; }
         public int estadoPresentacion { get; set; }
-        public Nullable<decimal> precioVenta { get; set; }
+        public decimal precioVenta { get; set; }
         public Nullable<decimal> porcentajeUtilidad { get; set; }
         public Nullable<decimal> valorUtilidad { get; set; }
         public Nullable<decimal> precioNeto { get; set; }

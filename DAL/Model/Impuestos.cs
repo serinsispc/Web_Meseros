@@ -12,13 +12,20 @@ namespace DAL.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class R_MesaMesero
+    public partial class Impuestos
     {
         public int id { get; set; }
-        public int idMesa { get; set; }
-        public int idMesero { get; set; }
+        public System.Guid guidImpuesto { get; set; }
+        public int idProducto { get; set; }
+        public int idImpuesto { get; set; }
+        public string nombreImpuesto { get; set; }
+        public decimal tax_amount { get; set; }
+        public decimal taxable_amount { get; set; }
+        public decimal porcentage { get; set; }
+        public int impuestoCompra { get; set; }
+        public int impuestoVenta { get; set; }
     
-        public virtual Mesas Mesas { get; set; }
-        public virtual Vendedor Vendedor { get; set; }
+        public virtual Producto Producto { get; set; }
+        public virtual Producto Producto1 { get; set; }
     }
 }

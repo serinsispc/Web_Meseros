@@ -19,7 +19,7 @@ namespace DAL.Model
         public string nombreTipoPresentacion { get; set; }
         public decimal contenidoPresentacion { get; set; }
         public int estadoPresentacion { get; set; }
-        public Nullable<decimal> precioVenta { get; set; }
+        public decimal precioVenta { get; set; }
         public int idProducto { get; set; }
         public System.Guid guidProducto { get; set; }
         public string codigoProducto { get; set; }
@@ -31,8 +31,8 @@ namespace DAL.Model
         public string nombreTipoMedida { get; set; }
         public int estadoProducto { get; set; }
         public int gramera { get; set; }
-        public decimal porcentaje_impuesto { get; set; }
-        public decimal costo_mas_impuesto { get; set; }
-        public decimal inventarioInicial { get; set; }
+        public Nullable<decimal> porcentaje_impuesto { get; set; }
+        public Nullable<decimal> costo_mas_impuesto { get; set; }
+        public Nullable<decimal> inventarioInicial { get; set; }
     }
 }

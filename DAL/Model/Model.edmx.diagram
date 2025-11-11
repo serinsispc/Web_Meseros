@@ -4,397 +4,379 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="06b59e2695464167a778c63da94b79ba" Name="Diagram1">
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.AdicionDetalleText" Width="1.5" PointX="5.25" PointY="22.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.AdicionDetalleVenta" Width="1.5" PointX="8.25" PointY="38.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Adiciones" Width="1.5" PointX="6" PointY="47.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.AdminControl" Width="1.5" PointX="5.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.AmbienteEmpresa" Width="1.5" PointX="26" PointY="21.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.AperturasCajon" Width="1.5" PointX="9" PointY="52" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ArchivoCompras" Width="1.5" PointX="5.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.AutorizacionFacturacionElectronica" Width="1.5" PointX="7.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.AutorizacionPC" Width="1.5" PointX="0.75" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.BackupDB" Width="1.5" PointX="7.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.BaseCaja" Width="1.5" PointX="6.75" PointY="51.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Bodega" Width="1.5" PointX="0.75" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Bolsillo" Width="1.5" PointX="13.75" PointY="38" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.buyer_benefit" Width="1.5" PointX="19" PointY="16.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.CargoDescuentoCompra" Width="1.5" PointX="16" PointY="22.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.CargoDescuentoServicio" Width="1.5" PointX="11" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.CargoDescuentoVentas" Width="1.5" PointX="3" PointY="21.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.CargosDescuentosDetalleVenta" Width="1.5" PointX="5.25" PointY="42.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Categoria" Width="1.5" PointX="24.75" PointY="13.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.CertificadoDigital" Width="1.5" PointX="26" PointY="24" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ClienteDomicilio" Width="1.5" PointX="3.75" PointY="59.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Clientes" Width="1.5" PointX="16.75" PointY="16.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Comandas" Width="1.5" PointX="11" PointY="17" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ComandImpresaa" Width="1.5" PointX="5.25" PointY="45.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.CompraActiva" Width="1.5" PointX="13.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Compras" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ConfiguracionDian" Width="1.5" PointX="16.75" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ConfiguracionSMTP" Width="1.5" PointX="15.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ConsecutivoCaja" Width="1.5" PointX="13.75" PointY="18.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ConsecutivoCarta" Width="1.5" PointX="18.75" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ConsecutivoCompras" Width="1.5" PointX="16" PointY="25.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ConsecutivoDocumentoSoporte" Width="1.5" PointX="16" PointY="27.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ConsecutivoFactura" Width="1.5" PointX="21.75" PointY="20.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ConsecutivoPedido" Width="1.5" PointX="6" PointY="64.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ConsecutivoRecibo" Width="1.5" PointX="26.75" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ConsecutivoVentaUsado" Width="1.5" PointX="10.75" PointY="27.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.CorreosCliente" Width="1.5" PointX="19" PointY="19" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.CorreosNotificaciones" Width="1.5" PointX="28.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Cotizaciones" Width="1.5" PointX="19.75" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.CuentaCliente" Width="1.5" PointX="3" PointY="24.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.CuentasServicio" Width="1.5" PointX="11" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.departments" Width="1.5" PointX="28.75" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DescuentoDetalleCompra" Width="1.5" PointX="28.75" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DestapeProducto" Width="1.5" PointX="28.75" PointY="23.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DetalleComanda" Width="1.5" PointX="13.25" PointY="12" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DetalleCompra" Width="1.5" PointX="19" PointY="25.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DetalleCotizacion" Width="1.5" PointX="22" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DetalleInsumo" Width="1.5" PointX="8.25" PointY="29.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DetalleOrdenFabrica" Width="1.5" PointX="28.75" PointY="27.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DetallePedido" Width="1.5" PointX="6" PointY="67" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DetalleServicio" Width="1.5" PointX="11" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DetalleTraslado" Width="1.5" PointX="12.75" PointY="29.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DetalleVenta" Width="1.5" PointX="3" PointY="32.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DetalleVenta_eliminado" Width="1.5" PointX="29.75" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DetalleVentaActiva" Width="1.5" PointX="29.75" PointY="14.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Domicilios" Width="1.5" PointX="6" PointY="35.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Empresas" Width="1.5" PointX="23.75" PointY="23.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.EstadoAI" Width="1.5" PointX="14.75" PointY="30.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.EstadoDomicilio" Width="1.5" PointX="3.75" PointY="62.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.EstadoInventario" Width="1.5" PointX="16.75" PointY="30.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.EstadoPedido" Width="1.5" PointX="1.5" PointY="66" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.FacturaElectronica" Width="1.5" PointX="3" PointY="40" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.FacturaElectronicaJSON" Width="1.5" PointX="3" PointY="44.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.FacturaSoftware" Width="1.5" PointX="18.75" PointY="30.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Gastos" Width="1.5" PointX="16" PointY="44.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.GuidTraslados" Width="1.5" PointX="20.75" PointY="30.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Imagenes" Width="1.5" PointX="22.75" PointY="30.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ImprecionComandaAdd" Width="1.5" PointX="30.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Impresora" Width="1.5" PointX="30.75" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ImprimirCuenta" Width="1.5" PointX="3" PointY="50.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ImprimirFactura" Width="1.5" PointX="3" PointY="53" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ImpuestoCompras" Width="1.5" PointX="30.75" PointY="18.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.InformacionEmpresa" Width="1.5" PointX="10" PointY="21" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.InformeFiscalMensual" Width="1.5" PointX="30.75" PointY="22.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.InsumosDetalleCompra" Width="1.5" PointX="21.25" PointY="26.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Inventario" Width="1.5" PointX="26.75" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.InventarioTotal" Width="1.5" PointX="30.75" PointY="25.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.LibroDiario" Width="1.5" PointX="30.75" PointY="29.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Licencia" Width="1.5" PointX="31.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ListaPrecios" Width="1.5" PointX="31.75" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ListaWhatsApp" Width="1.5" PointX="31.75" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.MediosDePagoInternos" Width="1.5" PointX="3.75" PointY="17.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.MensajesEnEspera" Width="1.5" PointX="32.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Merma" Width="1.5" PointX="21.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Mesas" Width="1.5" PointX="6.75" PointY="13.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Modulos" Width="1.5" PointX="22" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.MovimientosInventario" Width="1.5" PointX="32.75" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.municipalities" Width="1.5" PointX="13.75" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.NotasCredito" Width="1.5" PointX="3" PointY="55.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Notificaciones" Width="1.5" PointX="32.75" PointY="16.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.OrdenFabrica" Width="1.5" PointX="32.75" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.OrdenServicio" Width="1.5" PointX="18.75" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.PagosCompras" Width="1.5" PointX="16" PointY="37.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.PagosCreditoTienda" Width="1.5" PointX="20.75" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.PagosVenta" Width="1.5" PointX="6" PointY="31.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.payment_forms" Width="1.5" PointX="15.75" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.payment_methods" Width="1.5" PointX="22.75" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.PedidoActivo" Width="1.5" PointX="32.75" PointY="24.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Pedidos" Width="1.5" PointX="3.75" PointY="65" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.PermisoModulo" Width="1.5" PointX="24.25" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.PermisoSubModulo" Width="1.5" PointX="24.25" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.persona" Width="1.5" PointX="32.75" PointY="27.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Precios" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Presentacion" Width="1.5" PointX="0.75" PointY="26.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Producto" Width="1.5" PointX="27" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.pViejos" Width="1.5" PointX="32.75" PointY="30.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_AdicionCategoria" Width="1.5" PointX="27" PointY="32.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_CategoriaComanda" Width="1.5" PointX="27" PointY="16.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_ClienteVendedor" Width="1.5" PointX="10" PointY="25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_CompraCliente" Width="1.5" PointX="19" PointY="21.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_CotizacionCliente" Width="1.5" PointX="22" PointY="17.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_CuentaCliente_DetalleVenta" Width="1.5" PointX="5.25" PointY="25.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_DepartamentoMunicipio" Width="1.5" PointX="29.75" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_DetalleServicioCuenta" Width="1.5" PointX="33.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_MediosDePago_MediosDePagoInternos" Width="1.5" PointX="6" PointY="18" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_MesaMesero" Width="1.5" PointX="14" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_PedidoVenta" Width="1.5" PointX="6" PointY="39.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_ProductoCompra" Width="1.5" PointX="29" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_ProductoInsumo" Width="1.5" PointX="6" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_ServicioMesa" Width="1.5" PointX="14" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_VehiculoVenta" Width="1.5" PointX="3" PointY="29.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_VentaBase" Width="1.5" PointX="9" PointY="35.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_VentaCliente" Width="1.5" PointX="33.75" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_VentaDomicilio" Width="1.5" PointX="11.25" PointY="35.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_VentaMesa" Width="1.5" PointX="9" PointY="32.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_VentaUsuario" Width="1.5" PointX="33.75" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.R_VentaVendedor" Width="1.5" PointX="3" PointY="72.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ReporteActualizacionEquipo" Width="1.5" PointX="31.75" PointY="34.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ReporteImpuestos" Width="1.5" PointX="3" PointY="75.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Resoluciones" Width="1.5" PointX="33.75" PointY="34.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ResponsableOrdenFabrica" Width="1.5" PointX="34.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.RutaActualizacionEquipo" Width="1.5" PointX="34.75" PointY="16.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Sede" Width="1.5" PointX="34.75" PointY="20.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.SedesAsignadas" Width="1.5" PointX="34.75" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.SeguimientoDomicilio" Width="1.5" PointX="11.25" PointY="32.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Semana" Width="1.5" PointX="7.75" PointY="25.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ServicioMesa" Width="1.5" PointX="8.75" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.SoftwareDIAN" Width="1.5" PointX="26" PointY="26.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.SubModulos" Width="1.5" PointX="22" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TablaCompras" Width="1.5" PointX="13.75" PointY="23.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TablaDias" Width="1.5" PointX="24.75" PointY="35.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TablaMeses" Width="1.5" PointX="26.75" PointY="35.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TablaVentas" Width="1.5" PointX="0.75" PointY="32.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TablaYear" Width="1.5" PointX="34.75" PointY="29.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.tax_details" Width="1.5" PointX="35.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.taxes" Width="1.5" PointX="35.75" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TipoArticulo" Width="1.5" PointX="35.75" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.tipoComanda" Width="1.5" PointX="24.75" PointY="16.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TipoGasto" Width="1.5" PointX="13.75" PointY="45.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TipoHambiente" Width="1.5" PointX="28.75" PointY="36.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TipoIdentificacion" Width="1.5" PointX="35.75" PointY="32.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TipoMedida" Width="1.5" PointX="3.75" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TipoMerma" Width="1.5" PointX="19" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TipoPresentacion" Width="1.5" PointX="1.5" PointY="19" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TipoRegimen" Width="1.5" PointX="7.75" PointY="21.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TipoServicio" Width="1.5" PointX="35.75" PointY="35.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TipoTercero" Width="1.5" PointX="36.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TipoUsuario" Width="1.5" PointX="16.75" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TipoWhatsApp" Width="1.5" PointX="36.75" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.tokenEmpresa" Width="1.5" PointX="26" PointY="29.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Traslados" Width="1.5" PointX="36.75" PointY="16.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Tutoriales" Width="1.5" PointX="36.75" PointY="20.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.type_document_identifications" Width="1.5" PointX="20.75" PointY="37.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.type_documents" Width="1.5" PointX="36.75" PointY="23.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.type_environments" Width="1.5" PointX="36.75" PointY="26.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.type_liabilities" Width="1.5" PointX="36.75" PointY="29.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.type_organizations" Width="1.5" PointX="30.75" PointY="37.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.type_regimes" Width="1.5" PointX="37.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Usuario" Width="1.5" PointX="19" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Vehiculo" Width="1.5" PointX="0.75" PointY="23.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Vendedor" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.VentaActiva" Width="1.5" PointX="37.75" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.VersionSoftware" Width="1.5" PointX="10.75" PointY="38.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Zonas" Width="1.5" PointX="4.5" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DetalleNotaCredito" Width="1.5" PointX="22.75" PointY="38.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.DocumentoSoporte" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Agotados" Width="1.5" PointX="24.75" PointY="38.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.BuscadorProducto" Width="1.5" PointX="37.75" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Comanda" Width="1.5" PointX="37.75" PointY="32.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.ComandaAdiciones" Width="1.5" PointX="37.75" PointY="36.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.CuentasVendedor" Width="1.5" PointX="38.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.Kardex" Width="1.5" PointX="38.75" PointY="16.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.TurnosCajaros" Width="1.5" PointX="38.75" PointY="21.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Adiciones" Width="1.5" PointX="38.75" PointY="27.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_AdicionesDetalle" Width="1.5" PointX="26.75" PointY="39.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_ArchivoCompras" Width="1.5" PointX="32.75" PointY="39.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Bolsillos" Width="1.5" PointX="34.75" PointY="39.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_BuscadorInsumos" Width="1.5" PointX="39.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.v_buyer_benefit" Width="1.5" PointX="39.75" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_CatagoriaAdicion" Width="1.5" PointX="39.75" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Categoria" Width="1.5" PointX="12.75" PointY="40.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Clientes" Width="1.5" PointX="18.75" PointY="40.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Comandas" Width="1.5" PointX="28.75" PointY="40.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Compra" Width="1.5" PointX="39.75" PointY="30.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_ConfiguracionDIAN" Width="1.5" PointX="36.75" PointY="40.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_ConsultaCategoriaDetalleCaja" Width="1.5" PointX="39.75" PointY="38.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_CorreosCliente" Width="1.5" PointX="40.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Cotizacion" Width="1.5" PointX="8.75" PointY="41.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_CuentaCliente" Width="1.5" PointX="40.75" PointY="14.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Cuentas" Width="1.5" PointX="40.75" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_CuentasPC" Width="1.5" PointX="40.75" PointY="23.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_CuentasServicio" Width="1.5" PointX="38.75" PointY="41.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_CuentasVenta" Width="1.5" PointX="40.75" PointY="41.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_descuantoDetalleCompra" Width="1.5" PointX="41.75" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_DetalleCaja" Width="1.5" PointX="20.75" PointY="42.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_DetalleCajaCotizacion" Width="1.5" PointX="22.75" PointY="42.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_DetalleComandas" Width="1.5" PointX="24.75" PointY="42.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_DetalleCompra" Width="1.5" PointX="41.75" PointY="27.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_DetalleServicio" Width="1.5" PointX="30.75" PointY="42.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_DetalleTipoComanda" Width="1.5" PointX="14.75" PointY="41.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_DetalleTraslado" Width="1.5" PointX="41.75" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_DetalleVenta" Width="1.5" PointX="32.75" PointY="42.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Domicilios" Width="1.5" PointX="41.75" PointY="37.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Empresa" Width="1.5" PointX="42.75" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_FacturasCredito" Width="1.5" PointX="42.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Gastos" Width="1.5" PointX="42.75" PointY="18.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_GastosTurno" Width="1.5" PointX="42.75" PointY="22.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_ImpuestosDetalleCompra" Width="1.5" PointX="42.75" PointY="41.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_InventarioReport" Width="1.5" PointX="43.75" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_ListaPrecio" Width="1.5" PointX="10.75" PointY="44.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_ListaWhatsApp" Width="1.5" PointX="43.75" PointY="26.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_MediosDePagoInternos" Width="1.5" PointX="26.75" PointY="44.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Merma" Width="1.5" PointX="43.75" PointY="29.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Mesas" Width="1.5" PointX="43.75" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Municipios" Width="1.5" PointX="43.75" PointY="37.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_NotasRapidas" Width="1.5" PointX="44.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Opciones" Width="1.5" PointX="44.75" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_PagoCP" Width="1.5" PointX="44.75" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_PagosCreditoTienda" Width="1.5" PointX="44.75" PointY="17.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Precios" Width="1.5" PointX="44.75" PointY="22.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Presentacion" Width="1.5" PointX="34.75" PointY="45.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Producto" Width="1.5" PointX="36.75" PointY="45.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_ProductoInsumos" Width="1.5" PointX="44.75" PointY="40.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_ProductosVentdidos" Width="1.5" PointX="42.75" PointY="45.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.v_productoVenta" Width="1.5" PointX="44.75" PointY="44.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_R_CotizacionCliente" Width="1.5" PointX="45.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_R_MediosDePago_MediosDePagoInternos" Width="1.5" PointX="45.75" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_R_ServicioMesa" Width="1.5" PointX="45.75" PointY="25.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_R_VentaBase" Width="1.5" PointX="45.75" PointY="28.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_R_VentaCliente" Width="1.5" PointX="45.75" PointY="32.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_R_VEntausuario" Width="1.5" PointX="45.75" PointY="35.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Resoluciones" Width="1.5" PointX="46.75" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Sede" Width="1.5" PointX="11.75" PointY="47.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_SedesAsignadas" Width="1.5" PointX="46.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_SeguimientoDomicilio" Width="1.5" PointX="8.75" PointY="47.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_ServicioMesa" Width="1.5" PointX="46.75" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_TablaVentas" Width="1.5" PointX="22.75" PointY="47.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_TipoGasto" Width="1.5" PointX="46.75" PointY="20.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_TipoMedida" Width="1.5" PointX="24.75" PointY="47.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_TipoMerma" Width="1.5" PointX="26.75" PointY="47.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_TipoPresentacion" Width="1.5" PointX="46.75" PointY="38.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_TotalImventario" Width="1.5" PointX="38.75" PointY="47.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_TotalVentasDetalle" Width="1.5" PointX="46.75" PointY="41.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Traslados" Width="1.5" PointX="46.75" PointY="44.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_TurnosCaja" Width="1.5" PointX="47.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_TurnosCaja_DIAN" Width="1.5" PointX="13.75" PointY="48.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.v_Usuario" Width="1.5" PointX="15.75" PointY="48.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Utilidad_X_Venta" Width="1.5" PointX="17.75" PointY="48.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_UtilidadVenta" Width="1.5" PointX="47.75" PointY="23.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Vendedor" Width="1.5" PointX="47.75" PointY="27.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_VentaInsumo" Width="1.5" PointX="28.75" PointY="48.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_VentasPagosInternos" Width="1.5" PointX="47.75" PointY="30.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.v_VentasPorCategoria" Width="1.5" PointX="30.75" PointY="48.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_VentasVendedor" Width="1.5" PointX="47.75" PointY="34.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.V_Zona" Width="1.5" PointX="46.75" PointY="48.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.VentasInsumos" Width="1.5" PointX="48.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.VistaMediosDePago" Width="1.5" PointX="48.75" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_CASA_AUTENTICOSModel.VistaMetodosDepago" Width="1.5" PointX="48.75" PointY="13.875" IsExpanded="true" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__AdicionDe__idDet__53A266AC" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__AdicionDe__idAdi__54968AE5" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__AdicionDe__idDet__558AAF1E" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Adicion__idAdi__0BE6BFCF" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__AmbienteE__idEmp__567ED357" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Aperturas__idBas__4EE89E87" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Gastos__idBaseca__7132C993" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__PagosComp__idBas__7E8CC4B1" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_VentaBa__idBas__1EF99443" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Gastos__idBolsil__7226EDCC" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__PagosComp__idBol__7F80E8EA" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__buyer_ben__clien__5772F790" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__CargoDesc__idCom__58671BC9" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__CargoDesc__idSer__17BAC733" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__CargoDesc__idSer__58A974F0" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__CargoDesc__idVen__1F5BE8FB" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__CargosDes__idDet__595B4002" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Producto__idCate__09FE775D" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Adicion__idCat__0CDAE408" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Categor__idCat__0DCF0841" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Certifica__idEmp__5A4F643B" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Domicilio__idCli__6D6238AF" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__CorreosCl__idCli__60083D91" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__CorreosCl__idCli__60FC61CA" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_CompraC__idCli__10AB74EC" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Cotizac__idCli__1293BD5E" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Cotizac__idCli__1387E197" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleCo__idCom__0D3D38C0" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleCo__idCom__2FF0ACC9" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleCo__idCom__51085328" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__ComandImp__idDet__5B438874" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Documento__idCom__6C6E1476" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Consecuti__idCom__5C37ACAD" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Consecuti__idCom__5D2BD0E6" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Consecuti__idCom__5E1FF51F" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Consecuti__guidP__5F141958" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleCo__idCot__63D8CE75" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleCo__idCot__64CCF2AE" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Cotizac__idCot__147C05D0" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Cotizac__idCot__15702A09" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__CuentaCli__idVen__19A30FA5" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__CuentaCli__idVen__5E624E46" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_CuentaC__idCue__1B8B5817" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_CuentaC__idCue__66F79447" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__CuentasSe__idSer__0C491487" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__CuentasSe__idSer__2EFC8890" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__CuentasSe__idSer__50142EEF" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleCo__idDet__0E315CF9" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleCo__idDet__30E4D102" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleCo__idDet__51FC7761" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleCo__idCom__61F08603" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleCo__idPre__62E4AA3C" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__InsumosDe__idDet__76EBA2E9" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__InsumosDe__idDet__77DFC722" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleIn__idDet__65C116E7" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleIn__idRPI__66B53B20" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK_DetallePedido_Pedidos" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleSe__idSer__0F258132" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleSe__idSer__31D8F53B" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleSe__idSer__52F09B9A" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleVe__idPre__689D8392" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleVe__idPre__6991A7CB" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleVe__idVen__6A85CC04" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__DetalleVe__idVen__6B79F03D" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_CuentaC__idDet__1C7F7C50" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_CuentaC__idDet__67EBB880" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Domicilio__idEst__6E565CE8" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Domicilio__idVen__6F4A8121" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_VentaDo__idDom__20E1DCB5" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Seguimien__idDom__269AB60B" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__SoftwareD__idEmp__2882FE7D" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__tokenEmpr__idEmp__297722B6" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Seguimien__idEst__278EDA44" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Pedidos__idEstad__035179CE" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__FacturaEl__idVen__703EA55A" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__FacturaEl__idven__15D27EC1" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__FacturaEl__idven__613EBAF1" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Gastos__idTipoGa__731B1205" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__ImprimirC__idven__740F363E" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__ImprimirF__idven__75035A77" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Informaci__idReg__75F77EB0" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__InsumosDe__idPre__78D3EB5B" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__InsumosDe__idPre__79C80F94" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Product__idInv__1B29035F" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__PagosVent__idMed__0169315C" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_MediosD__idMed__16644E42" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Merma__idTipoMer__7ABC33CD" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Merma__idUsuario__7BB05806" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Mesas__idZona__7CA47C3F" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_MesaMes__idMes__1758727B" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Servici__idMes__1019A56B" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Servici__idMes__32CD1974" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Servici__idMes__53E4BFD3" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_VentaMe__idMes__22CA2527" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__PermisoMo__idMod__04459E07" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__NotasCred__idVen__7D98A078" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__PagosComp__idCom__00750D23" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__PagosVent__idVen__025D5595" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_PedidoV__guidP__1940BAED" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__PermisoMo__idUsu__0539C240" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__PermisoSu__idSub__062DE679" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__PermisoSu__idUsu__07220AB2" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Precios__idPrese__08162EEB" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Presentac__idTip__090A5324" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Producto__idTipo__0AF29B96" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Categor__idTip__0EC32C7A" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Cliente__idSem__0FB750B3" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_CompraC__idCom__119F9925" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_MesaMes__idMes__184C96B4" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_PedidoV__idVen__1A34DF26" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Product__idUni__1C1D2798" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Servici__idSer__110DC9A4" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Servici__idSer__33C13DAD" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Servici__idSer__54D8E40C" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Vehicul__idVeh__1D114BD1" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_Vehicul__idVen__1E05700A" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_VentaBa__idVen__1FEDB87C" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_VentaDo__idVen__21D600EE" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_VentaMe__idVen__23BE4960" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__R_VentaVe__idVen__24B26D99" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__ReporteIm__idVen__25A691D2" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_CASA_AUTENTICOSModel.FK__Usuario__idTipoU__2A6B46EF" ManuallyRouted="false" />
+      <Diagram DiagramId="724c9bed08404fd697d189cac122e432" Name="Diagram1">
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.AdicionDetalleText" Width="1.5" PointX="5.25" PointY="23.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.AdicionDetalleVenta" Width="1.5" PointX="8.25" PointY="39.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Adiciones" Width="1.5" PointX="6" PointY="48.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.AdminControl" Width="1.5" PointX="0.75" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.AmbienteEmpresa" Width="1.5" PointX="19" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.AperturasCajon" Width="1.5" PointX="9" PointY="52.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ArchivoCompras" Width="1.5" PointX="15.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.AutorizacionFacturacionElectronica" Width="1.5" PointX="21.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.AutorizacionPC" Width="1.5" PointX="21.75" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.BackupDB" Width="1.5" PointX="23.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.BaseCaja" Width="1.5" PointX="6.75" PointY="52.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Bodega" Width="1.5" PointX="15.75" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Bolsillo" Width="1.5" PointX="9.75" PointY="49.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.buyer_benefit" Width="1.5" PointX="11" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.CargoDescuentoCompra" Width="1.5" PointX="23.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.CargoDescuentoServicio" Width="1.5" PointX="11" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.CargoDescuentoVentas" Width="1.5" PointX="3" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.CargosDescuentosDetalleVenta" Width="1.5" PointX="5.25" PointY="43.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Categoria" Width="1.5" PointX="1.5" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.CertificadoDigital" Width="1.5" PointX="19" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ClienteDomicilio" Width="1.5" PointX="3.75" PointY="60.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Clientes" Width="1.5" PointX="8.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Comandas" Width="1.5" PointX="11" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ComandImpresaa" Width="1.5" PointX="5.25" PointY="46.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.CompraActiva" Width="1.5" PointX="23.75" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Compras" Width="1.5" PointX="15.75" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ConfiguracionDian" Width="1.5" PointX="23.75" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ConfiguracionSMTP" Width="1.5" PointX="20.75" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ConsecutivoCaja" Width="1.5" PointX="22.75" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ConsecutivoCarta" Width="1.5" PointX="24.75" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ConsecutivoCompras" Width="1.5" PointX="25.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ConsecutivoDocumentoSoporte" Width="1.5" PointX="25.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ConsecutivoFactura" Width="1.5" PointX="25.75" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ConsecutivoPedido" Width="1.5" PointX="6" PointY="65.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ConsecutivoRecibo" Width="1.5" PointX="25.75" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ConsecutivoVentaUsado" Width="1.5" PointX="17.75" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.CorreosCliente" Width="1.5" PointX="11" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.CorreosNotificaciones" Width="1.5" PointX="25.75" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Cotizaciones" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.CuentaCliente" Width="1.5" PointX="3" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.CuentasServicio" Width="1.5" PointX="11" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.departments" Width="1.5" PointX="25.75" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DescuentoDetalleCompra" Width="1.5" PointX="26.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DestapeProducto" Width="1.5" PointX="13.75" PointY="28.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DetalleComanda" Width="1.5" PointX="13.25" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DetalleCompra" Width="1.5" PointX="8" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DetalleCotizacion" Width="1.5" PointX="14" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DetalleInsumo" Width="1.5" PointX="8.25" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DetalleOrdenFabrica" Width="1.5" PointX="26.75" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DetallePedido" Width="1.5" PointX="6" PointY="67.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DetalleServicio" Width="1.5" PointX="11" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DetalleTraslado" Width="1.5" PointX="27.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DetalleVenta" Width="1.5" PointX="3" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DetalleVenta_eliminado" Width="1.5" PointX="27.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DetalleVentaActiva" Width="1.5" PointX="27.75" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Domicilios" Width="1.5" PointX="6" PointY="36.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Empresas" Width="1.5" PointX="16.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.EstadoAI" Width="1.5" PointX="27.75" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.EstadoDomicilio" Width="1.5" PointX="3.75" PointY="63" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.EstadoInventario" Width="1.5" PointX="27.75" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.EstadoPedido" Width="1.5" PointX="1.5" PointY="66.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.FacturaElectronica" Width="1.5" PointX="3" PointY="40.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.FacturaElectronicaJSON" Width="1.5" PointX="3" PointY="45" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.FacturaSoftware" Width="1.5" PointX="27.75" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Gastos" Width="1.5" PointX="12" PointY="52.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.GuidTraslados" Width="1.5" PointX="22.75" PointY="29.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Imagenes" Width="1.5" PointX="28.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ImprecionComandaAdd" Width="1.5" PointX="10.75" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Impresora" Width="1.5" PointX="15.75" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ImprimirCuenta" Width="1.5" PointX="3" PointY="51.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ImprimirFactura" Width="1.5" PointX="3" PointY="53.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ImpuestoCompras" Width="1.5" PointX="17.75" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Impuestos" Width="1.5" PointX="6" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.InformacionEmpresa" Width="1.5" PointX="23" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.InformeFiscalMensual" Width="1.5" PointX="19.75" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.InsumosDetalleCompra" Width="1.5" PointX="13.25" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Inventario" Width="1.5" PointX="21.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.InventarioTotal" Width="1.5" PointX="28.75" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.LibroDiario" Width="1.5" PointX="24.75" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Licencia" Width="1.5" PointX="26.75" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ListaPrecios" Width="1.5" PointX="28.75" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ListaWhatsApp" Width="1.5" PointX="29.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.MediosDePagoInternos" Width="1.5" PointX="3.75" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.MensajesEnEspera" Width="1.5" PointX="29.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Merma" Width="1.5" PointX="21.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Mesas" Width="1.5" PointX="6.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Modulos" Width="1.5" PointX="29.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.MovimientosInventario" Width="1.5" PointX="29.75" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.municipalities" Width="1.5" PointX="29.75" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.NotasCredito" Width="1.5" PointX="3" PointY="56" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Notificaciones" Width="1.5" PointX="29.75" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.OrdenFabrica" Width="1.5" PointX="30.75" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.OrdenServicio" Width="1.5" PointX="21.75" PointY="32.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.PagosCompras" Width="1.5" PointX="30.75" PointY="28.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.PagosCreditoTienda" Width="1.5" PointX="30.75" PointY="32.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.PagosVenta" Width="1.5" PointX="6" PointY="32.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.payment_forms" Width="1.5" PointX="30.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.payment_methods" Width="1.5" PointX="31.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.PedidoActivo" Width="1.5" PointX="31.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Pedidos" Width="1.5" PointX="3.75" PointY="65.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.PermisoModulo" Width="1.5" PointX="31.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.PermisoSubModulo" Width="1.5" PointX="31.75" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.persona" Width="1.5" PointX="13.75" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Precios" Width="1.5" PointX="3" PointY="70.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Presentacion" Width="1.5" PointX="0.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Producto" Width="1.5" PointX="3.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Proveedor" Width="1.5" PointX="31.75" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.pViejos" Width="1.5" PointX="26.75" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_AdicionCategoria" Width="1.5" PointX="8.25" PointY="27" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_CategoriaComanda" Width="1.5" PointX="3.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_ClienteVendedor" Width="1.5" PointX="24" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_CompraCliente" Width="1.5" PointX="11" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_CotizacionCliente" Width="1.5" PointX="14" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_CuentaCliente_DetalleVenta" Width="1.5" PointX="5.25" PointY="26.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_DepartamentoMunicipio" Width="1.5" PointX="32.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_DetalleServicioCuenta" Width="1.5" PointX="15.75" PointY="34.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_MediosDePago_MediosDePagoInternos" Width="1.5" PointX="6" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_PedidoVenta" Width="1.5" PointX="6" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_ProductoCompra" Width="1.5" PointX="24" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_ProductoInsumo" Width="1.5" PointX="6" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_ServicioMesa" Width="1.5" PointX="14" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_VehiculoVenta" Width="1.5" PointX="3" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_VentaBase" Width="1.5" PointX="9" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_VentaCliente" Width="1.5" PointX="17.75" PointY="34.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_VentaDomicilio" Width="1.5" PointX="11.25" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_VentaMesa" Width="1.5" PointX="9" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_VentaUsuario" Width="1.5" PointX="32.75" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.R_VentaVendedor" Width="1.5" PointX="3" PointY="74" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ReporteActualizacionEquipo" Width="1.5" PointX="32.75" PointY="24.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ReporteImpuestos" Width="1.5" PointX="3" PointY="76.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Resoluciones" Width="1.5" PointX="23.75" PointY="34.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ResponsableOrdenFabrica" Width="1.5" PointX="32.75" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.RutaActualizacionEquipo" Width="1.5" PointX="32.75" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Sede" Width="1.5" PointX="32.75" PointY="34.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.SedesAsignadas" Width="1.5" PointX="33.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.SeguimientoDomicilio" Width="1.5" PointX="11.25" PointY="33.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Semana" Width="1.5" PointX="21.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ServicioMesa" Width="1.5" PointX="8.75" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.SoftwareDIAN" Width="1.5" PointX="19" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.SubModulos" Width="1.5" PointX="33.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TablaDias" Width="1.5" PointX="33.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TablaMeses" Width="1.5" PointX="33.75" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TablaVentas" Width="1.5" PointX="0.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TablaYear" Width="1.5" PointX="33.75" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.tax_details" Width="1.5" PointX="34.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.taxes" Width="1.5" PointX="34.75" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TipoArticulo" Width="1.5" PointX="34.75" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.tipoComanda" Width="1.5" PointX="1.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TipoGasto" Width="1.5" PointX="9.75" PointY="56" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TipoHambiente" Width="1.5" PointX="34.75" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TipoIdentificacion" Width="1.5" PointX="34.75" PointY="29.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TipoMedida" Width="1.5" PointX="1.5" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TipoMerma" Width="1.5" PointX="19" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TipoPresentacion" Width="1.5" PointX="1.5" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TipoRegimen" Width="1.5" PointX="20.75" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TipoServicio" Width="1.5" PointX="28.75" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TipoTercero" Width="1.5" PointX="34.75" PointY="32.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TipoUsuario" Width="1.5" PointX="16.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TipoWhatsApp" Width="1.5" PointX="34.75" PointY="35.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.tokenEmpresa" Width="1.5" PointX="19" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Traslados" Width="1.5" PointX="35.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Tutoriales" Width="1.5" PointX="35.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.type_document_identifications" Width="1.5" PointX="35.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.type_documents" Width="1.5" PointX="35.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.type_environments" Width="1.5" PointX="13.75" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.type_liabilities" Width="1.5" PointX="15.75" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.type_organizations" Width="1.5" PointX="17.75" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.type_regimes" Width="1.5" PointX="19.75" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Usuario" Width="1.5" PointX="19" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Vehiculo" Width="1.5" PointX="0.75" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Vendedor" Width="1.5" PointX="25.75" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.VentaActiva" Width="1.5" PointX="36.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.VersionSoftware" Width="1.5" PointX="36.75" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Zonas" Width="1.5" PointX="4.5" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DetalleNotaCredito" Width="1.5" PointX="36.75" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.DocumentoSoporte" Width="1.5" PointX="18" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Agotados" Width="1.5" PointX="36.75" PointY="25.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.BuscadorProducto" Width="1.5" PointX="36.75" PointY="29.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Comanda" Width="1.5" PointX="36.75" PointY="32.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.ComandaAdiciones" Width="1.5" PointX="36.75" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.CuentasVendedor" Width="1.5" PointX="37.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.Kardex" Width="1.5" PointX="37.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.TurnosCajaros" Width="1.5" PointX="10.75" PointY="39.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Adiciones" Width="1.5" PointX="37.75" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_AdicionesDetalle" Width="1.5" PointX="21.75" PointY="39.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_ArchivoCompras" Width="1.5" PointX="27.75" PointY="39.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Bolsillos" Width="1.5" PointX="29.75" PointY="39.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_BuscadorInsumos" Width="1.5" PointX="38.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.v_buyer_benefit" Width="1.5" PointX="12.75" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_CatagoriaAdicion" Width="1.5" PointX="14.75" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Categoria" Width="1.5" PointX="38.75" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Clientes" Width="1.5" PointX="16.75" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Comandas" Width="1.5" PointX="18.75" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Compra" Width="1.5" PointX="38.75" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_ConfiguracionDIAN" Width="1.5" PointX="23.75" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_ConsultaCategoriaDetalleCaja" Width="1.5" PointX="38.75" PointY="29.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_CorreosCliente" Width="1.5" PointX="38.75" PointY="32.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Cotizacion" Width="1.5" PointX="38.75" PointY="35.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_CuentaCliente" Width="1.5" PointX="34.75" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Cuentas" Width="1.5" PointX="36.75" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_CuentasPC" Width="1.5" PointX="38.75" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_CuentasServicio" Width="1.5" PointX="39.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_CuentasVenta" Width="1.5" PointX="39.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_descuantoDetalleCompra" Width="1.5" PointX="40.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_DetalleCaja" Width="1.5" PointX="40.75" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_DetalleCajaCotizacion" Width="1.5" PointX="20.75" PointY="42.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_DetalleComandas" Width="1.5" PointX="40.75" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_DetalleCompra" Width="1.5" PointX="25.75" PointY="42.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_DetalleServicio" Width="1.5" PointX="27.75" PointY="42.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_DetalleTipoComanda" Width="1.5" PointX="40.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_DetalleTraslado" Width="1.5" PointX="40.75" PointY="31.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_DetalleVenta" Width="1.5" PointX="29.75" PointY="42.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Domicilios" Width="1.5" PointX="40.75" PointY="35.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Empresa" Width="1.5" PointX="40.75" PointY="39.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_FacturasCredito" Width="1.5" PointX="41.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Gastos" Width="1.5" PointX="41.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_GastosTurno" Width="1.5" PointX="7.75" PointY="43.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_ImpuestosDetalleCompra" Width="1.5" PointX="12.75" PointY="43.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_InventarioReport" Width="1.5" PointX="31.75" PointY="43.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_ListaPrecio" Width="1.5" PointX="42.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_ListaWhatsApp" Width="1.5" PointX="42.75" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_MediosDePagoInternos" Width="1.5" PointX="42.75" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Merma" Width="1.5" PointX="42.75" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Mesas" Width="1.5" PointX="42.75" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Municipios" Width="1.5" PointX="42.75" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_NotasRapidas" Width="1.5" PointX="42.75" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Opciones" Width="1.5" PointX="42.75" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_PagoCP" Width="1.5" PointX="42.75" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_PagosCreditoTienda" Width="1.5" PointX="36.75" PointY="44.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Precios" Width="1.5" PointX="42.75" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Presentacion" Width="1.5" PointX="42.75" PointY="43.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Producto" Width="1.5" PointX="43.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_ProductoInsumos" Width="1.5" PointX="9.75" PointY="45.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_ProductosVentdidos" Width="1.5" PointX="22.75" PointY="45.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.v_productoVenta" Width="1.5" PointX="33.75" PointY="45.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_R_CotizacionCliente" Width="1.5" PointX="44.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_R_MediosDePago_MediosDePagoInternos" Width="1.5" PointX="44.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_R_ServicioMesa" Width="1.5" PointX="44.75" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_R_VentaBase" Width="1.5" PointX="14.75" PointY="46.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_R_VentaCliente" Width="1.5" PointX="44.75" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_R_VEntausuario" Width="1.5" PointX="16.75" PointY="46.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Resoluciones" Width="1.5" PointX="44.75" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Sede" Width="1.5" PointX="44.75" PointY="25.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_SedesAsignadas" Width="1.5" PointX="44.75" PointY="34.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_SeguimientoDomicilio" Width="1.5" PointX="44.75" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_ServicioMesa" Width="1.5" PointX="44.75" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_TablaVentas" Width="1.5" PointX="38.75" PointY="46.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_TipoGasto" Width="1.5" PointX="44.75" PointY="45.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_TipoMedida" Width="1.5" PointX="45.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_TipoMerma" Width="1.5" PointX="45.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_TipoPresentacion" Width="1.5" PointX="11.75" PointY="47.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_TotalImventario" Width="1.5" PointX="18.75" PointY="47.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_TotalVentasDetalle" Width="1.5" PointX="46.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Traslados" Width="1.5" PointX="46.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_TurnosCaja" Width="1.5" PointX="46.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_TurnosCaja_DIAN" Width="1.5" PointX="46.75" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.v_Usuario" Width="1.5" PointX="24.75" PointY="48.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Utilidad_X_Venta" Width="1.5" PointX="46.75" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_UtilidadVenta" Width="1.5" PointX="26.75" PointY="48.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Vendedor" Width="1.5" PointX="28.75" PointY="48.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_VentaInsumo" Width="1.5" PointX="46.75" PointY="31.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_VentasPagosInternos" Width="1.5" PointX="30.75" PointY="48.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.v_VentasPorCategoria" Width="1.5" PointX="46.75" PointY="34.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_VentasVendedor" Width="1.5" PointX="46.75" PointY="38.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.V_Zona" Width="1.5" PointX="46.75" PointY="42.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.VentasInsumos" Width="1.5" PointX="46.75" PointY="45.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.VistaMediosDePago" Width="1.5" PointX="44.75" PointY="48.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBNativoCafeRestauraneModel.VistaMetodosDepago" Width="1.5" PointX="46.75" PointY="48.625" IsExpanded="true" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__AdicionDe__idDet__59904A2C" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__AdicionDe__idAdi__5A846E65" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__AdicionDe__idDet__5B78929E" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Adicion__idAdi__038683F8" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__AmbienteE__idEmp__7231DAC4" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Aperturas__idBas__495AADBA" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Gastos__idBaseca__6E8B6712" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_VentaBa__idBas__1975C517" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Gastos__idBolsil__6F7F8B4B" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__buyer_ben__clien__6F1576F7" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__CargoDesc__idSer__41E60B29" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__CargoDesc__idVen__4B6F7563" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__CargosDes__idDet__4D0B430D" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Producto__idCate__019E3B86" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Adicion__idCat__047AA831" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Categor__idCat__056ECC6A" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Certifica__idEmp__6F556E19" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Domicilio__idCli__2B554987" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__CorreosCl__idCli__61316BF4" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__CorreosCl__idCli__6225902D" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_CompraC__idCli__084B3915" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Cotizac__idCli__093F5D4E" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__DetalleCo__idCom__3397EBD2" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__ComandImp__idDet__5E54FF49" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Documento__idCom__6F605B11" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Consecuti__guidP__603D47BB" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__DetalleCo__idCot__6501FCD8" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Cotizac__idCot__0A338187" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__CuentaCli__idVen__44C277D4" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_CuentaC__idCue__479EE47F" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__CuentasSe__idSer__32A3C799" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__DetalleCo__idDet__348C100B" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__DetalleCo__idPre__6319B466" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__DetalleCo__idPro__640DD89F" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__InsumosDe__idDet__51CFF82A" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__DetalleIn__idDet__65F62111" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__DetalleIn__idRPI__66EA454A" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK_DetallePedido_Pedidos" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__DetalleSe__idSer__35803444" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__DetalleVe__idPre__69C6B1F5" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__DetalleVe__idPre__6ABAD62E" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__DetalleVe__idVen__6BAEFA67" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__DetalleVe__idVen__6CA31EA0" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_CuentaC__idDet__489308B8" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Domicilio__idEst__2C496DC0" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Domicilio__idVen__2D3D91F9" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_VentaDo__idDom__34DEB3C1" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Seguimien__idDom__3019FEA4" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__SoftwareD__idEmp__6C79016E" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__tokenEmpr__idEmp__699C94C3" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Seguimien__idEst__310E22DD" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Pedidos__idEstad__7EC1CEDB" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__FacturaEl__idVen__6D9742D9" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__FacturaEl__idven__3F099E7E" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Gastos__idTipoGa__7167D3BD" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__ImprimirC__idven__725BF7F6" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__ImprimirF__idven__73501C2F" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Impuestos__idPro__74444068" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Impuestos__idPro__753864A1" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Informaci__idReg__762C88DA" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__InsumosDe__idPre__52C41C63" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__InsumosDe__idPro__53B8409C" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idInv__0D0FEE32" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__PagosVent__idMed__3D73F9C2" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_MediosD__idMed__4050666D" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Merma__idProduct__7814D14C" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Merma__idTipoMer__7908F585" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Merma__idUsuario__79FD19BE" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Mesas__idZona__7AF13DF7" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Servici__idMes__3674587D" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_VentaMe__idMes__1C5231C2" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__NotasCred__idVen__71F1E3A2" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__PagosVent__idVen__3C7FD589" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_PedidoV__guidP__0B27A5C0" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Precios__idPrese__7FB5F314" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Presentac__idTip__00AA174D" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Producto__idTipo__02925FBF" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idIns__0E04126B" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idIns__0EF836A4" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idIns__0FEC5ADD" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idIns__10E07F16" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idPro__11D4A34F" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idPro__12C8C788" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idPro__13BCEBC1" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idPro__14B10FFA" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Categor__idTip__0662F0A3" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Cliente__idSem__075714DC" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_PedidoV__idVen__0C1BC9F9" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idUni__15A53433" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idUni__1699586C" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idUni__178D7CA5" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Product__idUni__1881A0DE" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Servici__idSer__37687CB6" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Vehicul__idVeh__0D64F3ED" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Vehicul__idVeh__3726238F" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Vehicul__idVen__0E591826" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_Vehicul__idVen__381A47C8" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_VentaBa__idVen__1A69E950" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_VentaDo__idVen__33EA8F88" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_VentaMe__idVen__1D4655FB" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__R_VentaVe__idVen__1E3A7A34" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__ReporteIm__idVen__1F2E9E6D" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Usuario__idTipoU__220B0B18" ManuallyRouted="false" />
+        <AssociationConnector Association="DBNativoCafeRestauraneModel.FK__Usuario__idTipoU__22FF2F51" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -20,8 +20,6 @@ namespace DAL.Model
         public Nullable<int> idSede { get; set; }
     
         public virtual Clientes Clientes { get; set; }
-        public virtual Clientes Clientes1 { get; set; }
         public virtual Cotizaciones Cotizaciones { get; set; }
-        public virtual Cotizaciones Cotizaciones1 { get; set; }
     }
 }

@@ -10,17 +10,11 @@
 namespace DAL.Model
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class R_VehiculoVenta
+    public partial class CRUD_R_VentaBase_Result
     {
-        public int id { get; set; }
-        public int idVehiculo { get; set; }
-        public int idVenta { get; set; }
-    
-        public virtual Vehiculo Vehiculo { get; set; }
-        public virtual Vehiculo Vehiculo1 { get; set; }
-        public virtual TablaVentas TablaVentas { get; set; }
-        public virtual TablaVentas TablaVentas1 { get; set; }
+        public int estado { get; set; }
+        public Nullable<int> idAfectado { get; set; }
+        public string mensaje { get; set; }
     }
 }

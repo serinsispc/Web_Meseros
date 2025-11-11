@@ -39,6 +39,5 @@ namespace DAL.Model
         public Nullable<int> type_environment_id { get; set; }
     
         public virtual TablaVentas TablaVentas { get; set; }
-        public virtual TablaVentas TablaVentas1 { get; set; }
     }
 }

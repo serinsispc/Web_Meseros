@@ -14,16 +14,7 @@ namespace DAL.Model
     
     public partial class SubModulos
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SubModulos()
-        {
-            this.PermisoSubModulo = new HashSet<PermisoSubModulo>();
-        }
-    
         public int id { get; set; }
         public string nombreSubModulo { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PermisoSubModulo> PermisoSubModulo { get; set; }
     }
 }

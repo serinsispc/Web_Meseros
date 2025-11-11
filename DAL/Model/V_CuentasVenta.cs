@@ -31,8 +31,6 @@ namespace DAL.Model
         public string placa { get; set; }
         public string responsable { get; set; }
         public string telefonoResponsable { get; set; }
-        public string idmesa { get; set; }
-        public string idZona { get; set; }
         public string nombremesa { get; set; }
     }
 }

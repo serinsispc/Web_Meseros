@@ -14,16 +14,7 @@ namespace DAL.Model
     
     public partial class Modulos
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Modulos()
-        {
-            this.PermisoModulo = new HashSet<PermisoModulo>();
-        }
-    
         public int id_modulo { get; set; }
         public string nombre_modumo { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PermisoModulo> PermisoModulo { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace DAL.Model
     public partial class INSERT_INTO_PagosVenta_Result
     {
         public int estado { get; set; }
-        public Nullable<int> idAfectado { get; set; }
+        public int idAfectado { get; set; }
         public string mensaje { get; set; }
     }
 }
