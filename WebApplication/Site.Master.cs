@@ -21,47 +21,66 @@ namespace WebApplication
             RegexOptions.Compiled | RegexOptions.CultureInvariant);
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Si necesitas lógica de pre-carga (p.ej., llenar ddlSede desde DB), hazlo aquí.
             if (!IsPostBack)
             {
-                // 1) Lee "db" del QueryString
-                var dbRaw = Request.QueryString["db"];
+                // 1) Leer db desde querystring o desde Session si ya está
+                string dbRaw = Request.QueryString["db"];
 
-                // 2) Si viene, valida y guarda (Session o lo que uses)
-                if (!string.IsNullOrWhiteSpace(dbRaw))
+                if (string.IsNullOrWhiteSpace(dbRaw))
                 {
-                    dbRaw = dbRaw.Trim();
+                    dbRaw = Session["db"] as string;
+                }
 
-                    if (!DbNameRegex.IsMatch(dbRaw))
-                    {
-                        // Si no cumple el patrón, puedes mostrar error o ignorar
-                        // ShowError("Nombre de base de datos inválido.");
-                        return;
-                    }
+                // 2) Si seguimos sin base, aquí decides qué hacer:
+                //    - Redirigir al login genérico
+                //    - Mostrar mensaje de error
+                if (string.IsNullOrWhiteSpace(dbRaw))
+                {
+                    // SIN base definida → login genérico
+                    Session["NombreEmpresa"] = "Mi empresa";
+                    return;
+                }
 
-                    // 3) Guarda para el resto de la app
-                    Session["db"] = dbRaw;
-                    ClassConexionDinamica.Conectar("www.serinsispc.com", dbRaw);
-                    /*en esta parte consultamos la informacion de la empresa*/
-                    Sede sede = new Sede();
-                    sede = SedeControler.Consultar();
-                    if (sede != null)
+                dbRaw = dbRaw.Trim();
+
+                // Validar nombre de base
+                if (!DbNameRegex.IsMatch(dbRaw))
+                {
+                    // Nombre inválido → mejor no conectar
+                    Session["NombreEmpresa"] = "Mi empresa";
+                    return;
+                }
+
+                // 3) Guardar en sesión y conectar
+                Session["db"] = dbRaw;
+
+                // 4) Consultar sede
+                Sede sede = SedeControler.Consultar();
+                if (sede != null)
+                {
+                    Session["NombreEmpresa"] = sede.nombreSede;
+                    Session["Sede"] = JsonConvert.SerializeObject(sede);
+                    Session["estadopropina"] = sede.estadoPropina;
+                    Session["porpropina"] = sede.porcentaje_propina;
+
+                    // 5) Consultar imágenes de la sede
+                    Imagenes imagenes = ImagenesControler.Consultar(sede.guidSede);
+                    if (imagenes != null && imagenes.imagenBytes != null)
                     {
-                        Session["NombreEmpresa"] = sede.nombreSede;
-                        Session["Sede"]=JsonConvert.SerializeObject(sede);
-                        Session["estadopropina"] = sede.estadoPropina;
-                        Session["porpropina"] = sede.porcentaje_propina;
-                        Imagenes imagenes = new Imagenes();
-                        imagenes = ImagenesControler.Consultar(sede.guidSede);
-                        if (imagenes != null)
-                        {
-                            Session["Imagenes"] = JsonConvert.SerializeObject(imagenes);
-                            Session["logo"] = imagenes.imagenBytes;
-                            ClassImagenes.GuardarImagen(Session["logo"].ToString());
-                        }
+                        Session["Imagenes"] = JsonConvert.SerializeObject(imagenes);
+                        Session["logo"] = imagenes.imagenBytes;
+
+                        // Guardar físicamente el logo solo si hay datos
+                        ClassImagenes.GuardarImagen(Session["logo"].ToString());
                     }
+                }
+                else
+                {
+                    // No hubo sede → poner un nombre genérico
+                    Session["NombreEmpresa"] = "Mi empresa";
                 }
             }
         }
+
     }
 }

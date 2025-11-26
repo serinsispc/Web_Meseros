@@ -1,24 +1,24 @@
-﻿using DAL.Model;
+﻿using DAL;
+using DAL.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
 {
     public class SedeControler
     {
-        public static Sede Consultar()
+        public static async Task<Sede> Consultar(string db)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
-                {
-                    return cn.Sede.AsNoTracking().FirstOrDefault();
-                }
+                var auto = new SqlAutoDAL();
+
+                // SELECT TOP 1 * FROM Sede
+                var sede = await auto.ConsultarUno<Sede>(db, x => true);
+
+                return sede;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string msg = ex.Message;
                 return null;

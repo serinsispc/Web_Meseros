@@ -1,49 +1,69 @@
-﻿using DAL.Funciones;
+﻿using DAL;                 // CrudSpHelper, SqlAutoDAL
+using DAL.Funciones;       // ComandImpresaa_f
 using DAL.Model;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
 {
     public class DetalleVentaControler
     {
-        public static Respuesta_DAL CRUD(DetalleVenta dv,int boton)
+        /// <summary>
+        /// CRUD DetalleVenta usando SP CRUD_DetalleVenta (@json, @funcion)
+        /// boton/funcion: 0 = INSERT, 1 = UPDATE, 2 = DELETE
+        /// </summary>
+        public static async Task<Respuesta_DAL> CRUD(string db, DetalleVenta dv, int boton)
         {
             try
             {
-                using (DBEntities cn = new DBEntities()) 
-                {
-                    if (boton == 0) { cn.DetalleVenta.Add(dv); }
-                    if (boton == 1) { cn.Entry(dv).State=System.Data.Entity.EntityState.Modified; }
-                    if (boton == 2) { cn.Entry(dv).State = System.Data.Entity.EntityState.Deleted; }
-                    cn.SaveChanges();
-                }
+                var helper = new CrudSpHelper();
+
+                // Ejecuta: EXEC [dbo].[CRUD_DetalleVenta] @json = N'...', @funcion = {boton}
+                var resp = await helper.CrudAsync(db, dv, boton);
+
+                // Si es UPDATE o DELETE, se sigue llamando a LiberarDetalle como antes
                 if (boton > 0)
                 {
-                    //llamamos a la función que se encarga de eliminar ComandImpresaa
-                    ComandImpresaa_f.LiberarDetalle(dv.id);
+                    // función que se encarga de eliminar ComandImpresaa
+                    await ComandImpresaa_f.LiberarDetalle(db, dv.id);
                 }
-                return new Respuesta_DAL { data=dv.id, estado=true, mensaje="ok" };
+
+                // Garantizamos una respuesta consistente
+                return resp ?? new Respuesta_DAL
+                {
+                    data = 0,
+                    estado = false,
+                    mensaje = "Sin respuesta del servidor en CRUD_DetalleVenta."
+                };
             }
             catch (Exception e)
             {
                 string msg = e.Message;
-                return new Respuesta_DAL { data = 0, estado = false, mensaje = "error" };
+                return new Respuesta_DAL
+                {
+                    data = 0,
+                    estado = false,
+                    mensaje = "Error en CRUD_DetalleVenta: " + msg
+                };
             }
         }
-        public static DetalleVenta ConsultarId(int id)
+
+        /// <summary>
+        /// Consulta un DetalleVenta por id (SELECT TOP 1 * FROM DetalleVenta WHERE id = @id)
+        /// </summary>
+        public static async Task<DetalleVenta> ConsultarId(string db, int id)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
-                {
-                    return cn.DetalleVenta.AsNoTracking().Where(x=>x.id== id).FirstOrDefault();
-                }
+                var auto = new SqlAutoDAL();
+
+                // Genera y ejecuta: SELECT TOP 1 * FROM DetalleVenta WHERE id = {id}
+                var detalle = await auto.ConsultarUno<DetalleVenta>(db, x => x.id == id);
+
+                return detalle; // puede ser null si no existe
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string error = ex.Message;
                 return null;

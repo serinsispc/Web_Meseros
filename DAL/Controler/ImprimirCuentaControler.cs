@@ -1,31 +1,43 @@
-﻿using DAL.Model;
+﻿using DAL;
+using DAL.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
 {
     public class ImprimirCuentaControler
     {
-        public static Respuesta_DAL CRUD(ImprimirCuenta cuenta,int boton)
+        /// <summary>
+        /// CRUD ImprimirCuenta usando SP:
+        /// EXEC CRUD_ImprimirCuenta @json, @funcion
+        /// boton: 0 = INSERT, 1 = UPDATE, 2 = DELETE
+        /// </summary>
+        public static async Task<Respuesta_DAL> CRUD(string db, ImprimirCuenta cuenta, int boton)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
+                var helper = new CrudSpHelper();
+
+                // Llama al helper genérico que construye:
+                // EXEC [dbo].[CRUD_ImprimirCuenta] @json = N'...', @funcion = {boton}
+                var resp = await helper.CrudAsync(db, cuenta, boton);
+
+                return resp ?? new Respuesta_DAL
                 {
-                    if (boton == 0) { cn.ImprimirCuenta.Add(cuenta); };
-                    if (boton == 1) { cn.Entry(cuenta).State = System.Data.Entity.EntityState.Modified; };
-                    if (boton == 2) { cn.Entry(cuenta).State = System.Data.Entity.EntityState.Deleted; };
-                    cn.SaveChanges();
-                }
-                return new Respuesta_DAL { data=cuenta.id, estado=true, mensaje="ok" };
+                    data = 0,
+                    estado = false,
+                    mensaje = "Sin respuesta del servidor."
+                };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string msg = ex.Message;
-                return new Respuesta_DAL {  data=0, estado=false, mensaje="Error"};
+                return new Respuesta_DAL
+                {
+                    data = 0,
+                    estado = false,
+                    mensaje = "Error en CRUD_ImprimirCuenta: " + msg
+                };
             }
         }
     }

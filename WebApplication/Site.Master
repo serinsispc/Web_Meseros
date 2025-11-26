@@ -15,9 +15,12 @@
     </script>
 
 
-    <script>
-          .restore - scroll body { visibility: hidden!important; }
-    </script>
+<style>
+    .restore-scroll body {
+        visibility: hidden !important;
+    }
+</style>
+
 
     <script>
         (function () {

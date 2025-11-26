@@ -1,117 +1,83 @@
-﻿using DAL.Model;
+﻿using DAL;          // CrudSpHelper, SqlAutoDAL
+using DAL.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
 {
     public class TablaVentasControler
     {
-        public static Respuesta_DAL CRUD(TablaVentas venta, int boton)
+        /// <summary>
+        /// CRUD para TablaVentas usando SP:
+        /// EXEC CRUD_TablaVentas @json, @funcion
+        /// boton/funcion: 0 = INSERT, 1 = UPDATE, 2 = DELETE
+        /// </summary>
+        public static async Task<Respuesta_DAL> CRUD(string db, TablaVentas venta, int boton)
         {
             try
             {
-                using (var cn = new DBEntities())
+                var helper = new CrudSpHelper();
+
+                // Llama al helper genérico que arma:
+                // EXEC [dbo].[CRUD_TablaVentas] @json = N'...', @funcion = {boton}
+                var resp = await helper.CrudAsync(db, venta, boton);
+
+                return resp ?? new Respuesta_DAL
                 {
-                    switch (boton)
-                    {
-                        case 0: // INSERT
-                                // Opcional: validar que sea nuevo
-                            if (venta.id > 0)
-                                throw new InvalidOperationException("Para insertar, el id debe ser 0 (o no asignado).");
-
-                            cn.TablaVentas.Add(venta);
-                            break;
-
-                        case 1: // UPDATE
-                            if (venta.id <= 0)
-                                throw new InvalidOperationException("Id requerido para actualizar.");
-
-                            // Carga la que existe en este contexto
-                            var existente = cn.TablaVentas.Find(venta.id);
-                            if (existente == null)
-                                throw new KeyNotFoundException($"No existe TablaVentas con id={venta.id}.");
-
-                            // Copia TODOS los valores escalares de 'venta' sobre 'existente'
-                            cn.Entry(existente).CurrentValues.SetValues(venta);
-
-                            // Si tienes colecciones o nav props, actualízalas aquí según tu lógica.
-                            // (evita adjuntar otra entidad con la misma PK)
-                            break;
-
-                        case 2: // DELETE
-                            if (venta.id <= 0)
-                                throw new InvalidOperationException("Id requerido para eliminar.");
-
-                            // ¿Ya está trackeada?
-                            var local = cn.TablaVentas.Local.FirstOrDefault(x => x.id == venta.id);
-                            if (local != null)
-                            {
-                                // Ya está en el contexto: márcala Deleted
-                                cn.Entry(local).State = System.Data.Entity.EntityState.Deleted;
-                            }
-                            else
-                            {
-                                // No está trackeada: adjunta stub y marca Deleted
-                                var stub = new TablaVentas { id = venta.id };
-                                cn.TablaVentas.Attach(stub);
-                                cn.Entry(stub).State = System.Data.Entity.EntityState.Deleted;
-                            }
-                            break;
-
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(boton), "Valor de botón inválido (0=Insert,1=Update,2=Delete).");
-                    }
-
-                    cn.SaveChanges();
-
-                    // Para insert EF llena venta.id (identidad). Para update/delete ya lo tienes.
-                    return new Respuesta_DAL
-                    {
-                        data = venta.id,
-                        estado = true,
-                        mensaje = "Proceso terminado con éxito"
-                    };
-                }
+                    data = 0,
+                    estado = false,
+                    mensaje = "Sin respuesta del servidor en CRUD_TablaVentas."
+                };
             }
             catch (Exception ex)
             {
-                // Devuelve el mensaje base (más útil que el wrapper)
                 return new Respuesta_DAL
                 {
-                    data = null,
+                    data = 0,
                     estado = false,
-                    mensaje = ex.GetBaseException().Message
+                    mensaje = "Error en CRUD_TablaVentas: " + ex.GetBaseException().Message
                 };
             }
         }
 
-        public static Respuesta_DAL Consultar_Id(int id)
+        /// <summary>
+        /// Consulta una venta por id.
+        /// Equivale a: SELECT TOP 1 * FROM TablaVentas WHERE id = @id
+        /// </summary>
+        public static async Task<Respuesta_DAL> Consultar_Id(string db, int id)
         {
             try
             {
-                TablaVentas venta = new TablaVentas();
-                using (DBEntities cn =new DBEntities())
-                {
-                    venta= cn.TablaVentas.AsNoTracking().Where(x => x.id == id).FirstOrDefault();                        
-                }
+                var auto = new SqlAutoDAL();
+
+                // SELECT TOP 1 * FROM TablaVentas WHERE id = {id}
+                var venta = await auto.ConsultarUno<TablaVentas>(db, x => x.id == id);
+
                 if (venta == null)
                 {
-                    return new Respuesta_DAL { data = null, estado = false, mensaje = "error" };
+                    return new Respuesta_DAL
+                    {
+                        data = null,
+                        estado = false,
+                        mensaje = "No se encontró la venta."
+                    };
                 }
-                else
+
+                return new Respuesta_DAL
                 {
-                    return new Respuesta_DAL { data = venta, estado = true, mensaje = "ok" };
-                }
+                    data = venta,
+                    estado = true,
+                    mensaje = "ok"
+                };
             }
             catch (Exception ex)
             {
-                string error = ex.Message;
-                return new Respuesta_DAL { data = null, estado = false, mensaje = error };
+                return new Respuesta_DAL
+                {
+                    data = null,
+                    estado = false,
+                    mensaje = "Error en Consultar_Id: " + ex.Message
+                };
             }
         }
     }

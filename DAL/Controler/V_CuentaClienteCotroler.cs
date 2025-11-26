@@ -1,46 +1,68 @@
-﻿using DAL.Model;
+﻿using DAL;           // SqlAutoDAL
+using DAL.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
 {
     public class V_CuentaClienteCotroler
     {
-        public static List<V_CuentaCliente> Lista(bool eliminada, [Optional] int IdVenta)
+        /// <summary>
+        /// Lista cuentas cliente filtradas por eliminada y opcionalmente por IdVenta.
+        /// Si IdVenta > 0:
+        ///   SELECT * FROM V_CuentaCliente WHERE eliminada = @eliminada AND idVenta = @IdVenta
+        /// Si IdVenta <= 0:
+        ///   SELECT * FROM V_CuentaCliente WHERE eliminada = @eliminada
+        /// </summary>
+        public static async Task<List<V_CuentaCliente>> Lista(string db, bool eliminada, [Optional] int IdVenta)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
+                var cn = new SqlAutoDAL();
+
+                if (IdVenta > 0)
                 {
-                    if (IdVenta > 0)
-                    {
-                        return cn.V_CuentaCliente.AsNoTracking().Where(x => x.eliminada == eliminada && x.idVenta==IdVenta).ToList();
-                    }
-                    else
-                    {
-                        return cn.V_CuentaCliente.AsNoTracking().Where(x => x.eliminada == eliminada).ToList();
-                    }
-                    
+                    // filtrando por eliminada + idVenta
+                    return await cn.ConsultarLista<V_CuentaCliente>(
+                        db,
+                        x => x.eliminada == eliminada && x.idVenta == IdVenta
+                    );
+                }
+                else
+                {
+                    // solo por eliminada
+                    return await cn.ConsultarLista<V_CuentaCliente>(
+                        db,
+                        x => x.eliminada == eliminada
+                    );
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string msg = ex.Message;
                 return null;
             }
         }
-        public static V_CuentaCliente Consultar(int id)
+
+        /// <summary>
+        /// Consulta una cuenta cliente por id.
+        /// Equivale a: SELECT TOP 1 * FROM V_CuentaCliente WHERE id = @id
+        /// </summary>
+        public static async Task<V_CuentaCliente> Consultar(string db, int id)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
-                {
-                    return cn.V_CuentaCliente.AsNoTracking().Where(x => x.id == id).FirstOrDefault();
-                }
+                var cn = new SqlAutoDAL();
+
+                // SELECT TOP 1 * FROM V_CuentaCliente WHERE id = {id}
+                var cuenta = await cn.ConsultarUno<V_CuentaCliente>(
+                    db,
+                    x => x.id == id
+                );
+
+                return cuenta; // puede ser null si no existe
             }
             catch (Exception ex)
             {

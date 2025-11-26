@@ -1,31 +1,41 @@
-﻿using DAL.Model;
+﻿using DAL;
+using DAL.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
 {
     public class ImprecionComandaAddControler
     {
-        public static Respuesta_DAL CRUD(ImprecionComandaAdd imprecion, int boton)
+        /// <summary>
+        /// CRUD para ImprecionComandaAdd usando SP:
+        /// EXEC CRUD_ImprecionComandaAdd @json, @funcion
+        /// boton: 0 = INSERT, 1 = UPDATE, 2 = DELETE
+        /// </summary>
+        public static async Task<Respuesta_DAL> CRUD(string db, ImprecionComandaAdd imprecion, int boton)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
+                var helper = new CrudSpHelper();
+
+                // Ejecuta el SP nuevo
+                var resp = await helper.CrudAsync(db, imprecion, boton);
+
+                return resp ?? new Respuesta_DAL
                 {
-                    if (boton == 0) { cn.ImprecionComandaAdd.Add(imprecion); };
-                    if (boton == 1) { cn.Entry(imprecion).State = System.Data.Entity.EntityState.Modified; };
-                    if (boton == 2) { cn.Entry(imprecion).State = System.Data.Entity.EntityState.Deleted; };
-                    cn.SaveChanges();
-                }
-                return new Respuesta_DAL { data=imprecion.id, estado=true, mensaje="ok" };
+                    data = 0,
+                    estado = false,
+                    mensaje = "Sin respuesta del servidor."
+                };
             }
             catch (Exception ex)
             {
-                string msg = ex.Message;
-                return new Respuesta_DAL() { data = null, estado = false, mensaje = "error" };
+                return new Respuesta_DAL
+                {
+                    data = 0,
+                    estado = false,
+                    mensaje = "Error en CRUD_ImprecionComandaAdd: " + ex.Message
+                };
             }
         }
     }

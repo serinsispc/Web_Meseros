@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -23,7 +24,7 @@ namespace WebApplication
             
         }
 
-        protected void btnIngresar_Click(object sender, EventArgs e)
+        protected async void btnIngresar_Click(object sender, EventArgs e)
         {
             if (txtCelular.Text != string.Empty &&
                 txtContrasena.Text != string.Empty)
@@ -32,13 +33,14 @@ namespace WebApplication
                 string clave= txtContrasena.Text;
                 /*procedemos hacer la consulta del usuario*/
                 Vendedor vendedor = new Vendedor();
-                vendedor = VendedorControler.Consultar_usuario_clave(usuario,clave);
+                vendedor =await VendedorControler.Consultar_usuario_clave(Session["db"].ToString(), usuario, clave);
                 if (vendedor != null)
                 {
                     Session["cajero"]= vendedor.cajaMovil;
                     Session["idvendedor"] = vendedor.id;
                     Session["NombreMesero"]= vendedor.nombreVendedor;
-                    Session["vendedor"]=JsonConvert.SerializeObject(vendedor);
+                    string vendedorJson= JsonConvert.SerializeObject(vendedor);
+                    Session["vendedor"] = vendedorJson;
                     AlertModerno.SuccessGoTo(this, "Ok", $"Bienvenido {vendedor.nombreVendedor}", "~/menu.aspx", esToast: false, ms: 1200);
                 }
                 else

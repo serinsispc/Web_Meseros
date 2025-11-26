@@ -2,14 +2,16 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <link href="Content/css/login.css" rel="stylesheet" />
+ <link href="<%: ResolveUrl("~/Content/css/login.css") %>" rel="stylesheet" />
 
 <main class="login-page">
   <div class="login-card">
 
     <!-- Logo (no tapa el contenido) -->
     <div class="logo-badge">
-      <img src="Recursos/Imagenes/Logo/Logo.png" alt="Logo" />
+      
+<img src="<%: ResolveUrl("~/Recursos/Imagenes/Logo/Logo.png") %>" alt="Logo" />
+
     </div>
 
     <h2 class="login-title">Iniciar Sesión</h2>
@@ -48,7 +50,7 @@
     </div>
 
     <div class="login-foot">
-      © <%: DateTime.Now.Year %> STRAGOS · Todos los derechos reservados
+      © <%: DateTime.Now.Year %> · Todos los derechos reservados
     </div>
   </div>
 </main>

@@ -9,14 +9,12 @@ namespace DAL.Controler
 {
     public class ZonasControler
     {
-        public static List<Zonas> Lista()
+        public static async Task<List<Zonas>> Lista(string db)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
-                {
-                    return cn.Zonas.AsNoTracking().ToList();
-                }
+                var cn = new SqlAutoDAL();
+                return await cn.ConsultarLista<Zonas>(db);
             }
             catch (Exception ex)
             {

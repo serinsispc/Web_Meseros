@@ -1,43 +1,48 @@
-﻿using DAL.Model;
+﻿using DAL;          // <-- importante para CrudSpHelper y SqlAutoDAL
+using DAL.Model;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
 {
     public class ComandImpresaaControler
     {
-        public static Respuesta_DAL CRUD(ComandImpresaa comand, int boton)
+        /// <summary>
+        /// Ejecuta el SP CRUD_ComandImpresaa (@json, @funcion)
+        /// funcion/boton: 0 = INSERT, 1 = UPDATE, 2 = DELETE
+        /// </summary>
+        public static async Task<Respuesta_DAL> CRUD(string db, ComandImpresaa comand, int boton)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
-                {
-                    if (boton == 0) { cn.ComandImpresaa.Add(comand); }
-                    if (boton == 1) { cn.Entry(comand).State = System.Data.Entity.EntityState.Modified; }
-                    if (boton == 2) { cn.Entry(comand).State=System.Data.Entity.EntityState.Deleted; }
-                    cn.SaveChanges();
-                }
-                return new Respuesta_DAL { data=comand.id, estado=true, mensaje="ok" };
+                var helper = new CrudSpHelper();
+                // Usa el helper genérico basado en JSON
+                var resp = await helper.CrudAsync(db, comand, boton);
+                return resp;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string msg = ex.Message;
-                return new Respuesta_DAL { data=0, estado=false, mensaje="error" };
+                return new Respuesta_DAL { data = 0, estado = false, mensaje = "Error en CRUD_ComandImpresaa: " + msg };
             }
         }
-        public static ComandImpresaa CosultarIdDetalle(int idDetalle)
+
+        /// <summary>
+        /// Consulta el primer registro de ComandImpresaa por idDetalleVenta
+        /// </summary>
+        public static async Task<ComandImpresaa> CosultarIdDetalle(string db, int idDetalle)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
-                {
-                    return cn.ComandImpresaa.AsNoTracking().Where(x => x.idDetalleVenta == idDetalle).FirstOrDefault();
-                }
+                var auto = new SqlAutoDAL();
+
+                // Genera: SELECT TOP 1 * FROM ComandImpresaa WHERE idDetalleVenta = {idDetalle}
+                var resp = await auto.ConsultarUno<ComandImpresaa>(db, x => x.idDetalleVenta == idDetalle);
+
+                return resp;   // puede ser null si no existe
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string error = ex.Message;
                 return null;

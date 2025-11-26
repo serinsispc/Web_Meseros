@@ -10,14 +10,14 @@ namespace DAL.Funciones
 {
     public class ComandImpresaa_f
     {
-        public static Respuesta_DAL LiberarDetalle(int idDetalle)
+        public static async Task<Respuesta_DAL> LiberarDetalle(string db,int idDetalle)
         {
             try
             {
-                var comanda =ComandImpresaaControler.CosultarIdDetalle(idDetalle);
+                var comanda =await ComandImpresaaControler.CosultarIdDetalle(db,idDetalle);
                 if (comanda != null)
                 {
-                    return  ComandImpresaaControler.CRUD(comanda,2);
+                    return await ComandImpresaaControler.CRUD(db,comanda,2);
                 }
                 else
                 {
