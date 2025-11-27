@@ -72,9 +72,8 @@ namespace WebApplication
                         Session["Imagenes"] = JsonConvert.SerializeObject(imagenes);
                         string base64 = Convert.ToBase64String(imagenes.imagenBytes);
                         Session["logo"] = base64;
-
                         // Guardar físicamente el logo solo si hay datos
-                        ClassImagenes.GuardarImagen(base64);
+                        ClassImagenes.GuardarImagen(base64, Session["db"].ToString());
                     }
                 }
                 else

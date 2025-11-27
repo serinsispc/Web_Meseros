@@ -10,7 +10,7 @@
     <!-- Logo (no tapa el contenido) -->
     <div class="logo-badge">
       
-<img src="<%: ResolveUrl("~/Recursos/Imagenes/Logo/Logo.png") %>" alt="Logo" />
+<img src="<%:ResolveUrl($"~/Recursos/Imagenes/Logo/{Session["db"]}.png") %>" alt="Logo" />
 
     </div>
 
