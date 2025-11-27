@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="AjustarJson.cs" />
     <Compile Include="Conection_SQL.cs" />
+    <Compile Include="Controler\ClienteDomicilioControler.cs" />
     <Compile Include="Controler\ComandImpresaaControler.cs" />
     <Compile Include="Controler\CuentaClienteControler.cs" />
     <Compile Include="Controler\DetalleVentaControler.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Controler\V_CategoriaControler.cs" />
     <Compile Include="Controler\V_CuentaClienteCotroler.cs" />
     <Compile Include="Controler\V_CuentasControler.cs" />
+    <Compile Include="Controler\V_CuentasVentaControler.cs" />
     <Compile Include="Controler\V_DetalleCajaControler.cs" />
     <Compile Include="Controler\v_productoVentaControler.cs" />
     <Compile Include="Controler\V_ServicioMesaControler.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Funciones\R_VentaMesa_f.cs" />
     <Compile Include="Funciones\R_VentaVendedor_f.cs" />
     <Compile Include="Funciones\TablaVentas_f.cs" />
+    <Compile Include="Model\ClienteDomicilio.cs" />
     <Compile Include="Model\ComandImpresaa.cs" />
     <Compile Include="Model\CuentaCliente.cs" />
     <Compile Include="Model\DetalleVenta.cs" />
@@ -125,6 +128,7 @@
     <Compile Include="Model\ImprimirCuenta.cs" />
     <Compile Include="Model\Mesas.cs" />
     <Compile Include="Model\R_CuentaCliente_DetalleVenta.cs" />
+    <Compile Include="Model\R_VentaClienteDomicilio.cs" />
     <Compile Include="Model\R_VentaMesa.cs" />
     <Compile Include="Model\R_VentaVendedor.cs" />
     <Compile Include="Model\Sede.cs" />
@@ -134,6 +138,7 @@
     <Compile Include="Model\V_Categoria.cs" />
     <Compile Include="Model\V_CuentaCliente.cs" />
     <Compile Include="Model\V_Cuentas.cs" />
+    <Compile Include="Model\V_CuentasVenta.cs" />
     <Compile Include="Model\V_DetalleCaja.cs" />
     <Compile Include="Model\v_productoVenta.cs" />
     <Compile Include="Model\V_ServicioMesa.cs" />

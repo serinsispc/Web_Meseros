@@ -6,14 +6,18 @@ using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.Services;
 using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -59,7 +63,8 @@ namespace WebApplication
                 }
                 else
                 {
-                     await ProcesarPostBack();
+                    Models.AbrirModalDomicilio = false;
+                    await ProcesarPostBack();
                 }
 
                 // 3) Asegurar que la lista no sea null
@@ -81,6 +86,7 @@ namespace WebApplication
 
                 var serializer = new JavaScriptSerializer();
                 CuentasJson = serializer.Serialize(cuentasActivas);
+
             }
             catch (Exception ex)
             {
@@ -88,8 +94,14 @@ namespace WebApplication
                 AlertModerno.Error(this, "¡Error!", "Ocurrió un error inesperado al cargar la página.", true);
             }
         }
-
-
+        protected List<ClienteDomicilio> ClientesDomicilio = new List<ClienteDomicilio>();
+        protected string ListaClientesDomicilioJson
+        {
+            get
+            {
+                return JsonConvert.SerializeObject(ClientesDomicilio ?? new List<ClienteDomicilio>());
+            }
+        }
         #region Inicialización (primer load)
 
         public async Task InicializarPagina(string db)
@@ -102,19 +114,19 @@ namespace WebApplication
             }
 
             // Obtener cuentas del vendedor
-            var cuentas =await V_CuentasControler.Lista_IdVendedor(db,vendedor.id) ?? new List<V_Cuentas>();
+            var cuentas = await V_CuentasVentaControler.Lista_IdVendedor(db, vendedor.id) ?? new List<V_CuentasVenta>();
             int idVenta;
 
             if (!cuentas.Any())
             {
-                idVenta =await TablaVentas_f.NuevaVenta(db, (int)Session["porpropina"]);
+                idVenta = await TablaVentas_f.NuevaVenta(db, (int)Session["porpropina"]);
                 if (idVenta <= 0)
                 {
                     AlertModerno.Error(this, "¡Error!", "No fue posible crear una nueva cuenta.", true);
                     return;
                 }
 
-                var relacionado =await R_VentaVendedor_f.Relacionar_Vendedor_Venta(db,idVenta, vendedor.id);
+                var relacionado = await R_VentaVendedor_f.Relacionar_Vendedor_Venta(db, idVenta, vendedor.id);
                 if (!relacionado)
                 {
                     AlertModerno.Error(this, "¡Error!", "No fue posible crear la relación del vendedor con la venta.", true);
@@ -122,7 +134,7 @@ namespace WebApplication
                 }
 
                 // recargar cuentas
-                cuentas =await V_CuentasControler.Lista_IdVendedor(db, vendedor.id) ?? new List<V_Cuentas>();
+                cuentas = await V_CuentasVentaControler.Lista_IdVendedor(db, vendedor.id) ?? new List<V_CuentasVenta>();
             }
             else
             {
@@ -130,7 +142,7 @@ namespace WebApplication
             }
 
             // Cargar colecciones base
-            var zonas =await ZonasControler.Lista(db) ?? new List<Zonas>();
+            var zonas = await ZonasControler.Lista(db) ?? new List<Zonas>();
             var categorias = await V_CategoriaControler.lista(db) ?? new List<V_Categoria>();
             var mesas = await MesasControler.Lista(db) ?? new List<Mesas>();
             var productos = await v_productoVentaControler.Lista(db) ?? new List<v_productoVenta>();
@@ -140,7 +152,7 @@ namespace WebApplication
 
             // Guardar zona activa en sesión (si otros módulos la usan)
             Session[SessionZonaActivaKey] = idZonaActiva;
-            var listacc =await V_CuentaClienteCotroler.Lista(db,false);
+            var listacc = await V_CuentaClienteCotroler.Lista(db, false);
 
             // Construir ViewModel
             Models = new MenuViewModels();
@@ -164,7 +176,9 @@ namespace WebApplication
             Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(db, idVenta, 0);
             Models.v_CuentaClientes = listacc;
             Models.adiciones = await V_CatagoriaAdicionControler.Lista(db);
-            
+            Models.clienteDomicilios = await ClienteDomicilioControler.Lista(db);
+            Models.AbrirModalDomicilio = false;
+
 
             GuardarModelsEnSesion();
             BindProductos();
@@ -257,6 +271,20 @@ namespace WebApplication
                     await btnBuscarProducto(eventArgument);
                     break;
 
+                case "btnDomicilio":
+                    await btnDomicilio(eventArgument);
+                    break;
+
+                case "btnCrearActualizarClienteDomicilio":
+                    await btnCrearActualizarClienteDomicilio(eventArgument);
+                    break;
+
+
+                case "btnSeleccionarClienteDomicilio":
+                    await btnSeleccionarClienteDomicilio(eventArgument);
+                    break;
+
+
                 default:
                     // otros eventos por nombre...
                     break;
@@ -268,20 +296,20 @@ namespace WebApplication
             string textoBuscado = eventArgument?.Trim() ?? string.Empty;
             // consultamos el id de la presentasion en la lista de productos
             var producto = Models.productos.Where(x => x.codigoProducto == textoBuscado).FirstOrDefault();
-            if (producto == null) 
+            if (producto == null)
             {
                 AlertModerno.Error(this, "¡Error!", $"el código {textoBuscado} no se encontro", true);
-                Models.venta =await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(),Models.IdCuentaActiva);
-                Models.detalleCaja =await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
-                Models.v_CuentaClientes =await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
-                Models.ventaCuenta =await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), Models.IdCuenteClienteActiva);
+                Models.venta = await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), Models.IdCuentaActiva);
+                Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
+                Models.v_CuentaClientes = await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
+                Models.ventaCuenta = await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), Models.IdCuenteClienteActiva);
                 GuardarModelsEnSesion();
                 BindProductos();
                 DataBind();
             }
             else
             {
-                var resp =await DetalleVenta_f.AgregarProducto(Session["db"].ToString(), producto.idPresentacion, 1, Models.IdCuentaActiva);
+                var resp = await DetalleVenta_f.AgregarProducto(Session["db"].ToString(), producto.idPresentacion, 1, Models.IdCuentaActiva);
                 if (resp.estado)
                 {
                     //como si se creo el produto ahora verificamos si esta activa una cuenta de cleinte
@@ -295,7 +323,7 @@ namespace WebApplication
                             idDetalleVenta = (int)resp.data,
                             eliminada = false
                         };
-                        var crudrelacion =await R_CuentaCliente_DetalleVentaControler.CRUD(Session["db"].ToString(), ralacion, 0);
+                        var crudrelacion = await R_CuentaCliente_DetalleVentaControler.CRUD(Session["db"].ToString(), ralacion, 0);
                     }
                     AlertModerno.Success(this, "¡OK!", $"{resp.mensaje}", true, 800);
                 }
@@ -304,17 +332,17 @@ namespace WebApplication
                     AlertModerno.Error(this, "¡Error!", $"{resp.mensaje}", true);
                 }
 
-                Models.venta =await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), Models.IdCuentaActiva);
-                Models.detalleCaja =await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
-                Models.v_CuentaClientes =await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
-                Models.ventaCuenta =await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), Models.IdCuenteClienteActiva);
+                Models.venta = await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), Models.IdCuentaActiva);
+                Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
+                Models.v_CuentaClientes = await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
+                Models.ventaCuenta = await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), Models.IdCuenteClienteActiva);
                 GuardarModelsEnSesion();
                 BindProductos();
                 DataBind();
             }
 
         }
-        private async Task btnCuentaCliente (string eventArgument)
+        private async Task btnCuentaCliente(string eventArgument)
         {
             if (string.IsNullOrEmpty(eventArgument))
             {
@@ -347,8 +375,8 @@ namespace WebApplication
 
 
             Models.IdCuenteClienteActiva = idCuenta;
-            Models.detalleCaja =await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva,idCuenta);
-            Models.ventaCuenta =await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), idCuenta);
+            Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, idCuenta);
+            Models.ventaCuenta = await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), idCuenta);
             GuardarModelsEnSesion();
             BindProductos();
             DataBind();
@@ -390,8 +418,8 @@ namespace WebApplication
             string nombreMesa = parts[1];
 
             //primero consultamos el id de la mesa
-            var mesa =await MesasControler.Consultar_id(Session["db"].ToString(), idMesa);
-            if(mesa==null)
+            var mesa = await MesasControler.Consultar_id(Session["db"].ToString(), idMesa);
+            if (mesa == null)
             {
                 GuardarModelsEnSesion();
                 BindProductos();
@@ -400,10 +428,10 @@ namespace WebApplication
             }
 
             mesa.estadoMesa = 0;
-            var crud =await MesasControler.CRUD(Session["db"].ToString(),mesa,1);
+            var crud = await MesasControler.CRUD(Session["db"].ToString(), mesa, 1);
             if (!crud.estado)
             {
-                AlertModerno.Error(this,"Error",$"no se pudo modificar el estado de la mesa {nombreMesa}");
+                AlertModerno.Error(this, "Error", $"no se pudo modificar el estado de la mesa {nombreMesa}");
                 GuardarModelsEnSesion();
                 BindProductos();
                 DataBind();
@@ -411,8 +439,8 @@ namespace WebApplication
             }
 
             //ahora eliminos la relacion de la mesa con el servicio
-            var relacion =await R_VentaMesaControler.Consultar_relacion(Session["db"].ToString(), Models.IdCuentaActiva,idMesa);
-            if (relacion == null) 
+            var relacion = await R_VentaMesaControler.Consultar_relacion(Session["db"].ToString(), Models.IdCuentaActiva, idMesa);
+            if (relacion == null)
             {
                 AlertModerno.Error(this, "Error", $"no se pudo modificar el estado de la mesa {nombreMesa}");
                 GuardarModelsEnSesion();
@@ -420,7 +448,7 @@ namespace WebApplication
                 DataBind();
             }
 
-            var crud_r =await R_VentaMesaControler.CRUD(Session["db"].ToString(), relacion, 2);
+            var crud_r = await R_VentaMesaControler.CRUD(Session["db"].ToString(), relacion, 2);
             if (!crud_r.estado)
             {
                 AlertModerno.Error(this, "Error", $"no se pudo modificar el estado de la mesa {nombreMesa}");
@@ -430,8 +458,8 @@ namespace WebApplication
             }
 
             AlertModerno.Success(this, "Ok", $"mesa {nombreMesa} liberada");
-            Models.Mesas =await MesasControler.Lista(Session["db"].ToString());
-            Models.cuentas =await V_CuentasControler.Lista_IdVendedor(Session["db"].ToString(), Models.IdMesero);
+            Models.Mesas = await MesasControler.Lista(Session["db"].ToString());
+            Models.cuentas = await V_CuentasVentaControler.Lista_IdVendedor(Session["db"].ToString(), Models.IdMesero);
             GuardarModelsEnSesion();
             BindProductos();
             DataBind();
@@ -448,7 +476,7 @@ namespace WebApplication
                 {
                     string notaDetalle = parts[1];
 
-                    var respuestadal =await DetalleVenta_f.NotasDetalle(Session["db"].ToString(), detalleId, notaDetalle);
+                    var respuestadal = await DetalleVenta_f.NotasDetalle(Session["db"].ToString(), detalleId, notaDetalle);
                     string titulo;
                     if (respuestadal.estado)
                     {
@@ -482,7 +510,7 @@ namespace WebApplication
                     int.TryParse(parts[1], out int cantidadActual) &&
                     int.TryParse(parts[2], out int cantidadDividir))
                 {
-                    var respuestadal = await DetalleVenta_f.Dividir(Session["db"].ToString(),detalleId, cantidadActual, cantidadDividir, Models.IdCuentaActiva);
+                    var respuestadal = await DetalleVenta_f.Dividir(Session["db"].ToString(), detalleId, cantidadActual, cantidadDividir, Models.IdCuentaActiva);
                     string titulo;
                     if (respuestadal.estado)
                     {
@@ -495,7 +523,7 @@ namespace WebApplication
                         AlertModerno.Error(this, titulo, respuestadal.mensaje, true, 1000);
                     }
 
-                    Models.v_CuentaClientes =await V_CuentaClienteCotroler.Lista(Session["db"].ToString(),false);
+                    Models.v_CuentaClientes = await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
                     Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
                     Models.ventaCuenta = await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), Models.IdCuenteClienteActiva);
                     GuardarModelsEnSesion();
@@ -518,23 +546,24 @@ namespace WebApplication
                     // Aquí llamas tu método que ancla el detalle a la cuenta
                     System.Diagnostics.Debug.WriteLine($"detalle ID {detalleId} con cuenta id {cuentaId}");
 
-                    
 
-                    var respuestadal =await R_CuentaCliente_DetalleVenta_f.Insert(Session["db"].ToString(), cuentaId,detalleId);
+
+                    var respuestadal = await R_CuentaCliente_DetalleVenta_f.Insert(Session["db"].ToString(), cuentaId, detalleId);
                     string titulo;
-                    if (respuestadal.estado) 
-                    { 
+                    if (respuestadal.estado)
+                    {
                         titulo = "ok";
                         AlertModerno.Success(this, titulo, respuestadal.mensaje, true, 1000);
-                    } else 
-                    { 
+                    }
+                    else
+                    {
                         titulo = "Error";
                         AlertModerno.Error(this, titulo, respuestadal.mensaje, true, 1000);
                     }
 
-                    Models.v_CuentaClientes =await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
-                    Models.detalleCaja =await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
-                    Models.ventaCuenta =await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), Models.IdCuenteClienteActiva);
+                    Models.v_CuentaClientes = await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
+                    Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
+                    Models.ventaCuenta = await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), Models.IdCuenteClienteActiva);
                     GuardarModelsEnSesion();
                     BindProductos();
                     DataBind();
@@ -623,7 +652,7 @@ namespace WebApplication
                 if (Models == null)
                 {
                     // Reconstruir mínimamente si no hay sesión
-                   await ReconstruirModelsBasico();
+                    await ReconstruirModelsBasico();
                 }
 
                 // Re-bind productos si existen
@@ -639,19 +668,19 @@ namespace WebApplication
             // Intento de reconstrucción conservadora para evitar nulls
             var vendedor = ObtenerVendedorDesdeSession();
             int vendedorId = vendedor?.id ?? (Session[SessionIdVendedorKey] != null ? Convert.ToInt32(Session[SessionIdVendedorKey]) : 0);
-            var cuentas =await V_CuentasControler.Lista_IdVendedor(Session["db"].ToString(), vendedorId) ?? new List<V_Cuentas>();
+            var cuentas = await V_CuentasVentaControler.Lista_IdVendedor(Session["db"].ToString(), vendedorId) ?? new List<V_CuentasVenta>();
             int idCuenta = cuentas.FirstOrDefault()?.id ?? 0;
 
             Models = new MenuViewModels
             {
                 IdCuentaActiva = idCuenta,
                 cuentas = cuentas,
-                zonas =await ZonasControler.Lista(Session["db"].ToString()) ?? new List<Zonas>(),
-                Mesas =await MesasControler.Lista(Session["db"].ToString()) ?? new List<Mesas>(),
-                categorias =await V_CategoriaControler.lista(Session["db"].ToString()) ?? new List<V_Categoria>(),
-                productos =await v_productoVentaControler.Lista(Session["db"].ToString()) ?? new List<v_productoVenta>(),
-                venta =await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), idCuenta),
-                detalleCaja =await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), idCuenta, Models.IdCuenteClienteActiva)
+                zonas = await ZonasControler.Lista(Session["db"].ToString()) ?? new List<Zonas>(),
+                Mesas = await MesasControler.Lista(Session["db"].ToString()) ?? new List<Mesas>(),
+                categorias = await V_CategoriaControler.lista(Session["db"].ToString()) ?? new List<V_Categoria>(),
+                productos = await v_productoVentaControler.Lista(Session["db"].ToString()) ?? new List<v_productoVenta>(),
+                venta = await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), idCuenta),
+                detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), idCuenta, Models.IdCuenteClienteActiva)
             };
 
             GuardarModelsEnSesion();
@@ -692,11 +721,11 @@ namespace WebApplication
 
             await CargarModelsDesdeSesion();
             Models.IdCuenteClienteActiva = 0;
-            Models.venta =await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), idServicio);
-            Models.detalleCaja =await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), idServicio, Models.IdCuenteClienteActiva);
-            Models.v_CuentaClientes =await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
+            Models.venta = await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), idServicio);
+            Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), idServicio, Models.IdCuenteClienteActiva);
+            Models.v_CuentaClientes = await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
             Models.IdCuentaActiva = idServicio;
-            Models.ventaCuenta =await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), Models.IdCuenteClienteActiva);
+            Models.ventaCuenta = await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), Models.IdCuenteClienteActiva);
             GuardarModelsEnSesion();
 
             BindProductos();
@@ -727,30 +756,30 @@ namespace WebApplication
 
             if (!int.TryParse(partes[0], out int idMesa)) return;
 
-            var mesa =await MesasControler.Consultar_id(Session["db"].ToString(), idMesa);
+            var mesa = await MesasControler.Consultar_id(Session["db"].ToString(), idMesa);
             if (mesa == null)
             {
                 AlertModerno.Error(this, "Error", "No se encontró la mesa.", true);
                 return;
             }
 
-            var cuentasMesa =await V_CuentasControler.Lista_Mesa(Session["db"].ToString(), mesa.nombreMesa) ?? new List<V_Cuentas>();
+            var cuentasMesa = await V_CuentasControler.Lista_Mesa(Session["db"].ToString(), mesa.nombreMesa) ?? new List<V_Cuentas>();
             if (cuentasMesa.Any())
             {
                 // La mesa ya está asociada a una cuenta
                 if (cuentasMesa.FirstOrDefault().idVendedor != Models.IdMesero)
                 {
-                    AlertModerno.Error(this, "Error", $"la mesa {mesa.nombreMesa} pertenece a otro mesero.",true);
+                    AlertModerno.Error(this, "Error", $"la mesa {mesa.nombreMesa} pertenece a otro mesero.", true);
                     GuardarModelsEnSesion();
                     BindProductos();
                     DataBind();
-                    return; 
+                    return;
                 }
-                Models.v_CuentaClientes =await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
+                Models.v_CuentaClientes = await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
                 Models.IdCuentaActiva = cuentasMesa.First().id;
                 Models.IdCuenteClienteActiva = 0;
                 Models.IdMesaActiva = idMesa;
-                Models.Mesas =await MesasControler.Lista(Session["db"].ToString());
+                Models.Mesas = await MesasControler.Lista(Session["db"].ToString());
                 Models.venta = await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), Models.IdCuentaActiva);
                 Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, 0);
                 GuardarModelsEnSesion();
@@ -786,14 +815,14 @@ namespace WebApplication
         {
             await CargarModelsDesdeSesion();
 
-            var mesa =await MesasControler.Consultar_id(Session["db"].ToString(), Models.IdMesaActiva);
+            var mesa = await MesasControler.Consultar_id(Session["db"].ToString(), Models.IdMesaActiva);
             if (mesa == null)
             {
                 AlertModerno.Error(this, "Error", "No se encontró la mesa.", true, 2000);
                 return;
             }
 
-            int idVenta =await TablaVentas_f.NuevaVenta(Session["db"].ToString(), (int)Session["porpropina"]);
+            int idVenta = await TablaVentas_f.NuevaVenta(Session["db"].ToString(), (int)Session["porpropina"]);
             if (idVenta <= 0)
             {
                 AlertModerno.Error(this, "Error", "No se creó el servicio.", true, 2000);
@@ -803,7 +832,7 @@ namespace WebApplication
             Models.IdCuentaActiva = idVenta;
 
             // Relacionar venta - mesa
-            var rvm =await R_VentaMesa_f.Relacionar_Venta_Mesa(Session["db"].ToString(), idVenta, Models.IdMesaActiva);
+            var rvm = await R_VentaMesa_f.Relacionar_Venta_Mesa(Session["db"].ToString(), idVenta, Models.IdMesaActiva);
             if (!rvm)
             {
                 AlertModerno.Error(this, "Error", $"Servicio #{idVenta} creado pero no se amarró la mesa {mesa.nombreMesa}", true, 2000);
@@ -827,8 +856,8 @@ namespace WebApplication
 
             // Actualizar modelos y UI
             Models.Mesas = await MesasControler.Lista(Session["db"].ToString());
-            Models.cuentas =await V_CuentasControler.Lista_IdVendedor(Session["db"].ToString(), ObtenerIdVendedorSeguro());
-            Models.venta = await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(),Models.IdCuentaActiva);
+            Models.cuentas = await V_CuentasVentaControler.Lista_IdVendedor(Session["db"].ToString(), ObtenerIdVendedorSeguro());
+            Models.venta = await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), Models.IdCuentaActiva);
             Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
 
             GuardarModelsEnSesion();
@@ -865,7 +894,7 @@ namespace WebApplication
 
             Models.IdCuentaActiva = idServicio;
             Models.IdMesaActiva = idMesa;
-            Models.cuentas = await V_CuentasControler.Lista_IdVendedor(Session["db"].ToString(), ObtenerIdVendedorSeguro());
+            Models.cuentas = await V_CuentasVentaControler.Lista_IdVendedor(Session["db"].ToString(), ObtenerIdVendedorSeguro());
             Models.Mesas = await MesasControler.Lista(Session["db"].ToString());
             Models.venta = await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), idServicio);
             Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), idServicio, Models.IdCuenteClienteActiva);
@@ -904,12 +933,14 @@ namespace WebApplication
                 //como si se creo el produto ahora verificamos si esta activa una cuenta de cleinte
                 if (Models.IdCuenteClienteActiva > 0)
                 {
-                    var ralacion = new R_CuentaCliente_DetalleVenta { 
-                        id=0,
-                     fecha=DateTime.Now,
-                     idCuentaCliente=Models.IdCuenteClienteActiva,
-                     idDetalleVenta=(int)resp.data,
-                     eliminada=false};
+                    var ralacion = new R_CuentaCliente_DetalleVenta
+                    {
+                        id = 0,
+                        fecha = DateTime.Now,
+                        idCuentaCliente = Models.IdCuenteClienteActiva,
+                        idDetalleVenta = (int)resp.data,
+                        eliminada = false
+                    };
                     var crudrelacion = await R_CuentaCliente_DetalleVentaControler.CRUD(Session["db"].ToString(), ralacion, 0);
                 }
                 AlertModerno.Success(this, "¡OK!", $"{resp.mensaje}", true, 800);
@@ -999,10 +1030,10 @@ namespace WebApplication
 
         private async Task CrearCuenta(string nombreCuenta)
         {
-            int idventa= Models.IdCuentaActiva;
+            int idventa = Models.IdCuentaActiva;
             // TODO: reemplaza estas llamadas por tus funciones DAL reales
             // Ejemplo genérico: crear una nueva venta/tabla de cuentas y asignarle nombre
-            int nuevoId =await CuentaCliente_f.Crear(Session["db"].ToString(), idventa, nombreCuenta, (int)Session["porpropina"]); // si ese es el flujo para crear 'cuenta'
+            int nuevoId = await CuentaCliente_f.Crear(Session["db"].ToString(), idventa, nombreCuenta, (int)Session["porpropina"]); // si ese es el flujo para crear 'cuenta'
             if (nuevoId <= 0)
             {
                 AlertModerno.Error(this, "Error", "No fue posible crear la cuenta.", true);
@@ -1018,7 +1049,7 @@ namespace WebApplication
             {
                 // refrescar Models para que se vea en UI
                 await CargarModelsDesdeSesion(); // o reconstruir Models
-                                           // Forzar recarga de cuentas desde BD
+                                                 // Forzar recarga de cuentas desde BD
                 Models.v_CuentaClientes = await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
                 GuardarModelsEnSesion();
                 BindProductos();
@@ -1034,7 +1065,7 @@ namespace WebApplication
         {
             // TODO: reemplaza por la llamada real que actualice campo nombre
             // Ej: bool ok = V_CuentasControler.EditarNombre(idCuenta, nuevoNombre);
-            bool ok =await CuentaCliente_f.Editar(Session["db"].ToString(), idCuenta,nuevoNombre); ; // placeholder
+            bool ok = await CuentaCliente_f.Editar(Session["db"].ToString(), idCuenta, nuevoNombre); ; // placeholder
 
             if (ok)
             {
@@ -1067,7 +1098,7 @@ namespace WebApplication
         }
         private async Task BTN_NuevoServicio()
         {
-            int idVenta =await TablaVentas_f.NuevaVenta(Session["db"].ToString(), (int)Session["porpropina"]);
+            int idVenta = await TablaVentas_f.NuevaVenta(Session["db"].ToString(), (int)Session["porpropina"]);
             if (idVenta <= 0)
             {
                 AlertModerno.Error(this, "Error", "No se creó el servicio.", true, 2000);
@@ -1080,7 +1111,7 @@ namespace WebApplication
                 if (resp.estado)
                 {
                     var venta = resp.data as TablaVentas;
-                    venta.aliasVenta =Convert.ToString(idVenta);
+                    venta.aliasVenta = Convert.ToString(idVenta);
                     var crud = await TablaVentasControler.CRUD(Session["db"].ToString(), venta, 1);
                 }
             }
@@ -1100,10 +1131,10 @@ namespace WebApplication
 
             // Actualizar modelos y UI
             Models.IdCuenteClienteActiva = 0;
-            Models.cuentas =await V_CuentasControler.Lista_IdVendedor(Session["db"].ToString(), ObtenerIdVendedorSeguro());
+            Models.cuentas = await V_CuentasVentaControler.Lista_IdVendedor(Session["db"].ToString(), ObtenerIdVendedorSeguro());
             Models.venta = await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), Models.IdCuentaActiva);
             Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, Models.IdCuenteClienteActiva);
-            Models.v_CuentaClientes =await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false, Models.IdCuentaActiva);
+            Models.v_CuentaClientes = await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false, Models.IdCuentaActiva);
             Models.ventaCuenta = await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), Models.IdCuenteClienteActiva);
             GuardarModelsEnSesion();
             BindProductos();
@@ -1117,10 +1148,10 @@ namespace WebApplication
             int idventa = Models.IdCuentaActiva;
 
             //consultamos si la venta tiene detalle cargados
-            var detalles =await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), idventa, Models.IdCuenteClienteActiva);
-            if(detalles!=null && detalles.Count > 0)
+            var detalles = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), idventa, Models.IdCuenteClienteActiva);
+            if (detalles != null && detalles.Count > 0)
             {
-                AlertModerno.Error(this, "Error", $"El servicio #{idventa} aun tiene items cargados.",true);
+                AlertModerno.Error(this, "Error", $"El servicio #{idventa} aun tiene items cargados.", true);
                 GuardarModelsEnSesion();
                 BindProductos();
                 DataBind();
@@ -1139,7 +1170,7 @@ namespace WebApplication
 
             var venta = rsp.data as TablaVentas;
             venta.eliminada = true;
-            var rsp_crud =await TablaVentasControler.CRUD(Session["db"].ToString(), venta,1);
+            var rsp_crud = await TablaVentasControler.CRUD(Session["db"].ToString(), venta, 1);
             if (!rsp_crud.estado)
             {
                 AlertModerno.Error(this, "Error", $"El servicio #{idventa} no se pudo eliminar.", true);
@@ -1149,7 +1180,7 @@ namespace WebApplication
                 return;
             }
 
-            AlertModerno.Success(this,"OK",$"Servicio #{idventa} eliminado con éxito.");
+            AlertModerno.Success(this, "OK", $"Servicio #{idventa} eliminado con éxito.");
             await InicializarPagina(Session["db"].ToString());
         }
 
@@ -1160,27 +1191,27 @@ namespace WebApplication
                 var idCuenta = hfCuentaId.Value;
                 var nuevoAlias = txtAlias.Text?.Trim() ?? "";
                 var venta = new TablaVentas();
-                var resp =await TablaVentasControler.Consultar_Id(Session["db"].ToString(),Convert.ToInt32(idCuenta));
+                var resp = await TablaVentasControler.Consultar_Id(Session["db"].ToString(), Convert.ToInt32(idCuenta));
                 if (!resp.estado)
                 {
-                    AlertModerno.Error(this,"Error",$"no se encontro la venta {idCuenta}");
+                    AlertModerno.Error(this, "Error", $"no se encontro la venta {idCuenta}");
                 }
                 else
                 {
                     venta = resp.data as TablaVentas;
                 }
                 venta.aliasVenta = nuevoAlias;
-                var crud =await TablaVentasControler.CRUD(Session["db"].ToString(), venta,1);
+                var crud = await TablaVentasControler.CRUD(Session["db"].ToString(), venta, 1);
                 if (!crud.estado)
                 {
                     AlertModerno.Error(this, "Error", $"no se modifico el alias");
                 }
                 else
                 {
-                    AlertModerno.Success(this, "OK", $"alias modificado correctamente.",true);
+                    AlertModerno.Success(this, "OK", $"alias modificado correctamente.", true);
                 }
                 Models.IdCuentaActiva = Convert.ToInt32(idCuenta);
-                Models.cuentas =await V_CuentasControler.Lista_IdVendedor(Session["db"].ToString(), Convert.ToInt32(Session["idvendedor"]));
+                Models.cuentas = await V_CuentasVentaControler.Lista_IdVendedor(Session["db"].ToString(), Convert.ToInt32(Session["idvendedor"]));
                 // Recarga datos y rebind
                 await CargarModelsDesdeSesion(); // si usas este patrón
                 DataBind();
@@ -1196,7 +1227,7 @@ namespace WebApplication
             await CargarModelsDesdeSesion();
 
             Models.IdCuenteClienteActiva = 0;
-            Models.detalleCaja =await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva,0);
+            Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, 0);
             Models.venta = await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), Models.IdCuentaActiva);
 
             BindProductos();
@@ -1222,20 +1253,20 @@ namespace WebApplication
                 if (dto.idcuenta > 0)
                 {
                     //hallamos la cuenta cliente con el id
-                    var cc =await CuentaClienteControler.CuentaCliente(Session["db"].ToString(), dto.idcuenta);
+                    var cc = await CuentaClienteControler.CuentaCliente(Session["db"].ToString(), dto.idcuenta);
                     if (cc != null)
                     {
-                        cc.por_propina= por_propina;
+                        cc.por_propina = por_propina;
                         cc.propina = dto.propina;
-                        var respcc =await CuentaClienteControler.CRUD(Session["db"].ToString(), cc,1);
+                        var respcc = await CuentaClienteControler.CRUD(Session["db"].ToString(), cc, 1);
                     }
                 }
                 else
                 {
-                    var respuesta =await TablaVentasControler.Consultar_Id(Session["db"].ToString(), dto.idventa);
-                    if(respuesta.estado)
+                    var respuesta = await TablaVentasControler.Consultar_Id(Session["db"].ToString(), dto.idventa);
+                    if (respuesta.estado)
                     {
-                        var venta= respuesta.data as TablaVentas;
+                        var venta = respuesta.data as TablaVentas;
                         venta.porpropina = por_propina;
                         venta.propina = dto.propina;
                         var respventa = await TablaVentasControler.CRUD(Session["db"].ToString(), venta, 1);
@@ -1246,7 +1277,7 @@ namespace WebApplication
                 Models.detalleCaja = await V_DetalleCajaControler.Lista_IdVenta(Session["db"].ToString(), Models.IdCuentaActiva, dto.idcuenta);
                 Models.venta = await V_TablaVentasControler.Consultar_Id(Session["db"].ToString(), Models.IdCuentaActiva);
                 Models.ventaCuenta = await V_CuentaClienteCotroler.Consultar(Session["db"].ToString(), dto.idcuenta);
-                Models.v_CuentaClientes=await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
+                Models.v_CuentaClientes = await V_CuentaClienteCotroler.Lista(Session["db"].ToString(), false);
                 BindProductos();
                 GuardarModelsEnSesion();
                 DataBind();
@@ -1271,7 +1302,7 @@ namespace WebApplication
             var resp = await ImprecionComandaAddControler.CRUD(Session["db"].ToString(), comanda, 0);
             if (resp.estado)
             {
-                AlertModerno.Success(this,"Ok","Comanda enviada correctamente.",true,1500);
+                AlertModerno.Success(this, "Ok", "Comanda enviada correctamente.", true, 1500);
             }
             else
             {
@@ -1311,6 +1342,241 @@ namespace WebApplication
         {
             await InicializarPagina(Session["db"].ToString()); // 🔁 Llama directamente tu método
         }
+
+
+
+        private async Task btnDomicilio(string eventArgument)
+        {
+            await CargarModelsDesdeSesion();
+
+            // 1) Validar argumento
+            if (string.IsNullOrWhiteSpace(eventArgument))
+            {
+                AlertModerno.Error(this, "Error", "No hay una mesa seleccionada.", true);
+                return;
+            }
+
+            // formato: idMesa|idServicio
+            var parts = eventArgument.Split('|');
+
+            if (!int.TryParse(parts[0], out int idMesa))
+            {
+                AlertModerno.Error(this, "Error", "Mesa inválida.", true);
+                return;
+            }
+
+            int idServicio = Models.IdCuentaActiva;
+            if (parts.Length > 1)
+                int.TryParse(parts[1], out idServicio);
+
+            // 2) Consultar mesa
+            var mesa = await MesasControler.Consultar_id(Session["db"].ToString(), idMesa);
+
+            if (mesa == null)
+            {
+                AlertModerno.Error(this, "Error", "No se encontró la mesa.", true);
+                return;
+            }
+
+            // 3) Verificar que sea DOMICILIO
+            if (string.IsNullOrWhiteSpace(mesa.nombreMesa) ||
+                !mesa.nombreMesa.ToUpper().Contains("DOMICILIO"))
+            {
+                AlertModerno.Error(this, "Error", "La mesa seleccionada NO es domicilio.", true);
+                return;
+            }
+
+            // 4) Actualizar modelo
+            Models.IdMesaActiva = idMesa;
+            Models.IdCuentaActiva = idServicio;
+
+
+            GuardarModelsEnSesion();
+
+            // 5) Hacer DataBind ANTES del script
+            BindProductos();
+            DataBind();
+
+
+            // 🔥 Activar el flag SOLO para esta respuesta (NO lo vuelvas a guardar en sesión)
+            Models.AbrirModalDomicilio = true;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        private async Task btnCrearActualizarClienteDomicilio(string eventArgument)
+        {
+            await CargarModelsDesdeSesion();
+
+            if (string.IsNullOrWhiteSpace(eventArgument)) return;
+
+            // id|tel|nom|dir
+            var parts = eventArgument.Split('|');
+            if (parts.Length < 4) return;
+
+            string idStr = parts[0];
+            string tel = parts[1];
+            string nom = parts[2];
+            string dir = parts[3];
+
+            Guid id;
+            bool esNuevo;
+
+            if (string.IsNullOrWhiteSpace(idStr))
+            {
+                esNuevo = true;
+                id = Guid.NewGuid();
+            }
+            else
+            {
+                esNuevo = false;
+                id = new Guid(idStr);
+            }
+
+            var entidad = new ClienteDomicilio
+            {
+                id = id,
+                celularCliente = tel,
+                nombreCliente = nom,
+                direccionCliente = dir
+            };
+
+            int funcion = esNuevo ? 0 : 1;
+
+            // Guardar en BD
+            var resp = await ClienteDomicilioControler.CRUD(Session["db"].ToString(), entidad, funcion);
+
+            if (!resp.estado)
+            {
+                AlertModerno.Error(this, "Error", resp.mensaje ?? "No se pudo guardar el cliente.", true);
+                return;
+            }
+
+            // Actualizar ID con el que devuelve la BD (por si lo genera allá)
+            string idguid = $"{resp.idAfectado}";
+            if (!string.IsNullOrWhiteSpace(idguid))
+            {
+                entidad.id = new Guid(idguid);
+            }
+
+            AlertModerno.Success(this, "OK", resp.mensaje ?? "Cliente guardado correctamente.", true, 1200);
+
+            // Recargar lista desde BD
+            Models.clienteDomicilios = await ClienteDomicilioControler.Lista(Session["db"].ToString());
+
+            // 🔴 CLAVE: volver a abrir el modal después del postback
+            Models.AbrirModalDomicilio = true;
+
+            GuardarModelsEnSesion();
+        }
+
+
+
+
+
+
+        private async Task btnSeleccionarClienteDomicilio(string eventArgument)
+        {
+            await CargarModelsDesdeSesion();
+
+            if (string.IsNullOrWhiteSpace(eventArgument)) return;
+
+            // id|tel|nom|dir
+            var parts = eventArgument.Split('|');
+            if (parts.Length < 4) return;
+
+            string idStr = parts[0];
+            string tel = parts[1];
+            string nom = parts[2];
+            string dir = parts[3];
+
+            if (!Guid.TryParse(idStr, out Guid idCliente))
+            {
+                AlertModerno.Error(this, "Error", "ID de cliente inválido.", true);
+                return;
+            }
+
+            int idVenta = Models.IdCuentaActiva;
+            int funcion = 0;
+
+            //en esta parte consultamos si la relacion ya existe
+            var consultarRelacion = await ClienteDomicilioControler.ConsultarRelacion(Session["db"].ToString(),idVenta);
+            if (consultarRelacion == null)
+            {
+                funcion = 0;
+                consultarRelacion = new R_VentaClienteDomicilio { id=0, idVenta=idVenta, idClienteDomicilio=new Guid(idStr) };
+            }
+            else
+            {
+                funcion = 1;
+                consultarRelacion.idClienteDomicilio = new Guid(idStr);
+            }
+
+            // Aquí haces tu relación cliente-venta en tu DAL
+            var resp = await ClienteDomicilioControler.RelacionarConVenta(
+                Session["db"].ToString(),
+                consultarRelacion,
+                funcion
+            );
+
+            if (!resp.estado)
+            {
+                AlertModerno.Error(this, "Error", resp.mensaje ?? "No se pudo relacionar el cliente con la venta.", true);
+                return;
+            }
+
+            AlertModerno.Success(this, "OK", resp.mensaje ?? "Cliente relacionado con la venta.", true, 1200);
+
+            // Cerrar modal en el cliente
+            string scriptCerrar = @"
+(function(){
+    var modalEl = document.getElementById('modalDomicilio');
+    if (modalEl && window.bootstrap) {
+        var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.hide();
+    }
+})();
+";
+            ScriptManager.RegisterStartupScript(
+                this,
+                GetType(),
+                "CerrarModalDomicilioDespuesSeleccionar",
+                scriptCerrar,
+                true
+            );
+
+            //aquí, si quieres, recargas datos de la venta
+            Models.cuentas = await V_CuentasVentaControler.Lista_IdVendedor(Session["db"].ToString(),Models.IdMesero);
+            GuardarModelsEnSesion();
+            BindProductos();
+            DataBind();
+        }
+
+
+
+
+        protected string MostrarNombreCliente(object nombreCD, object nombreMesa)
+        {
+            string cd = nombreCD == null ? "" : nombreCD.ToString();
+            string mesa = nombreMesa == null ? "" : nombreMesa.ToString();
+
+            // Si nombreCD no es "-"
+            if (!string.IsNullOrWhiteSpace(cd) && cd != "-")
+                return cd;
+
+            // Si es "-" o vacío, mostrar nombre de mesa
+            return mesa;
+        }
+
+
 
     }
 }

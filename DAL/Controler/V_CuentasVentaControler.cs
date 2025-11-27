@@ -9,19 +9,18 @@ namespace DAL.Controler
 {
     public class V_CuentasVentaControler
     {
-        public static List<V_CuentasVenta> FiltrarListaCuentas(int idMesero)
+        public static async Task<List<V_CuentasVenta>> Lista_IdVendedor(string db, int idvendedor)
         {
             try
             {
-                using(DBEntities cn =new DBEntities())
-                {
-                    return cn.V_CuentasVenta.AsNoTracking().Where(x => x.numeroVenta > 0 && x.idvendedor == idMesero).ToList();
-                }
+                var cn = new SqlAutoDAL();
+                var resp = await cn.ConsultarLista<V_CuentasVenta>(db, x => x.idvendedor == idvendedor && x.numeroVenta==0);
+                return resp;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string msg = ex.Message;
-                return new List<V_CuentasVenta>();
+                return null;
             }
         }
     }

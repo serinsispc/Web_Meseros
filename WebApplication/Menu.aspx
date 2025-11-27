@@ -131,6 +131,7 @@
     <asp:HiddenField ID="hfMesaId" runat="server" />
     <asp:HiddenField ID="hfServicioId" runat="server" />
 
+    <asp:HiddenField ID="hdIdClienteDomicilio" runat="server" />
 
     <asp:Button ID="btnMesaNuevaCuenta" runat="server"
         OnClick="MesaNuevaCuenta" Style="display: none" UseSubmitBehavior="false" />
@@ -160,6 +161,9 @@
                                     <i class="bi bi-pencil-fill text-warning fs-5"></i>
                                 </button>
 
+        
+
+
                                 <!-- LinkButton principal -->
                                 <asp:LinkButton ID="btnServicio" runat="server"
                                     data-id='<%# Eval("id") %>'
@@ -169,7 +173,13 @@
                                     CssClass='<%# "service-chip w-100 d-block text-start p-3 border rounded shadow-sm bg-white position-relative" 
            + (Convert.ToInt32(Eval("id")) == Models.IdCuentaActiva ? " active" : "") %>'>
                 <span class="fw-bold text-primary d-block fs-5"><%# Eval("aliasVenta") %></span>
-                <small class="text-muted d-block"><%# Eval("mesa") %></small>
+
+<small class="text-muted d-block">
+    <%# MostrarNombreCliente(Eval("nombreCD"), Eval("nombremesa")) %>
+</small>
+
+
+         
                                 </asp:LinkButton>
                             </div>
                         </ItemTemplate>
@@ -181,17 +191,25 @@
 
             <div class="col-12 col-xl-auto">
                 <div class="d-flex gap-2 justify-content-start justify-content-xl-end">
+                    <%-- btnDomicilio --%>
+                    <button type="button"
+                        class="btn btn-success btn-sm"
+                        id="btnDomicilio"
+                        data-idmesa="<%# Models.IdMesaActiva %>"
+                        data-idservicio="<%# Models.IdCuentaActiva %>"
+                        onclick="btnDomicilio_click(this);">
+                        <i class="bi bi-house-door me-1"></i>Domicilio
+                    </button>
+
+
+
+                    <%-- btnNuevoServicio --%>
                     <button id="btnNuevoServicio"
                         class="btn btn-primary btn-sm">
                         <i class="bi bi-plus-circle me-1"></i>Nuevo servicio
                     </button>
 
-                    <%--                    <button id="btnEliminarServicio"
-                        type="button"
-                        class="btn btn-warning btn-sm text-dark"
-                        <i class="bi bi-trash3 me-1"></i>Eliminar servicio
-                    </button>--%>
-
+                    <%-- btnLiberarMesa --%>
                     <button type="button"
                         class="btn btn-outline-danger btn-sm"
                         id="btnLiberarMesa"
@@ -201,6 +219,7 @@
                     </button>
                 </div>
             </div>
+
         </div>
 
         <!-- banner servicio activo -->
@@ -607,7 +626,7 @@
                                     class="list-group-item list-group-item-action d-flex justify-content-between align-items-center servicio-item"
                                     data-id='<%# Eval("id") %>'>
                                     <span class="fw-semibold"><%# Eval("aliasVenta") %></span>
-                                    <small class="text-muted">#<%# Eval("id") %> · <%# Eval("mesa") %></small>
+                                    <small class="text-muted">#<%# Eval("id") %> · <%# Eval("nombremesa") %></small>
                                 </button>
                             </ItemTemplate>
                         </asp:Repeater>
@@ -875,6 +894,88 @@
 
 
 
+    <!-- Modal DOMICILIOS -->
+    <div class="modal fade" id="modalDomicilio" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-phone"></i>
+                        Domicilios
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Buscar celular -->
+                    <div class="mb-3">
+                        <label class="form-label">Buscar celular</label>
+                        <input type="text" id="txtBuscarCelular" class="form-control"
+                            placeholder="Escriba el celular y presione Enter..." />
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" id="txtTelefono" class="form-control" />
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label">Nombre Cliente</label>
+                            <input type="text" id="txtNombreCliente" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-2 align-items-end">
+                        <div class="col-md-9">
+                            <label class="form-label">Dirección</label>
+                            <input type="text" id="txtDireccion" class="form-control" />
+                        </div>
+                        <div class="col-md-3 text-end">
+                            <a href="#" id="btnCrearDomicilio" class="btn btn-link">
+                                <i class="bi bi-save2"></i>
+                                Crear / Actualizar
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <button id="btnSeleccionarDomicilio" class="btn btn-success w-100">
+                            <i class="bi bi-check-circle"></i>Seleccionar
+                        </button>
+                    </div>
+
+                    <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+                        <table class="table table-hover mb-0" id="tblDomicilios">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Teléfono</th>
+                                    <th>Cliente</th>
+                                    <th>Dirección</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Se llenará por JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-link" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i>Cerrar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        window.ListaClientesDomicilio = <%= Newtonsoft.Json.JsonConvert.SerializeObject(Models.clienteDomicilios) %>;
+    </script>
 
 
     <script>
@@ -1653,33 +1754,33 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var idCuentaActiva = <%= (Models != null ? Models.IdCuentaActiva : 0) %>;
-        var btnEliminar = document.getElementById('btnEliminarServicio');
+            var btnEliminar = document.getElementById('btnEliminarServicio');
 
-        if (!btnEliminar) return;
+            if (!btnEliminar) return;
 
-        // Buscar aliasVenta correspondiente
-        var botonServicio = document.querySelector('[data-id="' + idCuentaActiva + '"]');
-        var aliasVenta = botonServicio ? botonServicio.getAttribute('data-alias') : "este servicio";
+            // Buscar aliasVenta correspondiente
+            var botonServicio = document.querySelector('[data-id="' + idCuentaActiva + '"]');
+            var aliasVenta = botonServicio ? botonServicio.getAttribute('data-alias') : "este servicio";
 
-        btnEliminar.addEventListener('click', function (e) {
-            e.preventDefault();
+            btnEliminar.addEventListener('click', function (e) {
+                e.preventDefault();
 
-            Swal.fire({
-                title: '¿Eliminar servicio?',
-                html: `<b>${aliasVenta}</b><br>Esta acción no se puede deshacer.`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    __doPostBack('btnEliminarServicio', '');
-                }
+                Swal.fire({
+                    title: '¿Eliminar servicio?',
+                    html: `<b>${aliasVenta}</b><br>Esta acción no se puede deshacer.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        __doPostBack('btnEliminarServicio', '');
+                    }
+                });
             });
         });
-    });
     </script>
 
 
@@ -2008,6 +2109,349 @@
             });
         });
     </script>
+
+
+
+    <script type="text/javascript">
+        function btnDomicilio_click(btn) {
+
+            // Leer los atributos del botón
+            var idMesa = btn.getAttribute('data-idmesa') || "0";
+            var idServicio = btn.getAttribute('data-idservicio') || "0";
+
+            // Armar argumento: idMesa|idServicio
+            var arg = idMesa + "|" + idServicio;
+
+            // Llamar al postback
+            __doPostBack('btnDomicilio', arg);
+        }
+    </script>
+
+
+    <% if (Models.AbrirModalDomicilio == true)
+        { %>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            var modalEl = document.getElementById('modalDomicilio');
+            if (modalEl && window.bootstrap && bootstrap.Modal) {
+                var modal = new bootstrap.Modal(modalEl, { backdrop: 'static' });
+                modal.show();
+                cargarTablaDomicilios();
+
+                // foco automático
+                setTimeout(function () {
+                    var txt = document.getElementById('txtBuscarCelular');
+                    if (txt) txt.focus();
+                }, 300);
+            }
+        });
+    </script>
+    <% } %>
+
+
+
+
+    <script type="text/javascript">
+        // ClientID real del hidden (runat="server")
+        var hdIdClienteDomicilioId = '<%= hdIdClienteDomicilio.ClientID %>';
+
+        // Cargar tabla completa o filtrada
+        function cargarTablaDomicilios(filtro) {
+            const lista = window.ListaClientesDomicilio || [];
+            const tbody = document.querySelector('#tblDomicilios tbody');
+            if (!tbody) return 0;
+
+            tbody.innerHTML = "";
+
+            const valor = (filtro || "").trim();
+            const v = valor.toUpperCase();
+
+            const filtrados = valor
+                ? lista.filter(item => {
+                    const tel = (item.celularCliente || "").toString();
+                    const nom = (item.nombreCliente || "").toString().toUpperCase();
+                    return tel.startsWith(valor) || nom.includes(v);
+                })
+                : lista;
+
+            filtrados.forEach(item => {
+                const tr = document.createElement("tr");
+
+                tr.innerHTML = `
+                <td>${item.celularCliente || ""}</td>
+                <td>${item.nombreCliente || ""}</td>
+                <td>${item.direccionCliente || ""}</td>
+            `;
+
+                tr.addEventListener("click", function () {
+                    document.getElementById("txtTelefono").value = item.celularCliente || "";
+                    document.getElementById("txtNombreCliente").value = item.nombreCliente || "";
+                    document.getElementById("txtDireccion").value = item.direccionCliente || "";
+
+                    // Guardar ID en el hidden
+                    var hd = document.getElementById(hdIdClienteDomicilioId);
+                    if (hd) {
+                        hd.value = item.id || "";
+                        console.log("ID cliente seleccionado:", hd.value);
+                    }
+                });
+
+                tbody.appendChild(tr);
+            });
+
+            return filtrados.length;
+        }
+    </script>
+
+
+
+
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var txtBuscar = document.getElementById('txtBuscarCelular');
+            var tbody = document.querySelector('#tblDomicilios tbody');
+
+            if (!txtBuscar || !tbody) return;
+
+            // Filtro en tiempo real
+            txtBuscar.addEventListener('input', function () {
+                var filtro = (this.value || '').trim().toUpperCase();
+                var filas = tbody.querySelectorAll('tr');
+
+                filas.forEach(function (tr) {
+                    // Tomamos teléfono y nombre desde las celdas 0 y 1
+                    var tel = (tr.cells[0]?.textContent || '').toUpperCase();
+                    var nom = (tr.cells[1]?.textContent || '').toUpperCase();
+
+                    // Lógica de filtro:
+                    // - Teléfono que comience por lo escrito
+                    // - Ó nombre que contenga lo escrito
+                    var coincide =
+                        !filtro ||
+                        tel.indexOf(filtro) === 0 ||
+                        nom.indexOf(filtro) !== -1;
+
+                    tr.style.display = coincide ? '' : 'none';
+                });
+            });
+        });
+    </script>
+
+
+    <script>
+        // 🔹 Handler global: si SweetAlert está visible, cualquier ENTER solo cierra el alert
+        document.addEventListener('keydown', function (e) {
+            if (typeof Swal !== 'undefined' && Swal.isVisible()) {
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Simular click en el botón de confirmar
+                    const btn = Swal.getConfirmButton && Swal.getConfirmButton();
+                    if (btn) {
+                        btn.click();
+                    }
+                }
+            }
+        }, true); // 👈 en captura para interceptar lo antes posible
+
+        // EVENTO: Presionar ENTER en el buscador
+        document.addEventListener("DOMContentLoaded", function () {
+            const txtBuscar = document.getElementById("txtBuscarCelular");
+            const txtTelefono = document.getElementById("txtTelefono");
+            const hdIdCliente = document.getElementById("hdIdClienteDomicilio");
+
+            if (!txtBuscar) return;
+
+            txtBuscar.addEventListener("keydown", function (e) {
+
+                // ⛔ Si hay un SweetAlert abierto, no procesar nada aquí
+                if (typeof Swal !== 'undefined' && Swal.isVisible()) {
+                    return;
+                }
+
+                if (e.key === "Enter" || e.keyCode === 13) {
+                    e.preventDefault();
+
+                    const filtro = txtBuscar.value.trim();
+
+                    // 1️⃣ Validar longitud = 10
+                    if (filtro.length !== 10) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Número inválido',
+                            text: 'El número debe tener exactamente 10 dígitos.',
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor: '#0d6efd',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            focusConfirm: true,
+                            didOpen: () => {
+                                // Aseguramos que el botón Aceptar tenga el foco
+                                const btn = Swal.getConfirmButton();
+                                if (btn) btn.focus();
+                            }
+                        });
+                        return;
+                    }
+
+                    // 2️⃣ Filtrar tabla
+                    let cantidad = cargarTablaDomicilios(filtro);
+                    if (typeof cantidad !== "number") cantidad = 0;
+
+                    // 3️⃣ Si NO hay registros → pasar al campo Teléfono y preparar creación
+                    if (cantidad === 0) {
+                        if (txtTelefono) txtTelefono.value = filtro;
+                        if (hdIdCliente) hdIdCliente.value = "";
+
+                        const txtNombre = document.getElementById("txtNombreCliente");
+                        if (txtNombre) txtNombre.focus();
+                    }
+                }
+            });
+        });
+    </script>
+
+
+
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const txtBuscar = document.getElementById("txtBuscarCelular");
+
+            if (txtBuscar) {
+                txtBuscar.addEventListener("input", function () {
+
+                    // Quitar todo lo que no sea número
+                    this.value = this.value.replace(/\D/g, '');
+
+                    // Limitar a 10 dígitos
+                    if (this.value.length > 10) {
+                        this.value = this.value.substring(0, 10);
+                    }
+                });
+            }
+
+            const txtTelefono = document.getElementById("txtTelefono");
+            if (txtTelefono) {
+                txtTelefono.addEventListener("input", function () {
+
+                    this.value = this.value.replace(/\D/g, '');
+
+                    if (this.value.length > 10) {
+                        this.value = this.value.substring(0, 10);
+                    }
+                });
+            }
+        });
+    </script>
+
+
+    <%-- boton Crear / Actualizar del modal domicilio --%>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+
+            var hdIdCliente = document.getElementById(hdIdClienteDomicilioId);
+            var btnCrear = document.getElementById('btnCrearDomicilio');
+
+            if (btnCrear) {
+                btnCrear.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    var id = hdIdCliente ? (hdIdCliente.value || "").trim() : "";
+
+                    var tel = (document.getElementById('txtTelefono').value || '').trim();
+                    var nom = (document.getElementById('txtNombreCliente').value || '').trim();
+                    var dir = (document.getElementById('txtDireccion').value || '').trim();
+
+                    // Validaciones básicas
+                    if (!tel || !nom || !dir) {
+                        if (window.Swal) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Campos incompletos',
+                                text: 'Debe llenar Teléfono, Nombre y Dirección.',
+                                confirmButtonText: 'Aceptar',
+                                allowOutsideClick: false,
+                                allowEscapeKey: false
+                            });
+                        } else {
+                            alert('Debe llenar Teléfono, Nombre y Dirección.');
+                        }
+                        return;
+                    }
+
+                    // Armar argumento: id|tel|nom|dir
+                    var arg = id + '|' + tel + '|' + nom + '|' + dir;
+
+                    console.log("Enviando a btnCrearActualizarClienteDomicilio:", arg);
+
+                    if (typeof __doPostBack === 'function') {
+                        __doPostBack('btnCrearActualizarClienteDomicilio', arg);
+                    } else {
+                        console.error('__doPostBack no está definido');
+                    }
+                });
+            }
+
+        });
+    </script>
+
+
+    <%-- boton Seleccionar Cliente del modal domicilio --%>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const btnSel = document.getElementById("btnSeleccionarDomicilio");
+            const hdIdCliente = document.getElementById(hdIdClienteDomicilioId);
+
+            if (!btnSel) return;
+
+            btnSel.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                const id = hdIdCliente ? (hdIdCliente.value || "").trim() : "";
+                const tel = (document.getElementById("txtTelefono").value || "").trim();
+                const nom = (document.getElementById("txtNombreCliente").value || "").trim();
+                const dir = (document.getElementById("txtDireccion").value || "").trim();
+
+                // 1️⃣ Validar que el usuario haya seleccionado un cliente
+                if (!id) {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Seleccione un cliente",
+                        text: "Debe seleccionar un cliente de la lista o crearlo antes.",
+                        confirmButtonText: "Aceptar",
+                        confirmButtonColor: "#198754",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        focusConfirm: true
+                    });
+                    return;
+                }
+
+                // 2️⃣ Argumento para enviar al servidor
+                const arg = `${id}|${tel}|${nom}|${dir}`;
+                console.log("PostBack Seleccionar Cliente:", arg);
+
+                // 3️⃣ Llamar al case en el servidor
+                if (typeof __doPostBack === "function") {
+                    __doPostBack("btnSeleccionarClienteDomicilio", arg);
+                } else {
+                    console.error("__doPostBack no está definido");
+                }
+
+                // ❗ No cerrar el modal desde aquí
+            });
+
+        });
+    </script>
+
+
+
 
 
 </asp:Content>
