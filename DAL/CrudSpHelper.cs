@@ -57,8 +57,13 @@ namespace DAL
                     }
 
                     // 6. Deserializar respuesta del SP
-                    var resp = JsonConvert.DeserializeObject<Respuesta_DAL>(resultadoJson);
-
+                    var respcrud = JsonConvert.DeserializeObject<RespuestaCRUD>(resultadoJson);
+                    var resp = new Respuesta_DAL
+                    {
+                        data = respcrud.IdFinal,
+                        estado = respcrud.estado,
+                        mensaje = respcrud.mensaje
+                    };
                     if (resp == null)
                     {
                         return new Respuesta_DAL

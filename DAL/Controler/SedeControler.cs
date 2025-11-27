@@ -13,10 +13,10 @@ namespace DAL.Controler
             {
                 var auto = new SqlAutoDAL();
 
-                // SELECT TOP 1 * FROM Sede
-                var sede = await auto.ConsultarUno<Sede>(db, x => true);
+                // Ahora sí funciona:
+                var resp = await auto.ConsultarUno<Sede>(db,x=>x.id>0);
 
-                return sede;
+                return resp;
             }
             catch (Exception ex)
             {
@@ -24,5 +24,6 @@ namespace DAL.Controler
                 return null;
             }
         }
+
     }
 }

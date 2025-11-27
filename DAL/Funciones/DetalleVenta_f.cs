@@ -12,12 +12,12 @@ namespace DAL.Funciones
 {
     public class DetalleVenta_f
     {
-        public static Respuesta_DAL AgregarProducto(int idpresentacion,int cantidad,int idventa)
+        public static async Task<Respuesta_DAL> AgregarProducto(string db,int idpresentacion,int cantidad,int idventa)
         {
             try
             {
                 /* consultamos el producto con el id presentación */
-                var producto = v_productoVentaControler.Consultar_idpresentacion(idpresentacion);
+                var producto =await v_productoVentaControler.Consultar_idpresentacion(db,idpresentacion);
                 if (producto != null)
                 {
                     /* llamamos el objeto detalle venta */
@@ -41,7 +41,7 @@ namespace DAL.Funciones
                     };
                     string data = JsonConvert.SerializeObject(dv);
                     /* llamamos el crud para guardar */
-                    var respCRUD = DetalleVentaControler.CRUD(dv,0);
+                    var respCRUD =await DetalleVentaControler.CRUD(db,dv,0);
                     if (respCRUD.estado) 
                     {
                         return new Respuesta_DAL { data=respCRUD.data, estado= respCRUD.estado, mensaje=$"Producto ({producto.nombreProducto}) agregado." };
@@ -63,19 +63,19 @@ namespace DAL.Funciones
             }
         }
 
-        public static Respuesta_DAL ActualizarCantidadDetalle(int iddetalle,int cantidad)
+        public static async Task<Respuesta_DAL> ActualizarCantidadDetalle(string db, int iddetalle,int cantidad)
         {
             try
             {
                 var detalle = new DetalleVenta();
-                detalle = DetalleVentaControler.ConsultarId(iddetalle);
+                detalle =await DetalleVentaControler.ConsultarId(db,iddetalle);
                 if (detalle == null) 
                 {
                     return new Respuesta_DAL { data = null, estado = false, mensaje="No se actualizo." }; 
                 }
 
                 detalle.cantidadDetalle = cantidad;
-                var crud = DetalleVentaControler.CRUD(detalle,1);
+                var crud =await DetalleVentaControler.CRUD(db,detalle,1);
                 if(crud.estado == false)
                 {
                     return new Respuesta_DAL { data = null, estado = false, mensaje = "No se actualizo." };
@@ -90,19 +90,19 @@ namespace DAL.Funciones
             }
         }
 
-        public static Respuesta_DAL Eliminar(int iddetalle, string nota)
+        public static async Task<Respuesta_DAL> Eliminar(string db, int iddetalle, string nota)
         {
             try
             {
                 var detalle = new DetalleVenta();
-                detalle = DetalleVentaControler.ConsultarId(iddetalle);
+                detalle =await DetalleVentaControler.ConsultarId(db,iddetalle);
                 if (detalle == null)
                 {
                     return new Respuesta_DAL { data = null, estado = false, mensaje = "No se elimino." };
                 }
                 detalle.nombreProducto = nota;
                 detalle.estadoDetalle = 0;
-                var crud = DetalleVentaControler.CRUD(detalle, 1);
+                var crud =await DetalleVentaControler.CRUD(db, detalle, 1);
                 if (crud.estado == false)
                 {
                     return new Respuesta_DAL { data = null, estado = false, mensaje = "No se elimino." };
@@ -116,11 +116,11 @@ namespace DAL.Funciones
                 return new Respuesta_DAL { data = null, estado = false, mensaje = "NO se elimino." };
             }
         }
-        public static Respuesta_DAL Dividir(int iddetalle, int cantidadActual, int cantidadDividir,int idventa)
+        public static async Task<Respuesta_DAL> Dividir(string db,int iddetalle, int cantidadActual, int cantidadDividir,int idventa)
         {
             try
             {
-                var detalle = DetalleVentaControler.ConsultarId(iddetalle);
+                var detalle =await DetalleVentaControler.ConsultarId(db, iddetalle);
                 if (detalle == null)
                 {
                     return new Respuesta_DAL { data=null, estado=false, mensaje=$"no se encontro el id detalle {iddetalle}" };
@@ -144,14 +144,14 @@ namespace DAL.Funciones
                     adiciones = detalle.adiciones,
                     impuesto_id = detalle.impuesto_id
                 };
-                var dal1 = DetalleVentaControler.CRUD(nuevoDetalle,0);
+                var dal1 =await DetalleVentaControler.CRUD(db, nuevoDetalle,0);
                 if (!dal1.estado)
                 {
                     return new Respuesta_DAL { data = "Error", estado = false, mensaje = $"no se crear agregar el nuevo detalle." };
                 }
 
                 detalle.cantidadDetalle = cantidadActual - cantidadDividir;
-                var dal2= DetalleVentaControler.CRUD(detalle, 1);
+                var dal2= await DetalleVentaControler.CRUD(db, detalle, 1);
                 if (!dal2.estado)
                 {
                     return new Respuesta_DAL { data = "Error", estado = false, mensaje = $"se agrego el nuevo detalle, <br>pero no se logro modificar la cantidad del detalle actual... <br>NOTA: modifica manualmente la cantidad del detalle actual." };
@@ -166,19 +166,19 @@ namespace DAL.Funciones
             }
         }
 
-        public static Respuesta_DAL NotasDetalle(int iddetalle, string nota)
+        public static async Task<Respuesta_DAL> NotasDetalle(string db, int iddetalle, string nota)
         {
             try
             {
                 var detalle = new DetalleVenta();
-                detalle = DetalleVentaControler.ConsultarId(iddetalle);
+                detalle =await DetalleVentaControler.ConsultarId(db,iddetalle);
                 if (detalle == null)
                 {
                     return new Respuesta_DAL { data = null, estado = false, mensaje = "No se actualizo." };
                 }
 
                 detalle.adiciones = nota;
-                var crud = DetalleVentaControler.CRUD(detalle, 1);
+                var crud =await DetalleVentaControler.CRUD(db, detalle, 1);
                 if (crud.estado == false)
                 {
                     return new Respuesta_DAL { data = null, estado = false, mensaje = "No se actualizo." };

@@ -11,32 +11,40 @@ namespace DAL
 {
     public class Conection_SQL : IDisposable
     {
-        private SqlConnection _conexion;
+        private readonly SqlConnection _conexion;
 
         public Conection_SQL(string db)
         {
             ConexionBase(db);
             _conexion = new SqlConnection(connectionString);
-            _conexion.Open();
         }
 
         public static string connectionString;
+
         public static void ConexionBase(string db)
         {
-            connectionString = $"data source=www.serinsispc.com; initial catalog={db}; user id=emilianop; password=Ser1ns1s@2020*";
+            connectionString =
+                $"data source=www.serinsispc.com; initial catalog={db}; user id=emilianop; password=Ser1ns1s@2020*";
         }
 
         public async Task<string> EjecutarConsulta(string consulta, [Optional] bool lista_)
         {
+            if (string.IsNullOrWhiteSpace(consulta))
+                throw new ArgumentException("La consulta SQL está vacía.", nameof(consulta));
+
             try
             {
-                string respuesta = "Error";
+                // Abrir la conexión justo antes de usarla
+                if (_conexion.State != ConnectionState.Open)
+                    await _conexion.OpenAsync().ConfigureAwait(false);
+
+                string respuesta;
 
                 using (var cmd = new SqlCommand(consulta, _conexion))
                 {
                     cmd.CommandType = CommandType.Text;
 
-                    using (var reader = await cmd.ExecuteReaderAsync())
+                    using (var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false))
                     {
                         DataTable dt = new DataTable();
                         dt.Load(reader);
@@ -52,10 +60,21 @@ namespace DAL
                             lista.Add(dict);
                         }
 
-                        respuesta = JsonSerializer.Serialize(lista, new JsonSerializerOptions { WriteIndented = true });
+                        // lista_ == true  → lista completa
+                        // lista_ == false → solo primer objeto
                         if (lista_ == false)
                         {
-                            respuesta = JsonSerializer.Serialize(lista.FirstOrDefault(), new JsonSerializerOptions { WriteIndented = true });
+                            respuesta = JsonSerializer.Serialize(
+                                lista.FirstOrDefault(),
+                                new JsonSerializerOptions { WriteIndented = true }
+                            );
+                        }
+                        else
+                        {
+                            respuesta = JsonSerializer.Serialize(
+                                lista,
+                                new JsonSerializerOptions { WriteIndented = true }
+                            );
                         }
                     }
                 }
@@ -67,8 +86,9 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                string msg = ex.Message;
-                return null;
+                // Mientras depuras, NO te tragues el error:
+                // puedes loguearlo o incluso re-lanzarlo
+                throw new Exception("Error en EjecutarConsulta: " + ex.Message, ex);
             }
         }
 
@@ -77,7 +97,6 @@ namespace DAL
             if (_conexion != null)
             {
                 _conexion.Dispose();
-                _conexion = null;
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Servicios" Language="C#" MasterPageFile="~/Menu.Master" AutoEventWireup="true" CodeBehind="Menu.aspx.cs" Inherits="WebApplication.Menu"
-    MaintainScrollPositionOnPostback="false" %>
+    MaintainScrollPositionOnPostback="false" Async="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <!-- =========================
@@ -182,21 +182,21 @@
             <div class="col-12 col-xl-auto">
                 <div class="d-flex gap-2 justify-content-start justify-content-xl-end">
                     <button id="btnNuevoServicio"
-                        class="btn btn-primary btn-sm>
+                        class="btn btn-primary btn-sm">
                         <i class="bi bi-plus-circle me-1"></i>Nuevo servicio
                     </button>
 
-<%--                    <button id="btnEliminarServicio"
+                    <%--                    <button id="btnEliminarServicio"
                         type="button"
                         class="btn btn-warning btn-sm text-dark"
                         <i class="bi bi-trash3 me-1"></i>Eliminar servicio
                     </button>--%>
 
-                    <button type="button" 
+                    <button type="button"
                         class="btn btn-outline-danger btn-sm"
                         id="btnLiberarMesa"
-                        data-idServicio='<%# Models.IdCuentaActiva %>'
-                        data-idMesa='<%# Models.IdMesaActiva %>'>
+                        data-idservicio='<%# Models.IdCuentaActiva %>'
+                        data-idmesa='<%# Models.IdMesaActiva %>'>
                         <i class="bi bi-x-circle me-1"></i>Liberar mesa
                     </button>
                 </div>
@@ -235,20 +235,29 @@
                         <!-- grilla de mesas -->
                         <div class="row g-2 lista-mesas">
                             <asp:Repeater runat="server" ID="rpMesas"
-                                DataSource="<%# Models.Mesas.Where(x=>x.idZona==Models.IdZonaActiva).ToList() %>">
+                                DataSource='<%# (Models != null && Models.Mesas != null
+                         ? Models.Mesas.Where(x => x.idZona == Models.IdZonaActiva).ToList()
+                         : new System.Collections.Generic.List<DAL.Model.Mesas>()) %>'>
                                 <ItemTemplate>
                                     <div class="col-2 col-lg-6 col-xl-4" style="min-width: 100px; max-width: 110px">
                                         <button id="lnkMesa"
                                             data-id='<%# Eval("id") %>'
                                             data-name='<%# Eval("nombreMesa") %>'
-                                            class='<%# (Convert.ToInt32(Eval("estadoMesa")) == 1) ? "btnMesa mesa-card ocupada d-block text-start" : "btnMesa mesa-card libre d-block text-start" %>'>
+                                            class='<%# (Convert.ToInt32(Eval("estadoMesa")) == 1)
+                                ? "btnMesa mesa-card ocupada d-block text-start"
+                                : "btnMesa mesa-card libre d-block text-start" %>'>
                                             <div class="mesa-titulo"><%# Eval("nombreMesa") %></div>
-                                            <div class="mesa-sub"><%# (Convert.ToInt32(Eval("estadoMesa")) == 1) ? "Ocupada" : "Libre" %></div>
+                                            <div class="mesa-sub">
+                                                <%# (Convert.ToInt32(Eval("estadoMesa")) == 1) ? "Ocupada" : "Libre" %>
+                                            </div>
                                         </button>
                                     </div>
                                 </ItemTemplate>
                             </asp:Repeater>
                         </div>
+
+
+
                     </div>
                 </div>
             </div>
@@ -257,32 +266,42 @@
             <div class="col-12 col-lg-6 col-xl-4">
                 <div class="card h-100">
                     <div class="card-body">
-<!-- Buscador -->
-<div class="input-group mb-3">
-    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-    <input 
-        type="search" 
-        inputmode="search"
-        id="buscador-productos" 
-        class="form-control" 
-        placeholder="Buscar producto por nombre..." 
-        autocomplete="off" />
-    <button type="button" id="limpiar-buscador" class="btn btn-outline-secondary">
-        <i class="bi bi-x-lg"></i>
-    </button>
-</div>
+                        <!-- Buscador -->
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                            <input
+                                type="search"
+                                inputmode="search"
+                                id="buscador-productos"
+                                class="form-control"
+                                placeholder="Buscar producto por nombre..."
+                                autocomplete="off" />
+                            <button type="button" id="limpiar-buscador" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
 
                         <!-- categorías -->
                         <div class="d-flex flex-wrap gap-2 mb-3">
                             <div id="categorias-container">
-                                <% foreach (var cat in Models.categorias)
-                                    { %>
-                                <a href="#" class="pill <%= (cat.id == Models.IdCategoriaActiva ? "active" : "") %>" data-id="<%= cat.id %>">
+                                <%
+                                    // Blindaje contra null
+                                    var categorias = Models?.categorias ?? new List<DAL.Model.V_Categoria>();
+                                    var idCatActiva = Models?.IdCategoriaActiva ?? 0;
+                                    foreach (var cat in categorias)
+                                    {
+                                %>
+                                <a href="#"
+                                    class="pill <%= (cat.id == idCatActiva ? "active" : "") %>"
+                                    data-id="<%= cat.id %>">
                                     <%= cat.nombreCategoria %>
                                 </a>
-                                <% } %>
+                                <%
+                                    }
+                                %>
                             </div>
                         </div>
+
 
                         <!-- lista de productos -->
                         <div class="vstack gap-2">
@@ -342,12 +361,29 @@
                             </button>
 
                             <div class="flex-grow-1">
-                                <asp:LinkButton ID="btnCuentaGeneral" runat="server" OnClick="btnCuentaGeneral_Click"
+                                <asp:LinkButton ID="btnCuentaGeneral"
+                                    runat="server"
+                                    OnClick="btnCuentaGeneral_Click"
                                     CssClass="btn btn-primary w-100 text-white d-flex justify-content-between align-items-center">
-                                    <span>Cuenta General</span>
-                                    <span> <%= string.Format(new System.Globalization.CultureInfo("es-CO"), "{0:C0}", Models.venta.total_A_Pagar) %></span>
+
+        <span>Cuenta General</span>
+
+        <span>
+            <%
+                // Blindaje seguro
+                decimal total = Models?.venta?.total_A_Pagar ?? 0M;
+                string totalFormato = string.Format(
+                    new System.Globalization.CultureInfo("es-CO"),
+                    "{0:C0}",
+                    total
+                );
+            %>
+            <%= totalFormato %>
+        </span>
+
                                 </asp:LinkButton>
                             </div>
+
 
 
                         </div>
@@ -437,7 +473,7 @@
 
                                             <button type="button" class="icon-btn btn-anclar" title="Anclar" data-id='<%# Eval("id") %>'><i class="bi bi-link-45deg"></i></button>
                                             <button type="button" class="icon-btn btn-eliminar danger" title="Eliminar" data-id='<%# Eval("id") %>'><i class="bi bi-trash"></i></button>
-                                            <button type="button" class="icon-btn btn-dividir" title="Dividir" data-id='<%# Eval("id") %>' data-cantidadActual='<%# Eval("unidad") %>'><i class="bi bi-scissors"></i></button>
+                                            <button type="button" class="icon-btn btn-dividir" title="Dividir" data-id='<%# Eval("id") %>' data-cantidadactual='<%# Eval("unidad") %>'><i class="bi bi-scissors"></i></button>
                                         </div>
 
 
@@ -460,15 +496,37 @@
                         <hr />
                         <%
                             dynamic totales;
-                            if (Models.IdCuenteClienteActiva == 0)
+                            if (Models != null)
                             {
-                                totales = Models.venta;
+                                if (Models.IdCuenteClienteActiva == 0)
+                                {
+                                    if (Models.venta != null)
+                                    {
+                                        totales = Models.venta;
+                                    }
+                                    else
+                                    {
+                                        totales = new { subtotalVenta = 0, ivaVenta = 0, totalVenta = 0, por_propina = 0, propina = 0, total_A_Pagar = 0 };
+                                    }
+                                }
+                                else
+                                {
+                                    if (Models.ventaCuenta != null)
+                                    {
+                                        totales = Models.ventaCuenta;
+                                    }
+                                    else
+                                    {
+                                        totales = new { subtotalVenta = 0, ivaVenta = 0, totalVenta = 0, por_propina = 0, propina = 0, total_A_Pagar = 0 };
+                                    }
+                                }
                             }
                             else
                             {
-                                 totales = Models.ventaCuenta;
+                                totales = new { subtotalVenta = 0, ivaVenta = 0, totalVenta = 0, por_propina = 0, propina = 0, total_A_Pagar = 0 };
                             }
-                            %>
+
+                        %>
                         <!-- totales -->
                         <div class="d-flex justify-content-between small mb-1">
                             <span class="text-muted">SubTotal:</span>
@@ -488,7 +546,7 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span>Servicio (<%= totales.por_propina %>%)</span>
                             <div>
-                                <button id="btnEditarPropina" 
+                                <button id="btnEditarPropina"
                                     class="badge bg-primary-subtle text-primary fw-semibold me-2"
                                     data-porcentaje='<%= totales.por_propina %>'
                                     data-propina='<%= Convert.ToInt32(totales.propina) %>'
@@ -515,7 +573,7 @@
                                     <i class="bi bi-chat-left-text me-2"></i>Solicitar<br />
                                     Cuenta</button>
                             </div>
-<%--                            <div class="col-12 col-md-4">
+                            <%--                            <div class="col-12 col-md-4">
                                 <button class="cta cta-green w-100" style="height: 80px;"><i class="bi bi-cash-coin me-2"></i>Cobrar</button>
                             </div>--%>
                         </div>
@@ -656,164 +714,164 @@
         </div>
     </div>
 
-<!-- Hidden field para detalle seleccionado (opcional) -->
-<asp:HiddenField ID="hfDetalleId" runat="server" />
+    <!-- Hidden field para detalle seleccionado (opcional) -->
+    <asp:HiddenField ID="hfDetalleId" runat="server" />
 
 
-<!-- Modal Dividir Detalle -->
-<div class="modal fade" id="modalDividirDetalle" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content p-3">
-            <div class="modal-header">
-                <h5 class="modal-title">Dividir detalle</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-2">
-                    <label class="form-label">Cantidad actual:</label>
-                    <input type="number" id="txtCantidadActual" class="form-control" readonly />
+    <!-- Modal Dividir Detalle -->
+    <div class="modal fade" id="modalDividirDetalle" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dividir detalle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="mb-2">
-                    <label class="form-label">Cantidad a dividir:</label>
-                    <input type="number" id="txtCantidadDividir" class="form-control" min="1" />
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label class="form-label">Cantidad actual:</label>
+                        <input type="number" id="txtCantidadActual" class="form-control" readonly />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Cantidad a dividir:</label>
+                        <input type="number" id="txtCantidadDividir" class="form-control" min="1" />
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="btnConfirmarDividir">Dividir</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnConfirmarDividir">Dividir</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
     <!-- Modal: Notas / Adiciones del detalle -->
-<div class="modal fade" id="modalNotasDetalle" tabindex="-1" aria-labelledby="modalNotasDetalleLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalNotasDetalleLabel">Comentario / Adiciones</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
+    <div class="modal fade" id="modalNotasDetalle" tabindex="-1" aria-labelledby="modalNotasDetalleLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalNotasDetalleLabel">Comentario / Adiciones</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
 
-      <div class="modal-body">
-        <!-- Lista de adiciones -->
-        <div class="mb-2">
-          <div class="small text-muted mb-1">Toque para agregar o quitar:</div>
-          <div id="notas-adiciones-list" class="d-flex flex-wrap gap-2"></div>
-          <div id="notas-adiciones-empty" class="text-muted small d-none">No hay adiciones para esta categoría.</div>
+                <div class="modal-body">
+                    <!-- Lista de adiciones -->
+                    <div class="mb-2">
+                        <div class="small text-muted mb-1">Toque para agregar o quitar:</div>
+                        <div id="notas-adiciones-list" class="d-flex flex-wrap gap-2"></div>
+                        <div id="notas-adiciones-empty" class="text-muted small d-none">No hay adiciones para esta categoría.</div>
+                    </div>
+
+                    <!-- Textarea -->
+                    <label for="notas-adiciones-textarea" class="form-label small text-muted">Comentario (puede escribir manualmente):</label>
+                    <textarea id="notas-adiciones-textarea" class="form-control" rows="4" placeholder="Ej: con hielo; sin verduras;"></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" id="btnNotasLimpiar">
+                        <i class="bi bi-eraser"></i>Limpiar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnNotasGuardar">
+                        <i class="bi bi-check2"></i>Guardar
+                    </button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
         </div>
-
-        <!-- Textarea -->
-        <label for="notas-adiciones-textarea" class="form-label small text-muted">Comentario (puede escribir manualmente):</label>
-        <textarea id="notas-adiciones-textarea" class="form-control" rows="4" placeholder="Ej: con hielo; sin verduras;"></textarea>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" id="btnNotasLimpiar">
-          <i class="bi bi-eraser"></i> Limpiar
-        </button>
-        <button type="button" class="btn btn-primary" id="btnNotasGuardar">
-          <i class="bi bi-check2"></i> Guardar
-        </button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-      </div>
     </div>
-  </div>
-</div>
 
 
     <!-- Modal: Editar Alias -->
-<div class="modal fade" id="modalAlias" tabindex="-1" aria-labelledby="modalAliasLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalAliasLabel">Editar alias de la cuenta</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
+    <div class="modal fade" id="modalAlias" tabindex="-1" aria-labelledby="modalAliasLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAliasLabel">Editar alias de la cuenta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
 
-      <div class="modal-body">
-        <!-- ID cuenta oculto -->
-        <asp:HiddenField ID="HiddenField1" runat="server" />
+                <div class="modal-body">
+                    <!-- ID cuenta oculto -->
+                    <asp:HiddenField ID="HiddenField1" runat="server" />
 
-        <div class="mb-3">
-          <label for="txtAlias" class="form-label">Alias</label>
-          <asp:TextBox ID="txtAlias" runat="server" CssClass="form-control" MaxLength="100" />
-          <div class="form-text">Ej.: agrega el nombre personalizado para este servicio.</div>
+                    <div class="mb-3">
+                        <label for="txtAlias" class="form-label">Alias</label>
+                        <asp:TextBox ID="txtAlias" runat="server" CssClass="form-control" MaxLength="100" />
+                        <div class="form-text">Ej.: agrega el nombre personalizado para este servicio.</div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <asp:Button ID="btnGuardarAlias" runat="server" CssClass="btn btn-primary"
+                        Text="Guardar" OnClick="btnGuardarAlias_Click" />
+                </div>
+            </div>
         </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <asp:Button ID="btnGuardarAlias" runat="server" CssClass="btn btn-primary"
-                    Text="Guardar" OnClick="btnGuardarAlias_Click" />
-      </div>
     </div>
-  </div>
-</div>
 
 
 
-    
-<!-- 🔒 Hidden para enviar datos al servidor -->
-<input type="hidden" id="hdnEditarPropina" name="hdnEditarPropina" />
 
-<!-- 🧮 Modal Editar Propina -->
-<!-- 🧮 Modal Editar Propina -->
-<div class="modal fade" id="modalPropina" tabindex="-1" aria-labelledby="modalPropinaLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-sm">
-    <div class="modal-content">
-      <div class="modal-header py-2">
-        <h6 class="modal-title" id="modalPropinaLabel">Editar propina</h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
+    <!-- 🔒 Hidden para enviar datos al servidor -->
+    <input type="hidden" id="hdnEditarPropina" name="hdnEditarPropina" />
 
-      <div class="modal-body">
-        <div class="mb-2">
-          <label class="form-label small mb-1">Subtotal</label>
-          <input type="text" id="txtSubtotal" class="form-control form-control-sm" readonly>
+    <!-- 🧮 Modal Editar Propina -->
+    <!-- 🧮 Modal Editar Propina -->
+    <div class="modal fade" id="modalPropina" tabindex="-1" aria-labelledby="modalPropinaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header py-2">
+                    <h6 class="modal-title" id="modalPropinaLabel">Editar propina</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label class="form-label small mb-1">Subtotal</label>
+                        <input type="text" id="txtSubtotal" class="form-control form-control-sm" readonly>
+                    </div>
+
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="form-label small mb-1">% Propina</label>
+                            <!-- ✅ Solo enteros -->
+                            <input type="number" id="txtPorcentaje"
+                                min="0" max="15" step="1"
+                                class="form-control form-control-sm"
+                                inputmode="numeric"
+                                oninput="this.value = this.value.replace(/[^0-9]/g,'');" />
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small mb-1">Valor propina</label>
+                            <!-- ✅ Solo números sin decimales -->
+                            <input type="text" id="txtPropina"
+                                class="form-control form-control-sm"
+                                inputmode="numeric"
+                                pattern="[0-9]*"
+                                oninput="this.value = this.value.replace(/[^0-9]/g,'');" />
+                        </div>
+                    </div>
+
+                    <div class="mt-2 d-flex flex-wrap gap-1">
+                        <button type="button" class="btn btn-outline-secondary btn-sm quick-tip" data-tip="0">0%</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm quick-tip" data-tip="5">5%</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm quick-tip" data-tip="10">10%</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm quick-tip" data-tip="15">15%</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" id="btnQuitarPropina">Quitar</button>
+                    </div>
+
+                    <small id="ayudaPropina" class="text-muted d-block mt-2"></small>
+                </div>
+
+                <div class="modal-footer py-2">
+                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="btnGuardarPropina">Guardar</button>
+                </div>
+            </div>
         </div>
-
-        <div class="row g-2">
-          <div class="col-6">
-            <label class="form-label small mb-1">% Propina</label>
-            <!-- ✅ Solo enteros -->
-            <input type="number" id="txtPorcentaje"
-                   min="0" max="15" step="1"
-                   class="form-control form-control-sm"
-                   inputmode="numeric"
-                   oninput="this.value = this.value.replace(/[^0-9]/g,'');" />
-          </div>
-          <div class="col-6">
-            <label class="form-label small mb-1">Valor propina</label>
-            <!-- ✅ Solo números sin decimales -->
-            <input type="text" id="txtPropina"
-                   class="form-control form-control-sm"
-                   inputmode="numeric"
-                   pattern="[0-9]*"
-                   oninput="this.value = this.value.replace(/[^0-9]/g,'');" />
-          </div>
-        </div>
-
-        <div class="mt-2 d-flex flex-wrap gap-1">
-          <button type="button" class="btn btn-outline-secondary btn-sm quick-tip" data-tip="0">0%</button>
-          <button type="button" class="btn btn-outline-secondary btn-sm quick-tip" data-tip="5">5%</button>
-          <button type="button" class="btn btn-outline-secondary btn-sm quick-tip" data-tip="10">10%</button>
-          <button type="button" class="btn btn-outline-secondary btn-sm quick-tip" data-tip="15">15%</button>
-          <button type="button" class="btn btn-outline-danger btn-sm" id="btnQuitarPropina">Quitar</button>
-        </div>
-
-        <small id="ayudaPropina" class="text-muted d-block mt-2"></small>
-      </div>
-
-      <div class="modal-footer py-2">
-        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary btn-sm" id="btnGuardarPropina">Guardar</button>
-      </div>
     </div>
-  </div>
-</div>
 
 
 
@@ -1186,351 +1244,360 @@
 
 
 
-  <script type="text/javascript">
-      (function () {
-          // --- Evita doble inicialización ---
-          if (window.__initAnclar) return;
-          window.__initAnclar = true;
+    <script type="text/javascript">
+        (function () {
+            // --- Evita doble inicialización ---
+            if (window.__initAnclar) return;
+            window.__initAnclar = true;
 
-          // --- Helpers ---
-          function $id(id) { return document.getElementById(id); }
-          function toArray(nodeList) { return nodeList ? Array.prototype.slice.call(nodeList) : []; }
+            // --- Helpers ---
+            function $id(id) { return document.getElementById(id); }
+            function toArray(nodeList) { return nodeList ? Array.prototype.slice.call(nodeList) : []; }
 
-          // --- Variable global con cuentas (desde code-behind) ---
-          window.cuentas = <%= CuentasJson ?? "[]" %>;
-          console.log("Cuentas cargadas:", window.cuentas);
+            // --- Variable global con cuentas (desde code-behind) ---
+            window.cuentas = <%= CuentasJson ?? "[]" %>;
+            console.log("Cuentas cargadas:", window.cuentas);
 
-          // --- Inicializar modal ---
-          var modalEl = $id('modalAnclar');
-          if (!modalEl) { console.error('modalAnclar no encontrado'); return; }
+            // --- Inicializar modal ---
+            var modalEl = $id('modalAnclar');
+            if (!modalEl) { console.error('modalAnclar no encontrado'); return; }
 
-          var bsModal;
-          function initModal() {
-              if (!bsModal && window.bootstrap && bootstrap.Modal) {
-                  bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: true });
-              }
-          }
-          initModal();
-
-          // --- Función para abrir modal y crear botones ---
-          function openAnclarModal(detalleId) {
-              initModal(); // asegúrate que bootstrap.Modal esté inicializado
-
-              var container = $id('anclar-cuentas-list');
-              var empty = $id('anclar-empty');
-              if (!container || !empty) return console.error('Elementos del modal no encontrados');
-
-              container.innerHTML = '';
-
-              if (!window.cuentas || !Array.isArray(window.cuentas) || window.cuentas.length === 0) {
-                  empty.classList.remove('d-none');
-                  empty.textContent = 'No hay cuentas disponibles';
-                  bsModal.show();
-                  return;
-              }
-
-              empty.classList.add('d-none');
-
-              window.cuentas.forEach(function (c) {
-                  if (!c) return;
-
-                  var btn = document.createElement('button');
-                  btn.type = 'button';
-                  btn.className = 'btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center';
-                  btn.style.gap = '8px';
-                  btn.setAttribute('data-cuenta-id', c.id ?? '');
-                  btn.setAttribute('data-detalle-id', detalleId ?? '');
-
-                  var left = document.createElement('span');
-                  left.textContent = c.nombre ?? '(sin nombre)';
-
-                  var right = document.createElement('span');
-                  right.className = 'badge bg-light text-dark';
-                  right.textContent = (!isNaN(Number(c.total)))
-                      ? Number(c.total).toLocaleString('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 })
-                      : c.total ?? '';
-
-                  btn.appendChild(left);
-                  btn.appendChild(right);
-
-                  btn.addEventListener('click', function () {
-                      var cuentaId = this.getAttribute('data-cuenta-id');
-                      var detId = this.getAttribute('data-detalle-id');
-                      var arg = (detId ?? '') + '|' + (cuentaId ?? '');
-                      if (typeof __doPostBack === 'function') {
-                          __doPostBack('AnclarDetalle', arg);
-                      } else {
-                          alert('No se puede hacer postback, __doPostBack no definido.');
-                      }
-                  });
-
-                  container.appendChild(btn);
-              });
-
-              bsModal.show();
-          }
-
-          // --- Delegación global para abrir modal ---
-          document.addEventListener('click', function (e) {
-              var btn = e.target.closest('.btn-anclar');
-              if (!btn) return;
-
-              // Alert para verificar que el click está llegando
-              console.log("Click detectado en .btn-anclar");
-              //alert("Click detectado en .btn-anclar");
-
-              var detalleId = btn.getAttribute('data-id');
-              if (!detalleId) return console.warn('data-id no definido en el botón .btn-anclar');
-
-              openAnclarModal(detalleId);
-          });
-
-      })();
-  </script>
-
-
-<script>
-    (function () {
-        // --- Evita doble inicialización ---
-        if (window.__initDividirDetalle) return;
-        window.__initDividirDetalle = true;
-
-        function $id(id) { return document.getElementById(id); }
-
-        // --- Inicializar modal ---
-        const modalEl = $id('modalDividirDetalle');
-        if (!modalEl) { console.error('modalDividirDetalle no encontrado'); return; }
-
-        let bsModal;
-        function initModal() {
-            if (!bsModal && window.bootstrap && bootstrap.Modal) {
-                bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: true });
+            var bsModal;
+            function initModal() {
+                if (!bsModal && window.bootstrap && bootstrap.Modal) {
+                    bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: true });
+                }
             }
-        }
-        initModal();
-
-        const inputActual = $id('txtCantidadActual');
-        const inputDividir = $id('txtCantidadDividir');
-        const btnConfirmar = $id('btnConfirmarDividir');
-
-        let detalleIdGlobal = null;
-        let cantidadActualGlobal = 0;
-
-        // --- Función para abrir modal ---
-        function openDividirModal(detalleId, cantidadActual) {
             initModal();
 
-            detalleIdGlobal = detalleId;
-            cantidadActualGlobal = cantidadActual;
+            // --- Función para abrir modal y crear botones ---
+            function openAnclarModal(detalleId) {
+                initModal(); // asegúrate que bootstrap.Modal esté inicializado
 
-            if (inputActual) inputActual.value = cantidadActualGlobal;
-            if (inputDividir) {
-                inputDividir.value = 1;
-                inputDividir.max = cantidadActualGlobal - 1;
-            }
+                var container = $id('anclar-cuentas-list');
+                var empty = $id('anclar-empty');
+                if (!container || !empty) return console.error('Elementos del modal no encontrados');
 
-            bsModal.show();
-        }
+                container.innerHTML = '';
 
-        // --- Delegación click en botones .btn-dividir ---
-        document.addEventListener('click', function (e) {
-            const btn = e.target.closest('.btn-dividir');
-            if (!btn) return;
+                if (!window.cuentas || !Array.isArray(window.cuentas) || window.cuentas.length === 0) {
+                    empty.classList.remove('d-none');
+                    empty.textContent = 'No hay cuentas disponibles';
+                    bsModal.show();
+                    return;
+                }
 
-            const cantidadActual = parseInt(btn.getAttribute('data-cantidadActual') || '0');
-            const detalleId = btn.getAttribute('data-id');
+                empty.classList.add('d-none');
 
-            if (!detalleId) {
-                console.warn('data-id no definido en el botón .btn-dividir');
-                return;
-            }
+                window.cuentas.forEach(function (c) {
+                    if (!c) return;
 
-            if (cantidadActual <= 1) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: '¡Atención!',
-                    text: 'No se puede dividir un detalle con cantidad menor o igual a 1.',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Aceptar'
+                    var btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'btn btn-outline-primary btn-sm d-flex justify-content-between align-items-center';
+                    btn.style.gap = '8px';
+                    btn.setAttribute('data-cuenta-id', c.id ?? '');
+                    btn.setAttribute('data-detalle-id', detalleId ?? '');
+
+                    var left = document.createElement('span');
+                    left.textContent = c.nombre ?? '(sin nombre)';
+
+                    var right = document.createElement('span');
+                    right.className = 'badge bg-light text-dark';
+                    right.textContent = (!isNaN(Number(c.total)))
+                        ? Number(c.total).toLocaleString('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 })
+                        : c.total ?? '';
+
+                    btn.appendChild(left);
+                    btn.appendChild(right);
+
+                    btn.addEventListener('click', function () {
+                        var cuentaId = this.getAttribute('data-cuenta-id');
+                        var detId = this.getAttribute('data-detalle-id');
+                        var arg = (detId ?? '') + '|' + (cuentaId ?? '');
+                        if (typeof __doPostBack === 'function') {
+                            __doPostBack('AnclarDetalle', arg);
+                        } else {
+                            alert('No se puede hacer postback, __doPostBack no definido.');
+                        }
+                    });
+
+                    container.appendChild(btn);
                 });
-                return;
+
+                bsModal.show();
             }
 
-            console.log('Click detectado en .btn-dividir, detalleId:', detalleId);
-            openDividirModal(detalleId, cantidadActual);
-        });
+            // --- Delegación global para abrir modal ---
+            document.addEventListener('click', function (e) {
+                var btn = e.target.closest('.btn-anclar');
+                if (!btn) return;
 
-        // --- Confirmar división ---
-        if (btnConfirmar) {
-            btnConfirmar.addEventListener('click', function () {
-                const cantidadDividir = parseInt(inputDividir.value || '0');
-                if (cantidadDividir < 1 || cantidadDividir >= cantidadActualGlobal) {
+                // Alert para verificar que el click está llegando
+                console.log("Click detectado en .btn-anclar");
+                //alert("Click detectado en .btn-anclar");
+
+                var detalleId = btn.getAttribute('data-id');
+                if (!detalleId) return console.warn('data-id no definido en el botón .btn-anclar');
+
+                openAnclarModal(detalleId);
+            });
+
+        })();
+    </script>
+
+
+    <script>
+        (function () {
+            // --- Evita doble inicialización ---
+            if (window.__initDividirDetalle) return;
+            window.__initDividirDetalle = true;
+
+            function $id(id) { return document.getElementById(id); }
+
+            // --- Inicializar modal ---
+            const modalEl = $id('modalDividirDetalle');
+            if (!modalEl) { console.error('modalDividirDetalle no encontrado'); return; }
+
+            let bsModal;
+            function initModal() {
+                if (!bsModal && window.bootstrap && bootstrap.Modal) {
+                    bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: true });
+                }
+            }
+            initModal();
+
+            const inputActual = $id('txtCantidadActual');
+            const inputDividir = $id('txtCantidadDividir');
+            const btnConfirmar = $id('btnConfirmarDividir');
+
+            let detalleIdGlobal = null;
+            let cantidadActualGlobal = 0;
+
+            // --- Función para abrir modal ---
+            function openDividirModal(detalleId, cantidadActual) {
+                initModal();
+
+                detalleIdGlobal = detalleId;
+                cantidadActualGlobal = cantidadActual;
+
+                if (inputActual) inputActual.value = cantidadActualGlobal;
+                if (inputDividir) {
+                    inputDividir.value = 1;
+                    inputDividir.max = cantidadActualGlobal - 1;
+                }
+
+                bsModal.show();
+            }
+
+            // --- Delegación click en botones .btn-dividir ---
+            document.addEventListener('click', function (e) {
+                const btn = e.target.closest('.btn-dividir');
+                if (!btn) return;
+
+                const cantidadActual = parseInt(btn.getAttribute('data-cantidadActual') || '0');
+                const detalleId = btn.getAttribute('data-id');
+
+                if (!detalleId) {
+                    console.warn('data-id no definido en el botón .btn-dividir');
+                    return;
+                }
+
+                if (cantidadActual <= 1) {
                     Swal.fire({
                         icon: 'warning',
                         title: '¡Atención!',
-                        text: 'Cantidad inválida para dividir.',
+                        text: 'No se puede dividir un detalle con cantidad menor o igual a 1.',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Aceptar'
                     });
                     return;
                 }
 
-                if (typeof __doPostBack === 'function') {
-                    const arg = detalleIdGlobal + '|' + cantidadActualGlobal + '|' + cantidadDividir;
-                    __doPostBack('DividirDetalle', arg);
-                    bsModal.hide();
-                } else {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'División realizada',
-                        html: `DetalleId: <b>${detalleIdGlobal}</b><br>
+                console.log('Click detectado en .btn-dividir, detalleId:', detalleId);
+                openDividirModal(detalleId, cantidadActual);
+            });
+
+            // --- Confirmar división ---
+            if (btnConfirmar) {
+                btnConfirmar.addEventListener('click', function () {
+                    const cantidadDividir = parseInt(inputDividir.value || '0');
+                    if (cantidadDividir < 1 || cantidadDividir >= cantidadActualGlobal) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: '¡Atención!',
+                            text: 'Cantidad inválida para dividir.',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Aceptar'
+                        });
+                        return;
+                    }
+
+                    if (typeof __doPostBack === 'function') {
+                        const arg = detalleIdGlobal + '|' + cantidadActualGlobal + '|' + cantidadDividir;
+                        __doPostBack('DividirDetalle', arg);
+                        bsModal.hide();
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'División realizada',
+                            html: `DetalleId: <b>${detalleIdGlobal}</b><br>
                            Cantidad a dividir: <b>${cantidadDividir}</b>`,
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Aceptar'
-                    });
-                    bsModal.hide();
-                }
-            });
-        }
-
-    })();
-</script>
-
-
-
-<script runat="server">
-  protected string AdicionesJson => Newtonsoft.Json.JsonConvert.SerializeObject(
-      Models.adiciones ?? new List<DAL.Model.V_CatagoriaAdicion>()
-  );
-</script>
-
-<!-- 👇 ESTO sí es cliente (JS en el navegador) -->
-<script>
-  // V_CatagoriaAdicion => { id, idCategoria, idAdicion, nombreCategoria, nombreAdicion, estado }
-  window.adiciones = <%= AdicionesJson %>;
-    console.log('[NotasDetalle] adiciones cargadas:', Array.isArray(window.adiciones) ? window.adiciones.length : window.adiciones);
-</script>
-
-
-
-<script type="text/javascript">
-    (function () {
-        if (window.__initNotasDetalle2) return;
-        window.__initNotasDetalle2 = true;
-
-        function $id(id) { return document.getElementById(id); }
-        function tokenize(str) {
-            const seen = new Set(), out = [];
-            (str || '').split(';').map(s => s.trim()).filter(Boolean).forEach(s => {
-                const k = s.toLowerCase(); if (!seen.has(k)) { seen.add(k); out.push(s); }
-            });
-            return out;
-        }
-        function joinCanon(tokens) { return tokens.length ? (tokens.join('; ') + ';') : ''; }
-
-        var modalEl = $id('modalNotasDetalle');
-        var listEl = $id('notas-adiciones-list');
-        var emptyEl = $id('notas-adiciones-empty');
-        var txtEl = $id('notas-adiciones-textarea');
-        var btnGuardar = $id('btnNotasGuardar');
-        var btnLimpiar = $id('btnNotasLimpiar');
-
-        // Render de adiciones para la categoría
-        function renderAdiciones(idCategoria, selectedTokens) {
-            listEl.innerHTML = '';
-            const cat = Number(idCategoria);
-
-            const items = (window.adiciones || []).filter(a => Number(a.idCategoria) === cat);
-            console.log('[NotasDetalle] filtrando por categoría', { cat, total: (window.adiciones || []).length, filtradas: items.length });
-
-            if (!items.length) {
-                emptyEl.classList.remove('d-none');
-                return;
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Aceptar'
+                        });
+                        bsModal.hide();
+                    }
+                });
             }
-            emptyEl.classList.add('d-none');
 
-            const setSel = new Set((selectedTokens || []).map(t => t.toLowerCase()));
+        })();
+    </script>
 
-            items.forEach(a => {
-                const name = String(a.nombreAdicion || '').trim();
-                if (!name) return;
 
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'btn btn-sm btn-outline-secondary adicion-btn';
-                btn.dataset.name = name;
-                btn.textContent = name;
 
-                if (setSel.has(name.toLowerCase())) btn.classList.add('active');
+    <script runat="server">
+        protected string AdicionesJson
+        {
+            get
+            {
+                var lista = (Models != null && Models.adiciones != null)
+                            ? Models.adiciones
+                            : new List<DAL.Model.V_CatagoriaAdicion>();
 
-                btn.onclick = function () {
-                    const toks = tokenize(txtEl.value);
-                    const i = toks.findIndex(t => t.toLowerCase() === name.toLowerCase());
-                    if (i >= 0) { toks.splice(i, 1); btn.classList.remove('active'); }
-                    else { toks.push(name); btn.classList.add('active'); }
-                    txtEl.value = joinCanon(toks);
+                return Newtonsoft.Json.JsonConvert.SerializeObject(lista);
+            }
+        }
+    </script>
+
+
+    <!-- 👇 ESTO sí es cliente (JS en el navegador) -->
+    <script>
+        // V_CatagoriaAdicion => { id, idCategoria, idAdicion, nombreCategoria, nombreAdicion, estado }
+        window.adiciones = <%= AdicionesJson %>;
+        console.log('[NotasDetalle] adiciones cargadas:', Array.isArray(window.adiciones) ? window.adiciones.length : window.adiciones);
+    </script>
+
+
+
+    <script type="text/javascript">
+        (function () {
+            if (window.__initNotasDetalle2) return;
+            window.__initNotasDetalle2 = true;
+
+            function $id(id) { return document.getElementById(id); }
+            function tokenize(str) {
+                const seen = new Set(), out = [];
+                (str || '').split(';').map(s => s.trim()).filter(Boolean).forEach(s => {
+                    const k = s.toLowerCase(); if (!seen.has(k)) { seen.add(k); out.push(s); }
+                });
+                return out;
+            }
+            function joinCanon(tokens) { return tokens.length ? (tokens.join('; ') + ';') : ''; }
+
+            var modalEl = $id('modalNotasDetalle');
+            var listEl = $id('notas-adiciones-list');
+            var emptyEl = $id('notas-adiciones-empty');
+            var txtEl = $id('notas-adiciones-textarea');
+            var btnGuardar = $id('btnNotasGuardar');
+            var btnLimpiar = $id('btnNotasLimpiar');
+
+            // Render de adiciones para la categoría
+            function renderAdiciones(idCategoria, selectedTokens) {
+                listEl.innerHTML = '';
+                const cat = Number(idCategoria);
+
+                const items = (window.adiciones || []).filter(a => Number(a.idCategoria) === cat);
+                console.log('[NotasDetalle] filtrando por categoría', { cat, total: (window.adiciones || []).length, filtradas: items.length });
+
+                if (!items.length) {
+                    emptyEl.classList.remove('d-none');
+                    return;
+                }
+                emptyEl.classList.add('d-none');
+
+                const setSel = new Set((selectedTokens || []).map(t => t.toLowerCase()));
+
+                items.forEach(a => {
+                    const name = String(a.nombreAdicion || '').trim();
+                    if (!name) return;
+
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'btn btn-sm btn-outline-secondary adicion-btn';
+                    btn.dataset.name = name;
+                    btn.textContent = name;
+
+                    if (setSel.has(name.toLowerCase())) btn.classList.add('active');
+
+                    btn.onclick = function () {
+                        const toks = tokenize(txtEl.value);
+                        const i = toks.findIndex(t => t.toLowerCase() === name.toLowerCase());
+                        if (i >= 0) { toks.splice(i, 1); btn.classList.remove('active'); }
+                        else { toks.push(name); btn.classList.add('active'); }
+                        txtEl.value = joinCanon(toks);
+                    };
+
+                    listEl.appendChild(btn);
+                });
+            }
+
+
+            function syncFromTextarea() {
+                const toks = tokenize(txtEl.value);
+                const set = new Set(toks.map(t => t.toLowerCase()));
+                listEl.querySelectorAll('.adicion-btn').forEach(btn => {
+                    const name = (btn.dataset.name || '').toLowerCase();
+                    btn.classList.toggle('active', set.has(name));
+                });
+            }
+            txtEl.addEventListener('input', syncFromTextarea);
+
+            // ⚡ Punto clave: cuando el modal va a mostrarse, Bootstrap nos da el botón que lo abrió
+            modalEl.addEventListener('show.bs.modal', function (ev) {
+                const triggerBtn = ev.relatedTarget; // <-- el botón "Comentario" que se clickeó
+                if (!triggerBtn) return;
+
+                const id = triggerBtn.getAttribute('data-id');
+                const idCategoria = triggerBtn.getAttribute('data-idcategoria');
+                const adicionesIniciales = triggerBtn.getAttribute('data-adiciones') || '';
+
+                // Precarga textarea y lista
+                txtEl.value = adicionesIniciales;
+                renderAdiciones(idCategoria, tokenize(adicionesIniciales));
+
+                // Configurar Guardar para este id
+                btnGuardar.onclick = function () {
+                    const texto = joinCanon(tokenize(txtEl.value));
+                    const payload = String(id) + '|' + texto;
+                    if (typeof __doPostBack === 'function') {
+                        __doPostBack('NotasDetalle', payload);
+                    } else {
+                        console.error('__doPostBack no disponible');
+                    }
                 };
 
-                listEl.appendChild(btn);
-            });
-        }
+                // Limpiar con confirmación moderna
+                btnLimpiar.onclick = function () {
+                    if (!txtEl.value.trim()) return;
 
-
-        function syncFromTextarea() {
-            const toks = tokenize(txtEl.value);
-            const set = new Set(toks.map(t => t.toLowerCase()));
-            listEl.querySelectorAll('.adicion-btn').forEach(btn => {
-                const name = (btn.dataset.name || '').toLowerCase();
-                btn.classList.toggle('active', set.has(name));
-            });
-        }
-        txtEl.addEventListener('input', syncFromTextarea);
-
-        // ⚡ Punto clave: cuando el modal va a mostrarse, Bootstrap nos da el botón que lo abrió
-        modalEl.addEventListener('show.bs.modal', function (ev) {
-            const triggerBtn = ev.relatedTarget; // <-- el botón "Comentario" que se clickeó
-            if (!triggerBtn) return;
-
-            const id = triggerBtn.getAttribute('data-id');
-            const idCategoria = triggerBtn.getAttribute('data-idcategoria');
-            const adicionesIniciales = triggerBtn.getAttribute('data-adiciones') || '';
-
-            // Precarga textarea y lista
-            txtEl.value = adicionesIniciales;
-            renderAdiciones(idCategoria, tokenize(adicionesIniciales));
-
-            // Configurar Guardar para este id
-            btnGuardar.onclick = function () {
-                const texto = joinCanon(tokenize(txtEl.value));
-                const payload = String(id) + '|' + texto;
-                if (typeof __doPostBack === 'function') {
-                    __doPostBack('NotasDetalle', payload);
-                } else {
-                    console.error('__doPostBack no disponible');
-                }
-            };
-
-            // Limpiar con confirmación moderna
-            btnLimpiar.onclick = function () {
-                if (!txtEl.value.trim()) return;
-
-                AlertModerno.Confirm(
-                    "¿Deseas limpiar el comentario/adiciones?",
-                    "Esta acción eliminará todo el texto actual.",
-                    function (ok) {
-                        if (ok) {
-                            txtEl.value = '';
-                            syncFromTextarea();
-                            AlertModerno.Success(null, "¡Listo!", "Comentario limpiado correctamente.", false, 800);
+                    AlertModerno.Confirm(
+                        "¿Deseas limpiar el comentario/adiciones?",
+                        "Esta acción eliminará todo el texto actual.",
+                        function (ok) {
+                            if (ok) {
+                                txtEl.value = '';
+                                syncFromTextarea();
+                                AlertModerno.Success(null, "¡Listo!", "Comentario limpiado correctamente.", false, 800);
+                            }
                         }
-                    }
-                );
-            };
+                    );
+                };
 
-        });
+            });
 
-    })();
-</script>
+        })();
+    </script>
 
 
 
@@ -1566,11 +1633,11 @@
                 var aliasActual = btn.getAttribute('data-alias') || '';
 
                 $id('<%= hfCuentaId.ClientID %>').value = id;
-    $id('<%= txtAlias.ClientID %>').value = aliasActual;
+                $id('<%= txtAlias.ClientID %>').value = aliasActual;
 
-      var m = ensureModal();
-      if (m) m.show();
-  }, true);
+                var m = ensureModal();
+                if (m) m.show();
+            }, true);
         })();
     </script>
 
@@ -1583,37 +1650,40 @@
     </script>
 
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var idCuentaActiva = <%= Models.IdCuentaActiva %>;
-    var btnEliminar = document.getElementById('btnEliminarServicio');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var idCuentaActiva = <%= (Models != null ? Models.IdCuentaActiva : 0) %>;
+        var btnEliminar = document.getElementById('btnEliminarServicio');
 
-    // Buscar aliasVenta correspondiente
-    var botonServicio = document.querySelector('[data-id="' + idCuentaActiva + '"]');
-    var aliasVenta = botonServicio ? botonServicio.getAttribute('data-alias') : "este servicio";
+        if (!btnEliminar) return;
 
-    btnEliminar.addEventListener('click', function (e) {
-        e.preventDefault();
+        // Buscar aliasVenta correspondiente
+        var botonServicio = document.querySelector('[data-id="' + idCuentaActiva + '"]');
+        var aliasVenta = botonServicio ? botonServicio.getAttribute('data-alias') : "este servicio";
 
-        Swal.fire({
-            title: '¿Eliminar servicio?',
-            html: `<b>${aliasVenta}</b><br>Esta acción no se puede deshacer.`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                __doPostBack('btnEliminarServicio', '');
-            }
+        btnEliminar.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: '¿Eliminar servicio?',
+                html: `<b>${aliasVenta}</b><br>Esta acción no se puede deshacer.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    __doPostBack('btnEliminarServicio', '');
+                }
+            });
         });
     });
-});
-</script>
+    </script>
 
-    
+
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const contenedor = document.querySelector('.lista-mesas');
@@ -1622,7 +1692,7 @@
                 return;
             }
 
-            
+
             contenedor.addEventListener('click', function (e) {
                 const boton = e.target.closest('.btnMesa');
                 if (!boton || !contenedor.contains(boton)) return;
@@ -1704,12 +1774,12 @@
                     // 8️⃣ Llamar al postback con el idMesa
                     if (typeof __doPostBack === 'function') {
                         __doPostBack('btnLiberarMesa', payload);
-        } else {
-            console.error('__doPostBack no está disponible en esta página.');
-        }
-    });
-  });
-});
+                    } else {
+                        console.error('__doPostBack no está disponible en esta página.');
+                    }
+                });
+            });
+        });
     </script>
 
 
@@ -1733,211 +1803,211 @@
         });
     </script>
 
-<script>
-    (function () {
-        if (window.__initEditarPropina) return;
-        window.__initEditarPropina = true;
+    <script>
+        (function () {
+            if (window.__initEditarPropina) return;
+            window.__initEditarPropina = true;
 
-        // ---- Elementos base ----
-        const btnTrigger = document.getElementById('btnEditarPropina');
-        const hdnPayload = document.getElementById('hdnEditarPropina');
-        const modalEl = document.getElementById('modalPropina');
+            // ---- Elementos base ----
+            const btnTrigger = document.getElementById('btnEditarPropina');
+            const hdnPayload = document.getElementById('hdnEditarPropina');
+            const modalEl = document.getElementById('modalPropina');
 
-        if (!btnTrigger || !hdnPayload || !modalEl) {
-            console.error('Faltan elementos: btnEditarPropina, hdnEditarPropina o modalPropina.');
-            return;
-        }
-
-        let bsModal;
-        function ensureModal() {
-            if (!bsModal && window.bootstrap?.Modal) {
-                bsModal = new bootstrap.Modal(modalEl);
-            }
-            return bsModal;
-        }
-
-        // ---- Constantes y helpers ----
-        const MAX_PERCENT = 15; // % máximo permitido
-        const nfCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
-
-        function formatCOP(n) { return nfCOP.format(isFinite(n) ? n : 0); }
-        function clamp(n, min, max) { return Math.min(Math.max(n, min), max); }
-        function roundTo100(n) { return Math.round(n / 100) * 100; } // múltiplo de 100
-
-        // Parser robusto: quita miles y normaliza decimal
-        function parseNumber(str) {
-            if (typeof str === 'number') return str;
-            if (!str) return 0;
-            str = String(str).trim();
-            str = str.replace(/[^\d.,-]/g, '');
-
-            if (str.includes('.') && str.includes(',')) {
-                str = str.replace(/\./g, '').replace(',', '.');
-            } else if (str.includes(',')) {
-                str = str.replace(/\./g, '').replace(',', '.');
-            } else {
-                str = str.replace(/\./g, '');
+            if (!btnTrigger || !hdnPayload || !modalEl) {
+                console.error('Faltan elementos: btnEditarPropina, hdnEditarPropina o modalPropina.');
+                return;
             }
 
-            const n = parseFloat(str);
-            return Number.isFinite(n) ? n : 0;
-        }
+            let bsModal;
+            function ensureModal() {
+                if (!bsModal && window.bootstrap?.Modal) {
+                    bsModal = new bootstrap.Modal(modalEl);
+                }
+                return bsModal;
+            }
 
-        // ---- Controles del modal ----
-        const txtSubtotal = document.getElementById('txtSubtotal');
-        const txtPorcentaje = document.getElementById('txtPorcentaje');
-        const txtPropina = document.getElementById('txtPropina');
-        const ayuda = document.getElementById('ayudaPropina');
-        const btnGuardar = document.getElementById('btnGuardarPropina');
-        const btnQuitar = document.getElementById('btnQuitarPropina');
+            // ---- Constantes y helpers ----
+            const MAX_PERCENT = 15; // % máximo permitido
+            const nfCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
 
-        // Estado
-        let subtotal = 0, porcentaje = 0, propina = 0, idventa = 0, idcuenta = 0;
-        let lastEdited = null; // 'percent' | 'value'
+            function formatCOP(n) { return nfCOP.format(isFinite(n) ? n : 0); }
+            function clamp(n, min, max) { return Math.min(Math.max(n, min), max); }
+            function roundTo100(n) { return Math.round(n / 100) * 100; } // múltiplo de 100
 
-        function renderHelp() {
-            ayuda && (ayuda.textContent = `Esto equivale a ${porcentaje}% sobre ${formatCOP(subtotal)}.`);
-        }
+            // Parser robusto: quita miles y normaliza decimal
+            function parseNumber(str) {
+                if (typeof str === 'number') return str;
+                if (!str) return 0;
+                str = String(str).trim();
+                str = str.replace(/[^\d.,-]/g, '');
 
-        // Sincronización: % -> valor
-        function syncFromPercent() {
-            porcentaje = Math.round(clamp(parseNumber(txtPorcentaje.value), 0, MAX_PERCENT));
-            const calc = (subtotal * porcentaje) / 100;
-            propina = Math.min(roundTo100(calc), subtotal);
-            txtPorcentaje.value = porcentaje;
-            txtPropina.value = formatCOP(propina);
-            lastEdited = 'percent';
-            renderHelp();
-        }
+                if (str.includes('.') && str.includes(',')) {
+                    str = str.replace(/\./g, '').replace(',', '.');
+                } else if (str.includes(',')) {
+                    str = str.replace(/\./g, '').replace(',', '.');
+                } else {
+                    str = str.replace(/\./g, '');
+                }
 
-        // Sincronización: valor -> %
-        function syncFromValue() {
-            let raw = parseNumber(txtPropina.value);
-            raw = Math.max(0, raw);
-            propina = Math.min(roundTo100(raw), subtotal);
-            porcentaje = subtotal > 0 ? Math.round((propina / subtotal) * 100) : 0;
-            porcentaje = clamp(porcentaje, 0, MAX_PERCENT);
-            txtPorcentaje.value = porcentaje;
-            txtPropina.value = formatCOP(propina);
-            lastEdited = 'value';
-            renderHelp();
-        }
+                const n = parseFloat(str);
+                return Number.isFinite(n) ? n : 0;
+            }
 
-        // Eventos
-        txtPorcentaje?.addEventListener('input', () => {
-            porcentaje = Math.round(clamp(parseNumber(txtPorcentaje.value), 0, MAX_PERCENT));
-            const calc = (subtotal * porcentaje) / 100;
-            propina = Math.min(roundTo100(calc), subtotal);
-            txtPropina.value = formatCOP(propina);
-            lastEdited = 'percent';
-            renderHelp();
-        });
+            // ---- Controles del modal ----
+            const txtSubtotal = document.getElementById('txtSubtotal');
+            const txtPorcentaje = document.getElementById('txtPorcentaje');
+            const txtPropina = document.getElementById('txtPropina');
+            const ayuda = document.getElementById('ayudaPropina');
+            const btnGuardar = document.getElementById('btnGuardarPropina');
+            const btnQuitar = document.getElementById('btnQuitarPropina');
 
-        txtPropina?.addEventListener('input', () => {
-            let raw = Math.max(0, parseNumber(txtPropina.value));
-            let pTmp = subtotal > 0 ? Math.round((raw / subtotal) * 100) : 0;
-            pTmp = clamp(pTmp, 0, MAX_PERCENT);
-            txtPorcentaje.value = pTmp;
-            lastEdited = 'value';
-            renderHelp();
-        });
+            // Estado
+            let subtotal = 0, porcentaje = 0, propina = 0, idventa = 0, idcuenta = 0;
+            let lastEdited = null; // 'percent' | 'value'
 
-        txtPorcentaje?.addEventListener('blur', syncFromPercent);
-        txtPropina?.addEventListener('blur', syncFromValue);
+            function renderHelp() {
+                ayuda && (ayuda.textContent = `Esto equivale a ${porcentaje}% sobre ${formatCOP(subtotal)}.`);
+            }
 
-        // Atajos de porcentaje
-        document.querySelectorAll('.quick-tip').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const p = parseNumber(btn.dataset.tip);
-                txtPorcentaje.value = p;
-                syncFromPercent();
-            });
-        });
-
-        // Quitar propina
-        btnQuitar?.addEventListener('click', () => {
-            txtPorcentaje.value = '0';
-            txtPropina.value = formatCOP(0);
-            syncFromPercent();
-        });
-
-        // Abrir modal
-        btnTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            subtotal = parseNumber(btnTrigger.dataset.subtotal);
-            porcentaje = Math.round(clamp(parseNumber(btnTrigger.dataset.porcentaje), 0, MAX_PERCENT));
-            propina = Math.max(0, parseNumber(btnTrigger.dataset.propina));
-            idventa = parseInt(btnTrigger.dataset.idventa || '0', 10) || 0;
-            idcuenta = parseInt(btnTrigger.dataset.idcuenta || '0', 10) || 0;
-
-            if (propina > 0) {
-                porcentaje = subtotal > 0 ? Math.round(clamp((propina / subtotal) * 100, 0, MAX_PERCENT)) : 0;
-            } else {
+            // Sincronización: % -> valor
+            function syncFromPercent() {
+                porcentaje = Math.round(clamp(parseNumber(txtPorcentaje.value), 0, MAX_PERCENT));
                 const calc = (subtotal * porcentaje) / 100;
                 propina = Math.min(roundTo100(calc), subtotal);
+                txtPorcentaje.value = porcentaje;
+                txtPropina.value = formatCOP(propina);
+                lastEdited = 'percent';
+                renderHelp();
             }
 
-            txtSubtotal.value = formatCOP(subtotal);
-            txtPorcentaje.value = porcentaje;
-            txtPropina.value = formatCOP(propina);
-            lastEdited = null;
-            renderHelp();
-
-            ensureModal()?.show();
-        });
-
-        // Guardar
-        btnGuardar.addEventListener('click', () => {
-            if (lastEdited === 'value') syncFromValue();
-            else syncFromPercent();
-
-            const payload = {
-                porcentaje: porcentaje,  // entero sin decimales
-                propina: propina,        // entero COP múltiplo de 100
-                idventa: idventa,
-                idcuenta: idcuenta
-            };
-
-            hdnPayload.value = JSON.stringify(payload);
-            if (typeof __doPostBack === 'function') {
-                __doPostBack('btnEditarPropina', '');
+            // Sincronización: valor -> %
+            function syncFromValue() {
+                let raw = parseNumber(txtPropina.value);
+                raw = Math.max(0, raw);
+                propina = Math.min(roundTo100(raw), subtotal);
+                porcentaje = subtotal > 0 ? Math.round((propina / subtotal) * 100) : 0;
+                porcentaje = clamp(porcentaje, 0, MAX_PERCENT);
+                txtPorcentaje.value = porcentaje;
+                txtPropina.value = formatCOP(propina);
+                lastEdited = 'value';
+                renderHelp();
             }
 
-            btnGuardar.disabled = true;
-            setTimeout(() => { btnGuardar.disabled = false; }, 2000);
-        });
+            // Eventos
+            txtPorcentaje?.addEventListener('input', () => {
+                porcentaje = Math.round(clamp(parseNumber(txtPorcentaje.value), 0, MAX_PERCENT));
+                const calc = (subtotal * porcentaje) / 100;
+                propina = Math.min(roundTo100(calc), subtotal);
+                txtPropina.value = formatCOP(propina);
+                lastEdited = 'percent';
+                renderHelp();
+            });
 
-    })();
-</script>
+            txtPropina?.addEventListener('input', () => {
+                let raw = Math.max(0, parseNumber(txtPropina.value));
+                let pTmp = subtotal > 0 ? Math.round((raw / subtotal) * 100) : 0;
+                pTmp = clamp(pTmp, 0, MAX_PERCENT);
+                txtPorcentaje.value = pTmp;
+                lastEdited = 'value';
+                renderHelp();
+            });
 
+            txtPorcentaje?.addEventListener('blur', syncFromPercent);
+            txtPropina?.addEventListener('blur', syncFromValue);
 
+            // Atajos de porcentaje
+            document.querySelectorAll('.quick-tip').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const p = parseNumber(btn.dataset.tip);
+                    txtPorcentaje.value = p;
+                    syncFromPercent();
+                });
+            });
 
-    
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const buscador = document.getElementById("buscador-productos");
+            // Quitar propina
+            btnQuitar?.addEventListener('click', () => {
+                txtPorcentaje.value = '0';
+                txtPropina.value = formatCOP(0);
+                syncFromPercent();
+            });
 
-        // Evento más confiable para móviles
-        buscador.addEventListener("keydown", function (e) {
-            // Detecta tecla Enter (tanto física como virtual)
-            if (e.key === "Enter" || e.keyCode === 13) {
-                e.preventDefault(); // Evita tabular
-                const valor = buscador.value.trim();
-                if (valor !== "") {
-                    // Llamada al postback
-                    __doPostBack("btnCuscarProducto", valor);
+            // Abrir modal
+            btnTrigger.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                subtotal = parseNumber(btnTrigger.dataset.subtotal);
+                porcentaje = Math.round(clamp(parseNumber(btnTrigger.dataset.porcentaje), 0, MAX_PERCENT));
+                propina = Math.max(0, parseNumber(btnTrigger.dataset.propina));
+                idventa = parseInt(btnTrigger.dataset.idventa || '0', 10) || 0;
+                idcuenta = parseInt(btnTrigger.dataset.idcuenta || '0', 10) || 0;
+
+                if (propina > 0) {
+                    porcentaje = subtotal > 0 ? Math.round(clamp((propina / subtotal) * 100, 0, MAX_PERCENT)) : 0;
+                } else {
+                    const calc = (subtotal * porcentaje) / 100;
+                    propina = Math.min(roundTo100(calc), subtotal);
                 }
-            }
-        });
 
-        // Botón de limpiar (opcional)
-        document.getElementById("limpiar-buscador").addEventListener("click", function () {
-            buscador.value = "";
-            buscador.focus();
+                txtSubtotal.value = formatCOP(subtotal);
+                txtPorcentaje.value = porcentaje;
+                txtPropina.value = formatCOP(propina);
+                lastEdited = null;
+                renderHelp();
+
+                ensureModal()?.show();
+            });
+
+            // Guardar
+            btnGuardar.addEventListener('click', () => {
+                if (lastEdited === 'value') syncFromValue();
+                else syncFromPercent();
+
+                const payload = {
+                    porcentaje: porcentaje,  // entero sin decimales
+                    propina: propina,        // entero COP múltiplo de 100
+                    idventa: idventa,
+                    idcuenta: idcuenta
+                };
+
+                hdnPayload.value = JSON.stringify(payload);
+                if (typeof __doPostBack === 'function') {
+                    __doPostBack('btnEditarPropina', '');
+                }
+
+                btnGuardar.disabled = true;
+                setTimeout(() => { btnGuardar.disabled = false; }, 2000);
+            });
+
+        })();
+    </script>
+
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const buscador = document.getElementById("buscador-productos");
+
+            // Evento más confiable para móviles
+            buscador.addEventListener("keydown", function (e) {
+                // Detecta tecla Enter (tanto física como virtual)
+                if (e.key === "Enter" || e.keyCode === 13) {
+                    e.preventDefault(); // Evita tabular
+                    const valor = buscador.value.trim();
+                    if (valor !== "") {
+                        // Llamada al postback
+                        __doPostBack("btnCuscarProducto", valor);
+                    }
+                }
+            });
+
+            // Botón de limpiar (opcional)
+            document.getElementById("limpiar-buscador").addEventListener("click", function () {
+                buscador.value = "";
+                buscador.focus();
+            });
         });
-    });
-</script>
+    </script>
 
 
 </asp:Content>

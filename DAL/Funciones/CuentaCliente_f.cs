@@ -10,7 +10,7 @@ namespace DAL.Funciones
 {
     public class CuentaCliente_f
     {
-        public static int Crear(int idventa,string nombre,int porpro)
+        public static async Task<int> Crear(string db, int idventa,string nombre,int porpro)
         {
             try
             {
@@ -24,8 +24,8 @@ namespace DAL.Funciones
                  por_propina= Convert.ToDecimal(porpro) / 100,
                  propina=0
                 };
-                var respuesta = CuentaClienteControler.CRUD(cuenta,0);
-                return respuesta.data;
+                var respuesta =await CuentaClienteControler.CRUD(db,cuenta,0);
+                return Convert.ToInt32(respuesta.data);
             }
             catch(Exception ex)
             {
@@ -33,17 +33,17 @@ namespace DAL.Funciones
                 return 0;
             }
         }
-        public static bool Editar(int id, string nombre)
+        public static async Task<bool> Editar(string db, int id, string nombre)
         {
             try
             {
-                var cuenta = CuentaClienteControler.CuentaCliente(id); 
+                var cuenta =await CuentaClienteControler.CuentaCliente(db, id); 
                 if (cuenta == null)
                 {
                     return false;
                 }
                 cuenta.nombreCuenta= nombre;
-                var respuesta = CuentaClienteControler.CRUD(cuenta, 1);
+                var respuesta =await CuentaClienteControler.CRUD(db, cuenta, 1);
                 return respuesta.estado;
             }
             catch (Exception ex)

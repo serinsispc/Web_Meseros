@@ -19,7 +19,7 @@ namespace WebApplication
         {
             if (Session["db"] == null)
             {
-                Session["db"] = ClassConexionDinamica.db;
+                //Session["db"] = ClassConexionDinamica.db;
                 Response.Redirect("Salir.aspx");
             }
         }
