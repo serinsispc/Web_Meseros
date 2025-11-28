@@ -81,15 +81,25 @@ namespace WebApplication
                     // No hubo sede → poner un nombre genérico
                     Session["NombreEmpresa"] = "Mi empresa";
                 }
+
+                // 6) cargar la lista de los meseros
+                await CargarUsuariosMeseros();
             }
         }
-
-        protected void btnIngresar_Click(object sender, EventArgs e)
+        private async Task CargarUsuariosMeseros()
         {
-            btnIngresarAsync();
-            AlertModerno.SuccessGoTo(this, "Ok", $"Bienvenido emilaino", "~/menu.aspx", esToast: false, ms: 1200);
+            // Ejemplo: trae solo meseros activos
+            // Reemplaza esto por tu controlador real
+            var lista = await VendedorControler.ListaVendedor(Session["db"].ToString());
+
+            rptUsuarios.DataSource = lista;
+            rptUsuarios.DataBind();
         }
-        private async void btnIngresarAsync()
+        protected async void btnIngresar_Click(object sender, EventArgs e)
+        {
+            await btnIngresarAsync();
+        }
+        private async Task btnIngresarAsync()
         {
             if (Session["db"] == null) return;
             if (txtCelular.Text != string.Empty &&
@@ -109,13 +119,19 @@ namespace WebApplication
                     string vendedorJson = JsonConvert.SerializeObject(vendedor);
                     Session["vendedor"] = vendedorJson;
                     //llamamor a la pagina menu.aspx
-                    Response.Redirect("~/menu.aspx", false);
-                    Context.ApplicationInstance.CompleteRequest();
+                    AlertModerno.SuccessGoTo(
+                        this,
+                        "Bienvenido",
+                        $"{vendedor.nombreVendedor}",
+                        "~/menu.aspx",
+                        true
+                    );
+
 
                 }
                 else
                 {
-                    //AlertModerno.Error(this, "Error", "Usuario no existe.", true);
+                    AlertModerno.Error(this, "Error", "Usuario no existe.", true);
                 }
             }
         }

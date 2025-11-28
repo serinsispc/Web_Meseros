@@ -1,6 +1,7 @@
 ﻿using DAL;          // <-- para SqlAutoDAL
 using DAL.Model;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
@@ -23,6 +24,21 @@ namespace DAL.Controler
             {
                 string msg = ex.Message;
                 return null;
+            }
+        }
+
+        public static async Task<List<Vendedor>>ListaVendedor(string db)
+        {
+            try
+            {
+                var cn = new SqlAutoDAL();
+                var resp = await cn.ConsultarLista<Vendedor>(db);
+                return resp;
+            }
+            catch(Exception ex)
+            {
+                string error = ex.Message;
+                return new List<Vendedor>();
             }
         }
     }

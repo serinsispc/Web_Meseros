@@ -30,5 +30,6 @@ namespace WebApplication.ViewModels
         public V_CuentaCliente ventaCuenta { get; set; }
         public List<ClienteDomicilio> clienteDomicilios { get; set; }
         public bool AbrirModalDomicilio { get; set; }
+        public List<Vendedor> ListaVendedor { get; set; }
     }
 }

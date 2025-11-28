@@ -32,8 +32,6 @@ namespace WebApplication
                     File.Copy(origen, destino, true);
                 }
             }
-
-
         }
 
     }
