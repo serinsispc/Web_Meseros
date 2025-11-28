@@ -13,6 +13,25 @@
             color: #0050b8;
         }
 
+        /* ----- LOGIN CARD MÁS ANCHA EN PANTALLAS GRANDES ----- */
+        /* Si ya tienes .login-card en login.css, esto solo la sobreescribe */
+        .login-card {
+            width: 100%;
+            max-width: 420px; /* base: móviles y pantallas pequeñas */
+        }
+
+        @media (min-width: 768px) {
+            .login-card {
+                max-width: 720px; /* tablets / portátiles pequeños */
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .login-card {
+                max-width: 960px; /* monitores grandes: más ancho, caben más columnas */
+            }
+        }
+
         /* BOTONES DE MESEROS SIEMPRE VISIBLES */
         .user-card {
             border-radius: 0.75rem;
@@ -68,6 +87,15 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         }
+
+        /* Ajuste pequeño para pantallas muy chicas (móviles) */
+        @media (max-width: 575.98px) {
+            .user-card {
+                font-size: 0.8rem;
+                padding: 0.5rem 0.3rem;
+                min-height: 70px;
+            }
+        }
     </style>
 
     <main class="login-page">
@@ -87,7 +115,13 @@
 
                 <asp:Repeater ID="rptUsuarios" runat="server">
                     <HeaderTemplate>
-                        <div class="row row-cols-2 g-2">
+                        <!-- 
+                             row-cols-2: móviles
+                             row-cols-sm-3: pantallas pequeñas
+                             row-cols-md-4: medianas
+                             row-cols-lg-5 / row-cols-xl-6: grandes/extra grandes
+                        -->
+                        <div class="row g-2 row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
                     </HeaderTemplate>
                     <ItemTemplate>
                         <div class="col">
