@@ -10,6 +10,7 @@ namespace DAL
     {
         public static string Ajustar(string json)
         {
+            //ajsutar el josn
             return json.Replace("'", "''");
         }
     }
