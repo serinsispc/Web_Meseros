@@ -37,9 +37,18 @@ namespace WebApplication
                 {
                     Session["cajero"]= vendedor.cajaMovil;
                     Session["idvendedor"] = vendedor.id;
-                    Session["NombreMesero"]= vendedor.nombreVendedor;
-                    Session["vendedor"]=JsonConvert.SerializeObject(vendedor);
-                    AlertModerno.SuccessGoTo(this, "Ok", $"Bienvenido {vendedor.nombreVendedor}", "~/menu.aspx", esToast: false, ms: 1200);
+                    Session["NombreMesero"] = vendedor.nombreVendedor;
+                    Session["vendedor"] = JsonConvert.SerializeObject(vendedor);
+                    //en esta parte verificamos si este mesero tiene el permiso de caja activo
+                    if (vendedor.cajaMovil == 0)
+                    {
+
+                    }
+                    else
+                    {
+                        AlertModerno.SuccessGoTo(this, "Ok", $"Bienvenido {vendedor.nombreVendedor}", "~/menu.aspx", esToast: false, ms: 1200);
+                    }
+
                 }
                 else
                 {
