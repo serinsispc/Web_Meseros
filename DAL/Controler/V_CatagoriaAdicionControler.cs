@@ -9,14 +9,13 @@ namespace DAL.Controler
 {
     public class V_CatagoriaAdicionControler
     {
-        public static List<V_CatagoriaAdicion> Lista()
+        public static async Task<List<V_CatagoriaAdicion>> Lista(string db)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
-                {
-                    return cn.V_CatagoriaAdicion.AsNoTracking().Where(x=>x.estado==1).ToList();
-                }
+                var auto = new SqlAutoDAL();
+                var resp=await auto.ConsultarLista<V_CatagoriaAdicion>(db,x=>x.estado==1);
+                return resp;
             }
             catch(Exception ex)
             {

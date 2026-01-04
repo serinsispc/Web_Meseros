@@ -1,42 +1,66 @@
-﻿using DAL.Model;
+﻿using DAL;          // CrudSpHelper, SqlAutoDAL
+using DAL.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
 {
     public class R_VentaVendedorControler
     {
-        public static bool CRUD(R_VentaVendedor rvv,int funcion)
+        /// <summary>
+        /// CRUD para R_VentaVendedor usando SP:
+        /// EXEC CRUD_R_VentaVendedor @json, @funcion
+        /// funcion: 0 = INSERT, 1 = UPDATE, 2 = DELETE
+        /// </summary>
+        public static async Task<Respuesta_DAL> CRUD(string db, R_VentaVendedor rvv, int funcion)
         {
             try
             {
-                using (DBEntities cn = new DBEntities()) 
+                var helper = new CrudSpHelper();
+
+                // Llama al helper genérico que arma:
+                // EXEC [dbo].[CRUD_R_VentaVendedor] @json = N'...', @funcion = {funcion}
+                var resp = await helper.CrudAsync(db, rvv, funcion);
+
+                return resp ?? new Respuesta_DAL
                 {
-                    if (funcion == 0) { cn.R_VentaVendedor.Add(rvv); };
-                    if (funcion == 1) { cn.Entry(rvv).State = System.Data.Entity.EntityState.Modified; };
-                    if (funcion == 2) { cn.Entry(rvv).State = System.Data.Entity.EntityState.Deleted; };
-                    cn.SaveChanges();
-                }
-                return true;
+                    data = 0,
+                    estado = false,
+                    mensaje = "Sin respuesta del servidor en CRUD_R_VentaVendedor."
+                };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string msg = ex.Message;
-                return false;
+                return new Respuesta_DAL
+                {
+                    data = 0,
+                    estado = false,
+                    mensaje = "Error en CRUD_R_VentaVendedor: " + msg
+                };
             }
         }
-        public static R_VentaVendedor Consultar_idventa(int idventa)
+
+        /// <summary>
+        /// Consulta la relación por idVenta.
+        /// Equivale a:
+        /// SELECT TOP 1 * FROM R_VentaVendedor WHERE idVenta = @idventa
+        /// </summary>
+        public static async Task<R_VentaVendedor> Consultar_idventa(string db, int idventa)
         {
             try
             {
-                using (DBEntities cn = new DBEntities()) {
-                    return cn.R_VentaVendedor.AsNoTracking().Where(x => x.id == idventa).FirstOrDefault();
-                }
+                var auto = new SqlAutoDAL();
+
+                // OJO: aquí se filtra por idVenta (antes estaba x.id == idventa, que era un bug)
+                var relacion = await auto.ConsultarUno<R_VentaVendedor>(
+                    db,
+                    x => x.idVenta == idventa
+                );
+
+                return relacion; // puede ser null si no existe
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string msg = ex.Message;
                 return null;

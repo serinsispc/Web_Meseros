@@ -33,6 +33,15 @@ namespace WebApplication
         protected global::System.Web.UI.WebControls.HiddenField hfServicioId;
 
         /// <summary>
+        /// Control hdIdClienteDomicilio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdIdClienteDomicilio;
+
+        /// <summary>
         /// Control btnMesaNuevaCuenta.
         /// </summary>
         /// <remarks>
@@ -112,6 +121,24 @@ namespace WebApplication
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rpDetalleCaja;
+
+        /// <summary>
+        /// Control btnComandar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnComandar;
+
+        /// <summary>
+        /// Control btnCuenta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnCuenta;
 
         /// <summary>
         /// Control rpServiciosActivos.

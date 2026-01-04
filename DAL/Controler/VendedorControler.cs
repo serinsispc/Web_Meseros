@@ -1,28 +1,44 @@
-﻿using DAL.Model;
+﻿using DAL;          // <-- para SqlAutoDAL
+using DAL.Model;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
 {
     public class VendedorControler
     {
-        public static Vendedor Consultar_usuario_clave(string usuario,string clave)
+        public static async Task<Vendedor> Consultar_usuario_clave(string db, string usuario, string clave)
         {
             try
             {
-                using (var cn = new DBEntities())
-                {
-                    return cn.Vendedor.AsNoTracking().Where(x => x.telefonoVendedor == usuario && x.calveVendedor == clave).FirstOrDefault();
-                }
+                var auto = new SqlAutoDAL();
+                var vendedor = await auto.ConsultarUno<Vendedor>(
+                    db,
+                    x => x.telefonoVendedor == usuario && x.calveVendedor == clave
+                );
+
+                return vendedor; 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string msg = ex.Message;
                 return null;
+            }
+        }
+
+        public static async Task<List<Vendedor>>ListaVendedor(string db)
+        {
+            try
+            {
+                var cn = new SqlAutoDAL();
+                var resp = await cn.ConsultarLista<Vendedor>(db);
+                return resp;
+            }
+            catch(Exception ex)
+            {
+                string error = ex.Message;
+                return new List<Vendedor>();
             }
         }
     }

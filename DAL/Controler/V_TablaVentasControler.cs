@@ -10,14 +10,12 @@ namespace DAL.Controler
 {
     public class V_TablaVentasControler
     {
-        public static V_TablaVentas Consultar_Id(int idventa)
+        public static async Task<V_TablaVentas> Consultar_Id(string db,int idventa)
         {
             try
             {
-                using(DBEntities cn =new DBEntities())
-                {
-                    return cn.V_TablaVentas.AsNoTracking().Where(x => x.id == idventa).FirstOrDefault();
-                }
+                var cn = new SqlAutoDAL();
+                return await cn.ConsultarUno<V_TablaVentas>(db, x=>x.id==idventa);
             }
             catch(Exception ex)
             {

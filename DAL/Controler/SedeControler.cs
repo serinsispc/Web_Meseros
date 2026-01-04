@@ -1,28 +1,29 @@
-﻿using DAL.Model;
+﻿using DAL;
+using DAL.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
 {
     public class SedeControler
     {
-        public static Sede Consultar()
+        public static async Task<Sede> Consultar(string db)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
-                {
-                    return cn.Sede.AsNoTracking().FirstOrDefault();
-                }
+                var auto = new SqlAutoDAL();
+
+                // Ahora sí funciona:
+                var resp = await auto.ConsultarUno<Sede>(db,x=>x.id>0);
+
+                return resp;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string msg = ex.Message;
                 return null;
             }
         }
+
     }
 }

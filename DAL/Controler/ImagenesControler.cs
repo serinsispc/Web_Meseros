@@ -1,28 +1,26 @@
 ﻿using DAL.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
 {
     public class ImagenesControler
     {
-        public static Imagenes Consultar(Guid guid)
+
+        public static async Task<Imagenes> Consultar(string db, Guid guid)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
-                {
-                    return cn.Imagenes.AsNoTracking().Where(x => x.id == guid).FirstOrDefault();
-                }
+                var _autoSql = new SqlAutoDAL();
+                var resp=await _autoSql.ConsultarUno<Imagenes>(db, x => x.id == guid);
+                return resp;
             }
-            catch (Exception ex)
-            { 
-                string msg = ex.Message;
+            catch
+            {
                 return null;
             }
         }
+
     }
 }

@@ -1,42 +1,67 @@
-﻿using DAL.Model;
+﻿using DAL;          // CrudSpHelper, SqlAutoDAL
+using DAL.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Controler
 {
     public class R_VentaMesaControler
     {
-        public static bool CRUD(R_VentaMesa rvm,int funcion)
+        /// <summary>
+        /// CRUD para R_VentaMesa usando SP:
+        /// EXEC CRUD_R_VentaMesa @json, @funcion
+        /// funcion: 0 = INSERT, 1 = UPDATE, 2 = DELETE
+        /// </summary>
+        public static async Task<Respuesta_DAL> CRUD(string db, R_VentaMesa rvm, int funcion)
         {
             try
             {
-                using (DBEntities cn = new DBEntities()) {
-                    if (funcion == 0) { cn.R_VentaMesa.Add(rvm); }
-                    if (funcion == 1) { cn.Entry(rvm).State = System.Data.Entity.EntityState.Modified; }
-                    if (funcion == 2) { cn.Entry(rvm).State = System.Data.Entity.EntityState.Deleted; }
-                    cn.SaveChanges();
-                }
-                return true;
+                var helper = new CrudSpHelper();
+
+                // Llama al helper genérico:
+                // EXEC [dbo].[CRUD_R_VentaMesa] @json = N'...', @funcion = {funcion}
+                var resp = await helper.CrudAsync(db, rvm, funcion);
+
+                return resp ?? new Respuesta_DAL
+                {
+                    data = 0,
+                    estado = false,
+                    mensaje = "Sin respuesta del servidor en CRUD_R_VentaMesa."
+                };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string msg = ex.Message;
-                return false;
+                return new Respuesta_DAL
+                {
+                    data = 0,
+                    estado = false,
+                    mensaje = "Error en CRUD_R_VentaMesa: " + msg
+                };
             }
         }
-        public static R_VentaMesa Consultar_relacion(int idventa, int idmesa)
+
+        /// <summary>
+        /// Consulta la relación por idVenta e idMesa.
+        /// Equivale a:
+        /// SELECT TOP 1 * FROM R_VentaMesa WHERE idVenta = @idventa AND idMesa = @idmesa
+        /// </summary>
+        public static async Task<R_VentaMesa> Consultar_relacion(string db, int idventa, int idmesa)
         {
             try
             {
-                using (DBEntities cn = new DBEntities()) 
-                {
-                    return cn.R_VentaMesa.AsNoTracking().Where(x => x.idVenta == idventa && x.idMesa == idmesa).FirstOrDefault();
-                }
+                var auto = new SqlAutoDAL();
+
+                // Genera y ejecuta:
+                // SELECT TOP 1 * FROM R_VentaMesa WHERE idVenta = idventa AND idMesa = idmesa
+                var relacion = await auto.ConsultarUno<R_VentaMesa>(
+                    db,
+                    x => x.idVenta == idventa && x.idMesa == idmesa
+                );
+
+                return relacion; // puede ser null si no existe
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string error = ex.Message;
                 return null;

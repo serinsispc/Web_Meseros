@@ -10,14 +10,14 @@ namespace DAL.Funciones
 {
     public class R_VentaVendedor_f
     {
-        public static bool Relacionar_Vendedor_Venta(int idventa,int idvendedor)
+        public static async Task<bool> Relacionar_Vendedor_Venta(string db,int idventa,int idvendedor)
         {
             try
             {
                 int idr = 0;
                 int funcion = 0;
                 //primero consultamos si ya la venta tiene un vendedor
-                var rvv = R_VentaVendedorControler.Consultar_idventa(idventa);
+                var rvv =await R_VentaVendedorControler.Consultar_idventa(db,idventa);
                 if (rvv!=null)
                 {
                     funcion = 1;
@@ -29,7 +29,8 @@ namespace DAL.Funciones
                 }
                 rvv.idVenta = idventa;
                 rvv.idVendedor = idvendedor;
-                return R_VentaVendedorControler.CRUD(rvv,funcion);
+                var rrr= await R_VentaVendedorControler.CRUD(db,rvv,funcion);
+                return rrr.estado;
             }
             catch(Exception ex)
             {

@@ -10,14 +10,12 @@ namespace DAL.Controler
 {
     public class V_ServicioMesaControler
     {
-        public static List<V_ServicioMesa> lista()
+        public static async Task<List<V_ServicioMesa>> lista(string db)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
-                {
-                    return cn.V_ServicioMesa.AsNoTracking().Where(x=>x.estadoServicio==1).ToList();
-                }
+                var cn = new SqlAutoDAL();
+                return await cn.ConsultarLista<V_ServicioMesa>(db, x => x.estadoServicio == 1);
             }
             catch(Exception ex)
             {

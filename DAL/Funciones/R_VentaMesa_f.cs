@@ -10,7 +10,7 @@ namespace DAL.Funciones
 {
     public class R_VentaMesa_f
     {
-        public static bool Relacionar_Venta_Mesa(int idventa,int idmesa)
+        public static async Task<bool> Relacionar_Venta_Mesa(string db, int idventa,int idmesa)
         {
             try
             {
@@ -18,8 +18,8 @@ namespace DAL.Funciones
                 rvm.id = 0;
                 rvm.idVenta = idventa;
                 rvm.idMesa = idmesa;
-                bool resp = R_VentaMesaControler.CRUD(rvm,0);
-                return resp;
+                var resp =await R_VentaMesaControler.CRUD(db,rvm,0);
+                return resp.estado;
             }
             catch(Exception ex)
             {

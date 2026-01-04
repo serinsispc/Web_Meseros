@@ -9,13 +9,13 @@ namespace DAL.Controler
 {
     public class V_CuentasControler
     {
-        public static List<V_Cuentas> Lista_IdVendedor(int idvendedor)
+        public static async Task<List<V_Cuentas>> Lista_IdVendedor(string db,int idvendedor)
         {
             try
             {
-                using (DBEntities cn = new DBEntities()) {
-                    return cn.V_Cuentas.Where(x => x.idVendedor == idvendedor).ToList();
-                }
+                var cn = new SqlAutoDAL();
+                var resp = await cn.ConsultarLista<V_Cuentas>(db, x => x.idVendedor == idvendedor);
+                return resp;
             }
             catch(Exception ex)
             {
@@ -24,14 +24,17 @@ namespace DAL.Controler
             }
         }
 
-        public static List<V_Cuentas> Lista_Mesa(string mesa)
+        public static async Task<List<V_Cuentas>> Lista_Mesa(string db, string mesa)
         {
             try
             {
-                using (DBEntities cn = new DBEntities())
-                {
-                    return cn.V_Cuentas.Where(x => x.mesa.Contains(mesa)).ToList();
-                }
+                var cn = new SqlAutoDAL();
+
+                // SELECT * FROM V_Cuentas WHERE mesa LIKE '%mesa%'
+                return await cn.ConsultarLista<V_Cuentas>(
+                    db,
+                    x => x.mesa.Contains(mesa)
+                );
             }
             catch (Exception ex)
             {

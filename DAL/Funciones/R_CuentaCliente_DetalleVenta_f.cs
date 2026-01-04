@@ -10,12 +10,12 @@ namespace DAL.Funciones
 {
     public class R_CuentaCliente_DetalleVenta_f
     {
-        public static Respuesta_DAL Insert(int idcuenta, int iddetalle)
+        public static async Task<Respuesta_DAL> Insert(string db,int idcuenta, int iddetalle)
         {
             try
             {
                 int boton = 0;
-                var relacion = R_CuentaCliente_DetalleVentaControler.Consultar_idDetalle(iddetalle);
+                var relacion =await R_CuentaCliente_DetalleVentaControler.Consultar_idDetalle(db, iddetalle);
                 if (relacion == null)
                 {
                     relacion = new R_CuentaCliente_DetalleVenta();
@@ -29,7 +29,7 @@ namespace DAL.Funciones
                 relacion.idCuentaCliente= idcuenta;
                 relacion.idDetalleVenta= iddetalle;
                 relacion.eliminada = false;
-                var crud = R_CuentaCliente_DetalleVentaControler.CRUD(relacion,boton);
+                var crud =await R_CuentaCliente_DetalleVentaControler.CRUD(db, relacion,boton);
                 return new Respuesta_DAL { mensaje=$"cuenta {idcuenta} y detalle {iddetalle}, relacionados con éxito.", estado=crud.estado, data=crud.data };
             }
             catch(Exception ex)
